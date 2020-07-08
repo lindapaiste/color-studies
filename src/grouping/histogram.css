@@ -1,0 +1,39 @@
+.chartContainer {
+  display: flex;
+}
+
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+.bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  align-items: flex-end;
+  justify-content: flex-end;
+  align-content: flex-end;
+}
+
+.barElement {
+}
+
+.labelHolder {
+  border-style: solid;
+  border-color: black;
+  margin-top: 5px;
+  border-width: 1px 0 0 1px;
+}
+
+.labelLeft {
+  padding-top: 8px;
+  display: inline-block;
+}
+
+.labelRight {
+  padding-top: 8px;
+  float: right;
+}
