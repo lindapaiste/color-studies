@@ -6,7 +6,7 @@ import { RenderSet } from "../RenderSet";
 
 /**
  * notes: hsv.v is just completely wrong
- * chroma seems to barely chnage anything -- is that a mistake?
+ * chroma seems to barely change anything -- is that a mistake?
  * hue changes are the most obvious
  * I have not accounted for the cap which is unique to each color
  * for neon colors, LAB luminance changes more

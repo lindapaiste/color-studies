@@ -1,3 +1,4 @@
+import React from "react";
 import { randomMultiHueSet } from "./hsluv";
 import { RenderSets } from "./RenderSet";
 import { hsluvToHex } from "hsluv";

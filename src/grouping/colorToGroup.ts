@@ -1,7 +1,8 @@
-import { ColorClassification, PropertyConstraint } from "./data";
+import { ColorClassification} from "./types";
 import Color from "color";
 import { round } from "lodash";
-import { getColorProp, getAllowance } from "./analyzeColors";
+import {getAllowance, getColorProp} from "../properties";
+import {PropertyConstraint} from "./types";
 /**
  * in the future could have targets where the difference matters,
  * and use that to calculate a match score
@@ -46,7 +47,7 @@ export const fitsConditions = (
     const error = getConditionError(
       value,
       condition,
-      getAllowance(property, fuzzPercent)
+      getAllowance(property, fuzzPercent, color)
     );
     if (error) {
       errors.push({

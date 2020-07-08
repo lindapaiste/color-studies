@@ -1,4 +1,4 @@
-import { GROUPINGS } from "./data";
+import { GROUPINGS } from "./group-data";
 import React from "react";
 import { RenderSet } from "../RenderSet";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { PropertyAnalysis, GroupColorAnalysis } from "./analyzeColors";
-import { GROUPINGS } from "./data";
+import { GROUPINGS } from "./group-data";
 import { getGroupData } from "./analyzeColors";
 import { round } from "lodash";
 

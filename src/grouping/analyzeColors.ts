@@ -1,7 +1,6 @@
 import Color from "color";
-import { normalToColorWheel, colorWheelToNormal } from "../colorWheel";
-import { find, fromPairs } from "lodash";
-import { setLuminosity } from "../luminosity";
+import {fromPairs} from "lodash";
+import {PROPERTIES} from "../properties/color-js";
 
 export interface GroupColorAnalysis {
   hue: PropertyAnalysis;
@@ -26,113 +25,7 @@ export interface PropertyAnalysis {
   medianDifference: number;
 }
 
-export interface ColorPropGetter {
-  (c: Color): number;
-}
 
-export interface ColorPropSetter {
-  (c: Color, value: number): Color;
-}
-
-export type ColorPropKey = keyof GroupColorAnalysis & string; //"hue" | "wheelHue" | "luminosity" | "lightness" | "saturationl" | "saturationv" | "blackness" | "whiteness"
-
-export interface ColorPropDef {
-  name: string;
-  key: ColorPropKey;
-  getter: ColorPropGetter;
-  setter: ColorPropSetter;
-  range: number; //only providing the max value because assuming that all start at 0
-}
-
-export const PROPERTIES: ColorPropDef[] = [
-  {
-    name: "Hue",
-    key: "hue",
-    getter: c => c.hue(),
-    setter: (c, v) => c.hue(v),
-    range: 360
-  },
-  {
-    name: "Color Wheel Hue",
-    key: "wheelHue",
-    getter: c => normalToColorWheel(c.hue()),
-    setter: (c, v) => c.hue(colorWheelToNormal(v)),
-    range: 360
-  },
-  {
-    name: "Luminosity",
-    key: "luminosity",
-    getter: c => c.luminosity(),
-    setter: setLuminosity,
-    range: 1
-  },
-  {
-    name: "Lightness",
-    key: "lightness",
-    getter: c => c.lightness(),
-    setter: (c, v) => c.lightness(v),
-    range: 100
-  },
-  {
-    name: "Saturation L",
-    key: "saturationl",
-    getter: c => c.saturationl(),
-    setter: (c, v) => c.saturationl(v),
-    range: 100
-  },
-  {
-    name: "Saturation V",
-    key: "saturationv",
-    getter: c => c.saturationv(),
-    setter: (c, v) => c.saturationv(v),
-    range: 100
-  },
-  {
-    name: "Blackness",
-    key: "blackness",
-    getter: c => c.black(),
-    setter: (c, v) => c.black(v),
-    range: 100
-  },
-  {
-    name: "Whiteness",
-    key: "whiteness",
-    getter: c => c.white(),
-    setter: (c, v) => c.white(v),
-    range: 100
-  }
-];
-
-export const getAllowance = (
-  property: ColorPropKey,
-  fuzzPercent: number
-): number => {
-  return (getPropDef(property).range * fuzzPercent) / 100;
-};
-
-export const getPropDef = (property: ColorPropKey): ColorPropDef => {
-  return find(PROPERTIES, o => o.key === property);
-};
-
-export const getGetter = (property: ColorPropKey): ColorPropGetter => {
-  return getPropDef(property).getter;
-};
-
-export const getColorProp = (color: Color, property: ColorPropKey): number => {
-  return getGetter(property)(color);
-};
-
-export const getSetter = (property: ColorPropKey): ColorPropSetter => {
-  return getPropDef(property).setter;
-};
-
-export const setColorProp = (
-  color: Color,
-  property: ColorPropKey,
-  value: number
-): Color => {
-  return getSetter(property)(color, value);
-};
 
 //input should be anything that Color can use as an input to the Constructor
 export const getGroupData = (

@@ -1,12 +1,14 @@
 import React from "react";
 import "./styles.css";
-import { RenderColor } from "../RenderColor";
+import { RenderColorInfo } from "../RenderColorInfo";
 import Color from "color";
 import { randomRgb } from "../rgb";
-import { GROUPINGS, PropertyConstraint } from "./data";
-import { getColorProp, setColorProp, ColorPropKey } from "./analyzeColors";
+import { GROUPINGS} from "./group-data";
 import { last } from "lodash";
 import { fitsConditions } from "./colorToGroup";
+import {ColorPropKey} from "../properties/types";
+import {setColorProp, getColorProp} from "../properties";
+import {PropertyConstraint} from "./types";
 
 /**
  * play with rgb(47, 60, 14) going to pastel
@@ -49,7 +51,7 @@ export const ForceToRules = ({
   fuzzPercent = 0.1
 }: {
   color: Color;
-  rules: PropertyConstraint[];
+  rules?: PropertyConstraint[];
   maxAttempts?: number;
   fuzzPercent?: number;
 }) => {
@@ -92,7 +94,7 @@ export const ForceToRules = ({
       {phases.map(({ color, property }, i) => (
         <div key={i}>
           <h3>Edited {property}</h3>
-          <RenderColor color={color} />
+          <RenderColorInfo color={color} />
         </div>
       ))}
     </div>

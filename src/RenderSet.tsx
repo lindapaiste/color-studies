@@ -1,4 +1,5 @@
 import React from "react";
+import {logProfile} from "./Swatch";
 
 export interface BaseProps<T> {
   colors: T[];
@@ -44,6 +45,7 @@ export const RenderSet = <T extends any>({
             flex: 1,
             minWidth: wrap ? "100px" : undefined
           }}
+          onClick={() => logProfile(color)}
         />
       );
     })}
