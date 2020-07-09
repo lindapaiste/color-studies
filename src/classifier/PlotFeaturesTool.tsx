@@ -1,8 +1,10 @@
-import {NumberInput, SelectGroup, SelectProperty} from "../histogram/HistogramTool";
+import {SelectProperty} from "../toolComponents/SelectProperty";
 import React, {useState} from "react";
 import {PlotFeatures} from "./PlotFeatures";
 import {ColorPropKey} from "../properties/types";
 import GROUPINGS from "../grouping/group-data";
+import {SelectGroup} from "../toolComponents/SelectGroup";
+import {NumberInput} from "../toolComponents/NumberInput";
 
 export const PlotFeaturesTool = () => {
     const [groupName, setGroupName] = useState(GROUPINGS[0].name);
@@ -13,8 +15,8 @@ export const PlotFeaturesTool = () => {
     return (
         <div>
             <div>
-                <SelectProperty key={x} onChange={setX}/>
-                <SelectProperty key={y} onChange={setY}/>
+                <SelectProperty slug={x} onChange={setX}/>
+                <SelectProperty slug={y} onChange={setY}/>
                 <SelectGroup name={groupName} onChange={g => setGroupName(g.name)}/>
                 <NumberInput value={count} onChange={setCount}/>
             </div>

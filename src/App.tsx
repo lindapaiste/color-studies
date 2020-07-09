@@ -2,10 +2,13 @@ import React from "react";
 import "./styles.css";
 import {TestGroups} from "./classifier/TestResults";
 import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
+import {TestBoundaries} from "./classifier/TestBoundaries";
 
 
 export default function App() {
-  return <PlotFeaturesTool/>
+  return <TestBoundaries/>
+
+    //return <PlotFeaturesTool/>
   //return <TestGroups/>
 
   //return <CompareRandom />;

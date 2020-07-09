@@ -5,7 +5,7 @@ import { BinaryResults } from "./types";
 import { RenderSet } from "../RenderSet";
 import { toHex } from "../properties/chroma-js";
 import GROUPINGS from "../grouping/group-data";
-import { SelectGroup } from "../histogram/HistogramTool";
+import { SelectGroup } from "../toolComponents/SelectGroup";
 
 /**
  * examine the results from applying the model to random colors

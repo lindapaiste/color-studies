@@ -3,7 +3,7 @@ import { PropsSingle } from "../RenderSet";
 import { replaceIndex } from "../util";
 import { groupBy } from "lodash";
 import { GROUPINGS } from "./group-data";
-import {SelectGroup} from "../histogram/HistogramTool";
+import {SelectGroup} from "../toolComponents/SelectGroup";
 
 const GROUP_NAMES = GROUPINGS.map(o => o.name);
 
