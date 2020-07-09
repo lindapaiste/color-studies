@@ -4,10 +4,11 @@ import {TestGroups} from "./classifier/TestResults";
 import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
 import {TestBoundaries} from "./classifier/TestBoundaries";
 import {CompareRandom} from "./noise/CompareMethods";
+import {DefaultVisualizeDifference, VisualizeDifference} from "./difference/VisualizeDifference";
 
 
 export default function App() {
-  return <CompareRandom/>
+  return <DefaultVisualizeDifference/>
 
     //return <PlotFeaturesTool/>
   //return <TestGroups/>

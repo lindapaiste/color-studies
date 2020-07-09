@@ -73,3 +73,16 @@ export const fromRgb = (rgb: RGB): Color => chroma(rgb);
 export const toHex = (c: Color): string => c.hex();
 
 export const util = makePackageUtil(PROPERTIES);
+
+
+export const chromaString = ( color: string | Color ): string => {
+    if ( typeof color === "string" ) {
+        return color;
+    } else return color.hex();
+};
+
+export const chromaObject = ( color: string | Color ): Color => {
+    if ( typeof color === "string" ) {
+        return chroma(color);
+    } else return color;
+};
