@@ -3,10 +3,11 @@ import "./styles.css";
 import {TestGroups} from "./classifier/TestResults";
 import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
 import {TestBoundaries} from "./classifier/TestBoundaries";
+import {CompareRandom} from "./noise/CompareMethods";
 
 
 export default function App() {
-  return <TestBoundaries/>
+  return <CompareRandom/>
 
     //return <PlotFeaturesTool/>
   //return <TestGroups/>

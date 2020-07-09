@@ -2,8 +2,9 @@ import React from "react";
 import {useSelectGroup} from "../toolComponents/useSelectGroup";
 import {useNumberInput} from "../toolComponents/useNumberInput";
 import {propertyKeys} from "../properties";
-import {buildBoundaryModel} from "./singleProperty";
+import {buildBoundaryModel} from "./boundaryModel";
 import {percentString} from "../util";
+import {ChromaAdapter} from "../properties/chroma-adapter";
 
 export const TestBoundaries = () => {
     const [group, SelectGroup] = useSelectGroup();
@@ -15,7 +16,7 @@ export const TestBoundaries = () => {
             <SelectGroup/>
             <SampleSizeInput/>
             {propertyKeys.map(property => {
-                const model = buildBoundaryModel(group.name, property, sampleSize);
+                const model = buildBoundaryModel(group.name, hex => (new ChromaAdapter(hex))[property], sampleSize);
                 return (
                     <div key={property}>
                         <h3>{property}</h3>

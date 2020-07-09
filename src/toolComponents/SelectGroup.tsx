@@ -11,7 +11,7 @@ export const SelectGroup = ({name, onChange}: { name: string | undefined | null,
             }
         }}>
             {GROUPINGS.map(o => (
-                <option value={o.name}>{o.name}</option>
+                <option key={o.name} value={o.name}>{o.name}</option>
             ))}
         </select>
     )

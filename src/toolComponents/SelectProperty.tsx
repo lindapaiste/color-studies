@@ -8,7 +8,7 @@ export const SelectProperty = ({slug, onChange}: { slug: ColorPropKey | undefine
         onChange={e => onChange(e.target.value as ColorPropKey)}
     >
         {propertyKeys.map(key => (
-            <option value={key}>{getTitle(key)}</option>
+            <option key={key} value={key}>{getTitle(key)}</option>
         ))}
     </select>
 );
