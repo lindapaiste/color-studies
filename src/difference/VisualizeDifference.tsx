@@ -18,9 +18,13 @@ export const VisualizeDifference = ({color, count}: Props) => {
 
     const eWidth = 10;
 
+    const samples = useMemo(
+        () => range(0, count).map(() => chroma.random()),
+        [color, count]
+    );
+
     const data = useMemo(
         () => {
-            const samples = range(0, count).map(() => chroma.random());
             const withDiff = samples.map(c => ({
                 color: c,
                 deltaE: chroma.deltaE(color, c, lWeight, cWeight),
@@ -37,7 +41,7 @@ export const VisualizeDifference = ({color, count}: Props) => {
             });
             return chunked;
         },
-        [color, count]
+        [samples, lWeight, cWeight]
     );
 
 
