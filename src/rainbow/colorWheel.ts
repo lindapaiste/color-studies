@@ -25,7 +25,7 @@ const ADJUSTMENTS = [
 ];
 
 export const normalToColorWheel = (hue: number): number => {
-  for (let i = 0; i < ADJUSTMENTS.length; i++) {
+  for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
     const [lowerInput, lowerOutput] = ADJUSTMENTS[i];
     const [upperInput, upperOutput] = ADJUSTMENTS[i + 1];
     //theoretically matches both in the case that hue equals a breakpoint, but will act on the first
@@ -34,11 +34,14 @@ export const normalToColorWheel = (hue: number): number => {
       return (hue - lowerInput) * scale + lowerOutput;
     }
   }
+  //should never get here
+  console.error();
+  return 0;
 };
 
 //follows the same formula, but reveses input and output
 export const colorWheelToNormal = (hue: number): number => {
-  for (let i = 0; i < ADJUSTMENTS.length; i++) {
+  for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
     const [lowerOutput, lowerInput] = ADJUSTMENTS[i];
     const [upperOutput, upperInput] = ADJUSTMENTS[i + 1];
     //theoretically matches both in the case that hue equals a breakpoint, but will act on the first
@@ -48,6 +51,9 @@ export const colorWheelToNormal = (hue: number): number => {
       return (hue - lowerInput) * scale + lowerOutput;
     }
   }
+  //should never get here
+  console.error();
+  return 0;
 };
 
 const runTest = () => {
