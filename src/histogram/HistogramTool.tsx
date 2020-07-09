@@ -26,10 +26,9 @@ export const HistogramTool = () => {
             key={property}
             onChange={setProperty}
         />
-        <input
-          type="number"
-          value={count}
-          onChange={e => setCount(parseInt(e.target.value, 10))}
+        <NumberInput
+            value={count}
+            onChange={setCount}
         />
       </div>
       {group !== undefined && property !== undefined && (
@@ -68,4 +67,13 @@ export const SelectProperty = ({key, onChange}: {key: ColorPropKey | undefined |
             <option value={key}>{getTitle(key)}</option>
         ))}
     </select>
+);
+
+
+export const NumberInput = ({value, onChange}: {value: number, onChange: (n: number) => void}) => (
+    <input
+        type="number"
+        value={value}
+        onChange={e => onChange(parseInt(e.target.value, 10))}
+    />
 );

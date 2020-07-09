@@ -1,8 +1,29 @@
-import { PerceptronModel } from "simple-statistics";
+import {PerceptronModel} from "simple-statistics";
 import GROUPINGS from "../grouping/group-data";
-import chroma, { Color } from "chroma-js";
-import { util } from "../properties/chroma-js";
-import { shuffle } from "lodash";
+import chroma, {Color} from "chroma-js";
+import {util} from "../properties/chroma-js";
+import {flatMap, shuffle} from "lodash";
+
+export interface GroupedHex {
+    hex: string,
+    group: string
+}
+
+export const shuffledHexes = (): GroupedHex[] => {
+    return shuffle(flatMap(GROUPINGS, ({hexes, name}) => hexes.map(hex => ({
+        hex,
+        group: name,
+    }))));
+};
+
+export const shuffledGroupData = (hexToFeatures: (hex: string) => number[]): { hex: string, features: number[], group: string }[] => {
+    return shuffledHexes().map(({hex, group}) => ({
+        hex,
+        features: hexToFeatures(hex),
+        group,
+    }));
+};
+
 /**
  * use all properties of a color to build the model
  *
@@ -12,26 +33,13 @@ import { shuffle } from "lodash";
  * the order might matter?
  *
  */
-export const buildIsGroupModel = (groupIndex: number): PerceptronModel => {
-  const model = new PerceptronModel();
-  const trainingData: Array<{ features: number[]; expected: 1 | 0 }> = [];
-
-  for (let i = 0; i < GROUPINGS.length; i++) {
-    const hexes = GROUPINGS[i].hexes;
-    const expected = i === groupIndex ? 1 : 0;
-    hexes.forEach(hex => {
-      trainingData.push({
-        features: toData(chroma(hex)),
-        expected
-      });
-      //model.train(toData(chroma(hex)), expected);
-    });
-  }
-  console.log(trainingData);
-  const data = shuffle(trainingData);
-  data.forEach(({ features, expected }) => model.train(features, expected));
-  console.log(model);
-  return model;
+export const buildIsGroupModel = (groupName: string): PerceptronModel => {
+    const model = new PerceptronModel();
+    const trainingData = shuffledGroupData(hex => toData(chroma(hex)));
+    console.log(trainingData);
+    trainingData.forEach(({features, group}) => model.train(features, group === groupName ? 1 : 0));
+    console.log(model);
+    return model;
 };
 
 export const toData = (color: Color) => Object.values(util.getProfile(color));

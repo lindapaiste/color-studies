@@ -1,10 +1,12 @@
 import React from "react";
 import "./styles.css";
 import {TestGroups} from "./classifier/TestResults";
+import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
 
 
 export default function App() {
-  return <TestGroups/>
+  return <PlotFeaturesTool/>
+  //return <TestGroups/>
 
   //return <CompareRandom />;
 

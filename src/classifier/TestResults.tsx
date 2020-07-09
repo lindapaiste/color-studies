@@ -31,12 +31,10 @@ export const RenderResults = ({
 };
 
 export const TestGroups = () => {
-  const [index, setIndex] = useState(0);
+  const [groupName, setGroupName] = useState(GROUPINGS[0].name);
   const [replay, setReplay] = useState(0); //the stored value doesn't really mean anything, it's just a way to trigger useEffect or useMemo
 
-  const groupName = GROUPINGS[index].name;
-
-  const model = useMemo(() => buildIsGroupModel(index), [index]);
+  const model = useMemo(() => buildIsGroupModel(groupName), [groupName]);
 
   const results = useMemo(() => testRandom(model, 10), [replay, model]);
 
@@ -44,7 +42,7 @@ export const TestGroups = () => {
     <div>
       <SelectGroup
         name={groupName}
-        onChange={group => setIndex(GROUPINGS.indexOf(group))}
+        onChange={group => setGroupName(group.name)}
       />
       <div onClick={() => setReplay(r => r + 1)}>Refresh Results</div>
       <RenderResults
