@@ -19,7 +19,7 @@ export const RenderBoxData = ({data}: { data: BoxData[] }) => {
     const final = isShuffle ? shuffleData(data) : data;
 
     return (
-        <div className={"boxes-screen"}>
+        <div>
             <FormGroup row>
                 <FormControlLabel
                     control={
@@ -32,6 +32,7 @@ export const RenderBoxData = ({data}: { data: BoxData[] }) => {
                     label="Shuffled"
                 />
             </FormGroup>
+        <div className={"boxes-area"}>
             {final.map((box, i) => (
                     <RenderBox
                         key={i}
@@ -40,6 +41,7 @@ export const RenderBoxData = ({data}: { data: BoxData[] }) => {
                 )
             )}
         </div>
+    </div>
     )
 };
 
