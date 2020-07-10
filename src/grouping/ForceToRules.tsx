@@ -1,5 +1,4 @@
 import React from "react";
-import "./styles.css";
 import { RenderColorInfo } from "../sharedComponents/color/RenderColorInfo";
 import Color from "color";
 import { randomRgb } from "../util";
