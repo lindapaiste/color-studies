@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { PropsSingle } from "../RenderSet";
+import { PropsSingle } from "../sharedComponents/color/RenderSet";
 import { replaceIndex } from "../util";
 import { groupBy } from "lodash";
 import { GROUPINGS } from "./group-data";
-import {SelectGroup} from "../toolComponents/SelectGroup";
+import {SelectGroup} from "../sharedComponents/form/SelectGroup";
 
 const GROUP_NAMES = GROUPINGS.map(o => o.name);
 

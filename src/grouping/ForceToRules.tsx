@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles.css";
-import { RenderColorInfo } from "../RenderColorInfo";
+import { RenderColorInfo } from "../sharedComponents/color/RenderColorInfo";
 import Color from "color";
-import { randomRgb } from "../rgb";
+import { randomRgb } from "../util";
 import { GROUPINGS} from "./group-data";
 import { last } from "lodash";
 import { fitsConditions } from "./colorToGroup";
@@ -26,7 +26,7 @@ export const Temp = () => {
   );
 };
 
-export const Test = () => {
+export const TestForce = () => {
   const random = Color.rgb(randomRgb());
 
   return (

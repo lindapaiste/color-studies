@@ -5,13 +5,15 @@ import {ChromaAdapter} from "../properties/chroma-adapter";
 import {mean} from "simple-statistics";
 
 /**
+ * UNFINISHED
+ *
  * use Bayesian statistics to make a simplistic classifier based on one property
  * ie. lightness => isPastel
  * calculate the cutoff point
  * advantage of trial and error method is it doesn't assume normal
  */
 
-export const findBoundary = (group: string, property: ColorPropKey, count: number = 100): number => {
+export const findBoundary = (group: string, property: ColorPropKey, count: number = 100) => {
     const [inGroup, notInGroup] = getSplitHexes(group, count);
 
     const data = shuffle([...inGroup, ...notInGroup]).map(o => ({

@@ -1,10 +1,10 @@
-import {SelectProperty} from "../toolComponents/SelectProperty";
+import {SelectProperty} from "../sharedComponents/form/SelectProperty";
 import React, {useState} from "react";
 import {PlotFeatures} from "./PlotFeatures";
 import {ColorPropKey} from "../properties/types";
 import GROUPINGS from "../grouping/group-data";
-import {SelectGroup} from "../toolComponents/SelectGroup";
-import {NumberInput} from "../toolComponents/NumberInput";
+import {SelectGroup} from "../sharedComponents/form/SelectGroup";
+import {NumberInput} from "../sharedComponents/form/NumberInput";
 
 export const PlotFeaturesTool = () => {
     const [groupName, setGroupName] = useState(GROUPINGS[0].name);

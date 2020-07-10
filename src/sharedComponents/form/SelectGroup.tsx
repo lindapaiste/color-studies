@@ -1,8 +1,13 @@
-import {ColorClassification} from "../grouping/types";
-import {getFromName, GROUPINGS} from "../grouping/group-data";
+import {ColorClassification} from "../../grouping/types";
+import {getFromName, GROUPINGS} from "../../grouping/group-data";
 import React from "react";
 
-export const SelectGroup = ({name, onChange}: { name: string | undefined | null, onChange: (group: ColorClassification) => void }) => {
+export interface Props {
+    name: string | undefined | null;
+    onChange: (group: ColorClassification) => void;
+}
+
+export const SelectGroup = ({name, onChange}: Props) => {
     return (
         <select value={name || ''} onChange={e => {
             const object = getFromName(e.target.value);

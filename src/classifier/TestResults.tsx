@@ -2,10 +2,10 @@ import React, { useMemo, useState } from "react";
 import { buildIsGroupModel } from "./buildModel";
 import { testRandom } from "./testRandom";
 import { BinaryResults } from "./types";
-import { RenderSet } from "../RenderSet";
+import { RenderSet } from "../sharedComponents/color/RenderSet";
 import { toHex } from "../properties/chroma-js";
 import GROUPINGS from "../grouping/group-data";
-import { SelectGroup } from "../toolComponents/SelectGroup";
+import { SelectGroup } from "../sharedComponents/form/SelectGroup";
 
 /**
  * examine the results from applying the model to random colors

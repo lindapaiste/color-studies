@@ -3,7 +3,7 @@ import Color from "color";
 import { range } from "lodash";
 import Plot from "react-plotly.js";
 import {Data} from "plotly.js";
-import { randomRgb } from "../rgb";
+import { randomRgb } from "../util";
 
 /**
  * plotting brightness against luminosity to find how they relate

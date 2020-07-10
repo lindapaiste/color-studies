@@ -1,5 +1,5 @@
 import { getGroupData } from "./analyzeColors";
-import { randomRgb } from "../rgb";
+import { randomRgb } from "../util";
 import { RGB } from "../util";
 
 //random set of RGBs

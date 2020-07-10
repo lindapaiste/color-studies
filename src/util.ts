@@ -1,4 +1,5 @@
 import {round} from "lodash";
+import chroma from "chroma-js";
 
 type Prefixes = "rgb" | "rgba" | "hsl" | "hsla";
 
@@ -30,3 +31,13 @@ export const percentString = (float: number, decimals: number = 2, is100: boolea
   const rounded = round(percent, decimals);
   return rounded + '%';
 };
+
+export const randomHex = (): string => {
+  return chroma.random().hex();
+};
+
+export const randomRgb = (): RGB => [
+    255 * Math.random(),
+    255 * Math.random(),
+    255 * Math.random()
+];

@@ -1,6 +1,6 @@
-import {ColorClassification} from "../grouping/types";
+import {ColorClassification} from "../../grouping/types";
 import React, {FunctionComponent, useState} from "react";
-import {getFromName, GROUPINGS} from "../grouping/group-data";
+import {getFromName, GROUPINGS} from "../../grouping/group-data";
 import {SelectGroup} from "./SelectGroup";
 import {UseFormTuple} from "./types";
 

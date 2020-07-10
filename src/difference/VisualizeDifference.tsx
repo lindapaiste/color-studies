@@ -1,10 +1,10 @@
 import React, {useMemo} from "react";
 import chroma, {Color} from "chroma-js";
-import {useNumberInput} from "../toolComponents/useNumberInput";
+import {useNumberInput} from "../sharedComponents/form/useNumberInput";
 import {range, sortBy} from "lodash";
-import {Swatch} from "../Swatch";
-import {chromaString} from "../properties/chroma-js";
-import {RenderSet} from "../RenderSet";
+import {Swatch} from "../sharedComponents/color/Swatch";
+import {eitherToString} from "../properties/chroma-js";
+import {RenderSet} from "../sharedComponents/color/RenderSet";
 
 export interface Props {
     count: number;
@@ -47,7 +47,7 @@ export const VisualizeDifference = ({color, count}: Props) => {
 
     return (
         <div>
-            <Swatch color={chromaString(color)} size={200}/>
+            <Swatch color={eitherToString(color)} size={200}/>
             <LWeightInput/>
             <CWeightInput/>
             <div>
@@ -62,7 +62,7 @@ export const VisualizeDifference = ({color, count}: Props) => {
     );
 };
 
-export const DefaultVisualizeDifference = () => {
+export const RandomVisualizeDifference = () => {
     return (
         <VisualizeDifference count={300} color={chroma.random()}/>
     )

@@ -1,6 +1,6 @@
 import { GROUPINGS } from "./group-data";
 import React from "react";
-import { RenderSet } from "../RenderSet";
+import { RenderSet } from "../sharedComponents/color/RenderSet";
 
 export const RenderGroups = () => {
   return (

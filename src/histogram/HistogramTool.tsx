@@ -1,10 +1,9 @@
 import React from "react";
 import {VisualHistogram} from "./VisualHistogram";
 import {getGetter} from "../properties";
-import {useSelectGroup} from "../toolComponents/useSelectGroup";
-import {useNumberInput} from "../toolComponents/useNumberInput";
-import {useSelectProperty} from "../toolComponents/useSelectProperty";
-//import {Select} from "@material-ui/core";
+import {useSelectGroup} from "../sharedComponents/form/useSelectGroup";
+import {useNumberInput} from "../sharedComponents/form/useNumberInput";
+import {useSelectProperty} from "../sharedComponents/form/useSelectProperty";
 
 /**
  * tool which allows me to interactively create property histograms for any of the stored color groupings
