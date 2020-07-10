@@ -1,10 +1,10 @@
 import {ColorClassification} from "../../grouping/types";
 import {getFromName, GROUPINGS} from "../../grouping/group-data";
-import React from "react";
+import React, {ChangeEvent} from "react";
 
 export interface Props {
     name: string | undefined | null;
-    onChange: (group: ColorClassification) => void;
+    onChange: (group: ColorClassification, e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const SelectGroup = ({name, onChange}: Props) => {
@@ -12,7 +12,7 @@ export const SelectGroup = ({name, onChange}: Props) => {
         <select value={name || ''} onChange={e => {
             const object = getFromName(e.target.value);
             if (object) {
-                onChange(object);
+                onChange(object, e);
             }
         }}>
             {GROUPINGS.map(o => (

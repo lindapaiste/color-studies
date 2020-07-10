@@ -1,5 +1,5 @@
 import chroma, { Scale, Color } from "chroma-js";
-import { ChannelShiftSettings } from "./GradientCompareTool";
+import { ChannelShiftSettings } from "./types";
 
 export const channelShift = (
   channel: string,
@@ -20,5 +20,5 @@ export const channelShift = (
 export const createColors = (props: ChannelShiftSettings): Color[] => {
   const { channel, channelMax, shift, colorCount } = props;
   const scale = channelShift(channel, shift, channelMax);
-  return scale.colors(colorCount);
+  return scale.colors(colorCount, null);
 };

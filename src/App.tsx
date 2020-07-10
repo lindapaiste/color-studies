@@ -14,6 +14,7 @@ import {GradientCompareTool} from "./boxSets/GradientCompareTool";
 import {ColorWheelComparison} from "./rainbow/ColorWheelComparison";
 import {ColorInfoTool} from "./ColorInfoTool";
 import {GroupsAnalysis} from "./grouping/AnalysisTable";
+import {NoisyBoxTool} from "./boxSets/NoisyBoxes";
 
 interface AppPage {
     title: string;
@@ -44,6 +45,11 @@ const PAGES: AppPage[] = [
         title: "Noise Generation Methods",
         path: "noise",
         Component: CompareRandom,
+    },
+    {
+        title: "Generate Box Balls",
+        path: "boxes",
+        Component: NoisyBoxTool,
     },
     {
         title: "Gradient Mode Comparison",
