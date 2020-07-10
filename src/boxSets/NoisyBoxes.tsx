@@ -61,7 +61,10 @@ export const NoisyBoxTool = () => {
     const [controls, setControls] = useControls(initialControls);
     const [levers, setLevers] = useLevers();
 
-    const colors = createColors(controls);
+    const colors = useMemo(
+        () => createColors(controls),
+        [controls]
+    );
 
     return (
         <div>
