@@ -43,9 +43,11 @@ export const randomRgb = (): RGB => [
     255 * Math.random()
 ];
 
-type Entries<T> = {
+type Entry<T> = {
     [K in keyof T]: [K, T[K]]
-}[keyof T][]
+}[keyof T]
+
+type Entries<T> = Entry<T>[];
 
 /**
  * applies TS type to Object.keys() if the key type is a subset of string
@@ -59,4 +61,8 @@ export const typedKeys = <OT>(object: OT) => {
 
 export const typedEntries = <OT>(object: OT) => {
   return Object.entries(object) as Entries<OT>;
+};
+
+export const typedValues = <OT>(object: OT) => {
+    return Object.values(object) as Array<OT[keyof OT]>;
 };

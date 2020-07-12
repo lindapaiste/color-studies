@@ -1,4 +1,4 @@
-import {ColorSpaceName, getColorSpace, getMax, isFixedMaxChannel, spacesWithChannel} from "./colorSpaces";
+import {ColorSpaceName, getColorSpace, getMax, isColorSpace, isFixedMaxChannel, spacesWithChannel} from "./colorSpaces";
 import {FixedMaxChannel, ChannelName} from "./colorSpaces";
 import {ColorSpaces} from "chroma-js";
 import {typedEntries, typedKeys} from "../util";
@@ -39,7 +39,7 @@ export const isChromaSupportedChannel = (channel: ChannelName): boolean => {
 /**
  * gets in the form of "hsl.l", "rgb.r", etc.
  */
-export const chromaChannelKey = (channel: ChannelName): string | null => {
+export const channelToCode = (channel: ChannelName): string | null => {
     for ( let cs of chromaColorSpaces ) {
         const space = getColorSpace(cs);
         for ( let key of typedKeys(space) ) {
@@ -51,3 +51,19 @@ export const chromaChannelKey = (channel: ChannelName): string | null => {
     return null;
 };
 
+/**
+ * maps shorthand to channel name, ie. 'cmyk.y' => 'yellow'
+ */
+export const codeToChannel = (code: string): ChannelName | null => {
+    const [colorSpace, letter] = code.split('.');
+    if ( ! isColorSpace(colorSpace) ) {
+        console.error("invalid color space " + colorSpace);
+        return null;
+    }
+    const space = getColorSpace(colorSpace);
+    if ( ! space.hasOwnProperty( letter) ) {
+        console.error("invalid letter " + letter + " on color space " + colorSpace );
+        return null;
+    }
+    return space[letter];
+};

@@ -1,30 +1,56 @@
-import chroma, {ColorSpaces} from "chroma-js";
-import {NoiseSettings} from "./types";
+import {ColorSpaceName, ColorTuple, getSpaceChannels} from "../properties/colorSpaces";
+import {noisyChannelValue} from "./channelNoise";
+import {I_ConvertAdapter} from "../properties/convert-adapter";
+
 /**
  * can apply noise to multiple channels, but they should all be part of the same color model
  * otherwise new changes with either override or compound previous changes affecting the same channel
  */
 
-export const withNoise = ({base, noiseRatio}: NoiseSettings) =>
-    <T extends keyof ColorSpaces>(colorSpace: T, weights?: ColorSpaces[T]) => {
-        /**
-         * can call the channel function directly, but how to ensure that it exists?
-         * can loop though get( channel ) with colorSpace.split('') for each letter
-         * only colorspace that won't work right just using the letters is gl
-         */
-        const values = base[colorSpace]();
+export interface CalcProps<CS extends ColorSpaceName> {
+    colorSpace: CS;
+    noiseRatio: number;
+    values: ColorTuple<CS>;
+    //maximums: ColorTuple<CS>;
+    weights?: ColorTuple<CS>;
+}
 
-        /**
-         * default to 1 if no weights array is passed in
-         * or if it has the wrong number of entries
-         */
-        const getWeight = (i: number): number => {
-            if ( ! Array.isArray(weights) ) {
-                return 1;
-            }
-            const weight = weights[i];
-            return typeof weight === "number" ? weight : 1;
+export const calcNoisy = <CS extends ColorSpaceName>({colorSpace, values, noiseRatio, weights}: CalcProps<CS>): ColorTuple<CS> => {
+    /**
+     * default to 1 if no weights array is passed in
+     * or if it has the wrong number of entries
+     */
+    const getWeight = (i: number): number => {
+        if (!Array.isArray(weights)) {
+            return 1;
         }
+        const weight = weights[i];
+        return typeof weight === "number" ? weight : 1;
+    };
 
+    const channels = getSpaceChannels(colorSpace);
 
+    return values.map((value, i) => noisyChannelValue({
+        channel: channels[i],
+        value,
+        noiseRatio: noiseRatio * getWeight(i),
+    })) as ColorTuple<CS>;
 };
+
+export type Props<CS extends ColorSpaceName> = Omit<CalcProps<CS>, 'values'> & {
+    color: I_ConvertAdapter;
+}
+
+export const getNoisy = <CS extends ColorSpaceName>({color, colorSpace, ...props}: Props<CS>): I_ConvertAdapter => {
+    const values = color.to(colorSpace);
+    const noisy = calcNoisy({...props, values: values as ColorTuple<CS>, colorSpace});
+    return color.from(noisy, colorSpace);
+};
+
+/**
+ * note from previous version using chroma:
+ *
+ * can call the channel function directly, but how to ensure that it exists?
+ * can loop though get( channel ) with colorSpace.split('') for each letter
+ * only colorspace that won't work right just using the letters is gl
+ */

@@ -3,7 +3,9 @@ import React from "react";
 import {random, range} from "lodash";
 import {Swatch} from "../sharedComponents/color/Swatch";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
-import {withChannelNoise, withRGBChannelNoise} from "./channelNoise";
+import {noisyChannelValue} from "./channelNoise";
+import {codeToChannel} from "../properties/chromaSpaces";
+import {ChannelName} from "../properties/colorSpaces";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -33,16 +35,9 @@ export const CompareMethods = ({color}: { color: string }) => {
             .map(c => c.hex());
     };
 
-    const renderNoisyChannel = (title: string, channel: string, max: number) => (
+    const renderNoisyChannel = (title: string, code: string) => (
         <TitledSet
-            colors={makeHexArray(() => withChannelNoise({base, noiseRatio})(channel, max), countPer)}
-            title={title}
-        />
-    );
-
-    const renderNoisyRGBChannel = (title: string, channel: string) => (
-        <TitledSet
-            colors={makeHexArray(() => withRGBChannelNoise({base, noiseRatio})(channel), countPer)}
+            colors={makeHexArray(() => base.set(code, noisyChannelValue({value: base.get(code), noiseRatio, channel: codeToChannel(code) as ChannelName})), countPer)}
             title={title}
         />
     );
@@ -50,17 +45,14 @@ export const CompareMethods = ({color}: { color: string }) => {
     return (
         <div>
             <Swatch color={base.hex()} size={200}/>
-            {renderNoisyChannel("Chroma", "lch.c", 100)}
-            {renderNoisyChannel("V HSV", "hsv.v", 100)}
-            {renderNoisyChannel("Hue HSL", "hsl.h", 360)}
-            {renderNoisyChannel("Lightness HSL", "hsl.l", 1)}
-            {renderNoisyChannel("Lum LAB", "lab.l", 1)}
-            {renderNoisyRGBChannel("Red - squared", "rgb.r")}
-            {renderNoisyRGBChannel("Blue - squared", "rgb.b")}
-            {renderNoisyRGBChannel("Green - squared", "rgb.g")}
-            {renderNoisyChannel("Red - linear", "rgb.r", 255)}
-            {renderNoisyChannel("Blue - linear", "rgb.b", 255)}
-            {renderNoisyChannel("Green - linear", "rgb.g", 255)}
+            {renderNoisyChannel("Chroma", "lch.c")}
+            {renderNoisyChannel("V HSV", "hsv.v")}
+            {renderNoisyChannel("Hue HSL", "hsl.h")}
+            {renderNoisyChannel("Lightness HSL", "hsl.l")}
+            {renderNoisyChannel("Lum LAB", "lab.l")}
+            {renderNoisyChannel("Red", "rgb.r")}
+            {renderNoisyChannel("Blue", "rgb.b")}
+            {renderNoisyChannel("Green", "rgb.g")}
         </div>
     );
 };

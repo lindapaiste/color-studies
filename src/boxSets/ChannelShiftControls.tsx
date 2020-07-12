@@ -1,7 +1,7 @@
-import {ChannelShiftSettings} from "./types";
-import {TextInput} from "../sharedComponents/form/TextInput";
-import {NumberInput} from "../sharedComponents/form/NumberInput";
-import React, {useState} from "react";
+import { ChannelShiftSettings } from "./types";
+import { TextInput } from "../sharedComponents/form/TextInput";
+import { NumberInput } from "../sharedComponents/form/NumberInput";
+import React, { useState } from "react";
 
 export const DEFAULT_SETTINGS: ChannelShiftSettings = {
     channel: "lab.l",
@@ -31,7 +31,7 @@ export const ChannelShiftControls = ({
     const [state, _setState] = useControls(initialValue);
 
     const applySettings = (settings: Partial<ChannelShiftSettings>): void => {
-        const combined = {...state, settings};
+        const combined = { ...state, ...settings };
         _setState(combined);
         onChange(combined);
     };
@@ -39,34 +39,34 @@ export const ChannelShiftControls = ({
     return (
         <div>
             <div>
-        <span>
-          Channel:{" "}
-            <TextInput
-                value={state.channel}
-                onChange={v => applySettings({channel: v})}
-            />
-        </span>
-                <span>
-          Channel Max:{" "}
+                <div>
+                    Channel:
+                    <TextInput
+                        value={state.channel}
+                        onChange={v => applySettings({ channel: v })}
+                    />
+                </div>
+                <div>
+                    Channel Max:
                     <NumberInput
                         value={state.channelMax}
-                        onChange={v => applySettings({channelMax: v})}
+                        onChange={v => applySettings({ channelMax: v })}
                     />
-        </span>
-                <span>
-          Shift Amount:{" "}
+                </div>
+                <div>
+                    Shift Amount:
                     <NumberInput
                         value={state.shift}
-                        onChange={v => applySettings({shift: v})}
+                        onChange={v => applySettings({ shift: v })}
                     />
-        </span>
-                <span>
-          Color Count:{" "}
+                </div>
+                <div>
+                    Color Count:
                     <NumberInput
                         value={state.colorCount}
-                        onChange={v => applySettings({colorCount: v})}
+                        onChange={v => applySettings({ colorCount: v })}
                     />
-        </span>
+                </div>
             </div>
             {state.shift > state.channelMax * 0.5 && (
                 <div>
