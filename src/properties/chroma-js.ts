@@ -93,4 +93,4 @@ export const randomColors = (count: number): Color[] => {
     return [...new Array(count)].map(() => chroma.random());
 };
 
-export const getDistance = chroma.deltaE;
+export const getDistance = (a: Color, b: Color) => chroma.deltaE(a, b, 1, 5);

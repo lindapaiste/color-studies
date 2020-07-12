@@ -68,7 +68,10 @@ export const NoisyBoxTool = () => {
 
     const colors = useMemo(() => {
             try {
-                return createColors(controls);
+                const colors = createColors(controls);
+                console.log("distance between boxes");
+                colors.map( c => colors.map( t => console.log( getDistance(c, t) ) ) );
+                return colors;
             } catch (e) {
                 return [];
             }
