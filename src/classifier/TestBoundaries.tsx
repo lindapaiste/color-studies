@@ -4,7 +4,7 @@ import {useNumberInput} from "../sharedComponents/form/useNumberInput";
 import {propertyKeys} from "../properties";
 import {buildBoundaryModel} from "./boundaryModel";
 import {percentString} from "../util";
-import {ChromaAdapter} from "../properties/chroma-adapter";
+import {ChromaAdapter} from "../properties/chroma-adapter-profile";
 
 export const TestBoundaries = () => {
     const [group, SelectGroup] = useSelectGroup();

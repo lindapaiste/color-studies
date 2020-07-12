@@ -5,7 +5,7 @@ import {sampleSize} from "lodash";
 import {GroupedHex, shuffledHexes} from "./buildModel";
 import {pointsToVectors, PointTuple} from "../luminosity/LuminosityChart";
 import {Data} from "plotly.js";
-import {ChromaAdapter} from "../properties/chroma-adapter";
+import {ChromaAdapter} from "../properties/chroma-adapter-profile";
 
 export interface Props {
     count: number;

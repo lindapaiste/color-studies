@@ -1,7 +1,7 @@
 import {ColorPropKey} from "../properties/types";
 import {getSplitHexes} from "./PlotFeatures";
 import {shuffle} from "lodash";
-import {ChromaAdapter} from "../properties/chroma-adapter";
+import {ChromaAdapter} from "../properties/chroma-adapter-profile";
 import {mean} from "simple-statistics";
 
 /**

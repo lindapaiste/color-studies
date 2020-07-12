@@ -1,5 +1,6 @@
 import {round} from "lodash";
 import chroma from "chroma-js";
+import {object} from "prop-types";
 
 type Prefixes = "rgb" | "rgba" | "hsl" | "hsla";
 
@@ -41,3 +42,21 @@ export const randomRgb = (): RGB => [
     255 * Math.random(),
     255 * Math.random()
 ];
+
+type Entries<T> = {
+    [K in keyof T]: [K, T[K]]
+}[keyof T][]
+
+/**
+ * applies TS type to Object.keys() if the key type is a subset of string
+ * will not return number[] because Object.keys() casts the keys to strings
+ */
+export const typedKeys = <OT>(object: OT) => {
+    return Object.keys( object ) as Array<keyof OT extends string ? keyof OT : string>;
+};
+//export type KeyType<OT> = keyof OT extends string ? keyof OT : string;
+
+
+export const typedEntries = <OT>(object: OT) => {
+  return Object.entries(object) as Entries<OT>;
+};

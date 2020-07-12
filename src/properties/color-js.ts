@@ -4,7 +4,6 @@ import {setLuminosity} from "../luminosity/luminosity";
 import ColorObject from "color";
 import {makePackageUtil} from "./makePackageUtil";
 import {RGB} from "../util";
-import chroma from "chroma-js";
 
 export type Color = ColorObject; //is weirdly confusing to differentiate between the class and the type of the same name
 
