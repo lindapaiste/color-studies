@@ -1,6 +1,6 @@
 import Color from "color";
 import {fromPairs} from "lodash";
-import {PROPERTIES} from "../properties/color-js";
+import {PROPERTIES} from "../packages/color-js";
 
 export interface GroupColorAnalysis {
   hue: PropertyAnalysis;

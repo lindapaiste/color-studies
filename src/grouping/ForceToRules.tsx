@@ -5,8 +5,8 @@ import { randomRgb } from "../util";
 import { GROUPINGS} from "./group-data";
 import { last } from "lodash";
 import { fitsConditions } from "./colorToGroup";
-import {ColorPropKey} from "../properties/types";
-import {setColorProp, getColorProp} from "../properties";
+import {ColorPropKey} from "../packages/types";
+import {setColorProp, getColorProp} from "../packages";
 import {PropertyConstraint} from "./types";
 
 /**

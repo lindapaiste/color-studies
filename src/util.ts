@@ -1,6 +1,5 @@
-import {round} from "lodash";
+import {round, isFunction} from "lodash";
 import chroma from "chroma-js";
-import {object} from "prop-types";
 
 type Prefixes = "rgb" | "rgba" | "hsl" | "hsla";
 
@@ -65,4 +64,8 @@ export const typedEntries = <OT>(object: OT) => {
 
 export const typedValues = <OT>(object: OT) => {
     return Object.values(object) as Array<OT[keyof OT]>;
+};
+
+export const makeArray = <T>(length: number, value: T | ((i: number) => T)): T[] => {
+  return [...new Array(length)].map((_, i) => isFunction(value) ? value(i) : value);
 };

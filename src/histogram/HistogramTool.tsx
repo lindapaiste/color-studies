@@ -1,6 +1,6 @@
 import React from "react";
 import {VisualHistogram} from "./VisualHistogram";
-import {getGetter} from "../properties";
+import {getGetter} from "../packages";
 import {useSelectGroup} from "../sharedComponents/form/useSelectGroup";
 import {useNumberInput} from "../sharedComponents/form/useNumberInput";
 import {useSelectProperty} from "../sharedComponents/form/useSelectProperty";

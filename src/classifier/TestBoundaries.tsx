@@ -1,10 +1,10 @@
 import React from "react";
 import {useSelectGroup} from "../sharedComponents/form/useSelectGroup";
 import {useNumberInput} from "../sharedComponents/form/useNumberInput";
-import {propertyKeys} from "../properties";
+import {propertyKeys} from "../packages";
 import {buildBoundaryModel} from "./boundaryModel";
 import {percentString} from "../util";
-import {ChromaAdapter} from "../properties/chroma-adapter-profile";
+import {ChromaAdapter} from "../packages/chroma-adapter-profile";
 
 export const TestBoundaries = () => {
     const [group, SelectGroup] = useSelectGroup();

@@ -19,13 +19,13 @@ export interface ColorPropDef<T> {
     key: ColorPropKey;
     getter: ColorPropGetter<T>;
     setter: ColorPropSetter<T>;
-    range: number | ((c: T) => number); //some properties have variable range, so must calculate individually only providing the max value because assuming that all start at 0
+    range: number | ((c: T) => number); //some packages have variable range, so must calculate individually only providing the max value because assuming that all start at 0
 }
 
 export type PackageDefs<T> = ColorPropDef<T>[]; //Record<ColorPropKey, ColorPropDef<T>>
 
 export interface PackageUtil<T> {
-    //maybe include properties such that some can be different?
+    //maybe include packages such that some can be different?
     propertyKeys: ColorPropKey[];
     getTitle(property: ColorPropKey): string;
     getMaximum(property: ColorPropKey, color: T): number;

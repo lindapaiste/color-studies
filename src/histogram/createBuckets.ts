@@ -1,5 +1,5 @@
 import {Bucket, CalcProps} from "./types";
-import {fromHex, Color} from "../properties";
+import {fromHex, Color} from "../packages";
 import {sortBy, last, findIndex, range} from "lodash";
 /**
  * supports breakpoints of uneven widths, but they must be passed explicitly

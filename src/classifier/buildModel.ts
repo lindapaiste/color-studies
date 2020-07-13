@@ -1,7 +1,7 @@
 import {PerceptronModel} from "simple-statistics";
 import GROUPINGS from "../grouping/group-data";
 import chroma, {Color} from "chroma-js";
-import {util} from "../properties/chroma-js";
+import {util} from "../packages/chroma-js";
 import {flatMap, shuffle} from "lodash";
 
 export interface GroupedHex {
@@ -25,7 +25,7 @@ export const shuffledGroupData = (hexToFeatures: (hex: string) => number[]): { h
 };
 
 /**
- * use all properties of a color to build the model
+ * use all packages of a color to build the model
  *
  * use manually defined color groups as the training data to create a model which assigns group
  *

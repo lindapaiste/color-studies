@@ -1,7 +1,7 @@
 import { ColorClassification} from "./types";
 import Color from "color";
 import { round } from "lodash";
-import {getAllowance, getColorProp} from "../properties";
+import {getAllowance, getColorProp} from "../packages";
 import {PropertyConstraint} from "./types";
 /**
  * in the future could have targets where the difference matters,

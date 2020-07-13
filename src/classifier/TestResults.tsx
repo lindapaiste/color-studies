@@ -3,7 +3,7 @@ import { buildIsGroupModel } from "./buildModel";
 import { testRandom } from "./testRandom";
 import { BinaryResults } from "./types";
 import { RenderSet } from "../sharedComponents/color/RenderSet";
-import { toHex } from "../properties/chroma-js";
+import { toHex } from "../packages/chroma-js";
 import GROUPINGS from "../grouping/group-data";
 import { SelectGroup } from "../sharedComponents/form/SelectGroup";
 

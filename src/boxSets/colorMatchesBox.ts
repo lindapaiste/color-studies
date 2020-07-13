@@ -33,6 +33,19 @@ export const matchToChoices = <T>(
     };
 };
 
+export interface Error {
+    code: ErrorCode;
+    message: string;
+}
+
+export enum ErrorCode {
+    WRONG_MATCH,
+    DISTANCE_TOO_LARGE,
+    DISTANCE_TOO_SMALL,
+    DISTINCTNESS_TOO_LARGE,
+    DISTINCTNESS_TOO_SMALL,
+}
+
 /**
  * transforms the evaluation object into a boolean can/cannot go in box
  * if cannot, returns the reason why not
@@ -41,20 +54,37 @@ export const getError = <T>(
     evaluation: Evaluation<T>,
     levers: Levers,
     expected?: T
-): string | false => {
+): Error | false => {
     const {match, distance, distinctness} = evaluation;
 
     const {minDistance, maxDistance, minDistinctness, maxDistinctness} = levers;
 
     if (expected !== undefined && !isEqual(match, expected)) {
-        return `wrong match: closer to ${match} than to ${expected}`;
+        return {
+            code: ErrorCode.WRONG_MATCH,
+            message: `wrong match: closer to ${match} than to ${expected}`
+        }
     } else if (distance > maxDistance) {
-        return `not close enough to color: distance ${distance} exceeds allowed amount ${maxDistance}`;
+        return {
+            code: ErrorCode.DISTANCE_TOO_LARGE,
+            message: `not close enough to color: distance ${distance} exceeds allowed amount ${maxDistance}`
+        }
     } else if (distance < minDistance) {
-        return `too close to color: distance ${distance} must be at least ${minDistance}`;
+        return {
+            code: ErrorCode.DISTANCE_TOO_SMALL,
+            message: `too close to color: distance ${distance} must be at least ${minDistance}`
+        }
     } else if (distinctness > maxDistinctness) {
-        return `too obvious: distinctness amount ${distinctness} exceeds allowed ${maxDistinctness}`;
+        return {
+            code: ErrorCode.DISTINCTNESS_TOO_LARGE,
+            message: `too obvious: distinctness amount ${distinctness} exceeds allowed ${maxDistinctness}`
+        }
     } else if (distinctness < minDistinctness) {
-        return `too ambiguous: distinctness ${distinctness} must be at least ${minDistinctness}`;
-    } else return false;
+        return {
+            code: ErrorCode.DISTINCTNESS_TOO_SMALL,
+            message: `too ambiguous: distinctness ${distinctness} must be at least ${minDistinctness}`
+        }
+    } else {
+        return false;
+    }
 };

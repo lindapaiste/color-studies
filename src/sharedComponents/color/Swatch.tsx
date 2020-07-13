@@ -1,5 +1,5 @@
 import React from "react";
-import {Color, fromHex, getProfile} from "../../properties/index";
+import {Color, fromHex, getProfile} from "../../packages/index";
 
 export interface Props {
     color: Color | string;

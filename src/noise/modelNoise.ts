@@ -1,6 +1,7 @@
-import {ColorSpaceName, ColorTuple, getSpaceChannels} from "../properties/colorSpaces";
+import {getSpaceChannels} from "../spacesChannels/colorSpaces";
 import {noisyChannelValue} from "./channelNoise";
-import {I_ConvertAdapter} from "../properties/convert-adapter";
+import {I_ConvertAdapter} from "../packages/color-adapter";
+import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 
 /**
  * can apply noise to multiple channels, but they should all be part of the same color model

@@ -1,24 +1,22 @@
-import chroma, { Scale, Color } from "chroma-js";
-import { ChannelShiftSettings } from "./types";
+import {I_ColorAdapter} from "../packages/color-adapter";
+import {nameToAccessor} from "../spacesChannels/colorSpaces";
+import {ChannelProps, getChannelProps} from "../noise/channelNoise";
+import _clamp from "lodash/clamp";
+import {ChannelName} from "../spacesChannels/types";
 
-export const channelShift = (
-  channel: string,
-  shift: number,
-  max: number
-): Scale => {
-  const color = chroma.random();
-  const initial = color.get(channel);
-  //this needs to be tweaked it shift is more than half the max
-  const shifted = color.set(
-    channel,
-    initial + shift > max ? initial - shift : initial + shift
-  );
-  console.log({ color, shifted });
-  return chroma.scale([color, shifted]);
+export const transformChannel = (initial: I_ColorAdapter, channel: ChannelName, transform: (v: number) => number): I_ColorAdapter => {
+    const props = getChannelProps(channel);
+    const value = initial.get(nameToAccessor(channel));
+    const newValue = calculateTransformed({...props,value, transform});
+    return initial.set(nameToAccessor(channel), newValue);
 };
 
-export const createColors = (props: ChannelShiftSettings): Color[] => {
-  const { channel, channelMax, shift, colorCount } = props;
-  const scale = channelShift(channel, shift, channelMax);
-  return scale.colors(colorCount, null);
+export type CalcProps = ChannelProps & {
+    value: number;
+    transform(v: number): number;
+}
+
+export const calculateTransformed = ({value, transform, clamp = false, max = 100, min = 0, postTransform = c => c, preTransform = c => c}: CalcProps): number => {
+    const result = postTransform( transform( preTransform( value )));
+    return clamp ? _clamp(result, min, max) : result;
 };

@@ -3,7 +3,7 @@ import chroma, {Color} from "chroma-js";
 import {useNumberInput} from "../sharedComponents/form/useNumberInput";
 import {range, sortBy} from "lodash";
 import {Swatch} from "../sharedComponents/color/Swatch";
-import {eitherToString} from "../properties/chroma-js";
+import {eitherToString} from "../packages/chroma-js";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
 
 export interface Props {

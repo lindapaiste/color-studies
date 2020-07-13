@@ -1,8 +1,8 @@
 import chroma, { Color } from "chroma-js";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { ChannelShiftControls, useControls } from "./ChannelShiftControls";
-import { createColors } from "./channelShift";
-import { getDistance, randomColors } from "../properties/chroma-js";
+import { createColors } from "./channelShiftSet";
+import { getDistance, randomColors } from "../packages/chroma-js";
 import { Evaluation, Levers } from "./types";
 import { getError, matchToChoices } from "./colorMatchesBox";
 import { BoxData, RenderBoxData } from "./RenderBoxData";
@@ -14,7 +14,7 @@ import Switch from "@material-ui/core/Switch";
 import { shuffleData } from "./shuffleData";
 import {flatMap} from "lodash";
 import {getNoisy} from "../noise/modelNoise";
-import {ConvertAdapter} from "../properties/convert-adapter";
+import {ColorAdapter} from "../packages/color-adapter";
 /**
  * right now just looks at a bunch of random colors and filters
  * rather than computing a noisy color that is expected to match
@@ -35,7 +35,7 @@ export const NoisyBoxes = ({ colors, levers, isShuffle }: Props) => {
      */
     const evaluations: Evaluation<Color>[] = useMemo(() => {
        // const random = randomColors(200);
-        const random = flatMap( colors, c => [...new Array(100)].map( () => chroma( getNoisy({color: new ConvertAdapter(c), colorSpace: "rgb", noiseRatio: .3}).to("rgb") ) ) );
+        const random = flatMap( colors, c => [...new Array(100)].map( () => chroma( getNoisy({color: new ColorAdapter(c), colorSpace: "rgb", noiseRatio: .3}).to("rgb") ) ) );
         return random.map(c => matchToChoices(getDistance, c, colors));
     }, [colors]);
 
@@ -55,6 +55,13 @@ export const NoisyBoxes = ({ colors, levers, isShuffle }: Props) => {
         boxData[i].matches.push(evaluation);
     });
 
+    useEffect (
+        () => {
+            console.log("distance between boxes");
+            colors.map(c => colors.map(t => console.log(getDistance(c, t))));
+        }, [colors]
+    );
+
     const final = isShuffle ? shuffleData(boxData) : boxData;
 
     return <RenderBoxData data={final} />;
@@ -68,10 +75,7 @@ export const NoisyBoxTool = () => {
 
     const colors = useMemo(() => {
             try {
-                const colors = createColors(controls);
-                console.log("distance between boxes");
-                colors.map( c => colors.map( t => console.log( getDistance(c, t) ) ) );
-                return colors;
+                return createColors(controls);
             } catch (e) {
                 return [];
             }

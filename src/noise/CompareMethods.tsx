@@ -4,8 +4,8 @@ import {random, range} from "lodash";
 import {Swatch} from "../sharedComponents/color/Swatch";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
 import {noisyChannelValue} from "./channelNoise";
-import {codeToChannel} from "../properties/chromaSpaces";
-import {ChannelName} from "../properties/colorSpaces";
+import {codeToName} from "../packages/chromaSpaces";
+import {ChannelName} from "../spacesChannels/types";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -37,7 +37,7 @@ export const CompareMethods = ({color}: { color: string }) => {
 
     const renderNoisyChannel = (title: string, code: string) => (
         <TitledSet
-            colors={makeHexArray(() => base.set(code, noisyChannelValue({value: base.get(code), noiseRatio, channel: codeToChannel(code) as ChannelName})), countPer)}
+            colors={makeHexArray(() => base.set(code, noisyChannelValue({value: base.get(code), noiseRatio, channel: codeToName(code)})), countPer)}
             title={title}
         />
     );

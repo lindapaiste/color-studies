@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import {Scale} from "chroma-js";
-import {channelShift} from "./channelShift";
+import {channelShift} from "./channelShiftSet";
 import {CompareScaleModes} from "./CompareScaleModes";
 import {ChannelShiftSettings} from "./types";
 import {ChannelShiftControls, useControls} from "./ChannelShiftControls";

@@ -1,17 +1,13 @@
 import {random} from "lodash";
 import {fixHue} from "../boxSets/hueShift";
-import {ChannelName, getMax, isFixedMaxChannel} from "../properties/colorSpaces";
+import {ChannelName} from "../spacesChannels/types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
+import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
 
-/**
- * channel name doesn't matter because we are beyond it.  care about channel properties
- */
-export interface SpecificProps {
-    value: number;
+export interface ChannelProps {
     min?: number; //default to 0 if not set
     max?: number;
     clamp?: boolean;
-    noiseRatio: number;
     preTransform?(v: number): number;
     postTransform?(v: number): number;
 }
@@ -22,7 +18,12 @@ export interface BasicProps {
     channel: ChannelName;
 }
 
-export const noisyChannelValue = ({value, channel, noiseRatio}: BasicProps): number => {
+export type SpecificProps = ChannelProps & Omit<BasicProps, 'channel'>
+
+/**
+ * can share this between noise generation and channel shift
+ */
+export const getChannelProps = (channel: ChannelName): ChannelProps => {
     let preTransform: (n: number) => number = c => c;
     let postTransform: (n: number) => number = c => c;
     if ( channel === 'hue' ) {
@@ -49,7 +50,19 @@ export const noisyChannelValue = ({value, channel, noiseRatio}: BasicProps): num
         clamp = false;
     }
 
-    return specificNoisyValue({value, noiseRatio, postTransform, preTransform, max, clamp});
+    return {
+        preTransform,
+        postTransform,
+        max,
+        clamp,
+    }
+};
+
+export const noisyChannelValue = ({channel, ...props}: BasicProps): number => {
+    return specificNoisyValue({
+        ...props,
+        ...getChannelProps(channel),
+    });
 };
 
 export const specificNoisyValue = ({value, max = 100, min = 0, noiseRatio, postTransform = n => n, preTransform = n => n, clamp = false}: SpecificProps): number => {

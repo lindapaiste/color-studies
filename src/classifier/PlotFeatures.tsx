@@ -1,11 +1,11 @@
 import React from "react";
 import Plot from "react-plotly.js";
-import {ColorPropKey} from "../properties/types";
+import {ColorPropKey} from "../packages/types";
 import {sampleSize} from "lodash";
 import {GroupedHex, shuffledHexes} from "./buildModel";
 import {pointsToVectors, PointTuple} from "../luminosity/LuminosityChart";
 import {Data} from "plotly.js";
-import {ChromaAdapter} from "../properties/chroma-adapter-profile";
+import {ChromaAdapter} from "../packages/chroma-adapter-profile";
 
 export interface Props {
     count: number;

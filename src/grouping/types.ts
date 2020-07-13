@@ -1,4 +1,4 @@
-import {ColorPropKey} from "../properties/types";
+import {ColorPropKey} from "../packages/types";
 
 export interface ColorClassification {
     name: string;

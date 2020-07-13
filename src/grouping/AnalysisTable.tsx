@@ -33,7 +33,7 @@ export const ResultsTable = ({ columns }: Props) => {
    * will have between 0 and 2 entries.  drop left when more than 2
    *
    * makes most sense to compare same property across groups,
-   * but can also compare properties within group
+   * but can also compare packages within group
    * so I am not forcing that the property is the same
    */
   const [compare, setCompare] = useState<CompareState[]>([]);
@@ -118,7 +118,7 @@ const RenderCompare = ({ compare }: { compare: CompareState[] }) => {
         </thead>
         <tbody>
           {Object.keys(compare[0].analysis).map(key => {
-            //want to skip over array properties (ie. values and differences)
+            //want to skip over array packages (ie. values and differences)
             if (typeof compare[0].analysis[key] !== "number") {
               return null;
             }

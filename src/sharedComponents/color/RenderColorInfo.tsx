@@ -1,7 +1,7 @@
 import React from "react";
 import Color from "color";
 import {Swatch} from "./Swatch";
-import {eitherToObject, PROPERTIES} from "../../properties/color-js";
+import {eitherToObject, PROPERTIES} from "../../packages/color-js";
 
 export interface Props {
     color: Color | string;

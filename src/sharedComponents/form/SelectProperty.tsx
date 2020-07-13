@@ -1,5 +1,5 @@
-import {ColorPropKey} from "../../properties/types";
-import {getTitle, propertyKeys} from "../../properties";
+import {ColorPropKey} from "../../packages/types";
+import {getTitle, propertyKeys} from "../../packages";
 import React, {ChangeEvent} from "react";
 
 export interface Props {

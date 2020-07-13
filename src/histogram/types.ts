@@ -1,4 +1,4 @@
-import {Color} from "../properties";
+import {Color} from "../packages";
 
 export interface CalcProps {
     hexes: string[];
