@@ -89,7 +89,8 @@ export const withHash = (hex: string): string => {
 };
 
 export const hasMethod = (obj: any, method: string): boolean => {
-  return typeof obj === "object" && obj.hasOwnProperty(method) && isFunction(obj[method]);
+    //note: cannot use hasOwnProperty because the property might be inherited
+  return typeof obj === "object" && isFunction(obj[method]);
 };
 
 export const isDefined = <T>(a: T | undefined): a is T => a !== undefined;
