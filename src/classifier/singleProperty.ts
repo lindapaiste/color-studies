@@ -1,5 +1,5 @@
 import {ColorPropKey} from "../packages/types";
-import {getSplitHexes} from "./PlotFeatures";
+import {getSplitSample} from "./PlotFeatures";
 import {shuffle} from "lodash";
 import {ChromaAdapter} from "../packages/chroma-adapter-profile";
 import {mean} from "simple-statistics";
@@ -14,7 +14,7 @@ import {mean} from "simple-statistics";
  */
 
 export const findBoundary = (group: string, property: ColorPropKey, count: number = 100) => {
-    const [inGroup, notInGroup] = getSplitHexes(group, count);
+    const [inGroup, notInGroup] = getSplitSample(group, count);
 
     const data = shuffle([...inGroup, ...notInGroup]).map(o => ({
         hex: o.hex,

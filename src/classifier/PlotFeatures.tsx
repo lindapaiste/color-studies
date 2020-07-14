@@ -1,7 +1,7 @@
 import React from "react";
 import Plot from "react-plotly.js";
 import {ColorPropKey} from "../packages/types";
-import {sampleSize} from "lodash";
+import {sampleSize, partition} from "lodash";
 import {GroupedHex, shuffledHexes} from "./buildModel";
 import {pointsToVectors, PointTuple} from "../luminosity/LuminosityChart";
 import {Data} from "plotly.js";
@@ -18,11 +18,17 @@ export interface Props {
  * utility function which provides a random sampling of hexes in the specified group
  * and outside of it, with the group name included
  */
-export const getSplitHexes = (group: string, count: number): [GroupedHex[], GroupedHex[]] => {
+export const getSplitSample = (group: string, count: number): [GroupedHex[], GroupedHex[]] => {
     const dataSet = shuffledHexes();
-    const inGroup = sampleSize( dataSet.filter( o => o.group === group ), count );
-    const notInGroup = sampleSize( dataSet.filter( o => o.group !== group ), count );
-    return [inGroup, notInGroup];
+    const [inGroup, notInGroup] = splitInGroup(dataSet, group);
+    return [sampleSize(inGroup, count), sampleSize(notInGroup, count)];
+};
+
+/**
+ * returns two arrays: first is inGroup, second is notInGroup
+ */
+export const splitInGroup = <T extends {group: string}>(dataSet: T[], group: string): [T[], T[]] => {
+  return partition( dataSet, o => o.group === group );
 };
 
 /**
@@ -30,7 +36,7 @@ export const getSplitHexes = (group: string, count: number): [GroupedHex[], Grou
  */
 
 export const PlotFeatures = ({count, x, y, group}: Props) => {
-    const [inGroup, notInGroup] = getSplitHexes(group, count);
+    const [inGroup, notInGroup] = getSplitSample(group, count);
 
     const toTrace = (data: GroupedHex[], label: string): Data => {
         const points: PointTuple[] = data.map( ({hex}) => {

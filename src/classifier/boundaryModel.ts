@@ -1,5 +1,10 @@
-import {getSplitHexes} from "./PlotFeatures";
 import {mean, standardDeviation} from "simple-statistics";
+
+/**
+ * this one is not Bayesian, it looks at everything up front
+ * compares the distributions of in vs out
+ * nothing in this file depends on color at all, so can have other uses
+ */
 
 export interface BoundaryModel {
     cutoff: number;
@@ -17,14 +22,8 @@ export const getDistribution = (values: number[]): Distribution => ({
     mean: mean(values),
     stdDev: standardDeviation(values),
 });
-/**
- * this one is not Bayesian, it looks at everything up front
- */
-export const buildBoundaryModel = (group: string, valueFromHex: (hex: string) => number, sampleSize: number = 100): BoundaryModel => {
-    const [inGroup, notInGroup] = getSplitHexes(group, sampleSize);
 
-    const valuesIn = inGroup.map(({hex}) => valueFromHex(hex));
-    const valuesOut = notInGroup.map(({hex}) => valueFromHex(hex));
+export const boundaryModel = (valuesIn: number[], valuesOut: number[]): BoundaryModel => {
 
     const distIn = getDistribution(valuesIn);
     const distOut = getDistribution(valuesOut);
@@ -73,6 +72,8 @@ export const buildBoundaryModel = (group: string, valueFromHex: (hex: string) =>
         accuracy,
     }
 };
+
+
 export const predictOnBoundary = (boundary: number, isGreater: boolean) => (value: number): boolean => {
     return value > boundary ? isGreater : !isGreater;
 };

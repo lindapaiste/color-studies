@@ -8,6 +8,10 @@ import {SelectColor} from "./SelectColor";
  */
 
 
+/**
+ * might need to throttle it being passed down as it can change rapidly when dragging
+ */
+
 export const withSelectableColor = <P extends {color: I_ColorAdapter}>(Component: ComponentType<P>): FunctionComponent<Omit<P, 'color'>> =>
     (props) => {
         const [color, setColor] = useState(randomColor());
