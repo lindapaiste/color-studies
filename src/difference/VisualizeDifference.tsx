@@ -7,12 +7,12 @@ import {eitherToString} from "../packages/chroma-js";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
 
 export interface Props {
-    count: number;
+    count?: number;
     color: string | Color;
 }
 
 //The parameters L (default 1) and C (default 1) are weighting factors for lightness and chromacity.
-export const VisualizeDifference = ({color, count}: Props) => {
+export const VisualizeDifference = ({color, count = 300}: Props) => {
     const [lWeight, LWeightInput] = useNumberInput(1, false);
     const [cWeight, CWeightInput] = useNumberInput(1, false);
 

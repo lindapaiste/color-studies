@@ -1,7 +1,11 @@
-import {typedKeys} from '../util';
-import {getMaxOrFormula} from "./channelMaxes";
-import {ChannelAccessor, ChannelName, ChannelObject, ChannelTuple, ColorSpaceName} from "./types";
+import {typedEntries, typedKeys, typedValues} from '../util';
+import {CHANNEL_NAMES, getMaxOrFormula} from "./channelMaxes";
+import {ChannelAccessor, ChannelName, ChannelObjectAll, ChannelObjectCS, ChannelTuple, ColorSpaceName} from "./types";
+import {flatten} from "lodash";
 
+type ColorSpaceArrays = {
+    [K in ColorSpaceName]-?: ChannelTuple<K>
+};
 
 /**
  * don't export this.  only local functions should rely on this data structure.  this makes it easy to change the structure
@@ -21,9 +25,30 @@ const colorSpaceChannelsArrays: ColorSpaceArrays = {
 
 export const COLOR_SPACE_NAMES: ColorSpaceName[] = typedKeys(colorSpaceChannelsArrays);
 
-type ColorSpaceArrays = {
-    [K in ColorSpaceName]-?: ChannelTuple<K>
+type KeyedAccessors = {
+    [K in ChannelName]-?: ChannelAccessor[]
 };
+
+const getKeyedAccessors = (): KeyedAccessors => {
+    const result = Object.fromEntries(CHANNEL_NAMES.map(name => [name, []] as [ChannelName, ChannelAccessor[]])) as KeyedAccessors;
+    typedEntries(colorSpaceChannelsArrays).forEach(([colorSpace, channels]) => {
+        channels.forEach((channel, i) => {
+            result[channel].push([colorSpace, i])
+        })
+    });
+    return result;
+};
+
+const getAllChannels = (): ChannelObjectAll[] => {
+    return typedEntries(getKeyedAccessors()).map( ([name, accessors]) => ({name, accessors}));
+};
+
+//don't need to recompute because it doesn't change
+export const GROUPED_ACCESSORS = getAllChannels();
+
+export const KEYED_ACCESSORS = getKeyedAccessors();
+
+export const ALL_ACCESSORS: ChannelAccessor[] = flatten(typedValues(KEYED_ACCESSORS));
 
 export const isColorSpace = (cs: string): cs is ColorSpaceName => {
     return colorSpaceChannelsArrays.hasOwnProperty(cs);
@@ -58,7 +83,7 @@ export const accessorToName = (accessor: ChannelAccessor): ChannelName => {
     return getSpaceChannels(colorSpace)[offset];
 };
 
-const makeObject = <C extends ChannelName>(name: C, accessor: ChannelAccessor): ChannelObject<C> => {
+const makeObject = <C extends ChannelName>(name: C, accessor: ChannelAccessor): ChannelObjectCS<C> => {
     const [colorSpace, offset] = accessor;
     const maximum = getMaxOrFormula(name);
     return {
@@ -70,22 +95,22 @@ const makeObject = <C extends ChannelName>(name: C, accessor: ChannelAccessor): 
     }
 };
 
-export const nameToObject = <C extends ChannelName>(name: C): ChannelObject<C> => {
+export const nameToObject = <C extends ChannelName>(name: C): ChannelObjectCS<C> => {
     const accessor = nameToAccessor(name);
     return makeObject(name, accessor);
 };
 
-export const objectToName = <C extends ChannelName>(object: ChannelObject<C>): C => {
+export const objectToName = <C extends ChannelName>(object: ChannelObjectCS<C>): C => {
     return object.name;
 };
 
-export const objectToAccessor = (object: ChannelObject<ChannelName>): ChannelAccessor => {
+export const objectToAccessor = (object: ChannelObjectCS<ChannelName>): ChannelAccessor => {
     //don't have to include accessor as a property, could just store colorSpace and offset
     return object.accessor;
 };
 
 //TS will not be able to infer channel name off of accessor
-export const accessorToObject = (accessor: ChannelAccessor): ChannelObject<ChannelName> => {
+export const accessorToObject = (accessor: ChannelAccessor): ChannelObjectCS<ChannelName> => {
     const name = accessorToName(accessor);
     return makeObject(name, accessor);
 };

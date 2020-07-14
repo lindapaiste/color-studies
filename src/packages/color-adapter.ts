@@ -1,7 +1,7 @@
 import chroma, {Color} from "chroma-js";
 import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import convert from "color-convert";
-import {replaceIndex} from "../util";
+import {hasMethod, replaceIndex} from "../util";
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 import {nameToAccessor} from "../spacesChannels/colorSpaces";
 
@@ -22,6 +22,8 @@ export interface I_ConvertAdapter {
 export interface I_GetHex {
     hex(): string;
 }
+
+export const isGetHex = (obj: any): obj is I_GetHex => hasMethod(obj, 'hex');
 
 export interface I_ChannelAdapter {
     get(accessor: ChannelAccessor): number;
@@ -119,4 +121,8 @@ export class ColorAdapter implements I_ConvertAdapter, I_ChannelAdapter, I_Color
 
 export const hexProperty = (hex: string, property: ChannelName): number => {
   return (new ColorAdapter(hex)).get(nameToAccessor(property));
+};
+
+export const randomColor = (): I_ColorAdapter => {
+    return new ColorAdapter(chroma.random());
 };

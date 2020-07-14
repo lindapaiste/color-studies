@@ -79,3 +79,14 @@ export const intervals = (start: number, end: number, count: number): number[] =
     return [...new Array(count)].map((_, i) => start + i * step );
     //return range(start, end + step, step)
 };
+
+export const withHash = (hex: string): string => {
+  return hex.substr(0, 1 ) === "#" ? hex : "#" + hex;
+};
+
+export const hasMethod = (obj: any, method: string): boolean => {
+  return typeof obj === "object" && obj.hasOwnProperty(method) && isFunction(obj[method]);
+};
+
+export const isDefined = <T>(a: T | undefined): a is T => a !== undefined;
+export const isUndefined = <T>(a: T | undefined): a is undefined => a === undefined;

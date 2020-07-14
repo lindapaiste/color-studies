@@ -54,12 +54,17 @@ export type ModelValues<CS extends ColorSpaceName> = {
     maximums: ColorTuple<CS>;
 }
 
-export interface ChannelObject<C extends ChannelName> {
+export interface ChannelObjectCS<C extends ChannelName> {
     name: C;
     maximum: _ChannelMax<C>;
     colorSpace: ColorSpaceName;
     offset: number;
     accessor: ChannelAccessor;
+}
+
+export interface ChannelObjectAll {
+    name: ChannelName;
+    accessors: ChannelAccessor[];
 }
 
 export interface ChannelMaxObject {

@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 
 export interface Props {
     value: number | undefined;
-    onChange: (n: number,  e: ChangeEvent<HTMLInputElement>) => void;
+    onChange(n: number,  e: ChangeEvent<HTMLInputElement>): void;
     isInt?: boolean;
 }
 

@@ -1,10 +1,12 @@
 import React from "react";
 import {Color, fromHex, getProfile} from "../../packages/";
 import {I_GetHex} from "../../packages/color-adapter";
+import {withHash} from "../../util";
 
 export interface Props {
     color: I_GetHex | string;
-    size: number;
+    size: number; //size is always used for the width.  If no height is passed, it is also the height.
+    height?: number; //provides a way to make a rectangle
 }
 
 /**
@@ -12,14 +14,14 @@ export interface Props {
  * but expects a string color to be a hex in order to guarantee onClick logging
  * may work with other string types depending on the package implementation
  */
-export const Swatch = ({color, size}: Props) => {
+export const Swatch = ({color, size, height}: Props) => {
     const hex = typeof color === "string" ? color : color.hex();
     return (
         <div
             style={{
-                backgroundColor: hex,
+                backgroundColor: withHash(hex),
                 width: size + "px",
-                height: size + "px"
+                height: (size || height) + "px"
             }}
             onClick={() => logProfile(hex)}
         />

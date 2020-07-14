@@ -4,7 +4,7 @@ import React, {ChangeEvent} from "react";
 
 export interface Props {
     slug: ColorPropKey | undefined | null;
-    onChange: (key: ColorPropKey,  e: ChangeEvent<HTMLSelectElement>) => void;
+    onChange(key: ColorPropKey,  e: ChangeEvent<HTMLSelectElement>): void;
 }
 
 export const SelectProperty = ({slug, onChange}: Props) => (

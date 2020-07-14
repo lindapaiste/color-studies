@@ -1,18 +1,19 @@
-import {useGenericInput} from "./sharedComponents/form/useGenericInput";
 import {randomHex} from "./util";
-import React from "react";
+import React, {useState} from "react";
 import {RenderColorInfo} from "./sharedComponents/color/RenderColorInfo";
+import {SelectHex} from "./sharedComponents/form/SelectColor";
+import {ColorAdapter} from "./packages/color-adapter";
 
 /**
  * uses HTML 5 color-picker input
  */
 export const ColorInfoTool = () => {
-    const [hex, Input] = useGenericInput(randomHex());
+    const [hex, setHex] = useState(randomHex());
 
     return (
         <div>
-            <Input type="color"/>
-            <RenderColorInfo color={hex}/>
+            <SelectHex color={hex} onChange={setHex}/>
+            <RenderColorInfo color={new ColorAdapter(hex)}/>
         </div>
     )
 };

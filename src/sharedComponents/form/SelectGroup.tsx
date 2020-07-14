@@ -4,7 +4,7 @@ import React, {ChangeEvent} from "react";
 
 export interface Props {
     name: string | undefined | null;
-    onChange: (group: ColorClassification, e: ChangeEvent<HTMLSelectElement>) => void;
+    onChange(group: ColorClassification, e: ChangeEvent<HTMLSelectElement>): void;
 }
 
 export const SelectGroup = ({name, onChange}: Props) => {

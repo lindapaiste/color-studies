@@ -6,6 +6,7 @@ import {RenderSet} from "../sharedComponents/color/RenderSet";
 import {noisyChannelValue} from "./channelNoise";
 import {codeToName} from "../packages/chromaSpaces";
 import {ChannelName} from "../spacesChannels/types";
+import {I_ColorAdapter} from "../packages/color-adapter";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -15,12 +16,10 @@ import {ChannelName} from "../spacesChannels/types";
  * for neon colors, LAB luminance changes more
  */
 
-export const CompareRandom = () => {
-    return <CompareMethods color={chroma.random().hex()}/>;
-};
+export const CompareMethods = ({color}: { color: I_ColorAdapter }) => {
 
-export const CompareMethods = ({color}: { color: string }) => {
-    const base = chroma(color);
+    //for backcompat with component but also compat with color providing HOC
+    const base = chroma(color.hex());
 
     const noiseRatio = 0.15; //5%
 

@@ -17,10 +17,9 @@ export interface Props {
 
 export const ChannelGradient = (props: Props) => {
     return (
-        <RenderSet colors={getGradientColors(props)} colorToString={c => c.hex()}/>
+        <RenderSet colors={getGradientColors(props)}/>
     );
 };
-
 
 /**
  * what about pre & post mapping?

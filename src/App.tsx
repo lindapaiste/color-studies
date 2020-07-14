@@ -4,7 +4,7 @@ import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
 import {TestGroups} from "./classifier/TestResults";
 import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
 import {TestBoundaries} from "./classifier/TestBoundaries";
-import {CompareRandom} from "./noise/CompareMethods";
+import {CompareMethods} from "./noise/CompareMethods";
 import {RandomVisualizeDifference} from "./difference/VisualizeDifference";
 import {TestForce} from "./grouping/ForceToRules";
 import {RenderGroups} from "./grouping/RenderGroups";
@@ -15,6 +15,9 @@ import {ColorWheelComparison} from "./rainbow/ColorWheelComparison";
 import {ColorInfoTool} from "./ColorInfoTool";
 import {GroupsAnalysis} from "./grouping/AnalysisTable";
 import {NoisyBoxTool} from "./boxSets/NoisyBoxes";
+import {ChannelGradientTool} from "./channel/ChannelGradientTool";
+import {withSelectableColor} from "./sharedComponents/form/withSelectableColor";
+import {RenderColorInfo} from "./sharedComponents/color/RenderColorInfo";
 
 interface AppPage {
     title: string;
@@ -42,9 +45,14 @@ const PAGES: AppPage[] = [
         Component: RandomVisualizeDifference,
     },
     {
+        title: "Channel Change Gradients",
+        path: "channels",
+        Component: ChannelGradientTool,
+    },
+    {
         title: "Noise Generation Methods",
         path: "noise",
-        Component: CompareRandom,
+        Component: withSelectableColor(CompareMethods),
     },
     {
         title: "Generate Box Balls",
@@ -69,7 +77,7 @@ const PAGES: AppPage[] = [
     {
         title: "Color Info",
         path: "info",
-        Component: ColorInfoTool,
+        Component: withSelectableColor(RenderColorInfo),
     },
     {
         title: "View Groups",
@@ -92,7 +100,7 @@ const PAGES: AppPage[] = [
         Component: GroupsAnalysis,
     },
     {
-        title: "Perceptron Results",
+        title: "Perceptron Results [unfinished]",
         path: "perceptron",
         Component: TestGroups,
     }
