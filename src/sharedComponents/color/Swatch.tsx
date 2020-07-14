@@ -21,7 +21,7 @@ export const Swatch = ({color, size, height}: Props) => {
             style={{
                 backgroundColor: withHash(hex),
                 width: size + "px",
-                height: (size || height) + "px"
+                height: (height || size) + "px"
             }}
             onClick={() => logProfile(hex)}
         />
