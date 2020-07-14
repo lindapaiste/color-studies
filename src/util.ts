@@ -1,4 +1,4 @@
-import {round, isFunction} from "lodash";
+import {round, isFunction, range} from "lodash";
 import chroma from "chroma-js";
 
 type Prefixes = "rgb" | "rgba" | "hsl" | "hsla";
@@ -68,4 +68,14 @@ export const typedValues = <OT>(object: OT) => {
 
 export const makeArray = <T>(length: number, value: T | ((i: number) => T)): T[] => {
   return [...new Array(length)].map((_, i) => isFunction(value) ? value(i) : value);
+};
+
+/**
+ * range with defined start and end and number of points
+ * includes both min and max
+ */
+export const intervals = (start: number, end: number, count: number): number[] => {
+    const step = (end - start) / (count - 1);
+    return [...new Array(count)].map((_, i) => start + i * step );
+    //return range(start, end + step, step)
 };

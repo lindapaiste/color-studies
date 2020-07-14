@@ -1,8 +1,9 @@
 import React from "react";
-import {Color, fromHex, getProfile} from "../../packages/index";
+import {Color, fromHex, getProfile} from "../../packages/";
+import {I_GetHex} from "../../packages/color-adapter";
 
 export interface Props {
-    color: Color | string;
+    color: I_GetHex | string;
     size: number;
 }
 
@@ -12,14 +13,15 @@ export interface Props {
  * may work with other string types depending on the package implementation
  */
 export const Swatch = ({color, size}: Props) => {
+    const hex = typeof color === "string" ? color : color.hex();
     return (
         <div
             style={{
-                backgroundColor: typeof color === "string" ? color : color.string(),
+                backgroundColor: hex,
                 width: size + "px",
                 height: size + "px"
             }}
-            onClick={() => logProfile(color)}
+            onClick={() => logProfile(hex)}
         />
     )
 };

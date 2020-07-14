@@ -1,4 +1,4 @@
-import {typedKeys, typedValues} from '../util';
+import {typedKeys} from '../util';
 import {getMaxOrFormula} from "./channelMaxes";
 import {ChannelAccessor, ChannelName, ChannelObject, ChannelTuple, ColorSpaceName} from "./types";
 
@@ -8,15 +8,15 @@ import {ChannelAccessor, ChannelName, ChannelObject, ChannelTuple, ColorSpaceNam
  */
 const colorSpaceChannelsArrays: ColorSpaceArrays = {
     rgb: ['red', 'green', 'blue'],
-    hsl: ['hue', 'saturationl', 'lightness'],
-    hsi: ['hue', 'saturationi', 'intensity'],
-    hsv: ['hue', 'saturationv', 'value'],
+    hsl: ['hue', 'saturationHsl', 'lightness'],
+    hsi: ['hue', 'saturationHsi', 'intensity'],
+    hsv: ['hue', 'saturationHsv', 'value'],
     lab: ['luminance', 'a', 'b'],
-    lch: ['luminance', 'chroma', 'hueL'],
+    lch: ['luminance', 'chroma', 'hueLch'],
     cmyk: ['cyan', 'magenta', 'yellow', 'black'],
     hwb: ['hue', 'whiteness', 'blackness'],
-    hcg: ['hue', 'chroma', 'grayness'],
-    xyz: ['x', 'y', 'z'],
+    hcg: ['hue', 'chromaHcg', 'grayness'],
+    xyz: ['x', 'luminosity', 'z'],
 };
 
 export const COLOR_SPACE_NAMES: ColorSpaceName[] = typedKeys(colorSpaceChannelsArrays);
@@ -46,9 +46,9 @@ export const nameToAccessor = (channel: ChannelName): ChannelAccessor => {
     for (let cs of COLOR_SPACE_NAMES) {
         const channels = getSpaceChannels(cs);
         const i = channels.indexOf(channel);
-        if ( i !== -1 ) {
-                return [cs, i];
-            }
+        if (i !== -1) {
+            return [cs, i];
+        }
     }
     throw new Error("invalid channel " + channel);
 };

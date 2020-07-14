@@ -1,8 +1,9 @@
 import chroma, {Color} from "chroma-js";
-import {ChannelAccessor} from "../spacesChannels/types";
+import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import convert from "color-convert";
 import {replaceIndex} from "../util";
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
+import {nameToAccessor} from "../spacesChannels/colorSpaces";
 
 /**
  * interface requires that object can be converted to a number tuple of any type
@@ -18,6 +19,10 @@ export interface I_ConvertAdapter {
     from<CS extends ColorSpaceName>(values: ColorTuple<CS>, colorSpace: CS): I_ConvertAdapter;
 }
 
+export interface I_GetHex {
+    hex(): string;
+}
+
 export interface I_ChannelAdapter {
     get(accessor: ChannelAccessor): number;
     set(accessor: ChannelAccessor, value: number): I_ChannelAdapter;
@@ -26,12 +31,12 @@ export interface I_ChannelAdapter {
 /**
  * override the return statements such that the returned object fits both interfaces
  */
-export interface I_ColorAdapter extends I_ChannelAdapter, I_ConvertAdapter {
+export interface I_ColorAdapter extends I_ChannelAdapter, I_ConvertAdapter, I_GetHex {
     from<CS extends ColorSpaceName>(values: ColorTuple<CS>, colorSpace: CS): I_ColorAdapter;
     set(accessor: ChannelAccessor, value: number): I_ColorAdapter;
 }
 
-export class ColorAdapter implements I_ConvertAdapter, I_ChannelAdapter, I_ColorAdapter {
+export class ColorAdapter implements I_ConvertAdapter, I_ChannelAdapter, I_ColorAdapter, I_GetHex {
 
     public internal: Color;
 
@@ -105,4 +110,13 @@ export class ColorAdapter implements I_ConvertAdapter, I_ChannelAdapter, I_Color
         const values = this.to(cs);
         return this.from( replaceIndex(values, offset, value) as typeof values, cs);
     }
+
+    public hex(): string {
+        return this.internal.hex();
+    }
 }
+
+
+export const hexProperty = (hex: string, property: ChannelName): number => {
+  return (new ColorAdapter(hex)).get(nameToAccessor(property));
+};

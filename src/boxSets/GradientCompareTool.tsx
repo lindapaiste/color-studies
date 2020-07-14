@@ -1,9 +1,9 @@
 import React, {useMemo} from "react";
 import {Scale} from "chroma-js";
-import {channelShift} from "./channelShiftSet";
+import {channelShift} from "../channel/channelShiftSet";
 import {CompareScaleModes} from "./CompareScaleModes";
 import {ChannelShiftSettings} from "./types";
-import {ChannelShiftControls, useControls} from "./ChannelShiftControls";
+import {ChannelShiftControls, useControls} from "../channel/ChannelShiftControls";
 
 /**
  * doesn't check if the channel is valid, just that it appears valid

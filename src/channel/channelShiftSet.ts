@@ -1,5 +1,5 @@
 import chroma, { Scale, Color } from "chroma-js";
-import { ChannelShiftSettings } from "./types";
+import { ChannelShiftSettings } from "../boxSets/types";
 
 /**
  * this depends on chroma-js at the moment

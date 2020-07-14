@@ -1,30 +1,48 @@
 import React from "react";
-import Color from "color";
 import {Swatch} from "./Swatch";
-import {eitherToObject, PROPERTIES} from "../../packages/color-js";
+import {ColorAdapter, I_ColorAdapter} from "../../packages/color-adapter";
+import {ColorSpaceName} from "../../spacesChannels/types";
+import {CHANNEL_NAMES} from "../../spacesChannels/channelMaxes";
+import {nameToAccessor} from "../../spacesChannels/colorSpaces";
 
 export interface Props {
-    color: Color | string;
+    color: I_ColorAdapter | string;
 }
 
 export const RenderColorInfo = (props: Props) => {
-    const color = eitherToObject(props.color);
-    const string = (color: Color) => JSON.stringify(color.toJSON());
+    const color = typeof props.color === "string" ? new ColorAdapter(props.color) : props.color;
+
+    //can display this much more nicely
+    const renderColorSpace = (cs: ColorSpaceName) => {
+        const values = color.to(cs, true);
+        const letters = cs.split('');
+        return (
+            <>
+                <span>{cs.toUpperCase}\t</span>
+                {letters.map((letter, i) => (
+                    <span key={letter}>{letter.toUpperCase()}: {values[i]}</span>
+                ))}
+            </>
+        )
+    };
+
+    const spaces: ColorSpaceName[] = ['rgb', 'hsl', 'cmyk', 'hsv', 'lab', 'lch'];
+
     return (
         <div>
             <Swatch color={color} size={100}/>
             <ul>
-                <li>{color.rgb().string()}</li>
-                <li>{color.hsl().string()}</li>
-                <li>{string(color.cmyk())}</li>
-                <li>{string(color.hsv())}</li>
-                <li>{string(color.lab())}</li>
-                <li>{string(color.lch())}</li>
+                {spaces.map(cs => (
+                    <li key={cs}>
+                        {renderColorSpace(cs)}
+                    </li>
+                ))
+                }
             </ul>
             <ul>
-                {PROPERTIES.map(o => (
-                    <li key={o.key}>
-                        {o.name}: {o.getter(color)}
+                {CHANNEL_NAMES.map(name => (
+                    <li key={name}>
+                        {name}: {color.get(nameToAccessor(name))}
                     </li>
                 ))}
             </ul>

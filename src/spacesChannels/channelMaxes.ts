@@ -1,18 +1,27 @@
-import {ChannelMax, ChannelMaxes, ChannelName, FixedMaxChannel, Maximum, VariableMax, VariableMaxChannel} from "./types";
+import {
+    _ChannelMax,
+    _ChannelMaxes,
+    ChannelName,
+    FixedMaxChannel,
+    _Maximum,
+    _VariableMax,
+    VariableMaxChannel, ChannelMaxObject, I_Range
+} from "./types";
+import {typedKeys} from "../util";
 
 export const isFixedMaxChannel = (channel: ChannelName): channel is FixedMaxChannel => {
-    return typeof standardMaxes[channel] === 'number'
+    return typeof standardMaxes[channel] === 'number' || ! getMaxObject(channel).isVariable;
 };
 
 export const isVariableMaxChannel = (channel: ChannelName): channel is VariableMaxChannel => {
     return !isFixedMaxChannel(channel);
 };
 
-export const isFixedMaximum = (max: Maximum): max is number => {
+export const isFixedMaximum = (max: _Maximum): max is number => {
     return typeof max === 'number'
 };
 
-export const isVariableMaximum = (max: Maximum): max is VariableMax => {
+export const isVariableMaximum = (max: _Maximum): max is _VariableMax => {
     return !isFixedMaximum(max);
 };
 
@@ -24,15 +33,25 @@ export function standardMax(channel: ChannelName, color: ChannelName extends Var
 }
 */
 
+export type ChannelMaxes = {
+    [K in ChannelName]-?: number | ( Partial<ChannelMaxObject> & {max: number});
+};
+
 const standardMaxes: ChannelMaxes = { //note: chroma uses 1 max for cmyk while color-convert uses 100
     red: 255,
     green: 255,
     blue: 255,
-    hue: 360,
-    hueL: 360,
-    saturationl: 100,
-    saturationv: 100,
-    saturationi: 100,
+    hue: {
+        max: 360,
+        isLooped: true,
+    },
+    hueLch: {
+        max: 360,
+        isLooped: true,
+    },
+    saturationHsl: 100,
+    saturationHsv: 100,
+    saturationHsi: 100,
     lightness: 100,
     value: 100,
     whiteness: 100,
@@ -41,20 +60,56 @@ const standardMaxes: ChannelMaxes = { //note: chroma uses 1 max for cmyk while c
     magenta: 100,
     yellow: 100,
     black: 100,
-    x: 100,
-    y: 100,
-    z: 100,
-    luminance: 0, //TODO find maxes
+    x: 95.05,
+    z: 109,
+    luminosity: {
+        max: 100,
+        isVariable: true,
+    },
+    luminance: { //hard max at 100, but cannot always reach 100 without changing hue
+        max: 100,
+        isVariable: true,
+    },
     intensity: 100,
-    chroma: 0,
-    a: c => 0, //TODO
-    b: c => 0, //TODO
+    chroma: 133.9,
+    chromaHcg: 100,
+    a: {
+        max: 98.25,
+        min: -86,
+        isVariable: true,
+    },
+    b: {
+        max: 94.5,
+        min: -108,
+        isVariable: true,
+    },
     grayness: 100,
+};
 
+export const CHANNEL_NAMES = typedKeys(standardMaxes).sort();
+
+export const getMaxObject = (channel: ChannelName): ChannelMaxObject & I_Range => {
+  const max = standardMaxes[channel];
+  const defaults = {
+      min: 0,
+      isVariable: false,
+      isLooped: false,
+  };
+  if ( typeof max === "number" ) {
+      return {
+          ...defaults,
+          max,
+      }
+  } else return {
+      ...defaults,
+      ...max,
+  };
 };
-export const getMaxOrFormula = <C extends ChannelName>(channel: C): ChannelMax<C> => {
-    return standardMaxes[channel] as ChannelMax<C>; //don't know why this "as" is needed, but it is
+
+export const getMaxOrFormula = <C extends ChannelName>(channel: C): _ChannelMax<C> => {
+    return standardMaxes[channel] as _ChannelMax<C>; //don't know why this "as" is needed, but it is
 };
+
 export const getMax = (channel: FixedMaxChannel): number => {
-    return standardMaxes[channel];
+    return getMaxObject(channel).max;
 };

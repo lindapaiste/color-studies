@@ -93,7 +93,7 @@ export const ForceToRules = ({
       {phases.map(({ color, property }, i) => (
         <div key={i}>
           <h3>Edited {property}</h3>
-          <RenderColorInfo color={color} />
+          <RenderColorInfo color={color.hex()} />
         </div>
       ))}
     </div>

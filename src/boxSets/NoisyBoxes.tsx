@@ -1,7 +1,7 @@
 import chroma, { Color } from "chroma-js";
 import React, { useMemo, useState, useEffect } from "react";
-import { ChannelShiftControls, useControls } from "./ChannelShiftControls";
-import { createColors } from "./channelShiftSet";
+import { ChannelShiftControls, useControls } from "../channel/ChannelShiftControls";
+import { createColors } from "../channel/channelShiftSet";
 import { getDistance, randomColors } from "../packages/chroma-js";
 import { Evaluation, Levers } from "./types";
 import { getError, matchToChoices } from "./colorMatchesBox";

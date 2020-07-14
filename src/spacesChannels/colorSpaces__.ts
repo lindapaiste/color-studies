@@ -13,17 +13,17 @@ const colorSpaceChannels: Record<ColorSpaceName, Record<string, ChannelName>> = 
     },
     hsl: {
         h: 'hue',
-        s: 'saturationl',
+        s: 'saturationHsl',
         l: 'lightness',
     },
     hsi: {
         h: 'hue',
-        s: 'saturationi',
+        s: 'saturationHsi',
         i: 'intensity',
     },
     hsv: {
         h: 'hue',
-        s: 'saturationv',
+        s: 'saturationHsv',
         v: 'value',
     },
     /**
@@ -38,7 +38,7 @@ const colorSpaceChannels: Record<ColorSpaceName, Record<string, ChannelName>> = 
     lch: {
         l: 'luminance',
         c: 'chroma',
-        h: 'hueL'
+        h: 'hueLch'
     },
     cmyk: {
         c: 'cyan',
@@ -58,7 +58,7 @@ const colorSpaceChannels: Record<ColorSpaceName, Record<string, ChannelName>> = 
     },
     xyz: {
         x: 'x',
-        y: 'y',
+        y: 'luminosity',
         z: 'z',
     }
 };

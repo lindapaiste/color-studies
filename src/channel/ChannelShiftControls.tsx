@@ -1,4 +1,4 @@
-import { ChannelShiftSettings } from "./types";
+import { ChannelShiftSettings } from "../boxSets/types";
 import { TextInput } from "../sharedComponents/form/TextInput";
 import { NumberInput } from "../sharedComponents/form/NumberInput";
 import React, { useState } from "react";
