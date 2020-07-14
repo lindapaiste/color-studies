@@ -42,6 +42,11 @@ export const RenderSet = <T extends any>({
     }}
   >
     {colors.map((color, i) => {
+        console.log({
+            colorToString,
+            isDefined: isDefined(colorToString),
+            isGetHex: isGetHex(color),
+        });
       const hex = isDefined(colorToString) ? colorToString(color) : isGetHex( color ) ? color.hex() : color;
       return (
         <div
