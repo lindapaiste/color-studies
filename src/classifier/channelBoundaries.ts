@@ -1,5 +1,5 @@
 import {splitInGroup} from "./PlotFeatures";
-import {boundaryModel, BoundaryModel} from "./boundaryModel";
+import {boundaryModel, BoundaryModelAcc} from "./boundaryModel";
 import {I_ColorAdapter} from "../packages/color-adapter";
 import {ChannelAccessor} from "../spacesChannels/types";
 
@@ -8,7 +8,7 @@ interface DataPoint {
     color: I_ColorAdapter,
 }
 
-export const channelBoundaries = (group: string, data: DataPoint[], channel: ChannelAccessor): BoundaryModel => {
+export const channelBoundaries = (group: string, data: DataPoint[], channel: ChannelAccessor): BoundaryModelAcc => {
     const [inGroup, notInGroup] = splitInGroup(data, group);
 
     /**

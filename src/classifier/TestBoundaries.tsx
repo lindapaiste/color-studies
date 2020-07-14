@@ -7,6 +7,7 @@ import {accessorKey, accessorTitle, ALL_ACCESSORS} from "../spacesChannels/color
 import {SelectGroup} from "../sharedComponents/form/SelectGroup";
 import GROUPINGS from "../grouping/group-data";
 import {sortBy} from "lodash";
+import {TestAccuracy} from "./boundaryModel";
 
 export const TestBoundaries = () => {
     const [group, setGroup] = useState(GROUPINGS[0].name);
@@ -22,7 +23,7 @@ export const TestBoundaries = () => {
             accessor,
             model: channelBoundaries(group, data, accessor)
         }));
-        return sortBy(pairs, o => 1 - o.model.accuracy); //do 1 minus to sort descending
+        return sortBy(pairs, o => 1 - o.model.accuracy.accuracy); //do 1 minus to sort descending
     }, [group]);
 
     return (
@@ -32,9 +33,25 @@ export const TestBoundaries = () => {
                 <div key={accessorKey(accessor)}>
                     <h3>{accessorTitle(accessor)}</h3>
                     <div>{model.isGreater ? "Greater" : "Less"} than {model.cutoff}</div>
-                    <div>Accuracy: {percentString(model.accuracy, 2)}</div>
+                    <RenderAccuracy {...model.accuracy}/>
                 </div>
             ))}
         </div>
     )
+};
+
+export const RenderAccuracy = ({accuracy, falsePositives, truePositives, trueNegatives, falseNegatives}: TestAccuracy) => {
+    const total = falsePositives + truePositives + falseNegatives + trueNegatives;
+
+    const numberAndPercent = (n: number): string => `${n} - ${percentString(n / total, 2)}`;
+
+    return (
+        <div>
+            <div>Accuracy: {percentString(accuracy, 2)}</div>
+            <div>True Positives: {numberAndPercent(truePositives)}</div>
+            <div>False Positives: {numberAndPercent(falsePositives)}</div>
+            <div>True Negatives: {numberAndPercent(trueNegatives)}</div>
+            <div>False Negatives: {numberAndPercent(falseNegatives)}</div>
+        </div>
+    );
 };
