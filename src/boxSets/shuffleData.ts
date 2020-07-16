@@ -1,10 +1,12 @@
 import { shuffle, flatten } from "lodash";
-import { BoxData } from "./RenderBoxData";
+import { BoxData } from "./types";
+
 
 /**
  * keeps the same number of matches in each box, but randomizes
  */
-export const shuffleData = (data: BoxData[]): BoxData[] => {
+export const shuffleData
+= <T>(data: BoxData<T>[]): BoxData<T>[] => {
     const allMatches = shuffle(flatten(data.map(o => o.matches)));
     return data.map((box, i) => {
         const start = data

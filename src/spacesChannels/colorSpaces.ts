@@ -1,6 +1,14 @@
 import {typedEntries, typedKeys, typedValues} from '../util';
 import {CHANNEL_NAMES, getMaxOrFormula} from "./channelMaxes";
-import {ChannelAccessor, ChannelName, ChannelObjectAll, ChannelObjectCS, ChannelTuple, ColorSpaceName} from "./types";
+import {
+    ChannelAccessor,
+    ChannelCount,
+    ChannelName,
+    ChannelObjectAll,
+    ChannelObjectCS,
+    ChannelTuple,
+    ColorSpaceName
+} from "./types";
 import {flatten} from "lodash";
 import React from "react";
 
@@ -120,3 +128,7 @@ export const accessorToObject = (accessor: ChannelAccessor): ChannelObjectCS<Cha
 export const accessorKey = (accessor: ChannelAccessor): string => accessor[0] + accessor[1];
 
 export const accessorTitle = (accessor: ChannelAccessor): string => accessorToName(accessor) + " - " + accessor[0];
+
+export const channelCount = <CS extends ColorSpaceName>(cs: CS): ChannelCount<CS> => {
+    return colorSpaceChannelsArrays[cs].length as ChannelCount<CS>;
+};

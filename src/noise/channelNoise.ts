@@ -1,8 +1,10 @@
 import {random} from "lodash";
 import {fixHue} from "../boxSets/hueShift";
-import {ChannelName} from "../spacesChannels/types";
+import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
 import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
+import {I_ColorAdapter} from "../packages/color-adapter";
+import {accessorToName} from "../spacesChannels/colorSpaces";
 
 export interface ChannelProps {
     min?: number; //default to 0 if not set
@@ -82,4 +84,13 @@ export const specificNoisyValue = ({value, max = 100, min = 0, noiseRatio, postT
     const noisy = postTransform(random(lower, upper, true));
     console.log({noisy, noiseAmount, min: postTransform(lower), max: postTransform(upper)});
     return noisy;
+};
+
+/**
+ * applies channel noise to an I_ColorAdapter object
+ */
+export const withChannelNoise = (color: I_ColorAdapter, channel: ChannelAccessor, noiseRatio: number): I_ColorAdapter => {
+  const value = color.get(channel);
+  const newValue = noisyChannelValue({channel: accessorToName(channel), noiseRatio, value});
+  return color.set(channel, newValue);
 };

@@ -5,7 +5,7 @@ import { createColors } from "../channel/channelShiftSet";
 import { getDistance, randomColors } from "../packages/chroma-js";
 import { Evaluation, Levers } from "./types";
 import { getError, matchToChoices } from "./colorMatchesBox";
-import { BoxData, RenderBoxData } from "./RenderBoxData";
+import { RenderBoxData } from "./RenderBoxData";
 import { LeverControls, useLevers } from "./LeverControls";
 import "./box-style.css";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -13,8 +13,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { shuffleData } from "./shuffleData";
 import {flatMap} from "lodash";
-import {getNoisy} from "../noise/modelNoise";
+import {withModelNoise} from "../noise/modelNoise";
 import {ColorAdapter} from "../packages/color-adapter";
+import {BoxData} from "./types";
+
 /**
  * right now just looks at a bunch of random colors and filters
  * rather than computing a noisy color that is expected to match
@@ -35,11 +37,11 @@ export const NoisyBoxes = ({ colors, levers, isShuffle }: Props) => {
      */
     const evaluations: Evaluation<Color>[] = useMemo(() => {
        // const random = randomColors(200);
-        const random = flatMap( colors, c => [...new Array(100)].map( () => chroma( getNoisy({color: new ColorAdapter(c), colorSpace: "rgb", noiseRatio: .3}).to("rgb") ) ) );
+        const random = flatMap( colors, c => [...new Array(100)].map( () => chroma( withModelNoise({color: new ColorAdapter(c), colorSpace: "rgb", noiseRatio: .3}).to("rgb") ) ) );
         return random.map(c => matchToChoices(getDistance, c, colors));
     }, [colors]);
 
-    const boxData: BoxData[] = colors.map(color => ({
+    const boxData: BoxData<Color>[] = colors.map(color => ({
         color,
         matches: [] as Evaluation<Color>[]
     }));

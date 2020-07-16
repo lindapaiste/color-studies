@@ -19,9 +19,16 @@ export const hslToString = ([h, s, l]: [number, number, number]): string => {
   return `hsl(${h}, ${s}%, ${l}%)`;
 };
 
-export const replaceIndex = <T>(array: T[], i: number, value: T): T[] => {
-  return Object.assign([...array], { [i]: value });
+/**
+ * special casting to give support for tuples
+ * ok because this function will not change the length (unless i outside tuple)
+ */
+export const replaceIndex = <T, AT extends T[]>(array: AT, i: number, value: T): AT => {
+//export const replaceIndex = <T extends Array<any>>(array: T, i: number, value: Unpack<T>): T => {
+  return Object.assign([...array], { [i]: value }) as AT;
 };
+
+export type Unpack<A> = A extends Array<infer E> ? E : A
 
 /**
  * expects the number to be a fraction of 1, but can be out of 100 with optional third parameter is100

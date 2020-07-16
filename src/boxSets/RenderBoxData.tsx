@@ -1,14 +1,9 @@
-import React, { useState } from "react";
-import { Color } from "chroma-js";
-import { Evaluation } from "./types";
+import React from "react";
+import {BoxData} from "./types";
 import "./box-style.css";
+import {I_GetHex} from "../packages/color-adapter";
 
-export interface BoxData {
-    color: Color; //the box color
-    matches: Evaluation<Color>[]; //the balls
-}
-
-export const RenderBoxData = ({ data }: { data: BoxData[] }) => {
+export const RenderBoxData = ({ data }: { data: BoxData<I_GetHex>[] }) => {
     return (
         <div className={"boxes-area"}>
             {data.map((box, i) => (
@@ -18,7 +13,7 @@ export const RenderBoxData = ({ data }: { data: BoxData[] }) => {
     );
 };
 
-export const RenderBox = ({ color, matches }: BoxData) => (
+export const RenderBox = ({ color, matches }: BoxData<I_GetHex>) => (
     <div className={"boxes-box"} style={{ borderColor: color.hex() }}>
         {matches.map((match, j) => (
             <div

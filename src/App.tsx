@@ -4,7 +4,7 @@ import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
 import {TestGroups} from "./classifier/PerceptronResults";
 import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
 import {TestBoundaries} from "./classifier/TestBoundaries";
-import {CompareMethods} from "./noise/CompareMethods";
+import {CompareNoiseChannels} from "./noise/CompareNoiseChannels";
 import {RandomVisualizeDifference} from "./difference/VisualizeDifference";
 import {TestForce} from "./grouping/ForceToRules";
 import {RenderGroups} from "./grouping/RenderGroups";
@@ -12,12 +12,12 @@ import {HistogramTool} from "./histogram/HistogramTool";
 import {Sample} from "./luminosity/LuminosityChart";
 import {GradientCompareTool} from "./boxSets/GradientCompareTool";
 import {ColorWheelComparison} from "./rainbow/ColorWheelComparison";
-import {ColorInfoTool} from "./ColorInfoTool";
 import {GroupsAnalysis} from "./grouping/AnalysisTable";
 import {NoisyBoxTool} from "./boxSets/NoisyBoxes";
 import {ChannelGradientTool} from "./channel/ChannelGradientTool";
 import {withSelectableColor} from "./sharedComponents/form/withSelectableColor";
 import {RenderColorInfo} from "./sharedComponents/color/RenderColorInfo";
+import {CompareModelNoise} from "./noise/CompareModelNoise";
 
 interface AppPage {
     title: string;
@@ -50,9 +50,14 @@ const PAGES: AppPage[] = [
         Component: ChannelGradientTool,
     },
     {
-        title: "Noise Generation Methods",
-        path: "noise",
-        Component: withSelectableColor(CompareMethods),
+        title: "Noise to Channels",
+        path: "channel-noise",
+        Component: withSelectableColor(CompareNoiseChannels),
+    },
+    {
+        title: "Noise to ColorSpaces",
+        path: "model-noise",
+        Component: withSelectableColor(CompareModelNoise),
     },
     {
         title: "Generate Box Balls",

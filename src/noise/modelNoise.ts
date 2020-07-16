@@ -1,6 +1,6 @@
 import {getSpaceChannels} from "../spacesChannels/colorSpaces";
 import {noisyChannelValue} from "./channelNoise";
-import {I_ConvertAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/color-adapter";
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 
 /**
@@ -39,10 +39,10 @@ export const calcNoisy = <CS extends ColorSpaceName>({colorSpace, values, noiseR
 };
 
 export type Props<CS extends ColorSpaceName> = Omit<CalcProps<CS>, 'values'> & {
-    color: I_ConvertAdapter;
+    color: I_ColorAdapter;
 }
 
-export const getNoisy = <CS extends ColorSpaceName>({color, colorSpace, ...props}: Props<CS>): I_ConvertAdapter => {
+export const withModelNoise = <CS extends ColorSpaceName>({color, colorSpace, ...props}: Props<CS>): I_ColorAdapter => {
     const values = color.to(colorSpace);
     const noisy = calcNoisy({...props, values: values as ColorTuple<CS>, colorSpace});
     return color.from(noisy, colorSpace);

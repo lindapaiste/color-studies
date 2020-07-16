@@ -22,3 +22,9 @@ export interface ChannelShiftSettings {
     shift: number;
     colorCount: number;
 }
+
+
+export interface BoxData<T> {
+    color: T; //the box color
+    matches: Evaluation<T>[]; //the balls
+}
