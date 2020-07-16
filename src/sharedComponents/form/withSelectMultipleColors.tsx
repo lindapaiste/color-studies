@@ -7,7 +7,7 @@ import {makeArray, removeIndex, replaceIndex} from "../../util";
 /**
  * works the same way as withSelectableColor, but for an array of colors instead of just one
  */
-export const withSelectableColor = <P extends {colors: I_ColorAdapter[]}>(Component: ComponentType<P>, initialCount: number = 3, isFixedCount: boolean = false): FunctionComponent<Omit<P, 'colors'>> =>
+export const withSelectMultipleColors = <P extends {colors: I_ColorAdapter[]}>(Component: ComponentType<P>, initialCount: number = 3, isFixedCount: boolean = false): FunctionComponent<Omit<P, 'colors'>> =>
     (props) => {
         const [colors, setColors] = useState(makeArray( initialCount, randomColor ));
 
