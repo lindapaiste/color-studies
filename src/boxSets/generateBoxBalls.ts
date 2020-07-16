@@ -52,7 +52,7 @@ const generateBoxData = (color: I_ColorAdapter, choices: I_ColorAdapter[], count
  * this version analyzes the data itself, discarding bad matches and looking for more until the count is hit
  * or 1000 attempts have been made, whichever comes first
  */
-const generateBoxContents = (color: I_ColorAdapter, count: number, settings: Settings, choices?: I_ColorAdapter[]): BoxData<I_ColorAdapter> => {
+const generateBoxContents = (color: I_ColorAdapter, count: number, settings: Settings, choices: I_ColorAdapter[]): BoxData<I_ColorAdapter> => {
     const {createNoisy, getDistance} = settings;
 
     const matches: Evaluation<I_ColorAdapter>[] = [];
@@ -63,7 +63,7 @@ const generateBoxContents = (color: I_ColorAdapter, count: number, settings: Set
         console.log({noisy});
         //must ensure that the noisy value is still closest to this box vs other boxes
         //also want to make sure that this distinction is obvious - ie. it is much closer
-        const evaluation = matchToChoices(getDistance, noisy, choices ? choices : [noisy]);
+        const evaluation = matchToChoices(getDistance, noisy, choices);
 
         const error = getError(evaluation, settings, color);
         if (error !== false) {
