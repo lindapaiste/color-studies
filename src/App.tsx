@@ -1,7 +1,7 @@
 import React, {ComponentType} from "react";
 import "./styles.css";
 import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
-import {TestGroups} from "./classifier/TestResults";
+import {TestGroups} from "./classifier/PerceptronResults";
 import {PlotFeaturesTool} from "./classifier/PlotFeaturesTool";
 import {TestBoundaries} from "./classifier/TestBoundaries";
 import {CompareMethods} from "./noise/CompareMethods";

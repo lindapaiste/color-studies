@@ -1,11 +1,20 @@
 import React from "react";
 import Plot from "react-plotly.js";
 import {ColorPropKey} from "../packages/types";
-import {sampleSize, partition} from "lodash";
-import {GroupedHex, shuffledHexes} from "./buildModel";
+import {GroupedHex} from "./shuffledData";
 import {pointsToVectors, PointTuple} from "../luminosity/LuminosityChart";
 import {Data} from "plotly.js";
 import {ChromaAdapter} from "../packages/chroma-adapter-profile";
+import {getSplitSample} from "./shuffledData";
+
+/**
+ * creates a scatter plot based on two color properties (x and y)
+ *
+ * the plot has two data sets -- comparing those in the specified group to those outside of it
+ *
+ * the PlotFeatures component creates the data itself from a random sampling
+ * based on group and count props
+ */
 
 export interface Props {
     count: number;
@@ -13,27 +22,6 @@ export interface Props {
     y: ColorPropKey;
     group: string;
 }
-
-/**
- * utility function which provides a random sampling of hexes in the specified group
- * and outside of it, with the group name included
- */
-export const getSplitSample = (group: string, count: number): [GroupedHex[], GroupedHex[]] => {
-    const dataSet = shuffledHexes();
-    const [inGroup, notInGroup] = splitInGroup(dataSet, group);
-    return [sampleSize(inGroup, count), sampleSize(notInGroup, count)];
-};
-
-/**
- * returns two arrays: first is inGroup, second is notInGroup
- */
-export const splitInGroup = <T extends {group: string}>(dataSet: T[], group: string): [T[], T[]] => {
-  return partition( dataSet, o => o.group === group );
-};
-
-/**
- * plot features within a group against those from outside the group
- */
 
 export const PlotFeatures = ({count, x, y, group}: Props) => {
     const [inGroup, notInGroup] = getSplitSample(group, count);

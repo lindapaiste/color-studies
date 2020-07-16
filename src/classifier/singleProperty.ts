@@ -1,5 +1,5 @@
 import {ColorPropKey} from "../packages/types";
-import {getSplitSample} from "./PlotFeatures";
+import {getSplitSample} from "./shuffledData";
 import {shuffle} from "lodash";
 import {ChromaAdapter} from "../packages/chroma-adapter-profile";
 import {mean} from "simple-statistics";
@@ -23,8 +23,7 @@ export const findBoundary = (group: string, property: ColorPropKey, count: numbe
     }));
 
     /*
-    * can create an initial boundary by comparing the means of the two groups and picking the point between them
-    * would be more accurate if also looking at standard deviation
+    * can adjust the boundary as I go along, but how do I know which side I am on without looking at everything up front?
      */
     const meanIn = mean(data.filter(d => d.expected).map(d => d.value));
     const meanOut = mean(data.filter(d => ! d.expected).map(d => d.value));

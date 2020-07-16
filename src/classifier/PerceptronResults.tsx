@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
-import { buildIsGroupModel } from "./buildModel";
-import { testRandom } from "./testRandom";
-import { BinaryResults } from "./types";
+import { buildIsGroupModel } from "./perceptronModel";
+import { testRandom } from "./perceptronModel";
+import { BinaryResults } from "./perceptronModel";
 import { RenderSet } from "../sharedComponents/color/RenderSet";
 import { toHex } from "../packages/chroma-js";
 import GROUPINGS from "../grouping/group-data";

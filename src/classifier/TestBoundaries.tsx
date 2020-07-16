@@ -1,14 +1,20 @@
 import React, {useMemo, useState} from "react";
-import {percentString} from "../util";
-import {shuffledHexes} from "./buildModel";
+import {shuffledHexes} from "./shuffledData";
 import {ColorAdapter} from "../packages/color-adapter";
 import {channelBoundaries} from "./channelBoundaries";
 import {accessorKey, accessorTitle, ALL_ACCESSORS} from "../spacesChannels/colorSpaces";
 import {SelectGroup} from "../sharedComponents/form/SelectGroup";
 import GROUPINGS from "../grouping/group-data";
-import {sortBy} from "lodash";
-import {TestAccuracy} from "./boundaryModel";
+import sortBy from "lodash/sortBy";
+import {ExpandableConfusionMatrix} from "./RenderConfusionMatrix";
+import round from "lodash/round";
 
+/**
+ * based on the selected group name, calculates a boundary model for every property
+ *
+ * sorts the models by one key determinant (right now using balancedAccuracy, but could change)
+ * can expand to show detailed analysis
+ */
 export const TestBoundaries = () => {
     const [group, setGroup] = useState(GROUPINGS[0].name);
     //const [property, SelectProperty] = useSelectProperty();
@@ -23,7 +29,7 @@ export const TestBoundaries = () => {
             accessor,
             model: channelBoundaries(group, data, accessor)
         }));
-        return sortBy(pairs, o => 1 - o.model.accuracy.accuracy); //do 1 minus to sort descending
+        return sortBy(pairs, o => 1 - o.model.accuracy.balancedAccuracy); //do 1 minus to sort descending
     }, [group]);
 
     return (
@@ -32,26 +38,12 @@ export const TestBoundaries = () => {
             {models.map(({accessor, model}) => (
                 <div key={accessorKey(accessor)}>
                     <h3>{accessorTitle(accessor)}</h3>
-                    <div>{model.isGreater ? "Greater" : "Less"} than {model.cutoff}</div>
-                    <RenderAccuracy {...model.accuracy}/>
+                    <div>{model.isGreater ? "Greater" : "Less"} than {round(model.cutoff, 2)}</div>
+                    <div>Accuracy: {model.accuracy.balancedAccuracy}</div>
+                    <ExpandableConfusionMatrix results={model.accuracy}/>
                 </div>
             ))}
         </div>
     )
 };
 
-export const RenderAccuracy = ({accuracy, falsePositives, truePositives, trueNegatives, falseNegatives}: TestAccuracy) => {
-    const total = falsePositives + truePositives + falseNegatives + trueNegatives;
-
-    const numberAndPercent = (n: number): string => `${n} - ${percentString(n / total, 2)}`;
-
-    return (
-        <div>
-            <div>Accuracy: {percentString(accuracy, 2)}</div>
-            <div>True Positives: {numberAndPercent(truePositives)}</div>
-            <div>False Positives: {numberAndPercent(falsePositives)}</div>
-            <div>True Negatives: {numberAndPercent(trueNegatives)}</div>
-            <div>False Negatives: {numberAndPercent(falseNegatives)}</div>
-        </div>
-    );
-};
