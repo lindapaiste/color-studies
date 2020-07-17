@@ -1,8 +1,7 @@
-import {ChangeEvent, FunctionComponent, ReactNode} from "react";
-import {TextFieldProps} from "@material-ui/core/TextField";
+import { ChangeEvent, FunctionComponent, ReactNode } from "react";
+import { TextFieldProps } from "@material-ui/core/TextField";
 
 export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
-
 
 /**
  * want to allow for some amount of formatting and labeling,
@@ -18,18 +17,24 @@ export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
  * don't want to rely on a specific HTML element because the implementation could use a different one
  */
 export interface GenericProps<T> {
-    value: T | undefined;
-    onChange( value: T, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void;
-    label?: ReactNode;
-    helperText?: ReactNode;
-    disabled?: boolean;
+  value: T | undefined;
+  onChange(
+    value: T,
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ): void;
+  label?: ReactNode;
+  helperText?: ReactNode;
+  disabled?: boolean;
+  style?: object;
 }
 
 /**
  * removes the second param -- the event -- from onChange
  * so that onChange can be called from another event or from no event
  */
-export type WithoutE<P> = P extends GenericProps<infer T> ? Omit<P, 'onChange'> & {onChange( value: T): void} : P
+export type WithoutE<P> = P extends GenericProps<infer T>
+  ? Omit<P, "onChange"> & { onChange(value: T): void }
+  : P;
 
 /**
  * adds all of the props from the Material component, removing any conflicts
@@ -41,7 +46,7 @@ export type WithTextFieldProps<T> = T & Omit<Partial<TextFieldProps>, keyof T>;
  * interface for using options with any sort of type-cast or complex data
  */
 export interface Option<T> {
-    key: string;
-    raw: T;
-    title: string;
+  key: string;
+  raw: T;
+  title: string;
 }

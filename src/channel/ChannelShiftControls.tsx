@@ -28,29 +28,27 @@ export const ChannelShiftControls = ({state, update}: StateUpdateProps<ChannelSh
     return (
         <div>
             <div>
-                <div>
+                <div
+                style={{
+                    display: "flex",
+                    //justifyContent: "space-between"
+                }}>
                     <SelectAccessor
                         label="Channel"
                         value={codeToAccessor(state.channel)}
                         onChange={v => update({ channel: accessorToCode(v)})}
                     />
-                </div>
-                <div>
                     <NumberInput
                         label="Channel Max"
                         disabled={true}
                         value={state.channelMax}
                         onChange={v => update({ channelMax: v })}
                     />
-                </div>
-                <div>
                     <NumberInput
                         label="Shift Amount"
                         value={state.shift}
                         onChange={v => update({ shift: v })}
                     />
-                </div>
-                <div>
                     <NumberInput
                         label="Color Count"
                         value={state.colorCount}

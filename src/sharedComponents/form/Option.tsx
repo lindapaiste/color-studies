@@ -1,13 +1,18 @@
 import MenuItem from "@material-ui/core/MenuItem";
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 
-export interface Props {
-    value: string | number;
-    label: string | number | ReactNode;
+export interface _Props {
+  value: string | number;
+  label: string | number | ReactNode;
 }
 
-export const Option = ({value, label}: Props) => (
-    <MenuItem value={value}>
-        {label}
-    </MenuItem>
-)
+/**
+ * right now does not work. need to use MenuItem directly.
+ * could probably fix by forwarding ref
+ */
+
+export const _Option = ({ value, label }: _Props) => (
+  <MenuItem value={value}>{label}</MenuItem>
+);
+
+export const Option = MenuItem;
