@@ -1,7 +1,7 @@
-import React from "react";
-import {logProfile} from "./Swatch";
-import {isDefined, withHash} from "../../util";
-import {I_GetHex, isGetHex} from "../../packages/color-adapter";
+import React, { PropsWithChildren } from "react";
+import { logProfile } from "./Swatch";
+import { isDefined, withHash } from "../../util";
+import { I_GetHex, isGetHex } from "../../packages/color-adapter";
 
 /**
  * takes an array of colors, which can be any format (string, tuple, object)
@@ -12,6 +12,7 @@ export interface BaseProps<T> {
   colors: T[];
   colorToString?(color: T): string;
   wrap?: boolean;
+  height?: number;
 }
 
 /**
@@ -31,7 +32,8 @@ export type PropsMulti<T> = Omit<PropsSingle<T>, "colors"> & {
 export const RenderSet = <T extends any>({
   colors,
   colorToString,
-  wrap = false
+  wrap = false,
+  height = 100
 }: PropsSingle<T>) => (
   <div
     style={{
@@ -42,20 +44,40 @@ export const RenderSet = <T extends any>({
     }}
   >
     {colors.map((color, i) => {
-      const hex = isDefined(colorToString) ? colorToString(color) : isGetHex( color ) ? color.hex() : color;
+      const hex = isDefined(colorToString)
+        ? colorToString(color)
+        : isGetHex(color)
+        ? color.hex()
+        : color;
       return (
         <div
           key={i}
           style={{
             backgroundColor: withHash(hex),
-            height: "100px",
+            height,
             flex: 1,
-            minWidth: wrap ? "100px" : undefined
+            minWidth: wrap ? height : undefined
           }}
           onClick={() => logProfile(hex)}
         />
       );
     })}
+  </div>
+);
+
+export const SetWrapper = ({
+  children,
+  wrap
+}: PropsWithChildren<{ wrap: boolean }>) => (
+  <div
+    style={{
+      width: "100%",
+      display: "flex",
+      marginBottom: "10%",
+      flexWrap: wrap ? "wrap" : "nowrap"
+    }}
+  >
+    {children}
   </div>
 );
 
