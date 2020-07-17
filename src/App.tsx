@@ -19,6 +19,7 @@ import { withSelectableColor } from "./sharedComponents/form/withSelectableColor
 import { withSelectMultipleColors } from "./sharedComponents/form/withSelectMultipleColors";
 import { RenderColorInfo } from "./sharedComponents/color/RenderColorInfo";
 import { CompareModelNoise } from "./noise/CompareModelNoise";
+import {Sandbox} from "./Sandbox";
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 
@@ -111,6 +112,11 @@ const PAGES: AppPage[] = [
     title: "Perceptron Results [unfinished]",
     path: "perceptron",
     Component: TestGroups
+  },
+  {
+    title: "Sandbox",
+    path: "sandbox",
+    Component: Sandbox
   }
   //classify tool?  needs data input
 ];

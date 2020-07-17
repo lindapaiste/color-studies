@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import { SelectColor } from "../sharedComponents/form/SelectColor";
 import { Swatch } from "../sharedComponents/color/Swatch";
 import { randomColor } from "../packages/color-adapter";
-import {
-  accessorKey,
-  accessorTitle,
-  accessorToName,
-  ALL_ACCESSORS
-} from "../spacesChannels/colorSpaces";
+import {ALL_ACCESSORS} from "../spacesChannels/colorSpaces";
 import { ChannelGradient } from "./ChannelGradient";
 import { NumberInput } from "../sharedComponents/form/NumberInput";
+import {accessorKey, accessorTitle, accessorToName} from "../spacesChannels/accessorConversion";
 
 export const ChannelGradientTool = () => {
   const [color, setColor] = useState(randomColor());
@@ -20,7 +16,7 @@ export const ChannelGradientTool = () => {
       <SelectColor
         width={200}
         height={75}
-        color={color}
+        value={color}
         onChange={setColor}
         label="Initial Color"
       />

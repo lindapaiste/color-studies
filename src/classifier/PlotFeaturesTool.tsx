@@ -24,7 +24,7 @@ export const PlotFeaturesTool = () => {
                 <SelectProperty slug={x} onChange={setX}/>
                 <SelectProperty slug={y} onChange={setY}/>
                 <SelectGroup name={groupName} onChange={g => setGroupName(g.name)}/>
-                <NumberInput value={count} onChange={setCount}/>
+                <NumberInput value={count} isInt={true} onChange={setCount}/>
             </div>
             <div>
                 {!!x && !!y &&

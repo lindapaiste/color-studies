@@ -5,7 +5,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import LoopIcon from "@material-ui/icons/Loop";
 import TextField from "@material-ui/core/TextField";
-import {WithTextFieldProps} from "./NumberInput";
+import {BaseField} from "./BaseField";
+import {GenericProps, WithoutE} from "./types";
 
 /**
  * uses HTML 5 color-picker input
@@ -13,28 +14,23 @@ import {WithTextFieldProps} from "./NumberInput";
  * right now just passing width and height but leaving the borders
  */
 
-export interface OwnProps<T> {
-    color: T | undefined;
+export interface ExtraProps {
     width?: number;
     height?: number;
-
-    /**
-     * removed the second parameter e: ChangeEvent from the callback
-     * so that it could be called by randomize button
-     */
-    onChange(color: T): void;
 }
 
-export type Props<T> = WithTextFieldProps<OwnProps<T>>;
+/**
+ * need to remove the second parameter e: ChangeEvent from the callback
+ * so that it can be called by randomize button
+ */
+export type Props<T> = ExtraProps & WithoutE<GenericProps<T>>
 
-export const SelectHex = ({color, onChange, width = 100, height = 40, inputProps = {}, ...props}: Props<string>) => (
-    <TextField
-        variant="outlined"
+export const SelectHex = ({value, onChange, width = 100, height = 40, ...props}: Props<string>) => (
+    <BaseField
         {...props}
-        value={color}
-        onChange={e => onChange(e.target.value)}
+        value={value}
+        onChange={onChange}
         inputProps={{
-            ...inputProps,
             type: "color",
             style: {
                 width,
@@ -49,14 +45,17 @@ export const SelectHex = ({color, onChange, width = 100, height = 40, inputProps
  * SelectColor passes through to SelectHex since the base HTML element uses hex
  */
 
-export const SelectColor = ({color, onChange, ...props}: Props<I_ColorAdapter>) => (
+export const SelectColor = ({value, onChange, ...props}: Props<I_ColorAdapter>) => (
     <SelectHex
         {...props}
-        color={color ? color.hex() : undefined}
+        value={value ? value.hex() : undefined}
         onChange={hex => onChange(new ColorAdapter(hex))}
     />
 );
 
+/**
+ * HOC adds a randomize color icon button after the select
+ */
 export const withRandomize = (Component: ComponentType<Props<I_ColorAdapter>>) =>
     (props: Props<I_ColorAdapter>) => (
     <div>

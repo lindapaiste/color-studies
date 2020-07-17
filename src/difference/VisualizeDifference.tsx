@@ -1,10 +1,10 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import chroma, {Color} from "chroma-js";
-import {useNumberInput} from "../sharedComponents/form/useNumberInput";
 import {range, sortBy} from "lodash";
 import {Swatch} from "../sharedComponents/color/Swatch";
 import {eitherToString} from "../packages/chroma-js";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
+import {NumberInput} from "../sharedComponents/form/NumberInput";
 
 export interface Props {
     count?: number;
@@ -13,8 +13,8 @@ export interface Props {
 
 //The parameters L (default 1) and C (default 1) are weighting factors for lightness and chromacity.
 export const VisualizeDifference = ({color, count = 300}: Props) => {
-    const [lWeight, LWeightInput] = useNumberInput(1, false);
-    const [cWeight, CWeightInput] = useNumberInput(1, false);
+    const [lWeight, setLWeight] = useState(1);
+    const [cWeight, setCWeight] = useState(1);
 
     const eWidth = 10;
 
@@ -52,8 +52,8 @@ export const VisualizeDifference = ({color, count = 300}: Props) => {
             <div>
                 <div>Adjust the weighting for properties L (lightness) and C (chroma) in LHC model</div>
                 <div>
-                    <span>L: <LWeightInput/></span>
-                    <span>C: <CWeightInput/></span>
+                    <NumberInput label="L (Lightness)" value={lWeight} onChange={setLWeight} min={0} step={.25}/>
+                    <NumberInput label="C (Chroma)" value={cWeight} onChange={setCWeight} min={0} step={.25}/>
                 </div>
             </div>
             <div>

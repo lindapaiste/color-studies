@@ -5,9 +5,9 @@ import debounce from "lodash/debounce";
 import { makeArray, removeIndex, replaceIndex } from "../../util";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import {Tooltip} from "../ui/Tooltip";
 
 /**
  * works the same way as withSelectableColor, but for an array of colors instead of just one
@@ -53,11 +53,11 @@ export const withSelectMultipleColors = <
                 display: "flex"
               }}
             >
-              <Tooltip title="Pick Color" arrow>
-                <SelectColor color={color} onChange={onChange(i)} />
+              <Tooltip title="Pick Color">
+                <SelectColor value={color} onChange={onChange(i)} />
               </Tooltip>
               {isFixedCount || (
-                <Tooltip title="Remove Color" arrow>
+                <Tooltip title="Remove Color">
                   <IconButton onClick={onRemove(i)}>
                     <HighlightOffIcon fontSize="small" />
                   </IconButton>

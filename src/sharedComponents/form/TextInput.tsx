@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 
 /**
- * calls required prop onChangeValue with the string value of the input
+ * calls required prop onChange with the string value of the input
  * standard onChange is no longer called, so Omit for clarity
  */
 type Props = Omit<JSX.IntrinsicElements["input"], "onChange"> & {

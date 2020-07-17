@@ -1,8 +1,8 @@
 import {I_ColorAdapter} from "../packages/color-adapter";
-import {nameToAccessor} from "../spacesChannels/colorSpaces";
 import {ChannelProps, getChannelProps} from "../noise/channelNoise";
 import _clamp from "lodash/clamp";
 import {ChannelName} from "../spacesChannels/types";
+import {nameToAccessor} from "../spacesChannels/accessorConversion";
 
 export const transformChannel = (initial: I_ColorAdapter, channel: ChannelName, transform: (v: number) => number): I_ColorAdapter => {
     const props = getChannelProps(channel);

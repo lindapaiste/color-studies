@@ -2,9 +2,9 @@ import React from "react";
 import {I_ColorAdapter} from "../packages/color-adapter";
 import {ChannelAccessor} from "../spacesChannels/types";
 import {getMaxObject} from "../spacesChannels/channelMaxes";
-import {accessorToName} from "../spacesChannels/colorSpaces";
 import {intervals} from "../util";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
+import {accessorToName} from "../spacesChannels/accessorConversion";
 
 export interface Props {
     initial: I_ColorAdapter;

@@ -1,25 +1,26 @@
-import React, { ChangeEvent } from "react";
-import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import React from "react";
+import TextField, {TextFieldProps} from "@material-ui/core/TextField";
+import {GenericProps, WithTextFieldProps} from "./types";
 
-export interface BaseProps<T> {
-  value: T | undefined;
-  onChange( value: T, e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void;
-}
-
-export type WithTextFieldProps<T> = T & Omit<TextFieldProps, keyof T>;
+/**
+ * base element can accept any string, number, or undefined as the value
+ * but the onChange is based on e.target.value which is always a string
+ * prop variant is no longer required
+ */
+export type BaseProps = Partial<Omit<TextFieldProps, 'onChange'>> & Pick<GenericProps<string>, 'onChange'>
 
 /**
  * basically just maps the onChange and adds variant = outlined
+ *
+ * this set up is designed for setting of input props from one level up ( ie. NumberInput, SelectColor )
+ * but not passing input props from specific instances of those components
  */
 
-export const BaseField = <T extends any>({value, onChange, inputProps = {}, ...props}: WithTextFieldProps<BaseProps<string>>) => (
-  <TextField
-    variant="outlined"
-    {...props}
-    value={value}
-    onChange={e => onChange(e.target.value, e)}
-    inputProps={{
-      ...inputProps,
-    }}
-  />
+export const BaseField = ({value, onChange, ...props}: BaseProps) => (
+    <TextField
+        variant="outlined"
+        {...props}
+        value={value}
+        onChange={e => onChange(e.target.value, e)}
+    />
 );

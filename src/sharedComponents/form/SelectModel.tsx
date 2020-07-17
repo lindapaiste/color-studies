@@ -1,28 +1,22 @@
-import React, { ChangeEvent } from "react";
-import { ColorSpaceName } from "../../spacesChannels/types";
-import { COLOR_SPACE_NAMES } from "../../spacesChannels/colorSpaces";
+import React from "react";
+import {ColorSpaceName} from "../../spacesChannels/types";
+import {COLOR_SPACE_NAMES} from "../../spacesChannels/colorSpaces";
 import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
+import {GenericProps} from "./types";
+import {BaseField} from "./BaseField";
+import {Option} from "./Option";
 
-export interface Props {
-  value: ColorSpaceName | undefined | null;
+type Props = GenericProps<ColorSpaceName>
 
-  onChange(model: ColorSpaceName, e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>): void;
-}
-
-export const SelectModel = ({ value, onChange }: Props) => (
-  <TextField
-    id="select-color-space"
-    select
-    label="Color Space"
-    value={value || ""}
-    onChange={e => onChange(e.target.value as ColorSpaceName, e)}
-    variant="outlined"
-  >
-    {COLOR_SPACE_NAMES.map(name => (
-      <MenuItem key={name} value={name}>
-        {name}
-      </MenuItem>
-    ))}
-  </TextField>
+export const SelectModel = ({value, onChange, label = "Color Space"}: Props) => (
+    <BaseField
+        select
+        label={label}
+        value={value}
+        onChange={onChange} //(v, e) => onChange(v as ColorSpaceName, e)
+    >
+        {COLOR_SPACE_NAMES.map(name => (
+            <Option key={name} value={name} label={name}/>
+        ))}
+    </BaseField>
 );

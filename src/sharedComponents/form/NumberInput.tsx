@@ -1,38 +1,29 @@
-import React, { ChangeEvent } from "react";
-import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import React from "react";
+import {BaseField} from "./BaseField";
+import {GenericProps} from "./types";
+import {isDefined, isUndefined} from "../../util";
 
-export interface Props {
-  value: number | undefined;
-  onChange(
-    n: number,
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void;
-  isInt?: boolean;
-  min?: number;
-  max?: number;
-  step?: number;
+export interface ExtraProps {
+    isInt?: boolean;
+    min?: number;
+    max?: number;
+    step?: number;
 }
-
-export type WithTextFieldProps<T> = T & Omit<TextFieldProps, keyof T>;
 
 /**
  * any props can be passed via inputProps, but pass though min/max/step directly because they are important
  */
 
-export const NumberInput = ({value, onChange, isInt, min, max, step, inputProps = {}, ...props}: WithTextFieldProps<Props>) => (
-  <TextField
-    variant="outlined"
-    {...props}
-    value={value}
-    onChange={e =>
-      onChange(isInt ? parseInt(e.target.value, 10) : parseFloat(e.target.value), e)
-    }
-    inputProps={{
-      ...inputProps,
-      type: "number",
-      step,
-      max,
-      min
-    }}
-  />
+export const NumberInput = ({value, onChange, isInt, min, max, step, ...props}: GenericProps<number> & ExtraProps) => (
+    <BaseField
+        {...props}
+        value={value}
+        onChange={(v, e) => onChange(isInt ? parseInt(v, 10) : parseFloat(v), e)}
+        inputProps={{
+            type: "number",
+            step: isInt && isUndefined(step) ? 1 : step,
+            max,
+            min
+        }}
+    />
 );

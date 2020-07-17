@@ -3,7 +3,7 @@ import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import convert from "color-convert";
 import {hasMethod, replaceIndex} from "../util";
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
-import {nameToAccessor} from "../spacesChannels/colorSpaces";
+import {nameToAccessor} from "../spacesChannels/accessorConversion";
 
 /**
  * interface requires that object can be converted to a number tuple of any type

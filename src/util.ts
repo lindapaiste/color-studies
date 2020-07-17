@@ -99,10 +99,6 @@ export const intervals = (start: number, end: number, count: number): number[] =
 };
 
 export const withHash = (hex: string): string => {
-  if (typeof hex !== "string") {
-    console.error("invalid hex", hex);
-    return "";
-  }
   return hex.substr(0, 1) === "#" ? hex : "#" + hex;
 };
 

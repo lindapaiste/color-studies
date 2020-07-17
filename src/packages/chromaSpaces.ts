@@ -1,7 +1,8 @@
-import {accessorToName, isColorSpace, nameToAccessor, spacesWithChannel} from "../spacesChannels/colorSpaces";
+import {isColorSpace, spacesWithChannel} from "../spacesChannels/colorSpaces";
 import {ChannelAccessor, ChannelName, ColorSpaceName, FixedMaxChannel} from "../spacesChannels/types";
 import {ColorSpaces} from "chroma-js";
 import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
+import {accessorToName, nameToAccessor} from "../spacesChannels/accessorConversion";
 
 const chromaColorSpaces: ColorSpaceName[] = ['rgb', 'hsl', 'hsv', 'hsi', 'lab', 'lch', 'cmyk'];
 

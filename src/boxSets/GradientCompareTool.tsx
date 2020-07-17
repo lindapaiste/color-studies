@@ -17,7 +17,7 @@ export const GradientCompareTool = () => {
 
     return (
         <div>
-            <ChannelShiftControls initialValue={state} onChange={setState}/>
+            <ChannelShiftControls state={state} update={setState}/>
             <RenderMultiModeScale {...state} />
         </div>
     );

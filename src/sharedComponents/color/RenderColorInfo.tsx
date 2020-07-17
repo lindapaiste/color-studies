@@ -3,7 +3,7 @@ import {Swatch} from "./Swatch";
 import {ColorAdapter, I_ColorAdapter} from "../../packages/color-adapter";
 import {ColorSpaceName} from "../../spacesChannels/types";
 import {CHANNEL_NAMES} from "../../spacesChannels/channelMaxes";
-import {nameToAccessor} from "../../spacesChannels/colorSpaces";
+import {nameToAccessor} from "../../spacesChannels/accessorConversion";
 
 export interface Props {
     color: I_ColorAdapter | string;

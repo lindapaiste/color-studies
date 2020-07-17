@@ -10,7 +10,7 @@ import {
 import {typedKeys} from "../util";
 
 export const isFixedMaxChannel = (channel: ChannelName): channel is FixedMaxChannel => {
-    return typeof standardMaxes[channel] === 'number' || ! getMaxObject(channel).isVariable;
+    return typeof STANDARD_MAXES[channel] === 'number' || ! getMaxObject(channel).isVariable;
 };
 
 export const isVariableMaxChannel = (channel: ChannelName): channel is VariableMaxChannel => {
@@ -37,7 +37,7 @@ export type ChannelMaxes = {
     [K in ChannelName]-?: number | ( Partial<ChannelMaxObject> & {max: number});
 };
 
-const standardMaxes: ChannelMaxes = { //note: chroma uses 1 max for cmyk while color-convert uses 100
+const STANDARD_MAXES: ChannelMaxes = { //note: chroma uses 1 max for cmyk while color-convert uses 100
     red: 255,
     green: 255,
     blue: 255,
@@ -86,10 +86,10 @@ const standardMaxes: ChannelMaxes = { //note: chroma uses 1 max for cmyk while c
     grayness: 100,
 };
 
-export const CHANNEL_NAMES = typedKeys(standardMaxes).sort();
+export const CHANNEL_NAMES = typedKeys(STANDARD_MAXES).sort();
 
 export const getMaxObject = (channel: ChannelName): ChannelMaxObject & I_Range => {
-  const max = standardMaxes[channel];
+  const max = STANDARD_MAXES[channel];
   const defaults = {
       min: 0,
       isVariable: false,
@@ -107,9 +107,14 @@ export const getMaxObject = (channel: ChannelName): ChannelMaxObject & I_Range =
 };
 
 export const getMaxOrFormula = <C extends ChannelName>(channel: C): _ChannelMax<C> => {
-    return standardMaxes[channel] as _ChannelMax<C>; //don't know why this "as" is needed, but it is
+    return STANDARD_MAXES[channel] as _ChannelMax<C>; //don't know why this "as" is needed, but it is
 };
 
 export const getMax = (channel: FixedMaxChannel): number => {
     return getMaxObject(channel).max;
 };
+
+
+export const isChannelName = (name: any): name is ChannelName => {
+    return typeof name === "string" && STANDARD_MAXES.hasOwnProperty( name );
+}

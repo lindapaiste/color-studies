@@ -3,9 +3,10 @@ import {Swatch} from "../sharedComponents/color/Swatch";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
 import {withChannelNoise} from "./channelNoise";
 import {I_ColorAdapter} from "../packages/color-adapter";
-import {accessorKey, accessorTitle, ALL_ACCESSORS} from "../spacesChannels/colorSpaces";
+import {ALL_ACCESSORS} from "../spacesChannels/colorSpaces";
 import {makeArray} from "../util";
 import {NumberInput} from "../sharedComponents/form/NumberInput";
+import {accessorKey, accessorTitle} from "../spacesChannels/accessorConversion";
 
 /**
  * notes: hsv.v is just completely wrong

@@ -2,12 +2,13 @@ import React, {useMemo, useState} from "react";
 import {shuffledHexes} from "./shuffledData";
 import {ColorAdapter} from "../packages/color-adapter";
 import {channelBoundaries} from "./channelBoundaries";
-import {accessorKey, accessorTitle, ALL_ACCESSORS} from "../spacesChannels/colorSpaces";
+import {ALL_ACCESSORS} from "../spacesChannels/colorSpaces";
 import {SelectGroup} from "../sharedComponents/form/SelectGroup";
 import GROUPINGS from "../grouping/group-data";
 import sortBy from "lodash/sortBy";
 import {ExpandableConfusionMatrix} from "./RenderConfusionMatrix";
 import round from "lodash/round";
+import {accessorKey, accessorTitle} from "../spacesChannels/accessorConversion";
 
 /**
  * based on the selected group name, calculates a boundary model for every property

@@ -4,7 +4,7 @@ import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
 import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
 import {I_ColorAdapter} from "../packages/color-adapter";
-import {accessorToName} from "../spacesChannels/colorSpaces";
+import {accessorToName} from "../spacesChannels/accessorConversion";
 
 export interface ChannelProps {
     min?: number; //default to 0 if not set

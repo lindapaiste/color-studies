@@ -2,8 +2,11 @@ import { ChannelShiftSettings } from "../boxSets/types";
 import { TextInput } from "../sharedComponents/form/TextInput";
 import { NumberInput } from "../sharedComponents/form/NumberInput";
 import React, { useState } from "react";
+import {StateUpdateProps, usePartialState} from "../util-hooks";
+import {SelectAccessor} from "../sharedComponents/form/SelectAccessor";
+import {accessorToCode, codeToAccessor} from "../packages/chromaSpaces";
 
-export const DEFAULT_SETTINGS: ChannelShiftSettings = {
+export const CHANNEL_SHIFT_DEFAULT: ChannelShiftSettings = {
     channel: "lab.l",
     channelMax: 100,
     shift: 50,
@@ -13,58 +16,45 @@ export const DEFAULT_SETTINGS: ChannelShiftSettings = {
  * hook automatically applies default settings so that the state is never empty
  */
 export const useControls = (initialValue?: Partial<ChannelShiftSettings>) => {
-    return useState<ChannelShiftSettings>({
-        ...DEFAULT_SETTINGS,
+    return usePartialState<ChannelShiftSettings>({
+        ...CHANNEL_SHIFT_DEFAULT,
         ...initialValue
     });
 };
 /**
  * separated the controls from the results so that other components can use the same set of controls
  */
-export const ChannelShiftControls = ({
-                                         initialValue = {},
-                                         onChange
-                                     }: {
-    initialValue?: Partial<ChannelShiftSettings>;
-    onChange: (s: ChannelShiftSettings) => void;
-}) => {
-    const [state, _setState] = useControls(initialValue);
-
-    const applySettings = (settings: Partial<ChannelShiftSettings>): void => {
-        const combined = { ...state, ...settings };
-        _setState(combined);
-        onChange(combined);
-    };
-
+export const ChannelShiftControls = ({state, update}: StateUpdateProps<ChannelShiftSettings>) => {
     return (
         <div>
             <div>
                 <div>
-                    Channel:
-                    <TextInput
-                        value={state.channel}
-                        onChange={v => applySettings({ channel: v })}
+                    <SelectAccessor
+                        label="Channel"
+                        value={codeToAccessor(state.channel)}
+                        onChange={v => update({ channel: accessorToCode(v)})}
                     />
                 </div>
                 <div>
-                    Channel Max:
                     <NumberInput
+                        label="Channel Max"
+                        disabled={true}
                         value={state.channelMax}
-                        onChange={v => applySettings({ channelMax: v })}
+                        onChange={v => update({ channelMax: v })}
                     />
                 </div>
                 <div>
-                    Shift Amount:
                     <NumberInput
+                        label="Shift Amount"
                         value={state.shift}
-                        onChange={v => applySettings({ shift: v })}
+                        onChange={v => update({ shift: v })}
                     />
                 </div>
                 <div>
-                    Color Count:
                     <NumberInput
+                        label="Color Count"
                         value={state.colorCount}
-                        onChange={v => applySettings({ colorCount: v })}
+                        onChange={v => update({ colorCount: v })}
                     />
                 </div>
             </div>

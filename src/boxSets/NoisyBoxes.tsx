@@ -1,6 +1,6 @@
 import chroma, { Color } from "chroma-js";
 import React, { useMemo, useState, useEffect } from "react";
-import { ChannelShiftControls, useControls } from "../channel/ChannelShiftControls";
+import {ChannelShiftControls, CHANNEL_SHIFT_DEFAULT, useControls} from "../channel/ChannelShiftControls";
 import { createColors } from "../channel/channelShiftSet";
 import { getDistance, randomColors } from "../packages/chroma-js";
 import { Evaluation, Levers } from "./types";
@@ -16,6 +16,8 @@ import {flatMap} from "lodash";
 import {withModelNoise} from "../noise/modelNoise";
 import {ColorAdapter} from "../packages/color-adapter";
 import {BoxData} from "./types";
+import {usePartialState} from "../util-hooks";
+import {Toggle} from "../sharedComponents/form/Toggle";
 
 /**
  * right now just looks at a bunch of random colors and filters
@@ -70,8 +72,7 @@ export const NoisyBoxes = ({ colors, levers, isShuffle }: Props) => {
 };
 
 export const NoisyBoxTool = () => {
-    const initialControls = {};
-    const [controls, setControls] = useControls(initialControls);
+    const [controls, setControls] = useControls();
     const [levers, setLevers] = useLevers();
     const [isShuffle, setIsShuffle] = useState(false);
 
@@ -88,22 +89,15 @@ export const NoisyBoxTool = () => {
         <div className="boxes-tool-screen">
             <div>
                 <ChannelShiftControls
-                    initialValue={initialControls}
-                    onChange={setControls}
+                    state={controls}
+                    update={setControls}
                 />
                 <LeverControls onChange={setLevers} />
-                <FormGroup row>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={isShuffle}
-                                onChange={e => setIsShuffle(e.target.checked)}
-                                name="isShuffle"
-                            />
-                        }
-                        label="Shuffled"
-                    />
-                </FormGroup>
+                <Toggle
+                    value={isShuffle}
+                    onChange={setIsShuffle}
+                    label="Shuffled"
+                />
             </div>
             <NoisyBoxes colors={colors} levers={levers} isShuffle={isShuffle} />
         </div>
