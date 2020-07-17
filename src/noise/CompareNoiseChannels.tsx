@@ -42,7 +42,6 @@ export const CompareNoiseChannels = ({color, countPer = 10}: Props) => {
                     <RenderSet
                         colors={makeArray(countPer, () => withChannelNoise(color, accessor, noiseRatio))}
                     />
-                    />
                 </div>
             ))}
         </div>

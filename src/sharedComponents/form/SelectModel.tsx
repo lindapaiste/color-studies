@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 export interface Props {
   value: ColorSpaceName | undefined | null;
 
-  onChange(model: ColorSpaceName, e: ChangeEvent<HTMLSelectElement>): void;
+  onChange(model: ColorSpaceName, e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>): void;
 }
 
 export const SelectModel = ({ value, onChange }: Props) => (
@@ -18,7 +18,6 @@ export const SelectModel = ({ value, onChange }: Props) => (
     value={value || ""}
     onChange={e => onChange(e.target.value as ColorSpaceName, e)}
     variant="outlined"
-    helperText="Select Color Space"
   >
     {COLOR_SPACE_NAMES.map(name => (
       <MenuItem key={name} value={name}>
