@@ -58,6 +58,7 @@ export const ModelNoiseControls = ({
   );
 };
 
+//this is dumb. should do it with flexbox, but the inputs display inline with an arbitrary width
 const inputStyle = {
   width: "16%",
   margin: "1%",

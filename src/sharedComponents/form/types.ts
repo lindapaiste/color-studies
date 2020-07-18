@@ -18,15 +18,16 @@ export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
  */
 export interface GenericProps<T> {
   value: T | undefined;
-  onChange(
-    value: T,
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ): void;
+  onChange(value: T, e: Event): void;
   label?: ReactNode;
   helperText?: ReactNode;
   disabled?: boolean;
   style?: object;
 }
+
+export type Event = ChangeEvent<
+  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+>;
 
 /**
  * removes the second param -- the event -- from onChange

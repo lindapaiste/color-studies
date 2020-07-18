@@ -40,10 +40,7 @@ export const TestGroups = () => {
 
   return (
     <div>
-      <SelectGroup
-        name={groupName}
-        onChange={group => setGroupName(group.name)}
-      />
+      <SelectGroup value={groupName} onChange={setGroupName} />
       <div onClick={() => setReplay(r => r + 1)}>Refresh Results</div>
       <RenderResults
         results={results}

@@ -3,7 +3,8 @@ import { PropsSingle } from "../sharedComponents/color/RenderSet";
 import { replaceIndex } from "../util";
 import { groupBy } from "lodash";
 import { GROUPINGS } from "./group-data";
-import {SelectGroup} from "../sharedComponents/form/SelectGroup";
+import { SelectGroup } from "../sharedComponents/form/SelectGroup";
+import { Title } from "../sharedComponents/ui/Title";
 
 const GROUP_NAMES = GROUPINGS.map(o => o.name);
 
@@ -30,11 +31,11 @@ export const ClassifyTool = <T extends any>({
 
   return (
     <div>
-      <h3>Assigning {assigning}</h3>
-      <h4>Switch To:</h4>
+      <Title>Assigning {assigning}</Title>
       <SelectGroup
-          name={assigning}
-          onChange={(group) => setAssigning(group.name)}
+        label="Switch To"
+        value={assigning}
+        onChange={setAssigning}
       />
       <h4
         onClick={() => {
@@ -45,7 +46,7 @@ export const ClassifyTool = <T extends any>({
       </h4>
       {GROUP_NAMES.map(group => (
         <div>
-          <h3>{group}</h3>
+          <Title>{group}</Title>
           <div
             style={{
               display: "flex",
