@@ -1,4 +1,4 @@
-import React, { ComponentType } from "react";
+import React, { ComponentType, useState } from "react";
 import "./styles.css";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import { TestGroups } from "./classifier/PerceptronResults";
@@ -19,9 +19,17 @@ import { withSelectableColor } from "./sharedComponents/form/withSelectableColor
 import { withSelectMultipleColors } from "./sharedComponents/form/withSelectMultipleColors";
 import { RenderColorInfo } from "./sharedComponents/color/RenderColorInfo";
 import { CompareModelNoise } from "./noise/CompareModelNoise";
-import {Sandbox} from "./Sandbox";
+import { Sandbox } from "./Sandbox";
 import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
+
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
+import Toolbar from "@material-ui/core/Toolbar";
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
 
 interface AppPage {
   title: string;
@@ -30,8 +38,16 @@ interface AppPage {
   Component: ComponentType<{}>;
 }
 
-//should appear in the order that I want in the menu
-//could allow subpage support to do nesting
+export const Home = () => <HomeMenu />;
+
+/**
+ * should appear in the order that I want in the menu
+ * could allow subpage support to do nesting
+ *
+ * cannot include home here, unless putting it last
+ * because if not using Route exact, the empty path will match everything
+ */
+
 const PAGES: AppPage[] = [
   {
     title: "Plot Group Properties",
@@ -121,10 +137,12 @@ const PAGES: AppPage[] = [
   //classify tool?  needs data input
 ];
 
-export const Menu = () => {
+export const HomeMenu = () => {
   return (
     <List>
-      {PAGES.map(({ title, path }) => (
+      {PAGES.map((
+        { title, path } //don't want to include home in list
+      ) => (
         <ListItemText
           key={path}
           primary={<Link to={"/" + path}>{title}</Link>}
@@ -134,17 +152,56 @@ export const Menu = () => {
   );
 };
 
-export const Home = () => <Menu />;
+/**
+ * props title and path refer to the current page
+ */
+export const TopMenu = ({
+  currentTitle,
+  currentPath
+}: {
+  currentTitle: string;
+  currentPath: string;
+}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <AppBar position="static" color="default">
+      <Toolbar>
+        <IconButton
+          edge="start"
+          aria-label="menu"
+          onClick={() => setOpen(!open)}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6">{currentTitle}</Typography>
+        <Menu open={open} onClose={() => setOpen(false)}>
+          <MenuItem>
+            <Link to={"/"}>Home</Link>
+          </MenuItem>
+          {PAGES.map(({ title, path }) => (
+            <MenuItem key={path}>
+              <Link to={"/" + path}>{title}</Link>
+            </MenuItem>
+          ))}
+        </Menu>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
 export const Body = () => {
   return (
     <Switch>
       {PAGES.map(({ title, path, Component }) => (
         <Route key={path} path={"/" + path}>
-          <Component />
+          <TopMenu currentTitle={title} currentPath={path} />
+          <div className="content">
+            <Component />
+          </div>
         </Route>
       ))}
       <Route exact path="/">
+        <TopMenu currentTitle="Home" currentPath="/" />
         <Home />
       </Route>
     </Switch>
