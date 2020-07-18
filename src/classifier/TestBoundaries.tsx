@@ -12,6 +12,7 @@ import {
   accessorKey,
   accessorTitle
 } from "../spacesChannels/accessorConversion";
+import { Title } from "../sharedComponents/ui/Title";
 
 /**
  * based on the selected group name, calculates a boundary model for every property
@@ -44,10 +45,11 @@ export const TestBoundaries = () => {
 
   return (
     <div>
-      <SelectGroup value={group} onChange={setGroup} />
+      <Title>Boundaries for {group}</Title>
+      <SelectGroup value={group} onChange={setGroup} label="Select" />
       {models.map(({ accessor, model }) => (
         <div key={accessorKey(accessor)}>
-          <h3>{accessorTitle(accessor)}</h3>
+          <Title importance="h3">{accessorTitle(accessor)}</Title>
           <div>
             {model.isGreater ? "Greater" : "Less"} than {round(model.cutoff, 2)}
           </div>

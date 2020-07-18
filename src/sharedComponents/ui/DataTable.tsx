@@ -1,9 +1,11 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState, useMemo } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import sortBy from "lodash/sortBy";
 
 /**
  * TODO: add sorting
@@ -41,10 +43,18 @@ export const DataTable = <CF extends ReactNode, LF extends ReactNode>({
   getRowKey = (_, i) => i,
   getColumnKey = (label, i) => maybeToKey(label) || i
 }: Props<CF, LF>) => {
+  const [isDesc, setIsDesc] = useState(false);
+  const [sortColumn, setSortColumn] = useState(-1);
+
   const getCellKey = (i: number) => {
     if (!!labels && !!labels[i]) return getColumnKey(labels[i], i);
     else return i;
   };
+
+  const _sorted = useMemo(() => {
+    const ordered = sortBy(rows, row => row[sortColumn]);
+    return isDesc ? ordered.reverse() : ordered;
+  }, [isDesc, sortColumn, rows]);
 
   return (
     <Table>
@@ -57,14 +67,27 @@ export const DataTable = <CF extends ReactNode, LF extends ReactNode>({
                 scope="col"
                 key={getColumnKey(label, i)}
               >
-                {label}
+                <TableSortLabel
+                  active={sortColumn === i}
+                  direction={sortColumn === i && isDesc ? "desc" : "asc"}
+                  onClick={() => {
+                    if (sortColumn === i) {
+                      setIsDesc(!isDesc);
+                    } else {
+                      setIsDesc(false);
+                      setSortColumn(i);
+                    }
+                  }}
+                >
+                  {label}
+                </TableSortLabel>
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
       )}
       <TableBody>
-        {rows.map((row, i) => (
+        {_sorted.map((row, i) => (
           <TableRow key={getRowKey(row, i)}>
             {row.map((value, i) => (
               <TableCell key={getCellKey(i)}>{value}</TableCell>

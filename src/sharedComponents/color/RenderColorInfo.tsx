@@ -5,7 +5,11 @@ import { ColorSpaceName, ChannelName } from "../../spacesChannels/types";
 import { CHANNEL_NAMES } from "../../spacesChannels/channelMaxes";
 import { nameToAccessor } from "../../spacesChannels/accessorConversion";
 import { ValuesTable } from "../ui/ValuesTable";
+import { DataTable } from "../ui/DataTable";
 import { Accordian } from "../ui/Accordian";
+import startCase from "lodash/startCase";
+import round from "lodash/round";
+import { normalize } from "../../spacesChannels/channelMaxes";
 
 export interface Props {
   color: I_ColorAdapter | string;
@@ -53,8 +57,22 @@ export const RenderColorInfo = (props: Props) => {
 /**
  * just the table, not the accordian
  */
-export const ChannelValuesTable = ({ color }: { color: I_ColorAdapter }) => (
+export const _ChannelValuesTable = ({ color }: { color: I_ColorAdapter }) => (
   <ValuesTable
     data={CHANNEL_NAMES.map(name => [name, color.get(nameToAccessor(name))])}
+  />
+);
+
+export const ChannelValuesTable = ({ color }: { color: I_ColorAdapter }) => (
+  <DataTable
+    labels={["Channel", "Value", "Normalized"]}
+    rows={CHANNEL_NAMES.map(name => {
+      const value = color.get(nameToAccessor(name));
+      return [
+        startCase(name),
+        round(value, 2),
+        round(normalize(value, name), 3)
+      ];
+    })}
   />
 );

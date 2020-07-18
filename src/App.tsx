@@ -202,7 +202,9 @@ export const Body = () => {
       ))}
       <Route exact path="/">
         <TopMenu currentTitle="Home" currentPath="/" />
-        <Home />
+        <div className="content">
+          <Home />
+        </div>
       </Route>
     </Switch>
   );
