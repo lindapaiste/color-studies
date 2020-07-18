@@ -1212,8 +1212,13 @@ export const GROUPINGS: ColorClassification[] = [
 
 export default GROUPINGS;
 
-export const groupNames = GROUPINGS.map(o => o.name );
+export const GROUP_NAMES = GROUPINGS.map(o => o.name );
 
 export const getFromName = (name: string): ColorClassification | undefined => {
     return find(GROUPINGS, o => o.name === name );
 };
+
+export const getGroupHexes = (name: string): string[] => {
+  const group = getFromName(name);
+  return group ? group.hexes : [];
+}

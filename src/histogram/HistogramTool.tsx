@@ -1,31 +1,32 @@
 import React from "react";
 import {VisualHistogram} from "./VisualHistogram";
-import {getGetter} from "../packages";
-import {useSelectGroup} from "../sharedComponents/form/useSelectGroup";
-import {useNumberInput} from "../sharedComponents/form/useNumberInput";
-import {useSelectProperty} from "../sharedComponents/form/useSelectProperty";
+import {ColorAdapter} from "../packages/color-adapter";
+import {usePartialState} from "../util-hooks";
+import {ToolSettings} from "./types";
+import GROUPINGS, {getGroupHexes} from "../grouping/group-data";
+import {HistogramControls} from "./HistogramControls";
 
 /**
  * tool which allows me to interactively create property histograms for any of the stored color groupings
  */
 export const HistogramTool = () => {
-    const [group, SelectGroup] = useSelectGroup();
-    const [count, CountInput] = useNumberInput(6);
-    const [property, SelectProperty] = useSelectProperty();
+    const [state, update] = usePartialState<ToolSettings>({
+        breakpoints: 6,
+        group: GROUPINGS[0].name,
+        channel: ['hsl', 2],
+    })
     return (
         <div>
-            <div>
-                <SelectGroup/>
-                <SelectProperty/>
-                <CountInput/>
-            </div>
-            {group !== undefined && property !== undefined && (
-                <VisualHistogram
-                    getProperty={getGetter(property)}
-                    hexes={group.hexes}
-                    breakpoints={count}
-                    colorSize={50}
-                />
+            <HistogramControls
+                state={state}
+                update={update}
+            />
+            <VisualHistogram
+                hexToValue={hex => (new ColorAdapter(hex)).get(state.channel)}
+                hexes={getGroupHexes(state.group)}
+                breakpoints={state.breakpoints}
+                colorSize={50}
+            />
             )}
         </div>
     );

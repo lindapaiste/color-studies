@@ -1,6 +1,6 @@
 import {Bucket, CalcProps} from "./types";
-import {fromHex, Color} from "../packages";
-import {sortBy, last, findIndex, range} from "lodash";
+import {findIndex, last, range, sortBy} from "lodash";
+
 /**
  * supports breakpoints of uneven widths, but they must be passed explicitly
  * can pass just a number to automatically compute evenly-spaced buckets based on the min and max
@@ -8,11 +8,11 @@ import {sortBy, last, findIndex, range} from "lodash";
 export const createBuckets = ({
                                   breakpoints,
                                   hexes,
-                                  getProperty
+                                  hexToValue,
                               }: CalcProps): Bucket[] => {
     const objects = hexes.map(color => ({
         color,
-        value: getProperty(fromHex(color))
+        value: hexToValue(color),
     }));
     const sorted = sortBy(objects, o => o.value);
     //using ternary avoids ts or runtime errors caused by an empty array

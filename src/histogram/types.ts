@@ -1,9 +1,10 @@
 import {Color} from "../packages";
+import {ChannelAccessor} from "../spacesChannels/types";
 
 export interface CalcProps {
     hexes: string[];
     breakpoints: number | number[]; //either a count, or an array of specific percentage breaks, as fractions of 1
-    getProperty(c: Color): number;
+    hexToValue(hex: string): number;
 }
 
 /**
@@ -26,4 +27,10 @@ export interface Bucket {
 export interface RenderProps {
     colorSize: number;
     buckets: Bucket[];
+}
+
+export interface ToolSettings {
+    breakpoints: number;
+    channel: ChannelAccessor;
+    group: string;
 }
