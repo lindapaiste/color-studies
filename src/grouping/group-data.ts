@@ -163,9 +163,10 @@ export const GROUPINGS: ColorClassification[] = [
       "#0098a5",
       "#00aa90"
     ],
+    correlatedChannels: [ 'hcg.c', 'hsi.i', 'hsl.l', 'hsi.s', 'hsv.s', 'hwb.w', ],
     definitions: [
       /**
-       * luminosity & hue have no corelation to neonness
+       * luminosity & hue have no correlation to neonness
        */
       {
         property: "blackness",
@@ -252,7 +253,6 @@ export const GROUPINGS: ColorClassification[] = [
       "#cec4c5",
       "#c9cabd",
       "#d5d3bf",
-      "#9aa29c",
       "#c3c3c3",
       "#d0d0d0",
       "#faf4e3",
@@ -397,8 +397,6 @@ export const GROUPINGS: ColorClassification[] = [
       "#cdd2ba",
       "#d7dbc6",
       "#d8cfb9",
-      "#f7a879",
-      "#b7b1dc"
     ],
     definitions: [
       /*

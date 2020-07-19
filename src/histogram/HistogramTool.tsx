@@ -27,7 +27,6 @@ export const HistogramTool = () => {
                 breakpoints={state.breakpoints}
                 colorSize={50}
             />
-            )}
         </div>
     );
 };

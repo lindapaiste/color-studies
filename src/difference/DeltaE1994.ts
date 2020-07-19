@@ -1,4 +1,4 @@
-import {DeltaEWeights, LAB} from "./types";
+import {KeyedLCHWeights, LAB} from "./types";
 
 /**
  * copied from https://github.com/zschuessler/DeltaE/blob/master/src/dE94.js
@@ -35,9 +35,9 @@ export default class DeltaE1994 {
 
     x1: LAB;
     x2: LAB;
-    weights: Required<DeltaEWeights> & { K1: number, K2: number };
+    weights: Required<KeyedLCHWeights> & { K1: number, K2: number };
 
-    constructor(x1: LAB, x2: LAB, weights: DeltaEWeights = {}) {
+    constructor(x1: LAB, x2: LAB, weights: KeyedLCHWeights = {}) {
         this.x1 = x1;
         this.x2 = x2;
 

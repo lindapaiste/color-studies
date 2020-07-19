@@ -1,4 +1,4 @@
-import {LAB, DeltaEWeights} from "./types";
+import {LAB, KeyedLCHWeights} from "./types";
 
 /**
  * copied from https://github.com/zschuessler/DeltaE/blob/master/src/dE00.js
@@ -36,7 +36,7 @@ export default class DeltaE2000 {
 
     x1: LAB;
     x2: LAB;
-    weights: DeltaEWeights;
+    weights: KeyedLCHWeights;
     ksubL: number;
     ksubC: number;
     ksubH: number;
@@ -62,7 +62,7 @@ export default class DeltaE2000 {
     SsubH: number;
     RsubT: number;
 
-    constructor(x1: LAB, x2: LAB, weights?: DeltaEWeights) {
+    constructor(x1: LAB, x2: LAB, weights?: KeyedLCHWeights) {
         const sqrt = Math.sqrt;
         const pow = Math.pow;
 

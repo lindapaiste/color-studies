@@ -1,38 +1,63 @@
-import React, {useMemo, useState} from "react";
-import chroma, {Color} from "chroma-js";
-import {range, sortBy} from "lodash";
+import React, {useCallback, useMemo} from "react";
+import {sortBy} from "lodash";
 import {Swatch} from "../sharedComponents/color/Swatch";
-import {eitherToString} from "../packages/chroma-js";
 import {RenderSet} from "../sharedComponents/color/RenderSet";
-import {NumberInput} from "../sharedComponents/form/NumberInput";
+import {usePartialState} from "../util-hooks";
+import {BasicFormula, FormulaSettings} from "./types";
+import {toFormula} from "./distance";
+import {I_ColorAdapter, randomColor} from "../packages/color-adapter";
+import {DifferenceControls} from "./DifferenceControls";
+import {makeArray} from "../util";
 
 export interface Props {
     count?: number;
-    color: string | Color;
+    color: I_ColorAdapter;
 }
 
-//The parameters L (default 1) and C (default 1) are weighting factors for lightness and chromacity.
 export const VisualizeDifference = ({color, count = 300}: Props) => {
-    const [lWeight, setLWeight] = useState(1);
-    const [cWeight, setCWeight] = useState(1);
+    const [state, update] = usePartialState<Required<FormulaSettings>>({
+        algo: 'CIE2000',
+        model: 'lch',
+        weights: [1, 1, 1, 1]
+    })
 
-    const eWidth = 10;
+    const getDistance = useCallback(
+        toFormula(state),
+        [state.model, state.algo, state.weights]
+    );
 
     const samples = useMemo(
-        () => range(0, count).map(() => chroma.random()),
+        () => makeArray(count, randomColor),
         [color, count]
     );
 
+    return (
+        <div>
+            <h2>Start Color</h2>
+            <Swatch color={color} size={200}/>
+            <div>
+                <div>Adjust the parameters for calculating difference</div>
+                <DifferenceControls state={state} update={update}/>
+            </div>
+            <div>
+                <h2>Randomly-Generated Colors Sorted by DeltaE</h2>
+                <SortedColors base={color} colors={samples} getDistance={getDistance}/>
+            </div>
+        </div>
+    );
+};
+
+export const SortedColors = ({base, colors, getDistance, chunkWidth = 10}: { base: I_ColorAdapter, colors: I_ColorAdapter[], getDistance: BasicFormula, chunkWidth?: number }) => {
     const data = useMemo(
         () => {
-            const withDiff = samples.map(c => ({
+            const withDiff = colors.map(c => ({
                 color: c,
-                deltaE: chroma.deltaE(color, c, lWeight, cWeight),
+                deltaE: getDistance(c, base),
             }));
             const sorted = sortBy(withDiff, o => o.deltaE);
-            const chunked: { color: Color, deltaE: number }[][] = [];
+            const chunked: { color: I_ColorAdapter, deltaE: number }[][] = [];
             sorted.forEach((o) => {
-                const chunkIndex = Math.floor(o.deltaE / eWidth);
+                const chunkIndex = Math.floor(o.deltaE / chunkWidth);
                 if (Array.isArray(chunked[chunkIndex])) {
                     chunked[chunkIndex].push(o);
                 } else {
@@ -41,36 +66,23 @@ export const VisualizeDifference = ({color, count = 300}: Props) => {
             });
             return chunked;
         },
-        [samples, lWeight, cWeight]
+        [colors, getDistance, chunkWidth]
     );
-
 
     return (
         <div>
-            <h2>Start Color</h2>
-            <Swatch color={eitherToString(color)} size={200}/>
-            <div>
-                <div>Adjust the weighting for properties L (lightness) and C (chroma) in LHC model</div>
-                <div>
-                    <NumberInput label="L (Lightness)" value={lWeight} onChange={setLWeight} min={0} step={.25}/>
-                    <NumberInput label="C (Chroma)" value={cWeight} onChange={setCWeight} min={0} step={.25}/>
+            {data.map((chunk, i) => (
+                <div key={i}>
+                    <h3>from {i * chunkWidth} to {(i + 1) * chunkWidth}</h3>
+                    <RenderSet colors={chunk} colorToString={o => o.color.hex()}/>
                 </div>
-            </div>
-            <div>
-                <h2>Randomly-Generated Colors Sorted by DeltaE</h2>
-                {data.map((chunk, i) => (
-                    <div key={i}>
-                        <h3>from {i * eWidth} to {(i + 1) * eWidth}</h3>
-                        <RenderSet colors={chunk} colorToString={o => o.color.hex()}/>
-                    </div>
-                ))}
-            </div>
+            ))}
         </div>
-    );
-};
+    )
+}
 
 export const RandomVisualizeDifference = () => {
     return (
-        <VisualizeDifference count={300} color={chroma.random()}/>
+        <VisualizeDifference count={300} color={randomColor()}/>
     )
 };
