@@ -5,7 +5,10 @@ import { TestGroups } from "./classifier/PerceptronResults";
 import { PlotFeaturesTool } from "./classifier/PlotFeaturesTool";
 import { TestBoundaries } from "./classifier/TestBoundaries";
 import { CompareNoiseChannels } from "./noise/CompareNoiseChannels";
-import { RandomVisualizeDifference } from "./difference/VisualizeDifference";
+import {
+  RandomVisualizeDifference,
+  VisualizeDifference
+} from "./difference/VisualizeDifference";
 import { ForceToAll } from "./grouping/ForceToRules";
 import { RenderGroups } from "./grouping/RenderGroups";
 import { HistogramTool } from "./histogram/HistogramTool";
@@ -62,7 +65,7 @@ const PAGES: AppPage[] = [
   {
     title: "Color Difference",
     path: "difference",
-    Component: RandomVisualizeDifference
+    Component: withSelectableColor(VisualizeDifference)
   },
   {
     title: "Channel Change Gradients",

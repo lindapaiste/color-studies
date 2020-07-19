@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 import { logProfile } from "./Swatch";
 import { isDefined, withHash } from "../../util";
 import { I_GetHex, isGetHex } from "../../packages/color-adapter";
-
+import { Tooltip } from "../ui/Tooltip";
 /**
  * takes an array of colors, which can be any format (string, tuple, object)
  * but unknown formats must also pass a colorToString function
@@ -11,6 +11,7 @@ import { I_GetHex, isGetHex } from "../../packages/color-adapter";
 export interface BaseProps<T> {
   colors: T[];
   colorToString?(color: T): string;
+  colorToTooltip?(color: T): string;
   wrap?: boolean;
   height?: number;
 }
@@ -32,6 +33,7 @@ export type PropsMulti<T> = Omit<PropsSingle<T>, "colors"> & {
 export const RenderSet = <T extends any>({
   colors,
   colorToString,
+  colorToTooltip,
   wrap = false,
   height = 100
 }: PropsSingle<T>) => (
@@ -50,16 +52,20 @@ export const RenderSet = <T extends any>({
         ? color.hex()
         : color;
       return (
-        <div
-          key={i}
-          style={{
-            backgroundColor: withHash(hex),
-            height,
-            flex: 1,
-            minWidth: wrap ? height : undefined
-          }}
-          onClick={() => logProfile(hex)}
-        />
+        <Tooltip
+          title={isDefined(colorToTooltip) ? colorToTooltip(color) : hex}
+        >
+          <div
+            key={i}
+            style={{
+              backgroundColor: withHash(hex),
+              height,
+              flex: 1,
+              minWidth: wrap ? height : undefined
+            }}
+            onClick={() => logProfile(hex)}
+          />
+        </Tooltip>
       );
     })}
   </div>
