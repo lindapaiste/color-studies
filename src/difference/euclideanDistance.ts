@@ -11,7 +11,7 @@ import {ColorTuple} from "../spacesChannels/types";
  * generic is only used as a way to ensure that both tuples are the same length
  */
 export const euclideanDistance = <CS extends ColorSpaceName>(a: ColorTuple<CS>, b: ColorTuple<CS>): number => {
-    const squaredSum = a.reduce((acc, curr, i) => acc + Math.pow(curr + b[i], 2), 0);
+    const squaredSum = a.reduce((acc, curr, i) => acc + Math.pow(curr - b[i], 2), 0);
     return Math.sqrt(squaredSum);
 };
 
@@ -23,6 +23,6 @@ export const euclideanDistance = <CS extends ColorSpaceName>(a: ColorTuple<CS>, 
  */
 export const weightedEuclideanDistance = <CS extends ColorSpaceName>(a: ColorTuple<CS>, b: ColorTuple<CS>, weights?: ColorTuple<CS>): number => {
     const _weights = weights === undefined ? makeArray(a.length, 1) : weights;
-    const squaredSum = a.reduce((acc, curr, i) => acc + (_weights[i] * Math.pow(curr + b[i], 2)), 0);
+    const squaredSum = a.reduce((acc, curr, i) => acc + (_weights[i] * Math.pow(curr - b[i], 2)), 0);
     return Math.sqrt(squaredSum);
 };
