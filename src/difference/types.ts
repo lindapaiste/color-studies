@@ -19,6 +19,13 @@ export interface DeltaEFormula<T, CS extends ColorSpaceName = "lch"> {
 
 export type BasicFormula = (a: I_ColorAdapter, b: I_ColorAdapter) => number;
 
+/**
+ * assume that the calculator takes weights into account internally
+ */
+export interface DeltaECalculator {
+    (a: I_ColorAdapter, b: I_ColorAdapter): number;
+}
+
 export type Algo = "CIE2000" | "CIE1994" | "Euclidean";
 
 export interface FormulaSettings {

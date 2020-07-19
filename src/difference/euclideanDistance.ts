@@ -1,12 +1,3 @@
-import { ColorSpaceName } from "../spacesChannels/types";
-import { makeArray } from "../util";
-import { ColorTuple } from "../spacesChannels/types";
-
-/**
- * CIE 1976 formula uses Euclidean Distance of LAB coordinates,
- * but the same formula can be applied to RGB or any other color space
- */
-
 /**
  * for hues which have NaN, consider the difference to be 0.
  * needs special treatment or else the distance is NaN
@@ -14,34 +5,21 @@ import { ColorTuple } from "../spacesChannels/types";
 const nanFix = (n: number): number => (isNaN(n) ? 0 : n);
 
 /**
- * generic is only used as a way to ensure that both tuples are the same length
+ * for ease of use, I am defining the tuples as number[]
+ * but note that errors will occur if b is shorter than a
+ * weights can have additional entries, but must have at least as many as a.length
+ *
+ * the raw distance is impacted by the maximum values of each channel in the color space
+ * as well as the weights, where weight > 1 will increase the total and weight < 1 will decrease it
  */
-export const euclideanDistance = <CS extends ColorSpaceName>(
-  a: ColorTuple<CS>,
-  b: ColorTuple<CS>
+export const rawDistance = (
+    a: number[],
+    b: number[],
+    weights: number[]
 ): number => {
-  const squaredSum = a.reduce(
-    (acc, curr, i) => acc + Math.pow(nanFix(curr - b[i]), 2),
-    0
-  );
-  return Math.sqrt(squaredSum);
-};
-
-/**
- * it is easy to add the weights, but they will impact the resulting sum
- * would need to know the max spread for each element in order to account for this
- * otherwise, just recognize that weights > 1 will always increase the value
- * and weights < 1 will decrease it
- */
-export const weightedEuclideanDistance = <CS extends ColorSpaceName>(
-  a: ColorTuple<CS>,
-  b: ColorTuple<CS>,
-  weights?: ColorTuple<CS>
-): number => {
-  const _weights = weights === undefined ? makeArray(a.length, 1) : weights;
-  const squaredSum = a.reduce(
-    (acc, curr, i) => acc + _weights[i] * Math.pow(nanFix(curr - b[i]), 2),
-    0
-  );
-  return Math.sqrt(squaredSum);
+    const squaredSum = a.reduce(
+        (acc, curr, i) => acc + weights[i] * Math.pow(nanFix(curr - b[i]), 2),
+        0
+    );
+    return Math.sqrt(squaredSum);
 };

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, {PropsWithChildren, ReactNode} from "react";
 import { logProfile } from "./Swatch";
 import { isDefined, withHash } from "../../util";
 import { I_GetHex, isGetHex } from "../../packages/color-adapter";
@@ -11,7 +11,7 @@ import { Tooltip } from "../ui/Tooltip";
 export interface BaseProps<T> {
   colors: T[];
   colorToString?(color: T): string;
-  colorToTooltip?(color: T): string;
+  colorToTooltip?(color: T): ReactNode;
   wrap?: boolean;
   height?: number;
 }
