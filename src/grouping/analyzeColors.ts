@@ -1,14 +1,15 @@
 import Color from "color";
 import {fromPairs} from "lodash";
 import {PROPERTIES} from "../packages/color-js";
+import {standardDeviation, geometricMean, harmonicMean} from "simple-statistics";
 
 export interface GroupColorAnalysis {
   hue: PropertyAnalysis;
   wheelHue: PropertyAnalysis;
   luminosity: PropertyAnalysis;
   lightness: PropertyAnalysis;
-  saturationl: PropertyAnalysis;
-  saturationv: PropertyAnalysis;
+  saturationHsl: PropertyAnalysis;
+  saturationHsv: PropertyAnalysis;
   blackness: PropertyAnalysis;
   whiteness: PropertyAnalysis;
 }
@@ -20,12 +21,13 @@ export interface PropertyAnalysis {
   spread: number;
   mean: number;
   median: number;
+  geometricMean: number;
+  harmonicMean: number;
   differences: number[];
   meanDifference: number; //won't be 0 because looking at absolute values
   medianDifference: number;
+  standardDeviation: number;
 }
-
-
 
 //input should be anything that Color can use as an input to the Constructor
 export const getGroupData = (
@@ -70,6 +72,9 @@ const analyzePropertyValues = (values: number[]): PropertyAnalysis => {
     median: vMedian,
     differences,
     meanDifference: mean(differences),
-    medianDifference: median(values.map(v => Math.abs(v - vMedian)))
+    medianDifference: median(values.map(v => Math.abs(v - vMedian))),
+    geometricMean: geometricMean(values),
+    harmonicMean: harmonicMean(values),
+    standardDeviation: standardDeviation(values),
   };
 };

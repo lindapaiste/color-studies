@@ -17,11 +17,11 @@ export class ChromaAdapter implements ColorProfile {
         return this.internal.get('hsl.l');
     }
 
-    get saturationl() {
+    get saturationHsl() {
         return this.internal.get('hsl.s');
     }
 
-    get saturationv() {
+    get saturationHsv() {
         return this.internal.get('hsv.s');
     }
 

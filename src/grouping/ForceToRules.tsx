@@ -1,101 +1,104 @@
 import React from "react";
-import { RenderColorInfo } from "../sharedComponents/color/RenderColorInfo";
-import Color from "color";
-import { randomRgb } from "../util";
-import { GROUPINGS} from "./group-data";
-import { last } from "lodash";
-import { fitsConditions } from "./colorToGroup";
-import {ColorPropKey} from "../packages/types";
-import {setColorProp, getColorProp} from "../packages";
+import {ColorInfo} from "../sharedComponents/color/ColorInfo";
+import {GROUPINGS} from "./group-data";
+import {last} from "lodash";
+import {fitsConditions} from "./colorToGroup";
 import {PropertyConstraint} from "./types";
+import {Swatch} from "../sharedComponents/color/Swatch";
+import {ColorAdapter, I_ColorAdapter, PropColor} from "../packages/color-adapter";
+import {nameToAccessor} from "../spacesChannels/accessorConversion";
+import {ChannelName} from "../spacesChannels/types";
 
 /**
  * play with rgb(47, 60, 14) going to pastel
  * or (141, 136, 196)
  */
 export const Temp = () => {
-  const color = Color("rgb(47, 60, 14)");
-  const group = GROUPINGS[1];
-  console.log(group.name);
-  return (
-    <div>
-      <h3>{group.name}</h3>
-      <ForceToRules color={color} rules={group.definitions} />
-    </div>
-  );
-};
-
-export const TestForce = () => {
-  const random = Color.rgb(randomRgb());
-
-  return (
-    <div>
-      {GROUPINGS.map(group => {
-        console.log(group.name);
-        return (
-          <div>
+    const color = new ColorAdapter("rgb(47, 60, 14)");
+    const group = GROUPINGS[1];
+    console.log(group.name);
+    return (
+        <div>
             <h3>{group.name}</h3>
-            <ForceToRules color={random} rules={group.definitions} />
-          </div>
-        );
-      })}
-    </div>
-  );
+            <ForceToRules color={color} rules={group.definitions}/>
+        </div>
+    );
 };
+
+export const ForceToAll = ({color}: PropColor) => {
+    return (
+        <div>
+            {GROUPINGS.map(group => {
+                return (
+                    <div>
+                        <h3>{group.name}</h3>
+                        <ForceToRules color={color} rules={group.definitions}/>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
+export interface Props {
+    color: I_ColorAdapter;
+    rules?: PropertyConstraint[];
+    maxAttempts?: number;
+    fuzz?: number;
+}
 
 export const ForceToRules = ({
-  color,
-  rules = [],
-  maxAttempts = 10,
-  fuzzPercent = 0.1
-}: {
-  color: Color;
-  rules?: PropertyConstraint[];
-  maxAttempts?: number;
-  fuzzPercent?: number;
-}) => {
-  const phases: Array<{ color: Color; property: ColorPropKey | null }> = [
-    { color, property: null }
-  ];
+                                 color,
+                                 rules = [],
+                                 maxAttempts = 10,
+                                 fuzz = 0.1
+                             }: Props) => {
+    const phases: Array<{ color: I_ColorAdapter; property: ChannelName | null }> = [
+        {color, property: null}
+    ];
 
-  for (let i = 0; i < maxAttempts; i++) {
-    const errors = fitsConditions(
-      last(phases).color,
-      rules,
-      false,
-      fuzzPercent
-    );
-    console.log(errors);
-    if (errors.matches) {
-      console.log("Color Okay!");
-      break;
+    for (let i = 0; i < maxAttempts; i++) {
+        const errors = fitsConditions(
+            // @ts-ignore
+            last(phases).color,
+            rules,
+            false,
+            fuzz
+        );
+        console.log(errors);
+        if (errors.matches) {
+            console.log("Color Okay!");
+            break;
+        }
+
+        rules.forEach(({property, min, max}) => {
+            const channel = nameToAccessor(property);
+            const initial = last(phases)?.color;
+            if ( ! initial ) return;
+            const value = initial.get(channel);
+            if (value > max) {
+                const color = initial.set(channel, max);
+                phases.push({color, property});
+                console.log("set " + property + " to " + max);
+            } else if (value < min) {
+                const color = initial.set(channel, value);
+                phases.push({color, property});
+                console.log("set " + property + " to " + min);
+            } else {
+                console.log(property + " ok");
+            }
+        });
     }
 
-    rules.forEach(({ property, min, max }) => {
-      const initial = last(phases).color;
-      const value = getColorProp(initial, property);
-      if (value > max) {
-        const color = setColorProp(initial, property, max);
-        phases.push({ color, property });
-        console.log("set " + property + " to " + max);
-      } else if (value < min) {
-        const color = setColorProp(initial, property, value);
-        phases.push({ color, property });
-        console.log("set " + property + " to " + min);
-      } else {
-        console.log(property + " ok");
-      }
-    });
-  }
-
-  return (
-    <div>
-      {phases.map(({ color, property }, i) => (
-        <div key={i}>
-          <h3>Edited {property}</h3>
-          <RenderColorInfo color={color.hex()} />
+    return (
+        <div>
+            {phases.map(({color, property}, i) => (
+                <div key={i}>
+                    <h3>Edited {property}</h3>
+                    <Swatch color={color.hex()} size={100}/>
+                    <ColorInfo color={color.hex()} initialOpen={false}/>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };

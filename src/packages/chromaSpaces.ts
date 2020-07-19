@@ -7,9 +7,9 @@ import {accessorToName, nameToAccessor} from "../spacesChannels/accessorConversi
 const chromaColorSpaces: ColorSpaceName[] = ['rgb', 'hsl', 'hsv', 'hsi', 'lab', 'lch', 'cmyk'];
 
 const chromaMaxes: Partial<Record<FixedMaxChannel, number>> = {
-    saturationl: 1,
-    saturationv: 1,
-    saturationi: 1,
+    saturationHsl: 1,
+    saturationHsv: 1,
+    saturationHsi: 1,
     lightness: 1,
     value: 1,
     intensity: 1,

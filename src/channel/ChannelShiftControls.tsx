@@ -1,7 +1,6 @@
-import { ChannelShiftSettings } from "../boxSets/types";
-import { TextInput } from "../sharedComponents/form/TextInput";
-import { NumberInput } from "../sharedComponents/form/NumberInput";
-import React, { useState } from "react";
+import {ChannelShiftSettings} from "../boxSets/types";
+import {NumberInput} from "../sharedComponents/form/NumberInput";
+import React from "react";
 import {StateUpdateProps, usePartialState} from "../util-hooks";
 import {SelectAccessor} from "../sharedComponents/form/SelectAccessor";
 import {accessorToCode, codeToAccessor} from "../packages/chromaSpaces";
@@ -29,30 +28,30 @@ export const ChannelShiftControls = ({state, update}: StateUpdateProps<ChannelSh
         <div>
             <div>
                 <div
-                style={{
-                    display: "flex",
-                    //justifyContent: "space-between"
-                }}>
+                    style={{
+                        display: "flex",
+                        //justifyContent: "space-between"
+                    }}>
                     <SelectAccessor
                         label="Channel"
                         value={codeToAccessor(state.channel)}
-                        onChange={v => update({ channel: accessorToCode(v)})}
+                        onChange={v => update({channel: accessorToCode(v)})}
                     />
                     <NumberInput
                         label="Channel Max"
                         disabled={true}
                         value={state.channelMax}
-                        onChange={v => update({ channelMax: v })}
+                        onChange={v => update({channelMax: v})}
                     />
                     <NumberInput
                         label="Shift Amount"
                         value={state.shift}
-                        onChange={v => update({ shift: v })}
+                        onChange={v => update({shift: v})}
                     />
                     <NumberInput
                         label="Color Count"
                         value={state.colorCount}
-                        onChange={v => update({ colorCount: v })}
+                        onChange={v => update({colorCount: v})}
                     />
                 </div>
             </div>

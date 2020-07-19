@@ -40,13 +40,13 @@ const PROPERTIES: ColorPropDef<Color>[] = [
     },
     {
         name: "Saturation L",
-        key: "saturationl",
+        key: "saturationHsl",
         range: 1,
         ...getSetChannel("hsl.s")
     },
     {
         name: "Saturation V",
-        key: "saturationv",
+        key: "saturationHsv",
         range: 1,
         ...getSetChannel("hsv.s")
     },

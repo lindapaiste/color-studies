@@ -6,6 +6,9 @@ import {pointsToVectors, PointTuple} from "../luminosity/LuminosityChart";
 import {Data} from "plotly.js";
 import {ChromaAdapter} from "../packages/chroma-adapter-profile";
 import {getSplitSample} from "./shuffledData";
+import {ChannelAccessor} from "../spacesChannels/types";
+import {accessorTitle} from "../spacesChannels/accessorConversion";
+import {ColorAdapter} from "../packages/color-adapter";
 
 /**
  * creates a scatter plot based on two color properties (x and y)
@@ -18,8 +21,8 @@ import {getSplitSample} from "./shuffledData";
 
 export interface Props {
     count: number;
-    x: ColorPropKey;
-    y: ColorPropKey;
+    x: ChannelAccessor;
+    y: ChannelAccessor;
     group: string;
 }
 
@@ -28,13 +31,13 @@ export const PlotFeatures = ({count, x, y, group}: Props) => {
 
     const toTrace = (data: GroupedHex[], label: string): Data => {
         const points: PointTuple[] = data.map( ({hex}) => {
-            const obj = new ChromaAdapter(hex);
-            return [obj[x], obj[y]];
+            const obj = new ColorAdapter(hex);
+            return [obj.get(x), obj.get(y)];
         });
         return {
             ...pointsToVectors(points), //x and y
-            xaxis: x,
-            yaxis: y,
+            xaxis: accessorTitle(x),
+            yaxis: accessorTitle(y),
             mode: "markers",
             type: "scatter",
             text: label,

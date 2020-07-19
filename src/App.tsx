@@ -6,7 +6,7 @@ import { PlotFeaturesTool } from "./classifier/PlotFeaturesTool";
 import { TestBoundaries } from "./classifier/TestBoundaries";
 import { CompareNoiseChannels } from "./noise/CompareNoiseChannels";
 import { RandomVisualizeDifference } from "./difference/VisualizeDifference";
-import { TestForce } from "./grouping/ForceToRules";
+import { ForceToAll } from "./grouping/ForceToRules";
 import { RenderGroups } from "./grouping/RenderGroups";
 import { HistogramTool } from "./histogram/HistogramTool";
 import { Sample } from "./luminosity/LuminosityChart";
@@ -17,7 +17,7 @@ import { NoisyBoxTool } from "./boxSets/NoisyBoxes";
 import { ChannelGradientTool } from "./channel/ChannelGradientTool";
 import { withSelectableColor } from "./sharedComponents/form/withSelectableColor";
 import { withSelectMultipleColors } from "./sharedComponents/form/withSelectMultipleColors";
-import { RenderColorInfo } from "./sharedComponents/color/RenderColorInfo";
+import { ColorInfo } from "./sharedComponents/color/ColorInfo";
 import { CompareModelNoise } from "./noise/CompareModelNoise";
 import { Sandbox } from "./Sandbox";
 import List from "@material-ui/core/List";
@@ -97,12 +97,12 @@ const PAGES: AppPage[] = [
   {
     title: "Force Color To Group",
     path: "force",
-    Component: TestForce
+    Component: withSelectableColor(ForceToAll)
   },
   {
     title: "Color Info",
     path: "info",
-    Component: withSelectableColor(RenderColorInfo)
+    Component: withSelectableColor(ColorInfo)
   },
   {
     title: "View Groups",

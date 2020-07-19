@@ -1,8 +1,10 @@
 import { ColorClassification} from "./types";
-import Color from "color";
 import { round } from "lodash";
-import {getAllowance, getColorProp} from "../packages";
 import {PropertyConstraint} from "./types";
+import {I_ColorAdapter} from "../packages/color-adapter";
+import {nameToAccessor} from "../spacesChannels/accessorConversion";
+import {getAllowance} from "../spacesChannels/channelMaxes";
+
 /**
  * in the future could have targets where the difference matters,
  * and use that to calculate a match score
@@ -21,7 +23,7 @@ export interface Error {
 }
 
 export const fitsCategory = (
-  color: Color,
+  color: I_ColorAdapter,
   category: ColorClassification,
   reportAll: boolean = true
 ): Result => fitsConditions(color, category.definitions, reportAll);
@@ -34,20 +36,20 @@ export const fitsCategory = (
  * when setting a value to force it into rance and then checking if it's actually in the range
  */
 export const fitsConditions = (
-  color: Color,
+  color: I_ColorAdapter,
   conditions: PropertyConstraint[] = [],
   reportAll: boolean = true,
-  fuzzPercent = 0.1
+  fuzz = 0.1
 ): Result => {
   const errors: Error[] = [];
 
   for (let condition of conditions) {
     const { property } = condition;
-    const value = getColorProp(color, property);
+    const value = color.get(nameToAccessor(property));
     const error = getConditionError(
       value,
       condition,
-      getAllowance(property, fuzzPercent, color)
+      getAllowance(property, fuzz, color)
     );
     if (error) {
       errors.push({

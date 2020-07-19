@@ -3,6 +3,7 @@ import { PropertyAnalysis, GroupColorAnalysis } from "./analyzeColors";
 import { GROUPINGS } from "./group-data";
 import { getGroupData } from "./analyzeColors";
 import { round } from "lodash";
+import {isArrayKey, isNumberKey, typedKeys} from "../util";
 
 export const GroupsAnalysis = () => (
   <ResultsTable
@@ -64,7 +65,7 @@ export const ResultsTable = ({ columns }: Props) => {
           {columns.map(({ group, data }) => (
             <tr key={group}>
               <th scope="row">{group}</th>
-              {Object.keys(data).map(property => {
+              {typedKeys(data).map(property => {
                 const analysis: PropertyAnalysis = data[property];
                 return (
                   <td
@@ -117,9 +118,9 @@ const RenderCompare = ({ compare }: { compare: CompareState[] }) => {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(compare[0].analysis).map(key => {
+          {typedKeys(compare[0].analysis).map(key => {
             //want to skip over array packages (ie. values and differences)
-            if (typeof compare[0].analysis[key] !== "number") {
+            if ( ! isNumberKey(key, compare[0].analysis)) {
               return null;
             }
             return (

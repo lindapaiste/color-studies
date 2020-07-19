@@ -1,10 +1,10 @@
-import { SelectProperty } from "../sharedComponents/form/SelectProperty";
-import React, { useState } from "react";
-import { PlotFeatures } from "./PlotFeatures";
-import { ColorPropKey } from "../packages/types";
+import React, {useState} from "react";
+import {PlotFeatures} from "./PlotFeatures";
 import GROUPINGS from "../grouping/group-data";
-import { SelectGroup } from "../sharedComponents/form/SelectGroup";
-import { NumberInput } from "../sharedComponents/form/NumberInput";
+import {SelectGroup} from "../sharedComponents/form/SelectGroup";
+import {NumberInput} from "../sharedComponents/form/NumberInput";
+import {ChannelAccessor} from "../spacesChannels/types";
+import {SelectAccessor} from "../sharedComponents/form/SelectAccessor";
 
 /**
  * tool allows dynamic creation of a PlotFeatures component
@@ -13,24 +13,24 @@ import { NumberInput } from "../sharedComponents/form/NumberInput";
  */
 
 export const PlotFeaturesTool = () => {
-  const [groupName, setGroupName] = useState(GROUPINGS[0].name);
-  const [x, setX] = useState<ColorPropKey>();
-  const [y, setY] = useState<ColorPropKey>();
-  const [count, setCount] = useState(100);
+    const [groupName, setGroupName] = useState(GROUPINGS[0].name);
+    const [x, setX] = useState<ChannelAccessor>();
+    const [y, setY] = useState<ChannelAccessor>();
+    const [count, setCount] = useState(100);
 
-  return (
-    <div>
-      <div>
-        <SelectProperty slug={x} onChange={setX} />
-        <SelectProperty slug={y} onChange={setY} />
-        <SelectGroup value={groupName} onChange={setGroupName} />
-        <NumberInput value={count} isInt={true} onChange={setCount} />
-      </div>
-      <div>
-        {!!x && !!y && (
-          <PlotFeatures count={count} x={x} y={y} group={groupName} />
-        )}
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <div>
+                <SelectAccessor value={x} onChange={setX}/>
+                <SelectAccessor value={y} onChange={setY}/>
+                <SelectGroup value={groupName} onChange={setGroupName}/>
+                <NumberInput value={count} isInt={true} onChange={setCount}/>
+            </div>
+            <div>
+                {!!x && !!y && (
+                    <PlotFeatures count={count} x={x} y={y} group={groupName}/>
+                )}
+            </div>
+        </div>
+    );
 };

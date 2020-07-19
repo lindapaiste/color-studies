@@ -189,7 +189,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 60,
         max: 100
         /**
@@ -198,7 +198,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationl",
+        property: "saturationHsl",
         min: 50,
         max: 100
         /**
@@ -409,7 +409,7 @@ export const GROUPINGS: ColorClassification[] = [
         max: 0.9 //could go up to 1, but but then it's basically just white
       },
       { property: "lightness", min: 75, max: 95 },
-      { property: "saturationv", min: 0, max: 25 },
+      { property: "saturationHsv", min: 0, max: 25 },
       { property: "blackness", min: 0, max: 24 },
       { property: "whiteness", min: 7, max: 95 }
     ]
@@ -478,7 +478,7 @@ export const GROUPINGS: ColorClassification[] = [
     ],
     definitions: [
       /**
-       * hue, saturationl, luminosity, not related
+       * hue, saturationHsl, luminosity, not related
        */
       {
         property: "blackness",
@@ -496,7 +496,7 @@ export const GROUPINGS: ColorClassification[] = [
         max: 90
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 0,
         max: 50
       },
@@ -607,7 +607,7 @@ export const GROUPINGS: ColorClassification[] = [
         max: 65
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 0,
         max: 75
         /**
@@ -615,7 +615,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationl",
+        property: "saturationHsl",
         min: 0,
         max: 65
       },
@@ -824,7 +824,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 40,
         max: 100
         /**
@@ -895,7 +895,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 75,
         max: 100
         /**
@@ -903,7 +903,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationl",
+        property: "saturationHsl",
         min: 60,
         max: 100
         /**
@@ -1058,7 +1058,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationl",
+        property: "saturationHsl",
         min: 0,
         max: 70
         /**
@@ -1066,7 +1066,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 0,
         max: 85
         /**
@@ -1168,12 +1168,12 @@ export const GROUPINGS: ColorClassification[] = [
        * blackness not correlated
        */
       {
-        property: "saturationl",
+        property: "saturationHsl",
         min: 20,
         max: 100
       },
       {
-        property: "saturationv",
+        property: "saturationHsv",
         min: 30,
         max: 100
       },

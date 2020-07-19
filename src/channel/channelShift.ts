@@ -7,7 +7,7 @@ import {nameToAccessor} from "../spacesChannels/accessorConversion";
 export const transformChannel = (initial: I_ColorAdapter, channel: ChannelName, transform: (v: number) => number): I_ColorAdapter => {
     const props = getChannelProps(channel);
     const value = initial.get(nameToAccessor(channel));
-    const newValue = calculateTransformed({...props,value, transform});
+    const newValue = calculateTransformed({...props, value, transform});
     return initial.set(nameToAccessor(channel), newValue);
 };
 
@@ -17,6 +17,6 @@ export type CalcProps = ChannelProps & {
 }
 
 export const calculateTransformed = ({value, transform, clamp = false, max = 100, min = 0, postTransform = c => c, preTransform = c => c}: CalcProps): number => {
-    const result = postTransform( transform( preTransform( value )));
+    const result = postTransform(transform(preTransform(value)));
     return clamp ? _clamp(result, min, max) : result;
 };

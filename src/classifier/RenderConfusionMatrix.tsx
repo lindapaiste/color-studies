@@ -14,7 +14,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { ValuesTable } from "../sharedComponents/ui/ValuesTable";
-import { Accordian } from "../sharedComponents/ui/Accordian";
+import { Accordion } from "../sharedComponents/ui/Accordion";
 import { percentString } from "../util";
 /**
  * contains multiple UI components for displaying all or part of the I_ConfusionMatrix interface
@@ -27,16 +27,16 @@ export const ExpandableConfusionMatrix = ({
 }) => {
   return (
     <>
-      <Accordian title="Results Matrix">
+      <Accordion title="Results Matrix">
         <Render2x2ResultsMatrix {...results} />
-      </Accordian>
+      </Accordion>
 
-      <Accordian title="Accuracy Metrics">
+      <Accordion title="Accuracy Metrics">
         <RenderMetrics
           results={results}
           metrics={[...conditionalsKeys, ...scoresKeys]}
         />
-      </Accordian>
+      </Accordion>
     </>
   );
 };

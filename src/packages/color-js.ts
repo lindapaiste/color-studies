@@ -38,14 +38,14 @@ export const PROPERTIES: ColorPropDef<Color>[] = [
     },
     {
         name: "Saturation L",
-        key: "saturationl",
+        key: "saturationHsl",
         getter: c => c.saturationl(),
         setter: (c, v) => c.saturationl(v),
         range: 100
     },
     {
         name: "Saturation V",
-        key: "saturationv",
+        key: "saturationHsv",
         getter: c => c.saturationv(),
         setter: (c, v) => c.saturationv(v),
         range: 100

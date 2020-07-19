@@ -39,7 +39,7 @@ export const normalToColorWheel = (hue: number): number => {
   return 0;
 };
 
-//follows the same formula, but reveses input and output
+//follows the same formula, but reverses input and output
 export const colorWheelToNormal = (hue: number): number => {
   for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
     const [lowerOutput, lowerInput] = ADJUSTMENTS[i];

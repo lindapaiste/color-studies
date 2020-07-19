@@ -10,6 +10,8 @@ import {
   I_Range
 } from "./types";
 import { typedKeys } from "../util";
+import {ColorPropKey} from "../packages/types";
+import {I_ColorAdapter} from "../packages/color-adapter";
 
 export const isFixedMaxChannel = (
   channel: ChannelName
@@ -146,3 +148,13 @@ export const normalize = (value: number, channel: ChannelName): number => {
   const { min, max } = getMaxObject(channel);
   return (value - min) / (max - min);
 };
+
+/**
+ * transforms a fuzz percent into a number
+ * ie. 0.05 for hue => 18, 0.05 for saturation => 5
+ * take into account the color-specific range?
+ */
+export const getAllowance = (channel: ChannelName, fuzzPercent: number, color?: I_ColorAdapter) => {
+  const { min, max } = getMaxObject(channel);
+  return (max - min) * fuzzPercent //is is divided by 100 or not?
+}

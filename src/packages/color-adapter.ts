@@ -126,3 +126,7 @@ export const hexProperty = (hex: string, property: ChannelName): number => {
 export const randomColor = (): I_ColorAdapter => {
     return new ColorAdapter(chroma.random());
 };
+
+export interface PropColor {
+    color: I_ColorAdapter;
+}

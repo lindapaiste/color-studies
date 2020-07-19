@@ -126,3 +126,16 @@ export const hasMethod = (obj: any, method: string): boolean => {
 export const isDefined = <T>(a: T | undefined): a is T => a !== undefined;
 export const isUndefined = <T>(a: T | undefined): a is undefined =>
   a === undefined;
+
+
+export type TypePropertyKeys<T, E> = {
+  [K in keyof T]-?: Required<T>[K] extends E ? K : never
+}[keyof T];
+
+export const isNumberKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T, number> => {
+  return typeof data[key] === "number";
+}
+
+export const isArrayKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T, any[]> => {
+  return Array.isArray( data[key] );
+}

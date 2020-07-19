@@ -1,5 +1,4 @@
-import {ColorPropKey} from "../packages/types";
-import {ChannelAccessor} from "../spacesChannels/types";
+import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 
 export interface ColorClassification {
     name: string;
@@ -9,7 +8,7 @@ export interface ColorClassification {
 }
 
 export interface PropertyConstraint {
-    property: ColorPropKey;
+    property: ChannelName;
     min: number;
     max: number;
 }

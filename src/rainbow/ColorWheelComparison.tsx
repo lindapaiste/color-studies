@@ -5,7 +5,6 @@ import {PropsSingle, RenderSet} from "../sharedComponents/color/RenderSet";
 import {HSL, hslToString} from "../util";
 import {randomHsluv} from "../hue/hsluv";
 import {hsluvToHex} from "hsluv";
-//import Color from "color";
 
 export const makeRainbow = (
     count: number,
