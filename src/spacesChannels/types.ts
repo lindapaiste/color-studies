@@ -27,7 +27,18 @@ export type VariableMaxChannel = 'a' | 'b';
  */
 export type ChannelAccessor = [ColorSpaceName, number];
 
+/**
+ * define it this way so that a tuple with four entries is always ok, even if only three are actually needed
+ * previously TS would give a length mismatch error if passing [number x4] when expecting [number x3]
+ */
+type BasicTuple = number[] & {
+    0: number,
+    1: number,
+    2: number,
+    3?: number,
+}
 
+export type BetterTuple<CS extends ColorSpaceName> = CS extends 'cmky' ? Required<BasicTuple> : BasicTuple;
 
 export type Tuple<N, T> = N extends 3 ? [T, T, T] : N extends 4 ? [T, T, T, T] : never;
 

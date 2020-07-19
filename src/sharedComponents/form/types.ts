@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, ReactNode } from "react";
+import {ChangeEvent, CSSProperties, FunctionComponent, ReactNode} from "react";
 import { TextFieldProps } from "@material-ui/core/TextField";
 
 export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
@@ -22,7 +22,7 @@ export interface GenericProps<T> {
   label?: ReactNode;
   helperText?: ReactNode;
   disabled?: boolean;
-  style?: object;
+  style?: CSSProperties;
 }
 
 export type Event = ChangeEvent<

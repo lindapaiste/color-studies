@@ -1,7 +1,8 @@
 import React from "react";
-import { Color, fromHex, getProfile } from "../../packages/";
-import { I_GetHex } from "../../packages/color-adapter";
+import {ColorAdapter, I_ColorAdapter, I_GetHex} from "../../packages/color-adapter";
 import { withHash } from "../../util";
+import {CHANNEL_NAMES} from "../../spacesChannels/channelMaxes";
+import {nameToAccessor} from "../../spacesChannels/accessorConversion";
 
 export interface Props {
   color: I_GetHex | string;
@@ -28,10 +29,13 @@ export const Swatch = ({ color, size, height }: Props) => {
   );
 };
 
-export const logProfile = (color: Color | string): void => {
-  const object = typeof color === "string" ? fromHex(color) : color;
-  if (object) {
-    //could also use alert here - alert allows \t and \n but not html
-    console.log(getProfile(object));
-  }
+export const logProfile = (color: I_ColorAdapter | string): void => {
+    try {
+        const object = typeof color === "string" ? new ColorAdapter(color) : color;
+        const profile = Object.fromEntries( CHANNEL_NAMES.map( name => [name, object.get(nameToAccessor(name))]))
+        //could also use alert here - alert allows \t and \n but not html
+        console.log(profile);
+    } catch (e) {
+        console.log(e);
+    }
 };

@@ -15,36 +15,34 @@ import {ModelNoiseControls} from "./ModelNoiseControls";
  * for noise generation in a color space
  */
 
-export const CompareModelNoise = (props: {
-  colors: I_ColorAdapter[];
-  countPer?: number;
-}) => {
-  const [settings, onChange] = usePartialState(DEFAULT_SETTINGS);
+export interface CompareProps {
+    colors: I_ColorAdapter[];
+    countPer?: number;
+}
 
-  return (
-    <div>
-      <ModelNoiseControls state={settings} update={onChange} />
-      <Typography variant="h2">Results</Typography>
-      {props.colors.map(color => (
-        <NoisyColors {...props} color={color} settings={settings} />
-      ))}
-    </div>
-  );
+export const CompareModelNoise = (props: CompareProps) => {
+    const [settings, onChange] = usePartialState(DEFAULT_SETTINGS);
+
+    return (
+        <div>
+            <ModelNoiseControls state={settings} update={onChange}/>
+            <Typography variant="h2">Results</Typography>
+            {props.colors.map(color => (
+                <NoisyColors {...props} color={color} settings={settings}/>
+            ))}
+        </div>
+    );
 };
 
 /**
  * makes a band of the original color on top of the normal RenderSet
  */
-export const NoisyColors = ({
-  color,
-  countPer = 25,
-  settings
-}: Props & { settings: NoiseSettings }) => (
-  <div>
-    <Swatch color={color.hex()} size={"100%"} height={30} />
-    <RenderSet
-      colors={makeArray(countPer, () => withModelNoise({ color, ...settings }))}
-    />
-  </div>
+export const NoisyColors = ({color, countPer = 25, settings}: Props & { settings: NoiseSettings }) => (
+    <div>
+        <Swatch color={color.hex()} size={"100%"} height={30}/>
+        <RenderSet
+            colors={makeArray(countPer, () => withModelNoise({color, ...settings}))}
+        />
+    </div>
 );
 

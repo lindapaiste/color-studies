@@ -1,4 +1,3 @@
-import {Color} from "../packages";
 import {ChannelAccessor} from "../spacesChannels/types";
 
 export interface CalcProps {

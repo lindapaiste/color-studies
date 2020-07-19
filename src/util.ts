@@ -139,3 +139,13 @@ export const isNumberKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T
 export const isArrayKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T, any[]> => {
   return Array.isArray( data[key] );
 }
+
+/**
+ * is basically the same as array map except that it preserves the type ( length )
+ * of the input so that TS knows it is the same
+ * use carefully - if T is anything beyond a tuple then it is NOT guaranteed that type T is really preserved
+ * as written, cannot cast tuple to a different type of same length
+ */
+export const tupleMap = <ET extends any, AT extends ET[]>(array: AT, mapper: ((v: ET) => ET) | ET): AT => {
+  return array.map(isFunction(mapper) ? mapper : () => mapper) as AT;
+}
