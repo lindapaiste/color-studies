@@ -2,8 +2,7 @@ import React, { useState, ReactNode } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import {ChevronUpIcon, ChevronDownIcon} from "./Icons";
 import Collapse from "@material-ui/core/Collapse";
 
 export interface Props {
@@ -19,7 +18,7 @@ export const Accordion = ({ initialOpen = false, children, title }: Props) => {
     <Box>
       <Box>
         <IconButton onClick={() => setOpen(!open)}>
-          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
         </IconButton>
         {typeof title === "string" ? (
           <Typography component="span">{title}</Typography>

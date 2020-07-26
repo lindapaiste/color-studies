@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { PropertyAnalysis, GroupColorAnalysis } from "./analyzeColors";
 import { GROUPINGS } from "./group-data";
 import { getGroupData } from "./analyzeColors";
-import { round } from "lodash";
-import {isArrayKey, isNumberKey, typedKeys} from "../util";
+import {isArrayKey, isNumberKey, typedKeys, round} from "../lib";
 
 export const GroupsAnalysis = () => (
   <ResultsTable

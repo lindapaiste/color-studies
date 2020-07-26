@@ -1,11 +1,30 @@
 import React from "react";
-import { randomColor } from "packages/color-adapter";
-import { transformChannel } from "channel/channelShift";
-import { RenderSet } from "sharedComponents/color/RenderSet";
-import { rgbDist, deltaE76, deltaE00, deltaE94 } from "difference/distance";
+import {RenderSet} from "sharedComponents/color/RenderSet";
+import {ModelPalette} from "./tools/PaletteCompare/ModelPalette";
+import {ModelAdapter} from "./spacesChannels/ModelAdapter";
+import {ColorAdapter} from "./packages/ColorAdapter";
+import {rgbToRyb, rybToRgb} from "./packages/ryb";
 
 export const Sandbox = () => {
-    const initial = randomColor();
+
+    const purple = [127,0,255];
+
+    console.log(rgbToRyb([127.5,0,255], 255));
+    console.log(rgbToRyb([.5,0,1], 1));
+
+    const model = new ModelAdapter('xyz');
+
+    const color = ColorAdapter.staticFrom([81, 0, 37], 'rgb');
+
+    console.log(color.to('xyz'));
+
+    return (
+        <ModelPalette model={model} totalCount={100} perRow={10}/>
+    );
+};
+
+/*
+const initial = randomColor();
 
     const colors = [
         initial,
@@ -33,5 +52,11 @@ export const Sandbox = () => {
         );
     });
 
-    return <RenderSet colors={colors} />;
-};
+const sampleEval: Evaluation = {
+    color: colors[0],
+    match: colors[1],
+    distance: 10,
+    distinctness: 35,
+    distances: [10, 35],
+}
+*/

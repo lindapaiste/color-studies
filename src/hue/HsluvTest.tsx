@@ -1,12 +1,12 @@
 import React from "react";
 import { randomMultiHueSet } from "./hsluv";
-import { RenderSets } from "../sharedComponents/color/RenderSet";
+import { RenderSet } from "../sharedComponents/color/RenderSet";
 import { hsluvToHex } from "hsluv";
 
 export const HsluvTest = () => {
-  const sets = [...new Array(10)].map(() => randomMultiHueSet(4, 200));
+  const set = randomMultiHueSet(4, 200);
 
-  console.log(sets);
+  console.log(set);
 
-  return <RenderSets sets={sets} colorToString={hsluvToHex} />;
+  return <RenderSet colors={set} colorToString={hsluvToHex} />;
 };

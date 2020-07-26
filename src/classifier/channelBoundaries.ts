@@ -1,6 +1,6 @@
 import {splitInGroup} from "./shuffledData";
 import {boundaryModel, BoundaryModelAcc} from "./boundaryModel";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {ChannelAccessor} from "../spacesChannels/types";
 import {I_ConfusionMatrix} from "./ConfusionMatrix";
 

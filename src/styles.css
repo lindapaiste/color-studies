@@ -8,3 +8,6 @@ body {
 .content {
   margin: 10px 20px 0 20px;
 }
+.MuiFormControl-root {
+  margin: 10px 5px 5px 5px;
+}

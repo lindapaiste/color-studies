@@ -1,7 +1,7 @@
 import React, { ComponentType, FunctionComponent, useState } from "react";
-import { I_ColorAdapter, randomColor } from "../../packages/color-adapter";
-import { SelectRandomizeColor } from "./SelectColor";
-import debounce from "lodash/debounce";
+import { I_ColorAdapter, randomColor } from "../../packages/ColorAdapter";
+import { SelectColor } from "./SelectColor";
+import { debounce } from "../../lib";
 import { Props as SelectProps } from "./SelectColor";
 /**
  * for tools which are initialized with a random color,
@@ -14,7 +14,7 @@ import { Props as SelectProps } from "./SelectColor";
  * and wrapped component may have expensive operations dependent on color
  */
 
-type ExtraProps = Omit<SelectProps<I_ColorAdapter>, "value" | "onChange">;
+type ExtraProps = Omit<SelectProps, "value" | "onChange">;
 
 export const withSelectableColor = <P extends { color: I_ColorAdapter }>(
   Component: ComponentType<P>,
@@ -27,8 +27,9 @@ export const withSelectableColor = <P extends { color: I_ColorAdapter }>(
 
   return (
     <div>
-      <SelectRandomizeColor
+      <SelectColor
         label="Select Color"
+        randomize={true}
         {...selectColorProps}
         value={color}
         onChange={onChange}

@@ -1,7 +1,7 @@
 import chroma, {Color} from "chroma-js";
 import {ColorPropDef} from "./types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
-import {RGB} from "../util";
+import {RGB} from "../lib";
 import {makePackageUtil} from "./makePackageUtil";
 
 const getSetChannel = (

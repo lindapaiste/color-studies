@@ -23,6 +23,7 @@ export interface GenericProps<T> {
   helperText?: ReactNode;
   disabled?: boolean;
   style?: CSSProperties;
+  width?: number;
 }
 
 export type Event = ChangeEvent<
@@ -50,4 +51,9 @@ export interface Option<T> {
   key: string;
   raw: T;
   title: string;
+}
+
+export interface Size {
+  width: number;
+  height: number;
 }

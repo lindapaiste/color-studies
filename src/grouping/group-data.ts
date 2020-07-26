@@ -1,5 +1,4 @@
 import {ColorClassification} from "./types";
-import {find} from "lodash";
 //todo: remove brown/beige that came from Pantone pastel collection
 
 export const GROUPINGS: ColorClassification[] = [
@@ -1213,7 +1212,7 @@ export default GROUPINGS;
 export const GROUP_NAMES = GROUPINGS.map(o => o.name );
 
 export const getFromName = (name: string): ColorClassification | undefined => {
-    return find(GROUPINGS, o => o.name === name );
+    return GROUPINGS.find( o => o.name === name );
 };
 
 export const getGroupHexes = (name: string): string[] => {

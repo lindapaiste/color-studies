@@ -1,9 +1,10 @@
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 
 /**
  * could include color here rather than in HOC
  */
-export interface NoiseSettings {
+export interface ModelNoiseSettings {
     colorSpace: ColorSpaceName;
     noiseRatio: number;
     weights: ColorTuple<ColorSpaceName>;
@@ -16,8 +17,14 @@ export interface NoiseSettings {
  * note that a 4-length tuple also fills the interface of a 3-length tuple
  */
 
-export const DEFAULT_SETTINGS: NoiseSettings = {
+export const DEFAULT_NOISE_SETTINGS: ModelNoiseSettings = {
     colorSpace: "rgb",
     noiseRatio: 0.1,
     weights: [1, 1, 1, 1]
 };
+
+export interface I_NoiseCreator {
+    getNoisy(base: I_ColorAdapter): I_ColorAdapter;
+}
+
+export type I_ModelNoise = I_NoiseCreator & ModelNoiseSettings;

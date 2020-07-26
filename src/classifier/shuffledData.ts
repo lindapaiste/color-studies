@@ -1,8 +1,5 @@
 import GROUPINGS from "../grouping/group-data";
-import shuffle from "lodash/shuffle";
-import flatMap from "lodash/flatMap";
-import sampleSize from "lodash/sampleSize";
-import partition from "lodash/partition";
+import {shuffle, flatMap, sampleSize, partition} from "../lib";
 
 export interface GroupedHex {
     hex: string,

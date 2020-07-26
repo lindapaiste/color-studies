@@ -1,12 +1,10 @@
 import React, { ReactNode } from "react";
-import round from "lodash/round";
-import startCase from "lodash/startCase";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { typedEntries } from "../../util";
+import { typedEntries, round, proper } from "../../lib";
 
 /**
  * renders a table of properties and values
@@ -27,7 +25,7 @@ const defaultTransformValue = <T extends any>(value: T): string | number => {
 
 export const ValuesTable = <T extends {}>({
   data = [],
-  transformKey = startCase,
+  transformKey = proper,
   transformValue = defaultTransformValue,
   labels = ["Property", "Value"]
 }: Props<T>) => {

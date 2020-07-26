@@ -1,7 +1,7 @@
 import React from "react";
 import {BaseField} from "./BaseField";
 import {GenericProps} from "./types";
-import {isDefined, isUndefined} from "../../util";
+import {isDefined, isUndefined} from "../../lib";
 
 export interface ExtraProps {
     isInt?: boolean;
@@ -27,3 +27,5 @@ export const NumberInput = ({value, onChange, isInt, min, max, step, ...props}: 
         }}
     />
 );
+
+export default NumberInput;

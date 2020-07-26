@@ -1,5 +1,5 @@
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 
 export interface LAB {
     L: number;
@@ -13,7 +13,7 @@ export interface KeyedLCHWeights {
     hue?: number;
 }
 
-export interface DeltaEFormula<T, CS extends ColorSpaceName = "lch"> {
+export interface _DeltaEFormula<T, CS extends ColorSpaceName = "lch"> {
     (a: T, b: T, weights?: ColorTuple<CS>): number;
 }
 
@@ -22,8 +22,20 @@ export type BasicFormula = (a: I_ColorAdapter, b: I_ColorAdapter) => number;
 /**
  * assume that the calculator takes weights into account internally
  */
-export interface DeltaECalculator {
+export interface DeltaEFormula {
     (a: I_ColorAdapter, b: I_ColorAdapter): number;
+}
+
+/**
+ * an object which can be constructed from FormulaSettings
+ * and has a getDeltaE method for two colors
+ */
+export interface I_DeltaECalculator {
+    getDeltaE(a: I_ColorAdapter, b: I_ColorAdapter): number;
+}
+
+export interface I_CalculatorConstructor {
+    new ( settings: FormulaSettings ): I_DeltaECalculator;
 }
 
 export type Algo = "CIE2000" | "CIE1994" | "Euclidean";
@@ -33,3 +45,5 @@ export interface FormulaSettings {
     model: ColorSpaceName;
     weights: number[];  //having a tuple of variable length is such a headache...
 }
+
+export type I_FormulaClass = I_DeltaECalculator & FormulaSettings;

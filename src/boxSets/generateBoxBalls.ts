@@ -1,8 +1,8 @@
-import {BoxData, Evaluation, Levers} from "./types";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {BoxData, Evaluation, Levers, MatchError} from "./types";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {withModelNoise} from "../noise/modelNoise";
 import {ColorSpaceName} from "../spacesChannels/types";
-import {makeArray} from "../util";
+import {makeArray} from "../lib";
 import {getError, matchToChoices} from "./colorMatchesBox";
 import {deltaE76} from "../difference/distance";
 
@@ -23,10 +23,12 @@ import {deltaE76} from "../difference/distance";
  * -- which channels or color space to apply noise to
  */
 
-export interface Settings extends Levers {
+export interface BallCreateSettings extends Levers {
     getDistance(a: I_ColorAdapter, b: I_ColorAdapter): number;
 
     createNoisy(c: I_ColorAdapter): I_ColorAdapter;
+
+    count: number;
 }
 
 //TODO: estimate noise amount based on levers
@@ -35,7 +37,7 @@ export interface Settings extends Levers {
  * this function returns all of the possible matches, along with their evaluations,
  * and leaves it up to the renderer to filter out matches which do not fit the constraints
  */
-const generateBoxData = (color: I_ColorAdapter, choices: I_ColorAdapter[], count: number, noiseRatio: number, colorSpace: ColorSpaceName): BoxData<I_ColorAdapter> => {
+const generateBoxData = (color: I_ColorAdapter, choices: I_ColorAdapter[], count: number, noiseRatio: number, colorSpace: ColorSpaceName): BoxData => {
     const noisyColors = makeArray(count, () => withModelNoise({color, noiseRatio, colorSpace}));
     return {
         color,
@@ -43,7 +45,8 @@ const generateBoxData = (color: I_ColorAdapter, choices: I_ColorAdapter[], count
             deltaE76, //which distance model to use?
             noisy,
             choices
-        ))
+        )),
+        rejected: []
     }
 };
 
@@ -52,10 +55,11 @@ const generateBoxData = (color: I_ColorAdapter, choices: I_ColorAdapter[], count
  * this version analyzes the data itself, discarding bad matches and looking for more until the count is hit
  * or 1000 attempts have been made, whichever comes first
  */
-const generateBoxContents = (color: I_ColorAdapter, count: number, settings: Settings, choices: I_ColorAdapter[]): BoxData<I_ColorAdapter> => {
-    const {createNoisy, getDistance} = settings;
+const generateBoxContents = (color: I_ColorAdapter, settings: BallCreateSettings, choices: I_ColorAdapter[]): BoxData => {
+    const {createNoisy, getDistance, count} = settings;
 
-    const matches: Evaluation<I_ColorAdapter>[] = [];
+    const matches: Evaluation[] = [];
+    const rejected: (Evaluation & {error: MatchError})[] = [];
     //use i to prevent infinite loops due to contradictory parameters
     let i = 0;
     while (matches.length < count && i < 1000) {
@@ -67,7 +71,8 @@ const generateBoxContents = (color: I_ColorAdapter, count: number, settings: Set
 
         const error = getError(evaluation, settings, color);
         if (error !== false) {
-            console.log(`noisy color ${noisy.hex()} failed for box color ${noisy.hex()} with error \n"${error}"`);
+            console.log(`noisy color ${noisy.hex()} failed for box color ${noisy.hex()} with error \n"${error.code}: ${error.message}"`);
+            rejected.push({...evaluation, error});
         }
         else {
             matches.push(evaluation);
@@ -77,6 +82,19 @@ const generateBoxContents = (color: I_ColorAdapter, count: number, settings: Set
 
     return {
         color,
-        matches
+        matches,
+        rejected,
     };
 };
+
+/**
+ * when only needing to replace one ball
+ */
+export const generateBall = (color: I_ColorAdapter, settings: BallCreateSettings, choices: I_ColorAdapter[]): Evaluation => {
+    const contents = generateBoxContents(color, {...settings, count: 1}, choices);
+    return contents.matches[0];
+}
+
+export const generateBoxes = (colors: I_ColorAdapter[], settings: BallCreateSettings): BoxData[] => {
+    return colors.map( color => generateBoxContents(color, settings, colors) );
+}

@@ -9,9 +9,9 @@ import {
   ChannelMaxObject,
   I_Range
 } from "./types";
-import { typedKeys } from "../util";
+import { typedKeys } from "../lib";
 import {ColorPropKey} from "../packages/types";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 
 export const isFixedMaxChannel = (
   channel: ChannelName
@@ -96,10 +96,18 @@ const STANDARD_MAXES: ChannelMaxes = {
     min: -108,
     isVariable: true
   },
-  grayness: 100
+  grayness: 100,
+  redRyb: 255,
+  yellowRyb: 255,
+  blueRyb: 255,
 };
 
 export const CHANNEL_NAMES = typedKeys(STANDARD_MAXES).sort();
+
+export const _getMaxPartialObject = ( channel: ChannelName ): Partial<ChannelMaxObject> & { max: number } => {
+  const max = STANDARD_MAXES[channel];
+  return typeof max === "number" ? {max} : max;
+}
 
 export const getMaxObject = (
   channel: ChannelName
@@ -148,6 +156,16 @@ export const normalize = (value: number, channel: ChannelName): number => {
   const { min, max } = getMaxObject(channel);
   return (value - min) / (max - min);
 };
+
+/**
+ * transforms a normalized number from 0 to 1
+ * back into an actual channel value (ie. 0-360, 0-100, etc.)
+ */
+export const deNormalize = (value: number, channel: ChannelName): number => {
+  const { min, max } = getMaxObject(channel);
+  return value * (max - min ) + min;
+};
+
 
 /**
  * transforms a fuzz percent into a number

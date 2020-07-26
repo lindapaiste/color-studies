@@ -1,9 +1,9 @@
 import {ColorSpaceName} from "../spacesChannels/types";
-import {FormulaSettings} from "./types";
-import {getSpaceChannels} from "../spacesChannels/colorSpaces";
+import {FormulaSettings, I_DeltaECalculator} from "./types";
+import {getSpaceChannelNames} from "../spacesChannels/colorSpaces";
 import {getMaxObject} from "../spacesChannels/channelMaxes";
 import {rawDistance} from "./euclideanDistance";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 
 /**
  * CIE 1976 formula uses Euclidean Distance of LAB coordinates,
@@ -16,7 +16,7 @@ import {I_ColorAdapter} from "../packages/color-adapter";
  * the maximum is the same as long as the colorSpace and the weights are the same
  * so it does not need to be recalculated for each a/b pairing
  */
-export class EuclideanCalculator {
+export class EuclideanCalculator implements I_DeltaECalculator {
     private readonly weights: number[];
     private readonly model: ColorSpaceName;
     private readonly maximum: number;
@@ -36,7 +36,7 @@ export class EuclideanCalculator {
      * then uses rawDistance formula to find the distance between these two extrema
      */
     private calcMax(): number {
-        const channelMaxes = getSpaceChannels(this.model).map(getMaxObject);
+        const channelMaxes = getSpaceChannelNames(this.model).map(getMaxObject);
         const min = channelMaxes.map(o => o.min);
         const max = channelMaxes.map(o => o.max);
         return rawDistance(min, max, this.weights);

@@ -1,24 +1,19 @@
 import React from "react";
-import {ColorAdapter, I_ColorAdapter} from "../../packages/color-adapter";
-import {ColorSpaceName} from "../../spacesChannels/types";
+import {ColorAdapter, I_ColorAdapter} from "../../packages/ColorAdapter";
+import {ChannelName, ColorSpaceName} from "../../spacesChannels/types";
 import {CHANNEL_NAMES, normalize} from "../../spacesChannels/channelMaxes";
 import {nameToAccessor} from "../../spacesChannels/accessorConversion";
 import {ValuesTable} from "../ui/ValuesTable";
 import {DataTable} from "../ui/DataTable";
 import {Accordion} from "../ui/Accordion";
-import startCase from "lodash/startCase";
-import round from "lodash/round";
+import {proper, round} from "../../lib";
 
 export interface Props {
     color: I_ColorAdapter | string;
     initialOpen?: boolean;
 }
 
-export const ColorInfo = (props: Props) => {
-    const color =
-        typeof props.color === "string"
-            ? new ColorAdapter(props.color)
-            : props.color;
+/* took off color space values in favor of channel values
 
     //can display this much more nicely
     const renderColorSpace = (cs: ColorSpaceName) => {
@@ -36,39 +31,35 @@ export const ColorInfo = (props: Props) => {
         );
     };
 
+
     const spaces: ColorSpaceName[] = ["rgb", "hsl", "cmyk", "hsv", "lab", "lch"];
+ */
+
+export const ColorInfo = ({color, initialOpen = true}: Props) => {
+    const _color =
+        typeof color === "string"
+            ? new ColorAdapter(color)
+            : color;
 
     return (
-        <div>
-            <ul>
-                {spaces.map(cs => (
-                    <li key={cs}>{renderColorSpace(cs)}</li>
-                ))}
-            </ul>
-            <Accordion title="Channel Values" initialOpen={true}>
-                <ChannelValuesTable color={color}/>
+            <Accordion title="Channel Values" initialOpen={initialOpen}>
+                <ChannelValuesTable color={_color}/>
             </Accordion>
-        </div>
     );
 };
 
 /**
+ * displays both the number (out of 255, 100, etc.) and the normalized decimal value
  * just the table, not the accordion
  */
-export const _ChannelValuesTable = ({color}: { color: I_ColorAdapter }) => (
-    <ValuesTable
-        data={CHANNEL_NAMES.map(name => [name, color.get(nameToAccessor(name))])}
-    />
-);
-
 export const ChannelValuesTable = ({color}: { color: I_ColorAdapter }) => (
     <DataTable
         labels={["Channel", "Value", "Normalized"]}
         rows={CHANNEL_NAMES.map(name => {
             const value = color.get(nameToAccessor(name));
             return [
-                startCase(name),
-                round(value, 2),
+                proper(name),
+                round(value, 0),
                 round(normalize(value, name), 3)
             ];
         })}

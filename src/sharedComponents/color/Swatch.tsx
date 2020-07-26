@@ -1,6 +1,6 @@
 import React from "react";
-import {ColorAdapter, I_ColorAdapter, I_GetHex} from "../../packages/color-adapter";
-import { withHash } from "../../util";
+import {ColorAdapter, I_ColorAdapter, I_GetHex} from "../../packages/ColorAdapter";
+import { withHash } from "../../lib";
 import {CHANNEL_NAMES} from "../../spacesChannels/channelMaxes";
 import {nameToAccessor} from "../../spacesChannels/accessorConversion";
 

@@ -1,5 +1,5 @@
-import {Evaluation, GetDistance, Levers} from "./types";
-import {isEqual} from "lodash";
+import {Evaluation, GetDistance, Levers, MatchError, ErrorCode} from "./types";
+import {isEqual} from "../lib";
 
 /**
  * given a set of choices, find which choice is the closest match to the provided color
@@ -15,7 +15,8 @@ export const matchToChoices = <T>(
     const distances = choices.map(choice => getDistance(choice, color));
 
     //use spread so as so to impact the distances array
-    const sortedDistances = [...distances].sort();
+    //must use a custom sort function because by default, sort using string values -- not numbers
+    const sortedDistances = [...distances].sort((a, b) => a - b );
 
     const matchDistance = sortedDistances[0];
 
@@ -29,32 +30,20 @@ export const matchToChoices = <T>(
         color,
         match,
         distance: matchDistance,
-        distinctness
+        distinctness,
+        distances
     };
 };
-
-export interface Error {
-    code: ErrorCode;
-    message: string;
-}
-
-export enum ErrorCode {
-    WRONG_MATCH,
-    DISTANCE_TOO_LARGE,
-    DISTANCE_TOO_SMALL,
-    DISTINCTNESS_TOO_LARGE,
-    DISTINCTNESS_TOO_SMALL,
-}
 
 /**
  * transforms the evaluation object into a boolean can/cannot go in box
  * if cannot, returns the reason why not
  */
-export const getError = <T>(
+export const getError = <T extends {toString(): string}>(
     evaluation: Evaluation<T>,
     levers: Levers,
     expected?: T
-): Error | false => {
+): MatchError | false => {
     const {match, distance, distinctness} = evaluation;
 
     const {minDistance, maxDistance, minDistinctness, maxDistinctness} = levers;
@@ -62,7 +51,7 @@ export const getError = <T>(
     if (expected !== undefined && !isEqual(match, expected)) {
         return {
             code: ErrorCode.WRONG_MATCH,
-            message: `wrong match: closer to ${match} than to ${expected}`
+            message: `wrong match: closer to ${match.toString()} than to ${expected.toString()}`
         }
     } else if (distance > maxDistance) {
         return {

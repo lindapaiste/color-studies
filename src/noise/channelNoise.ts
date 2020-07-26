@@ -1,9 +1,9 @@
-import {random} from "lodash";
+import {random} from "../lib";
 import {fixHue} from "../boxSets/hueShift";
 import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
 import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {accessorToName} from "../spacesChannels/accessorConversion";
 
 export interface ChannelProps {

@@ -1,4 +1,4 @@
-import { shuffle, flatten } from "lodash";
+import { shuffle, flatten } from "../lib";
 import { BoxData } from "./types";
 
 

@@ -1,10 +1,15 @@
 //------------------------------HARD-CODED---------------------------------//
 
-export type ColorSpaceName = 'rgb' | 'hsl' | 'hsv' | 'hsi' | 'lab' | 'lch' | 'cmyk' | 'hwb' | 'xyz' | 'hcg';
+export type ColorSpaceName = 'rgb' | 'hsl' | 'hsv' | 'hsi' | 'lab' | 'lch' | 'cmyk' | 'hwb' | 'xyz' | 'hcg' | 'ryb';
 
 export type ChannelCount<CS extends ColorSpaceName> = CS extends 'cmyk' ? 4 : 3;
 
+/**
+ * as things become better organized, I think that naming the channels separately doesn't make sense
+ * it only comes up if trying to get a value, ie. saturation, without specifying the color space
+ */
 export type ChannelName =
+    //note: cmyk black and hwb blackness seem to be equal, but need to double check
     'hue'
     | 'lightness' | 'saturationHsl'
     | 'value' | 'saturationHsv'
@@ -16,6 +21,7 @@ export type ChannelName =
     | 'luminosity' // aka "relative luminance" - from the XYZ color space
     | 'blackness' | 'whiteness' | 'grayness'
     | 'x' | 'z'
+    | 'redRyb' | 'yellowRyb' | 'blueRyb'
 
 
 export type VariableMaxChannel = 'a' | 'b';
@@ -31,18 +37,24 @@ export type ChannelAccessor = [ColorSpaceName, number];
  * define it this way so that a tuple with four entries is always ok, even if only three are actually needed
  * previously TS would give a length mismatch error if passing [number x4] when expecting [number x3]
  */
-type BasicTuple = number[] & {
-    0: number,
-    1: number,
-    2: number,
-    3?: number,
+type BasicTuple<T> = {
+    0: T,
+    1: T,
+    2: T,
+    3?: T,
 }
 
-export type BetterTuple<CS extends ColorSpaceName> = CS extends 'cmky' ? Required<BasicTuple> : BasicTuple;
+/**
+ * shared interface between tuple array and tuple class
+ * class does not have all array methods, but does have access to indexed values
+ */
+export type TupleShared<CS extends ColorSpaceName, T = number> = CS extends 'cmky' ? Required<BasicTuple<T>> : BasicTuple<T>;
 
 export type Tuple<N, T> = N extends 3 ? [T, T, T] : N extends 4 ? [T, T, T, T] : never;
 
 export type ColorTuple<CS extends ColorSpaceName> = Tuple<ChannelCount<CS>, number>;
+
+export type ChannelCountTuple<CS extends ColorSpaceName, T> = Tuple<ChannelCount<CS>, T>;
 
 export type FixedMaxChannel = Exclude<ChannelName, VariableMaxChannel>
 
@@ -57,13 +69,6 @@ export type _ChannelMaxes = {
 };
 
 export type ChannelTuple<CS extends ColorSpaceName> = Tuple<ChannelCount<CS>, ChannelName>;
-
-export type ModelValues<CS extends ColorSpaceName> = {
-    model: CS;
-    channels: ChannelTuple<CS>;
-    values: ColorTuple<CS>;
-    maximums: ColorTuple<CS>;
-}
 
 export interface ChannelObjectCS<C extends ChannelName> {
     name: C;

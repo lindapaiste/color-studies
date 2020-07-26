@@ -1,6 +1,6 @@
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {ChannelProps, getChannelProps} from "../noise/channelNoise";
-import _clamp from "lodash/clamp";
+import {clamp as doClamp} from "../lib";
 import {ChannelName} from "../spacesChannels/types";
 import {nameToAccessor} from "../spacesChannels/accessorConversion";
 
@@ -18,5 +18,5 @@ export type CalcProps = ChannelProps & {
 
 export const calculateTransformed = ({value, transform, clamp = false, max = 100, min = 0, postTransform = c => c, preTransform = c => c}: CalcProps): number => {
     const result = postTransform(transform(preTransform(value)));
-    return clamp ? _clamp(result, min, max) : result;
+    return clamp ? doClamp(result, min, max) : result;
 };

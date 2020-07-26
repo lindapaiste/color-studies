@@ -1,14 +1,14 @@
 import {ChannelAccessor, ChannelName, ChannelObjectCS} from "./types";
 import {getMaxOrFormula, isChannelName} from "./channelMaxes";
-import {channelCount, COLOR_SPACE_NAMES, getSpaceChannels} from "./colorSpaces";
-import startCase from "lodash/startCase";
+import {channelCount, COLOR_SPACE_NAMES, getSpaceChannelNames} from "./colorSpaces";
+import {proper} from "../lib";
 
 /**
  * some channels will have multiple accessors, but just return the first match
  */
 export const nameToAccessor = (channel: ChannelName): ChannelAccessor => {
     for (let cs of COLOR_SPACE_NAMES) {
-        const channels = getSpaceChannels(cs);
+        const channels = getSpaceChannelNames(cs);
         const i = channels.indexOf(channel);
         if (i !== -1) {
             return [cs, i];
@@ -19,7 +19,7 @@ export const nameToAccessor = (channel: ChannelName): ChannelAccessor => {
 
 export const accessorToName = (accessor: ChannelAccessor): ChannelName => {
     const [colorSpace, offset] = accessor;
-    return getSpaceChannels(colorSpace)[offset];
+    return getSpaceChannelNames(colorSpace)[offset];
 };
 
 const makeChannelObject = <C extends ChannelName>(name: C, accessor: ChannelAccessor): ChannelObjectCS<C> => {
@@ -61,7 +61,7 @@ export const keyToAccessor = (key: string): ChannelAccessor => key.split(".") as
 /**
  * returns in form "Red (RGB)", "Saturation L (HSL)"
  */
-export const accessorTitle = (accessor: ChannelAccessor): string => `${startCase(accessorToName(accessor))} (${accessor[0].toUpperCase()})`;
+export const accessorTitle = (accessor: ChannelAccessor): string => `${proper(accessorToName(accessor))} (${accessor[0].toUpperCase()})`;
 
 export const accOrNameToAcc = (channel: ChannelAccessor | ChannelName): ChannelAccessor => {
     //could check for validity, but assuming that it is a valid object of one of the two possibilities based on the TS function param

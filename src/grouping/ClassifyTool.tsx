@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { PropsSingle } from "../sharedComponents/color/RenderSet";
-import { replaceIndex } from "../util";
-import { groupBy } from "lodash";
+import { Props } from "../sharedComponents/color/RenderSet";
+import { replaceIndex, groupBy } from "../lib";
 import { GROUPINGS } from "./group-data";
 import { SelectGroup } from "../sharedComponents/form/SelectGroup";
 import { Title } from "../sharedComponents/ui/Title";
@@ -21,7 +20,7 @@ const sortByGroup = <T extends any>(data: Data<T>[]) => {
 export const ClassifyTool = <T extends any>({
   colors,
   colorToString = c => c
-}: PropsSingle<T>) => {
+}: Props<T>) => {
   const [data, setData] = useState<
     Array<{ color: T; group: string; i: number }>
   >(colors.map((color, i) => ({ color, group: "Unassigned", i })));

@@ -1,7 +1,7 @@
 import { ColorClassification} from "./types";
-import { round } from "lodash";
+import { round } from "../lib";
 import {PropertyConstraint} from "./types";
-import {I_ColorAdapter} from "../packages/color-adapter";
+import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {nameToAccessor} from "../spacesChannels/accessorConversion";
 import {getAllowance} from "../spacesChannels/channelMaxes";
 

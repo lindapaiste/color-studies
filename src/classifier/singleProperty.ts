@@ -1,6 +1,6 @@
 import {ColorPropKey} from "../packages/types";
 import {getSplitSample} from "./shuffledData";
-import {shuffle} from "lodash";
+import {shuffle} from "../lib";
 import {ChromaAdapter} from "../packages/chroma-adapter-profile";
 import {mean} from "simple-statistics";
 

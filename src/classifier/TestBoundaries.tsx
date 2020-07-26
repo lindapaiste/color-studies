@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { shuffledHexes } from "./shuffledData";
-import { ColorAdapter } from "../packages/color-adapter";
+import { ColorAdapter } from "../packages/ColorAdapter";
 import { channelBoundaries } from "./channelBoundaries";
 import { ALL_ACCESSORS } from "../spacesChannels/colorSpaces";
 import { SelectGroup } from "../sharedComponents/form/SelectGroup";
 import GROUPINGS from "../grouping/group-data";
-import sortBy from "lodash/sortBy";
+import {sortBy, round} from "../lib";
 import { ExpandableConfusionMatrix } from "./RenderConfusionMatrix";
-import round from "lodash/round";
 import {
   accessorKey,
   accessorTitle

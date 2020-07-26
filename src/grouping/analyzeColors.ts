@@ -1,5 +1,4 @@
 import Color from "color";
-import {fromPairs} from "lodash";
 import {PROPERTIES} from "../packages/color-js";
 import {standardDeviation, geometricMean, harmonicMean} from "simple-statistics";
 
@@ -40,7 +39,7 @@ export const getGroupData = (
     analyzePropertyValues(objects.map(o.getter))
   ]);
 
-  return fromPairs(pairs) as GroupColorAnalysis;
+  return Object.fromEntries(pairs) as GroupColorAnalysis;
 };
 
 export const mean = (values: number[]): number => {

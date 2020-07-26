@@ -32,3 +32,5 @@ const _Unlabeled = ({value, onChange, ...props}: Props) => (
 );
 
 export const Toggle = withMaybeLabel(_Unlabeled);
+
+export default Toggle;

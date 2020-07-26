@@ -1,7 +1,14 @@
-import {typedEntries, typedKeys, typedValues} from '../util';
+import {typedEntries, typedKeys, typedValues, flatten, makeArray} from '../lib';
 import {CHANNEL_NAMES} from "./channelMaxes";
-import {ChannelAccessor, ChannelCount, ChannelName, ChannelObjectAll, ChannelTuple, ColorSpaceName} from "./types";
-import {flatten} from "lodash";
+import {
+    ChannelAccessor,
+    ChannelCount,
+    ChannelName,
+    ChannelObjectAll,
+    ChannelTuple,
+    ColorSpaceName,
+    ColorTuple
+} from "./types";
 
 type ColorSpaceArrays = {
     [K in ColorSpaceName]-?: ChannelTuple<K>
@@ -22,7 +29,14 @@ export const COLOR_SPACE_ARRAYS: ColorSpaceArrays = {
     hwb: ['hue', 'whiteness', 'blackness'],
     hcg: ['hue', 'chromaHcg', 'grayness'],
     xyz: ['x', 'luminosity', 'z'],
+    ryb: ['redRyb', 'yellowRyb', 'blueRyb']
 };
+/**
+ * not included:
+ * CMY - has higher values in each channel than cmyk because they are added together to get the black
+ * YUV
+ * RYB
+ */
 
 export const COLOR_SPACE_NAMES: ColorSpaceName[] = typedKeys(COLOR_SPACE_ARRAYS);
 
@@ -54,11 +68,11 @@ export const ALL_ACCESSORS: ChannelAccessor[] = flatten(typedValues(KEYED_ACCESS
 
 export const spacesWithChannel = (channel: ChannelName): ColorSpaceName[] => {
     return COLOR_SPACE_NAMES.filter(
-        name => getSpaceChannels(name).includes(channel)
+        name => getSpaceChannelNames(name).includes(channel)
     );
 };
 
-export const getSpaceChannels = <CS extends ColorSpaceName>(cs: CS): ChannelTuple<CS> => {
+export const getSpaceChannelNames = <CS extends ColorSpaceName>(cs: CS): ChannelTuple<CS> => {
     return COLOR_SPACE_ARRAYS[cs] as ChannelTuple<CS>;
 };
 
@@ -70,3 +84,11 @@ export const channelCount = <CS extends ColorSpaceName>(cs: CS): ChannelCount<CS
 export const isColorSpace = (cs: any): cs is ColorSpaceName => {
     return typeof cs === "string" && COLOR_SPACE_ARRAYS.hasOwnProperty(cs);
 };
+
+/**
+ * checks that the length of the array is enough for the color space
+ * can include extra entries -- assumes that these will be ignored
+ */
+export const isValidTuple = <CS extends ColorSpaceName>(array: number[], cs: CS): array is ColorTuple<CS> => {
+    return array.length >= channelCount(cs);
+}

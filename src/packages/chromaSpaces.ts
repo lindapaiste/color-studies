@@ -70,3 +70,10 @@ export const accessorToCode = (accessor: ChannelAccessor): string => {
     const letter = colorSpace[offset];
     return colorSpace + '.' + letter;
 };
+
+/**
+ * doesn't check if the channel is valid, just that it appears valid
+ * because this is a text input, so there will be multiple partial entries before a complete one
+ */
+const isCompleteChannel = (string: string) =>
+    string.match(/^\w{3,4}\.\w$/) !== null;

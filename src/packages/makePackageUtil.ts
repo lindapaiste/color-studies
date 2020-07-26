@@ -7,14 +7,13 @@ import {
     ColorPropSetter,
     ColorProfile
 } from "./types";
-import find from "lodash/find";
 
 export const makePackageUtil = <T>(properties: PackageDefs<T>): PackageUtil<T> => {
 
     const propertyKeys = (properties.map(o => o.key ));
 
     const getPropDef = (property: ColorPropKey): ColorPropDef<T> => {
-        return find(properties, o => o.key === property) as ColorPropDef<T>; //should always find a match
+        return properties.find( o => o.key === property) as ColorPropDef<T>; //should always find a match
     };
 
     const getTitle = (property: ColorPropKey): string => {

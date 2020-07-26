@@ -1,12 +1,10 @@
 import React, {CSSProperties} from "react";
 import {ColorSpaceName, ColorTuple} from "../../spacesChannels/types";
-import {getSpaceChannels} from "../../spacesChannels/colorSpaces";
+import {getSpaceChannelNames} from "../../spacesChannels/colorSpaces";
 import {NumberInput} from "./NumberInput";
-import startCase from "lodash/startCase";
-import {replaceIndex, tupleMap} from "../../util";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import RefreshIcon from "@material-ui/icons/Refresh";
+import {replaceIndex, tupleMap, proper} from "../../lib";
+import {RefreshIcon} from "../ui/Icons";
+import {IconTooltipButton} from "../ui/IconTooltipButton";
 
 export interface Props<CS extends ColorSpaceName> {
     colorSpace: CS;
@@ -20,7 +18,7 @@ export interface Props<CS extends ColorSpaceName> {
 }
 
 export const WeightsInput = <CS extends ColorSpaceName>({colorSpace, weights, onChange, inputStyle = {}, containerStyle = {}, showReset = true}: Props<CS>) => {
-    const channels = getSpaceChannels(colorSpace);
+    const channels = getSpaceChannelNames(colorSpace);
     return (
         <div style={{
             ...containerStyle,
@@ -29,7 +27,7 @@ export const WeightsInput = <CS extends ColorSpaceName>({colorSpace, weights, on
             {channels.map((channel, i) => (
                 <NumberInput
                     key={channel}
-                    label={startCase(channel) + " Weight"}
+                    label={proper(channel) + " Weight"}
                     value={weights[i]}
                     onChange={v => onChange(replaceIndex(weights, i, v))}
                     min={0}
@@ -42,11 +40,11 @@ export const WeightsInput = <CS extends ColorSpaceName>({colorSpace, weights, on
                 />
             ))}
             {showReset &&
-            <Tooltip title="Reset all weights to 1" arrow>
-                <IconButton onClick={() => onChange(tupleMap(weights, 1))}>
-                    <RefreshIcon/>
-                </IconButton>
-            </Tooltip>
+                <IconTooltipButton
+                    title={"Reset all weights to 1"}
+                    icon={<RefreshIcon/>}
+                    onClick={() => onChange(tupleMap(weights, 1))}
+                />
             }
         </div>
 

@@ -1,6 +1,6 @@
 import { getGroupData } from "./analyzeColors";
-import { randomRgb } from "../util";
-import { RGB } from "../util";
+import { randomRgb } from "../lib";
+import { RGB } from "../lib";
 
 //random set of RGBs
 const createBaseline = (count: number = 8): RGB[] => {

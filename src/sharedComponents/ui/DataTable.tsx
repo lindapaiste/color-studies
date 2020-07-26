@@ -5,7 +5,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import sortBy from "lodash/sortBy";
+import {sortBy} from "../../lib";
 
 /**
  * TODO: add sorting

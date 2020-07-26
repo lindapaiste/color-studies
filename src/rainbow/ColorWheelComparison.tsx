@@ -1,8 +1,8 @@
 import React from "react";
 import {generateSet, makeHueShiftSet, replaceHue} from "../hue/hue-shared";
 import {colorWheelToNormal} from "./colorWheel";
-import {PropsSingle, RenderSet} from "../sharedComponents/color/RenderSet";
-import {HSL, hslToString} from "../util";
+import {Props, RenderSet} from "../sharedComponents/color/RenderSet";
+import {HSL, hslToString} from "../lib";
 import {randomHsluv} from "../hue/hsluv";
 import {hsluvToHex} from "hsluv";
 
@@ -44,7 +44,7 @@ export const ColorWheelComparison = () => {
 /**
  * renders a set using both methods
  */
-const CompareSet = (props: Omit<PropsSingle<HSL>, "colorToString">) => (
+const CompareSet = (props: Omit<Props<HSL>, "colorToString">) => (
     <>
         <h3>HSL</h3>
         <RenderSet {...props} colorToString={hslToString}/>
