@@ -1,13 +1,13 @@
-import {StateUpdateProps} from "../lib/util-hooks";
-import {Title} from "../sharedComponents/ui/Title";
-import {NumberInput} from "../sharedComponents/form/NumberInput";
-import {DifferenceControls} from "../tools/DistanceGrid/DifferenceControls";
-import {Formula} from "../difference/Formula";
-import {LeverControls} from "../tools/NoisyBoxes/LeverControls";
-import {ModelNoiseControls} from "../tools/ModelNoise/ModelNoiseControls";
-import {ModelNoise} from "../noise/modelNoise";
+import {StateUpdateProps} from "../../lib/util-hooks";
+import {Title} from "../../sharedComponents/ui/Title";
+import {NumberInput} from "../../sharedComponents/form/NumberInput";
+import {DifferenceControls} from "../DistanceGrid/DifferenceControls";
+import {Formula} from "../../difference/Formula";
+import {LeverControls} from "../NoisyBoxes/LeverControls";
+import {ModelNoiseControls} from "../ModelNoise/ModelNoiseControls";
+import {ModelNoise} from "../../noise/modelNoise";
 import React from "react";
-import {BallCreateSettings} from "../boxSets/generateBoxBalls";
+import {BallCreateSettings} from "../../boxSets/generateBoxBalls";
 import {AdvancedSettings} from "./types";
 
 /**

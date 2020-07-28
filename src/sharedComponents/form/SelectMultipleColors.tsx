@@ -1,6 +1,5 @@
 import React from "react";
 import {GenericProps, Size, WithoutE} from "./types";
-import {I_ColorAdapter, randomColor} from "../../packages/ColorAdapter";
 import {debounce, removeIndex, replaceIndex} from "../../lib";
 import {Tooltip} from "@material-ui/core";
 import {SelectColor} from "./SelectColor";
@@ -8,6 +7,8 @@ import {PlusCircleIcon, XCircleIcon} from "../ui/Icons";
 import Button from "@material-ui/core/Button";
 import {Typography} from "@material-ui/core";
 import {IconTooltipButton} from "../ui/IconTooltipButton";
+import {I_ColorAdapter} from "../../color/types";
+import {randomColor} from "../../color";
 
 /**
  * value is an array of I_ColorAdapters

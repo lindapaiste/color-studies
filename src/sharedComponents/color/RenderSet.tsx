@@ -1,8 +1,9 @@
 import React, {PropsWithChildren, ReactNode} from "react";
 import {logProfile} from "./Swatch";
 import {isDefined, withHash} from "../../lib";
-import {I_GetHex, isGetHex} from "../../packages/ColorAdapter";
 import {Tooltip} from "../ui/Tooltip";
+import {I_GetHex} from "../../color/types";
+import {isGetHex} from "../../color";
 
 /**
  * takes an array of colors, which can be any format (string, tuple, object)

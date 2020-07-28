@@ -1,79 +1,38 @@
-import Color from "color";
-import {PROPERTIES} from "../packages/color-js";
-import {standardDeviation, geometricMean, harmonicMean} from "simple-statistics";
-
-export interface GroupColorAnalysis {
-  hue: PropertyAnalysis;
-  wheelHue: PropertyAnalysis;
-  luminosity: PropertyAnalysis;
-  lightness: PropertyAnalysis;
-  saturationHsl: PropertyAnalysis;
-  saturationHsv: PropertyAnalysis;
-  blackness: PropertyAnalysis;
-  whiteness: PropertyAnalysis;
-}
-
-export interface PropertyAnalysis {
-  values: number[];
-  min: number;
-  max: number;
-  spread: number;
-  mean: number;
-  median: number;
-  geometricMean: number;
-  harmonicMean: number;
-  differences: number[];
-  meanDifference: number; //won't be 0 because looking at absolute values
-  medianDifference: number;
-  standardDeviation: number;
-}
+import {geometricMean, harmonicMean, mean, median, standardDeviation} from "simple-statistics";
+import {GroupColorAnalysis, PropertyAnalysis} from "./types";
+import {allChannels} from "../spacesChannels/channels";
+import {hexToColor} from "../color";
 
 //input should be anything that Color can use as an input to the Constructor
-export const getGroupData = (
-  colors: Array<number[] | string>
-): GroupColorAnalysis => {
-  const objects = colors.map(c => new Color(c));
+export const analyzeGroupProperties = (hexes: string[]): GroupColorAnalysis => {
+    const objects = hexes.map(hexToColor);
 
-  const pairs = PROPERTIES.map(o => [
-    o.key,
-    analyzePropertyValues(objects.map(o.getter))
-  ]);
+    const pairs = allChannels().map(channel => [
+        channel.key,
+        analyzeValueArray(objects.map(c => c.get(channel)))
+    ]);
 
-  return Object.fromEntries(pairs) as GroupColorAnalysis;
+    return Object.fromEntries(pairs) as GroupColorAnalysis;
 };
 
-export const mean = (values: number[]): number => {
-  return values.reduce((a, c) => a + c) / values.length;
-};
-
-export const median = (values: number[]): number => {
-  const sorted = [...values].sort();
-  const i = values.length / 2;
-  if (i % 1) {
-    return (sorted[i + 0.5] + sorted[i - 0.5]) / 2;
-  } else {
-    return sorted[i];
-  }
-};
-
-const analyzePropertyValues = (values: number[]): PropertyAnalysis => {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const vMean = mean(values);
-  const vMedian = median(values);
-  const differences = values.map(v => Math.abs(v - vMean));
-  return {
-    values,
-    min,
-    max,
-    spread: max - min,
-    mean: vMean,
-    median: vMedian,
-    differences,
-    meanDifference: mean(differences),
-    medianDifference: median(values.map(v => Math.abs(v - vMedian))),
-    geometricMean: geometricMean(values),
-    harmonicMean: harmonicMean(values),
-    standardDeviation: standardDeviation(values),
-  };
+export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const vMean = mean(values);
+    const vMedian = median(values);
+    const differences = values.map(v => Math.abs(v - vMean));
+    return {
+        values,
+        min,
+        max,
+        spread: max - min,
+        mean: vMean,
+        median: vMedian,
+        differences,
+        meanDifference: mean(differences),
+        medianDifference: median(values.map(v => Math.abs(v - vMedian))),
+        geometricMean: geometricMean(values),
+        harmonicMean: harmonicMean(values),
+        standardDeviation: standardDeviation(values),
+    };
 };

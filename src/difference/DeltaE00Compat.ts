@@ -1,8 +1,8 @@
 import {I_DeltaECalculator, KeyedLCHWeights} from "./types";
 import {toKeyedLAB, toKeyedWeights} from "./distance";
 import {ifDefined} from "../lib";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import DeltaE2000 from "./DeltaE2000";
+import {I_ColorAdapter} from "../color/types";
 
 export class DeltaE00Compat implements I_DeltaECalculator {
     private readonly weights: Partial<KeyedLCHWeights>;

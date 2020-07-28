@@ -1,8 +1,10 @@
 import React from "react";
-import {ColorAdapter, I_ColorAdapter, I_GetHex} from "../../packages/ColorAdapter";
+import {ColorAdapter} from "../../color/ColorAdapter";
 import { withHash } from "../../lib";
 import {CHANNEL_NAMES} from "../../spacesChannels/channelMaxes";
 import {nameToAccessor} from "../../spacesChannels/accessorConversion";
+import {I_ColorAdapter, I_GetHex} from "../../color/types";
+import {eitherToColor} from "../../color";
 
 export interface Props {
   color: I_GetHex | string;
@@ -30,8 +32,9 @@ export const Swatch = ({ color, size, height }: Props) => {
 };
 
 export const logProfile = (color: I_ColorAdapter | string): void => {
+    //use try catch because not all strings are valid colors
     try {
-        const object = typeof color === "string" ? new ColorAdapter(color) : color;
+        const object = eitherToColor(color);
         const profile = Object.fromEntries( CHANNEL_NAMES.map( name => [name, object.get(nameToAccessor(name))]))
         //could also use alert here - alert allows \t and \n but not html
         console.log(profile);

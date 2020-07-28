@@ -1,17 +1,17 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {BallCreateSettings, generateBall} from "../boxSets/generateBoxBalls";
-import {replaceIndex} from "../lib";
-import {Button} from "../sharedComponents/ui/Button";
-import {Box, Ball, TooltipContent} from "../tools/NoisyBoxes/RenderBoxData";
-import {IconTooltipButton} from "../sharedComponents/ui/IconTooltipButton";
-import {EditIcon, XCircleIcon} from "../sharedComponents/ui/Icons";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
-import {getError, matchToChoices} from "../boxSets/colorMatchesBox";
-import {SelectColor} from "../sharedComponents/form/SelectColor";
-import {BoxData, Rejection} from "../boxSets/types";
+import {BallCreateSettings, generateBall} from "../../boxSets/generateBoxBalls";
+import {replaceIndex} from "../../lib";
+import {Button} from "../../sharedComponents/ui/Button";
+import {Box, Ball, TooltipContent} from "../NoisyBoxes/RenderBoxData";
+import {IconTooltipButton} from "../../sharedComponents/ui/IconTooltipButton";
+import {EditIcon, XCircleIcon} from "../../sharedComponents/ui/Icons";
+import {getError, matchToChoices} from "../../boxSets/colorMatchesBox";
+import {SelectColor} from "../../sharedComponents/form/SelectColor";
+import {BoxData, Rejection} from "../../boxSets/types";
 import {BallDisplaySettings, Identifier} from "./types";
-import {shuffleData} from "../boxSets/shuffleData";
-import {Tooltip} from "../sharedComponents/ui/Tooltip";
+import {shuffleData} from "../../boxSets/shuffleData";
+import {Tooltip} from "../../sharedComponents/ui/Tooltip";
+import {I_ColorAdapter} from "../../color/types";
 
 export interface DataProps {
     data: BoxData[];

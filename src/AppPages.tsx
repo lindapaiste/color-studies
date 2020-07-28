@@ -14,12 +14,12 @@ import {PaletteCompareTool} from "./tools/PaletteCompare/PaletteCompare";
 import {ForceToAll} from "./tools/ForceToRules/ForceToRules";
 import {ColorInfo} from "./sharedComponents/color/ColorInfo";
 import {RenderGroups} from "./tools/RenderGroups/RenderGroups";
-import {TestBoundaries} from "./classifier/TestBoundaries";
+import {TestBoundaries} from "./tools/GroupBoundaries/TestBoundaries";
 import {ChannelRelTool} from "./tools/ChannelRel/ChannelRelTool";
 import {GroupsAnalysis} from "./grouping/AnalysisTable";
-import {TestGroups} from "./classifier/PerceptronResults";
+import {PerceptronTool} from "./tools/Perceptron/PerceptronResults";
 import {Sandbox} from "./Sandbox";
-import {LevelCreatorTool} from "./level/LevelCreatorTool";
+import {LevelCreatorTool} from "./tools/LevelCreator/LevelCreatorTool";
 import {ComponentType} from "react";
 
 interface AppPage {
@@ -126,7 +126,7 @@ export const PAGES: AppPage[] = [
     {
         title: "Perceptron Results [unfinished]",
         path: "perceptron",
-        Component: TestGroups
+        Component: PerceptronTool
     },
     {
         title: "Sandbox",

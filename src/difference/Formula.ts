@@ -2,8 +2,8 @@ import {Algo, FormulaSettings, I_DeltaECalculator} from "./types";
 import {ColorSpaceName} from "../spacesChannels/types";
 import {EuclideanCalculator} from "./EuclideanCalculator";
 import {DeltaE00Compat} from "./DeltaE00Compat";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {DeltaE94Compat} from "./DeltaE94Compat";
+import {I_ColorAdapter} from "../color/types";
 
 //TODO: Hue weight not doing anything on CIE1994
 //L & C < 1 causes distance over 100

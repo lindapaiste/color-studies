@@ -1,5 +1,5 @@
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * could include color here rather than in HOC

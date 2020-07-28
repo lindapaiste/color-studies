@@ -5,9 +5,10 @@ import {last} from "lodash";
 import {fitsConditions} from "../../grouping/colorToGroup";
 import {PropertyConstraint} from "../../grouping/types";
 import {Swatch} from "../../sharedComponents/color/Swatch";
-import {ColorAdapter, I_ColorAdapter, PropColor} from "../../packages/ColorAdapter";
+import {ColorAdapter} from "../../color/ColorAdapter";
 import {nameToAccessor} from "../../spacesChannels/accessorConversion";
 import {ChannelName} from "../../spacesChannels/types";
+import {I_ColorAdapter, PropColor} from "../../color/types";
 
 /**
  * play with rgb(47, 60, 14) going to pastel

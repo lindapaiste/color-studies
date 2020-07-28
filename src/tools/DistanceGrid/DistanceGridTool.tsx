@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {makeArray} from "../../lib";
-import {randomColor} from "../../packages/ColorAdapter";
 import {useFormula} from "../../difference/useFormula";
 import {Accordion} from "../../sharedComponents/ui";
 import {SelectMultipleColors} from "../../sharedComponents/form/SelectMultipleColors";
 import {DifferenceControls} from "./DifferenceControls";
 import {DistanceGrid} from "./DistanceGrid";
+import {randomColor} from "../../color";
 
 /**
  * tool allows for customization of the colors and the deltaE formula

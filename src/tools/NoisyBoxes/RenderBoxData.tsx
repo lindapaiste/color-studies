@@ -1,9 +1,9 @@
 import React, {ReactNode} from "react";
 import {BoxData, Evaluation} from "../../boxSets/types";
 import "./box-style.css";
-import {I_GetHex} from "../../packages/ColorAdapter";
 import {Tooltip} from "../../sharedComponents/ui/Tooltip";
 import {round} from "../../lib";
+import {I_GetHex} from "../../color/types";
 
 export const RenderBoxData = ({data}: { data: BoxData<I_GetHex>[] }) => {
     return (

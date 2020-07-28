@@ -1,7 +1,7 @@
 import React from "react";
 import {BallDisplaySettings} from "./types";
-import {StateUpdateProps} from "../lib/util-hooks";
-import {Toggle} from "../sharedComponents/form/Toggle";
+import {StateUpdateProps} from "../../lib/util-hooks";
+import {Toggle} from "../../sharedComponents/form/Toggle";
 
 /**
  * TODO: debug why the toggles are appearing off when the initial state is true

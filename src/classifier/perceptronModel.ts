@@ -1,7 +1,8 @@
 import {PerceptronModel} from "simple-statistics";
-import chroma, {Color} from "chroma-js";
-import {util} from "../packages/chroma-js";
 import {shuffledGroupData} from "./shuffledData";
+import ChannelAdapter from "../spacesChannels/ChannelAdapter";
+import {hexToColor, randomColors} from "../color";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * DOES NOT WORK
@@ -15,47 +16,91 @@ import {shuffledGroupData} from "./shuffledData";
  *
  */
 
- /*
- * use all properties of a color to build the model
- *
- * use manually defined color groups as the training data to create a model which assigns group
- *
- * based on how the model is built -- by going through each color, predicting, and adjusting,
- * the order might matter?
- *
+/*
+* use selected of a color to build the model
+*
+* use manually defined color groups as the training data to create a model which assigns group
+*
+* based on how the model is built -- by going through each color, predicting, and adjusting,
+* the order might matter?
+*
+*/
+
+/**
+ * need the model itself, but also what group it's for and what properties are used
  */
-export const buildIsGroupModel = (groupName: string): PerceptronModel => {
+export interface IsGroupModel {
+    model: PerceptronModel;
+    group: string;
+    channels: ChannelAdapter[];
+}
+
+export interface BuildModelProps {
+    group: string;
+    channels: ChannelAdapter[];
+    iterations?: number;
+}
+
+export const buildIsGroupModel = ({group, channels, iterations = 15}: BuildModelProps): IsGroupModel => {
     const model = new PerceptronModel();
-    const trainingData = shuffledGroupData(hex => toData(chroma(hex)));
+    const trainingData = shuffledGroupData(hex => getFeatures(hexToColor(hex), channels));
     console.log(trainingData);
-    trainingData.forEach(({features, group}) => model.train(features, group === groupName ? 1 : 0));
+    //needs to iterate over training data multiple times - when to stop?
+    for (let i = 0; i < iterations; i++) {
+        trainingData.forEach(({features, group}) => model.train(features, group === group ? 1 : 0));
+    }
     console.log(model);
-    return model;
+    return {
+        model,
+        group,
+        channels,
+    };
 };
 
-export const toData = (color: Color) => Object.values(util.getProfile(color));
+export const getFeatures = (color: I_ColorAdapter, channels: ChannelAdapter[]): number[] => {
+    return channels.map(
+        //need to normalize value
+        channel => channel.normalize(color.get(channel))
+    );
+}
 
 //true values and then false values
-export type BinaryResults = [Color[], Color[]]
+export type BinaryResults = [I_ColorAdapter[], I_ColorAdapter[]]
 
-export const testRandom = (
-    model: PerceptronModel,
-    count: number
-): BinaryResults => {
-    const results: BinaryResults = [[], []];
-    for (let i = 0; i < count; i++) {
-        const color = chroma.random();
-        const isTrue = debug(toData(color), model.weights, model.bias);
-        //const isTrue = model.predict(toData(color));
-        if (isTrue) {
-            results[0].push(color);
-        } else {
-            results[1].push(color);
+export type PerceptronResult = {
+    predicted: number; //either 0/1 or a detailed number
+    expected?: number;
+    features: number[];
+    color: I_ColorAdapter;
+}
+
+//broken into arrays of predicted true and predicted false
+export type TestResults = [PerceptronResult[], PerceptronResult[]]
+
+//if debugging, should include more details
+export const testIsGroupModel = (model: IsGroupModel, count: number, debug: boolean = false): TestResults => {
+    const results: TestResults = [[], []];
+    const colors = randomColors(count);
+    colors.forEach(color => {
+        const features = getFeatures(color, model.channels);
+        const predicted = debug ?
+            logPredict(features, model.model.weights, model.model.bias) :
+            model.model.predict(features);
+        const result = {
+            predicted,
+            features,
+            color
         }
-    }
+        if (predicted > 0) {
+            results[0].push(result);
+        } else {
+            results[1].push(result);
+        }
+    });
     return results;
 };
-const debug = (features: number[], weights: number[], bias: number): number => {
+
+const logPredict = (features: number[], weights: number[], bias: number): number => {
     // Calculate the sum of features times weights,
     // with the bias added (implicitly times one).
     let score = 0;
@@ -65,11 +110,14 @@ const debug = (features: number[], weights: number[], bias: number): number => {
     }
     score += bias;
     console.log("adding bias of " + bias + " for a final score of " + score);
+    return score;
+};
 
+const toBinary = (score: number): number => {
     // Classify as 1 if the score is over 0, otherwise 0.
     if (score > 0) {
         return 1;
     } else {
         return 0;
     }
-};
+}

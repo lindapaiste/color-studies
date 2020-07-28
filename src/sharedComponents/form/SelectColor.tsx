@@ -1,9 +1,10 @@
 import React from "react";
-import {ColorAdapter, I_ColorAdapter, randomColor} from "../../packages/ColorAdapter";
 import {RandomIcon} from "../ui/Icons";
 import {BaseField} from "./BaseField";
 import {GenericProps, Size, WithoutE} from "./types";
 import {IconTooltipButton} from "../ui/IconTooltipButton";
+import {I_ColorAdapter} from "../../color/types";
+import {hexToColor, randomColor} from "../../color";
 
 /**
  * need to remove the second parameter e: ChangeEvent from the callback
@@ -26,7 +27,7 @@ export const SelectColor = React.forwardRef<HTMLDivElement, Props>(({value, onCh
         <BaseField
             {...props}
             value={value ? value.hex() : undefined}
-            onChange={hex => onChange(new ColorAdapter(hex))}
+            onChange={hex => onChange(hexToColor(hex))}
             inputProps={{
                 type: "color",
                 style: {

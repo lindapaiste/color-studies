@@ -2,7 +2,6 @@ import React, {FunctionComponent, useMemo, useState} from "react";
 import {makeArray} from "../../lib";
 import {usePartialState} from "../../lib/util-hooks";
 import {FormulaSettings} from "../../difference/types";
-import {randomColor} from "../../packages/ColorAdapter";
 import {DifferenceControls} from "../DistanceGrid/DifferenceControls";
 import {Calculation} from "../../difference/Calculation";
 import {Formula} from "../../difference/Formula";
@@ -10,6 +9,7 @@ import {Title} from "../../sharedComponents/ui/Title";
 import {SelectColor} from "../../sharedComponents/form/SelectColor";
 import {DataPoint, RenderBracketedDifference} from "./RenderBracketedDifference";
 import {CalculationTooltip} from "./CalculationTooltip";
+import {randomColor} from "../../color";
 
 export interface Props {
     count?: number;

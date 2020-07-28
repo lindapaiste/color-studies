@@ -1,8 +1,8 @@
-import {I_ColorAdapter} from "../../packages/ColorAdapter";
 import React, {ReactNode, useMemo} from "react";
 import {round, sortBy} from "../../lib";
 import {Title} from "../../sharedComponents/ui/Title";
 import {RenderSet} from "../../sharedComponents/color/RenderSet";
+import {I_ColorAdapter} from "../../color/types";
 
 /**
  * data must include color and deltaE, but can also include a tooltip

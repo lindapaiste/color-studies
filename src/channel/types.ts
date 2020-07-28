@@ -1,6 +1,6 @@
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {ModelAdapter} from "../spacesChannels/ModelAdapter";
 import {ColorSpaceName} from "../spacesChannels/types";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * Channel and Model gradient can share the same interface

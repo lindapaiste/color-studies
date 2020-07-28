@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {SelectColor} from "../../sharedComponents/form/SelectColor";
-import {randomColor} from "../../packages/ColorAdapter";
 import {NumberInput} from "../../sharedComponents/form/NumberInput";
 import {allChannels} from "../../spacesChannels/channels";
 import {Title} from "../../sharedComponents/ui/Title";
 import {FlexRow} from "../../sharedComponents/ui/FlexRow";
 import RenderGradientSet from "../GradientCompare/RenderGradientSet";
 import ChannelGradient from "../../channel/ChannelGradient";
+import {randomColor} from "../../color";
 
 export const ChannelGradientTool = () => {
     const [color, setColor] = useState(randomColor());

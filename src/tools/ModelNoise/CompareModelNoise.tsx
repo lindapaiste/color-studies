@@ -4,11 +4,11 @@ import {Swatch} from "../../sharedComponents/color/Swatch";
 import {makeArray} from "../../lib";
 import {RenderSet} from "../../sharedComponents/color/RenderSet";
 import {withModelNoise} from "../../noise/modelNoise";
-import {I_ColorAdapter} from "packages/ColorAdapter";
 import {DEFAULT_NOISE_SETTINGS, ModelNoiseSettings} from "../../noise/types";
 import {ModelNoiseControls} from "./ModelNoiseControls";
 import {Title} from "../../sharedComponents/ui/Title";
 import {Tool} from "../../sharedComponents/tool/Tool";
+import {I_ColorAdapter} from "../../color/types";
 
 /**
  * tool to visualize the changes made by adjusting weights

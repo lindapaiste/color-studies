@@ -1,22 +1,23 @@
 import React, {useCallback, useState} from "react";
 import {BoxColorControls} from "./BoxColorControls";
-import {makeArray} from "../lib";
-import {I_ColorAdapter, randomColor} from "../packages/ColorAdapter";
-import {Accordion} from "../sharedComponents/ui";
-import {Formula} from "../difference/Formula";
-import {usePartialState} from "../lib/util-hooks";
-import {FormulaSettings} from "../difference/types";
-import {DEFAULT_LEVERS} from "../tools/NoisyBoxes/NoisyBoxes";
-import {generateBoxes} from "../boxSets/generateBoxBalls";
-import {DEFAULT_NOISE_SETTINGS} from "../noise/types";
-import {ModelNoise} from "../noise/modelNoise";
-import {BoxData} from "../boxSets/types";
+import {makeArray} from "../../lib";
+import {Accordion} from "../../sharedComponents/ui";
+import {Formula} from "../../difference/Formula";
+import {usePartialState} from "../../lib/util-hooks";
+import {FormulaSettings} from "../../difference/types";
+import {DEFAULT_LEVERS} from "../NoisyBoxes/NoisyBoxes";
+import {generateBoxes} from "../../boxSets/generateBoxBalls";
+import {DEFAULT_NOISE_SETTINGS} from "../../noise/types";
+import {ModelNoise} from "../../noise/modelNoise";
+import {BoxData} from "../../boxSets/types";
 import {Button} from "sharedComponents/ui/Button";
 import {AdvancedSettingsControls, mapSettingsInterface} from "./AdvancedSettingsControls";
 import {BallsEditor} from "./BallEditor";
 import {AdvancedSettings, BallDisplaySettings} from "./types";
 import {BallEditorControls} from "./BallsEditorControls";
-import {DistanceGrid} from "../tools/DistanceGrid/DistanceGrid";
+import {DistanceGrid} from "../DistanceGrid/DistanceGrid";
+import {I_ColorAdapter} from "../../color/types";
+import {randomColor} from "../../color";
 
 const initialFormulaSettings: FormulaSettings = {
     algo: "Euclidean",

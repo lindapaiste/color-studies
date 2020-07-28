@@ -2,7 +2,6 @@ import chroma, {Color} from "chroma-js";
 import React, {useEffect, useMemo, useState} from "react";
 import {ChannelShiftControls, useControls} from "./ChannelShiftControls";
 import {createColors} from "../../channel/channelShiftSet";
-import {getDistance} from "../../packages/chroma-js";
 import {BoxData, Evaluation, Levers} from "../../boxSets/types";
 import {getError, matchToChoices} from "../../boxSets/colorMatchesBox";
 import {RenderBoxData} from "./RenderBoxData";
@@ -11,9 +10,12 @@ import "./box-style.css";
 import {shuffleData} from "../../boxSets/shuffleData";
 import {flatMap} from "../../lib";
 import {withModelNoise} from "../../noise/modelNoise";
-import {ColorAdapter} from "../../packages/ColorAdapter";
+import {ColorAdapter} from "../../color/ColorAdapter";
 import {Toggle} from "../../sharedComponents/form/Toggle";
 import {usePartialState} from "../../lib/util-hooks";
+
+//export const getDistance = (a: Color, b: Color) => chroma.deltaE(a, b, 1, 5);
+export const getDistance = chroma.deltaE;
 
 /**
  * right now just looks at a bunch of random colors and filters

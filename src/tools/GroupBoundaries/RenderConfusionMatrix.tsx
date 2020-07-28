@@ -1,13 +1,13 @@
 import React from "react";
-import {conditionalsKeys, I_ConfusionMatrix, scoresKeys, TestResults} from "./ConfusionMatrix";
+import {conditionalsKeys, I_ConfusionMatrix, scoresKeys, TestResults} from "../../classifier/ConfusionMatrix";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import {ValuesTable} from "../sharedComponents/ui/ValuesTable";
-import {Accordion} from "../sharedComponents/ui/Accordion";
-import {percentString} from "../lib";
+import {ValuesTable} from "../../sharedComponents/ui/ValuesTable";
+import {Accordion} from "../../sharedComponents/ui";
+import {percentString} from "../../lib";
 
 /**
  * contains multiple UI components for displaying all or part of the I_ConfusionMatrix interface

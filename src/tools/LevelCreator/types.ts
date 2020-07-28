@@ -1,8 +1,8 @@
-import {Levers} from "../boxSets/types";
-import {I_FormulaClass} from "../difference/types";
-import {I_ModelNoise} from "../noise/types";
-import {ChannelAccessor} from "../spacesChannels/types";
-import {ChannelAdapter} from "../spacesChannels/ChannelAdapter";
+import {Levers} from "../../boxSets/types";
+import {I_FormulaClass} from "../../difference/types";
+import {I_ModelNoise} from "../../noise/types";
+import {ChannelAccessor} from "../../spacesChannels/types";
+import {ChannelAdapter} from "../../spacesChannels/ChannelAdapter";
 
 export interface Identifier {
     boxIndex: number;

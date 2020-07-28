@@ -2,10 +2,10 @@ import React from "react";
 import Plot from "react-plotly.js";
 import {getSplitSample, GroupedHex} from "../../classifier/shuffledData";
 import {Data} from "plotly.js";
-import {ColorAdapter} from "../../packages/ColorAdapter";
 import useDimensions from "../../lib/useDimensions";
 import {ifDefined} from "../../lib";
 import {ChannelAdapter} from "../../spacesChannels/ChannelAdapter";
+import {hexToColor} from "../../color";
 
 /**
  * creates a scatter plot based on two color properties (x and y)
@@ -28,7 +28,7 @@ export const PlotFeatures = ({colorCount, xChannel, yChannel, group}: Props) => 
 
     const toTrace = (data: GroupedHex[], label: string): Data => {
         const points: PointTuple[] = data.map(({hex}) => {
-            const obj = new ColorAdapter(hex);
+            const obj = hexToColor(hex);
             return [obj.get(xChannel), obj.get(yChannel)];
         });
         return {

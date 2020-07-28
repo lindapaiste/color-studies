@@ -3,7 +3,7 @@ import {NumberInput} from "../../sharedComponents/form/NumberInput";
 import React from "react";
 import {StateUpdateProps, usePartialState} from "../../lib/util-hooks";
 import {SelectAccessor} from "../../sharedComponents/form/SelectAccessor";
-import {accessorToCode, codeToAccessor} from "../../packages/chromaSpaces";
+import {accessorToCode, codeToAccessor} from "../../color/chromaSpaces";
 
 export const CHANNEL_SHIFT_DEFAULT: ChannelShiftSettings = {
     channel: "lab.l",

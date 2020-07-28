@@ -1,12 +1,12 @@
 import React from "react";
 import {Slider} from "@material-ui/core";
-import {I_ColorAdapter} from "../../packages/ColorAdapter";
 import {ChannelAccessor} from "../../spacesChannels/types";
 import {GenericProps, Size, WithoutE} from "./types";
 import {GradientBar} from "../color/GradientBar";
 import {FormLabelWrapper} from "./LabelWrapper";
 import {ChannelAdapter} from "../../spacesChannels/ChannelAdapter";
 import {eitherToObject} from "../../spacesChannels/channels";
+import {I_ColorAdapter} from "../../color/types";
 
 /**
  * expects a normalized value between 0 and 1

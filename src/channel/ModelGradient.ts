@@ -1,11 +1,12 @@
 import {TransformPair} from "./transforms";
-import {ColorAdapter, I_ColorAdapter} from "../packages/ColorAdapter";
+import {ColorAdapter} from "../color/ColorAdapter";
 import {ModelAdapter} from "../spacesChannels/ModelAdapter";
 import {ChannelCountTuple, ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 import {TupleClass} from "../spacesChannels/TupleClass";
 import {ModelTransform} from "./ModelTransform";
 import {intervals, makeArray} from "../lib";
 import {I_Gradient} from "./types";
+import {I_ColorAdapter} from "../color/types";
 
 export interface Props<CS extends ColorSpaceName> {
     start: I_ColorAdapter;
@@ -25,7 +26,7 @@ export class ModelGradient <CS extends ColorSpaceName> implements I_Gradient {
     private readonly start: TupleClass<CS>;
     private readonly end: TupleClass<CS>;
     private readonly transform: ModelTransform<CS>;
-    public readonly model: ModelAdapter<CS>;
+    public readonly model: ModelAdapter<CS>; //could instead do get model() { return this.start.model; }
 
     constructor({start, end, model, transform = false}: Props<CS>) {
         this.model = model;
@@ -51,3 +52,5 @@ export class ModelGradient <CS extends ColorSpaceName> implements I_Gradient {
         return makeArray(count, colorI);
     }
 }
+
+export default ModelGradient;

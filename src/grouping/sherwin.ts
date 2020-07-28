@@ -1,10 +1,11 @@
-import { getGroupData } from "./analyzeColors";
+import { analyzeGroupProperties } from "./analyzeColors";
 import { randomRgb } from "../lib";
 import { RGB } from "../lib";
+import {randomColors} from "../color";
 
 //random set of RGBs
-const createBaseline = (count: number = 8): RGB[] => {
-  return [...new Array(count)].map(randomRgb);
+const createBaseline = (count: number = 8): string[] => {
+  return randomColors(count).map(o => o.hex());
 };
 
 //SW seelector [...document.querySelectorAll('rect')].map(node => node.attributes.fill.value)
@@ -35,9 +36,9 @@ const SW_VIBRANT_SPLASH = [
 
 export const compareGroups = () => {
   console.log("Calm Comfort");
-  console.log(getGroupData(SW_CALM_COMFORT));
+  console.log(analyzeGroupProperties(SW_CALM_COMFORT));
   console.log("Vibrant Splash");
-  console.log(getGroupData(SW_VIBRANT_SPLASH));
+  console.log(analyzeGroupProperties(SW_VIBRANT_SPLASH));
   console.log("Baseline");
-  console.log(getGroupData(createBaseline(8)));
+  console.log(analyzeGroupProperties(createBaseline(8)));
 };

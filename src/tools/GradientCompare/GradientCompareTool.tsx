@@ -1,11 +1,12 @@
 import React from "react";
-import {I_ColorAdapter, randomColors} from "../../packages/ColorAdapter";
 import {ModelAdapter} from "../../spacesChannels/ModelAdapter";
 import {ColorSpaceName} from "../../spacesChannels/types";
 import {CompareChromaScaleModes} from "./ChromaScale";
 import {Tool} from "../../sharedComponents/tool/Tool";
 import {GradientCompareControls} from "./GradientCompareControls";
 import GradientModelCompare from "./GradientModelCompare";
+import {I_ColorAdapter} from "../../color/types";
+import {randomColors} from "../../color";
 
 /**
  * observations:

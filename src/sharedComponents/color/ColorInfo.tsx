@@ -1,12 +1,11 @@
 import React from "react";
-import {ColorAdapter, I_ColorAdapter} from "../../packages/ColorAdapter";
-import {ChannelName, ColorSpaceName} from "../../spacesChannels/types";
 import {CHANNEL_NAMES, normalize} from "../../spacesChannels/channelMaxes";
 import {nameToAccessor} from "../../spacesChannels/accessorConversion";
-import {ValuesTable} from "../ui/ValuesTable";
 import {DataTable} from "../ui/DataTable";
 import {Accordion} from "../ui/Accordion";
 import {proper, round} from "../../lib";
+import {I_ColorAdapter} from "../../color/types";
+import {eitherToColor} from "../../color";
 
 export interface Props {
     color: I_ColorAdapter | string;
@@ -35,18 +34,14 @@ export interface Props {
     const spaces: ColorSpaceName[] = ["rgb", "hsl", "cmyk", "hsv", "lab", "lch"];
  */
 
-export const ColorInfo = ({color, initialOpen = true}: Props) => {
-    const _color =
-        typeof color === "string"
-            ? new ColorAdapter(color)
-            : color;
-
-    return (
-            <Accordion title="Channel Values" initialOpen={initialOpen}>
-                <ChannelValuesTable color={_color}/>
-            </Accordion>
-    );
-};
+/**
+ * at some point might add back grouping by colorspace, but I do like sorting by normalized across all channels
+ */
+export const ColorInfo = ({color, initialOpen = true}: Props) => (
+    <Accordion title="Channel Values" initialOpen={initialOpen}>
+        <ChannelValuesTable color={eitherToColor(color)}/>
+    </Accordion>
+);
 
 /**
  * displays both the number (out of 255, 100, etc.) and the normalized decimal value

@@ -3,7 +3,7 @@ import {FormulaSettings, I_DeltaECalculator} from "./types";
 import {getSpaceChannelNames} from "../spacesChannels/colorSpaces";
 import {getMaxObject} from "../spacesChannels/channelMaxes";
 import {rawDistance} from "./euclideanDistance";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * CIE 1976 formula uses Euclidean Distance of LAB coordinates,

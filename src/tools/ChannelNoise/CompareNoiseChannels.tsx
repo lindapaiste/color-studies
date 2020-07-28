@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {RenderSet} from "../../sharedComponents/color/RenderSet";
 import {withChannelNoise} from "../../noise/channelNoise";
-import {I_ColorAdapter} from "../../packages/ColorAdapter";
 import {ALL_ACCESSORS} from "../../spacesChannels/colorSpaces";
 import {makeArray} from "../../lib";
 import {NumberInput} from "../../sharedComponents/form/NumberInput";
 import {accessorKey, accessorTitle} from "../../spacesChannels/accessorConversion";
 import {Title} from "../../sharedComponents/ui/Title";
 import {TupleTooltip} from "../../sharedComponents/color/TupleTooltip";
+import {I_ColorAdapter} from "../../color/types";
 
 /**
  * notes: hsv.v is just completely wrong

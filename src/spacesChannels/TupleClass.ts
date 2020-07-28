@@ -19,6 +19,10 @@ export class TupleClass<CS extends ColorSpaceName> implements I_TupleClass<CS>, 
     public model: ModelAdapter<CS>;
     private _deNormalized?: ColorTuple<CS>
 
+    /**
+     * construct a TupleClass object from an array of numeric values
+     * need to know what model these numbers describe and whether or not they are normalized
+     */
     constructor(values: ColorTuple<CS>, model: ModelOrName<CS>, normalized: boolean) {
         //doesn't matter which format I store in, but one of the two should always be defined
         this.model = eitherToModel(model);
@@ -27,6 +31,9 @@ export class TupleClass<CS extends ColorSpaceName> implements I_TupleClass<CS>, 
         this._deNormalized = normalized ? undefined : values;
     }
 
+    /**
+     * gets the tuple in the colorspace's standard range, ie. 0-255, 0-100, etc.
+     */
     get deNormalized(): ColorTuple<CS> {
         if (isUndefined(this._deNormalized)) {
             this._deNormalized = this.model.deNormalize(this.normalized)
@@ -34,7 +41,9 @@ export class TupleClass<CS extends ColorSpaceName> implements I_TupleClass<CS>, 
         return this._deNormalized;
     }
 
-    //is the denormalized because rounding makes no sense from 0 to 1
+    /**
+     * rounded version is the denormalized because rounding makes no sense from 0 to 1
+     */
     get rounded(): ColorTuple<CS> {
         return tupleMap(this.deNormalized, round);
     }
@@ -44,10 +53,6 @@ export class TupleClass<CS extends ColorSpaceName> implements I_TupleClass<CS>, 
      */
     public getEither(normalized: boolean): ColorTuple<CS> {
         return normalized ? this.normalized : this.deNormalized;
-    }
-
-    get length(): number {
-        return this.normalized.length;
     }
 
     /**
@@ -76,6 +81,16 @@ export class TupleClass<CS extends ColorSpaceName> implements I_TupleClass<CS>, 
     get 3() {
         return this.normalized[3] as number;
     }
+
+    get length(): number {
+        return this.normalized.length;
+    }
+
+    /**
+     * want to have a map method, but unsure whether to use normalized or deNormalized
+     * don't want to have an additional parameter for flagging that because then
+     * map() wouldn't match the signature or an array map
+     */
 }
 
 export default TupleClass;

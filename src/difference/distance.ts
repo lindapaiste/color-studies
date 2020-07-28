@@ -1,9 +1,9 @@
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {_DeltaEFormula, DeltaEFormula, KeyedLCHWeights, LAB} from "./types";
 import DeltaE2000 from "./DeltaE2000";
 import DeltaE1994 from "./DeltaE1994";
 import {ColorSpaceName} from "../spacesChannels/types";
 import {EuclideanCalculator} from "./EuclideanCalculator";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * most of this is made redundant by new compat classes

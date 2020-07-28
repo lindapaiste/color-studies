@@ -1,4 +1,4 @@
-import {I_ColorAdapter} from "../packages/ColorAdapter";
+import {I_ColorAdapter} from "../color/types";
 
 export interface Levers {
     minDistance: number;

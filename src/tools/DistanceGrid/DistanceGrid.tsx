@@ -1,8 +1,8 @@
 import React from "react";
-import {I_ColorAdapter} from "../../packages/ColorAdapter";
 import {I_DeltaECalculator} from "../../difference/types";
 import {round} from "../../lib";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
+import {I_ColorAdapter} from "../../color/types";
 
 /**
  * takes an array of colors and compares each one to all of the others

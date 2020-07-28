@@ -1,10 +1,10 @@
 import {BoxData, Evaluation, Levers, MatchError} from "./types";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {withModelNoise} from "../noise/modelNoise";
 import {ColorSpaceName} from "../spacesChannels/types";
 import {makeArray} from "../lib";
 import {getError, matchToChoices} from "./colorMatchesBox";
 import {deltaE76} from "../difference/distance";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * changeable settings for box balls:

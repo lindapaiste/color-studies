@@ -1,10 +1,10 @@
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {ChannelAdapter} from "../spacesChannels/ChannelAdapter";
 import {ifDefined} from "../lib";
 import {ColorSpaceName} from "../spacesChannels/types";
 import {TransformPair} from "./transforms";
 import {ModelGradient} from "./ModelGradient";
 import {I_Gradient} from "./types";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * start from one initial color and change its value along one channel

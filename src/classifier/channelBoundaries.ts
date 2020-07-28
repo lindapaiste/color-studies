@@ -1,8 +1,8 @@
 import {splitInGroup} from "./shuffledData";
 import {boundaryModel, BoundaryModelAcc} from "./boundaryModel";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {ChannelAccessor} from "../spacesChannels/types";
 import {I_ConfusionMatrix} from "./ConfusionMatrix";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * applies the generic boundary model -- which takes any numeric data -- to the color data set

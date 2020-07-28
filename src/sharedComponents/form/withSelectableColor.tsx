@@ -1,8 +1,9 @@
 import React, { ComponentType, FunctionComponent, useState } from "react";
-import { I_ColorAdapter, randomColor } from "../../packages/ColorAdapter";
 import { SelectColor } from "./SelectColor";
 import { debounce } from "../../lib";
 import { Props as SelectProps } from "./SelectColor";
+import {I_ColorAdapter} from "../../color/types";
+import {randomColor} from "../../color";
 /**
  * for tools which are initialized with a random color,
  * but now can allow that color to be changed

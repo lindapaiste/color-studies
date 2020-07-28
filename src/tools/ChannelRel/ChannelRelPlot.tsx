@@ -1,10 +1,11 @@
-import {I_ColorAdapter, randomColors} from "../../packages/ColorAdapter";
 import {Data} from "plotly.js";
 import {intervals} from "../../lib";
 import {Size} from "../../sharedComponents/form/types";
 import React, {useMemo} from "react";
 import Plot from "react-plotly.js";
 import {Settings} from "./ChannelRelTool";
+import {I_ColorAdapter} from "../../color/types";
+import {randomColors} from "../../color";
 
 /**
  * each initial color becomes one line

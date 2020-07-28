@@ -1,9 +1,9 @@
 import { ColorClassification} from "./types";
 import { round } from "../lib";
 import {PropertyConstraint} from "./types";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {nameToAccessor} from "../spacesChannels/accessorConversion";
 import {getAllowance} from "../spacesChannels/channelMaxes";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * in the future could have targets where the difference matters,

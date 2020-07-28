@@ -1,4 +1,4 @@
-import {ColorAdapter} from "../../packages/ColorAdapter";
+import {ColorAdapter} from "../../color/ColorAdapter";
 import {ColorSpaceName, ColorTuple} from "../../spacesChannels/types";
 import React, {useMemo} from "react";
 import {flatMap, intervals, replaceIndex} from "../../lib";

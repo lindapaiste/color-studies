@@ -10,8 +10,7 @@ import {
   I_Range
 } from "./types";
 import { typedKeys } from "../lib";
-import {ColorPropKey} from "../packages/types";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
+import {I_ColorAdapter} from "../color/types";
 
 export const isFixedMaxChannel = (
   channel: ChannelName

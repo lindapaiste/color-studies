@@ -1,5 +1,5 @@
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
-import {fixHue} from "../boxSets/hueShift";
+import {fixHue} from "../hue/hueShift";
 import {ChannelAdapter} from "../spacesChannels/ChannelAdapter";
 
 /**
@@ -24,8 +24,8 @@ export const getStandardTransform = (channel: ChannelAdapter, normalized: boolea
      */
     if (channel.name === 'hue') {
         return {
-            pre: normalToColorWheel,
-            post: n => fixHue(colorWheelToNormal(n)),
+            pre: n => normalized ? normalToColorWheel(360 * n) /360 : normalToColorWheel(n),
+            post: n => fixHue(colorWheelToNormal( normalized ? 360 * n : n )) / 360,
         }
     }
     /**

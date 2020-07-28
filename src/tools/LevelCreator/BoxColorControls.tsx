@@ -1,16 +1,17 @@
 import React, {useState} from "react";
-import {Button} from "../sharedComponents/ui/Button";
-import {SelectMultipleColors} from "../sharedComponents/form/SelectMultipleColors";
-import {makeArray, shuffle} from "../lib";
-import {I_ColorAdapter, randomColor} from "../packages/ColorAdapter";
-import {getGradientColors} from "../channel/ChannelGradient";
-import {SelectColor} from "../sharedComponents/form/SelectColor";
-import {SelectAccessor} from "../sharedComponents/form/SelectAccessor";
-import {usePartialState} from "../lib/util-hooks";
-import {PaletteIcon, RandomIcon, ReverseIcon, ShuffleIcon} from "../sharedComponents/ui/Icons";
-import {ChannelSliderInput} from "../sharedComponents/form/ChannelSlider";
+import {Button} from "../../sharedComponents/ui/Button";
+import {SelectMultipleColors} from "../../sharedComponents/form/SelectMultipleColors";
+import {makeArray, shuffle} from "../../lib";
+import {getGradientColors} from "../../channel/ChannelGradient";
+import {SelectColor} from "../../sharedComponents/form/SelectColor";
+import {SelectAccessor} from "../../sharedComponents/form/SelectAccessor";
+import {usePartialState} from "../../lib/util-hooks";
+import {PaletteIcon, RandomIcon, ReverseIcon, ShuffleIcon} from "../../sharedComponents/ui/Icons";
+import {ChannelSliderInput} from "../../sharedComponents/form/ChannelSlider";
 import {ShiftSettings} from "./types";
-import {getChannel} from "../spacesChannels/channels";
+import {getChannel} from "../../spacesChannels/channels";
+import {I_ColorAdapter} from "../../color/types";
+import {randomColor} from "../../color";
 
 /**
  * want to be able to generate colors from a channel shift OR from select color

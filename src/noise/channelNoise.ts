@@ -1,10 +1,10 @@
 import {random} from "../lib";
-import {fixHue} from "../boxSets/hueShift";
+import {fixHue} from "../hue/hueShift";
 import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
 import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {accessorToName} from "../spacesChannels/accessorConversion";
+import {I_ColorAdapter} from "../color/types";
 
 export interface ChannelProps {
     min?: number; //default to 0 if not set

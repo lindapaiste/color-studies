@@ -1,9 +1,9 @@
 import {getSpaceChannelNames} from "../spacesChannels/colorSpaces";
 import {noisyChannelValue} from "./channelNoise";
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 import {I_ModelNoise, I_NoiseCreator, ModelNoiseSettings} from "./types";
 import {ifDefined} from "../lib";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * uses the same setup as Formula, where it is created from settings, but also serves as an access point to those settings

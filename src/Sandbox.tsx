@@ -2,8 +2,8 @@ import React from "react";
 import {RenderSet} from "sharedComponents/color/RenderSet";
 import {ModelPalette} from "./tools/PaletteCompare/ModelPalette";
 import {ModelAdapter} from "./spacesChannels/ModelAdapter";
-import {ColorAdapter} from "./packages/ColorAdapter";
-import {rgbToRyb, rybToRgb} from "./packages/ryb";
+import {ColorAdapter} from "./color/ColorAdapter";
+import {rgbToRyb, rybToRgb} from "./color/ryb";
 
 export const Sandbox = () => {
 

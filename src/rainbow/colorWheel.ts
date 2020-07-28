@@ -13,53 +13,53 @@
  */
 
 const ADJUSTMENTS = [
-  [0, 0],
-  [30, 60],
-  [60, 120],
-  [120, 180],
-  [180, 210],
-  [240, 240],
-  [270, 300],
-  [300, 330],
-  [360, 360]
+    [0, 0],
+    [30, 60],
+    [60, 120],
+    [120, 180],
+    [180, 210],
+    [240, 240],
+    [270, 300],
+    [300, 330],
+    [360, 360]
 ];
 
 export const normalToColorWheel = (hue: number): number => {
-  for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
-    const [lowerInput, lowerOutput] = ADJUSTMENTS[i];
-    const [upperInput, upperOutput] = ADJUSTMENTS[i + 1];
-    //theoretically matches both in the case that hue equals a breakpoint, but will act on the first
-    if (lowerInput <= hue && upperInput >= hue) {
-      const scale = (upperOutput - lowerOutput) / (upperInput - lowerInput);
-      return (hue - lowerInput) * scale + lowerOutput;
+    for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
+        const [lowerInput, lowerOutput] = ADJUSTMENTS[i];
+        const [upperInput, upperOutput] = ADJUSTMENTS[i + 1];
+        //theoretically matches both in the case that hue equals a breakpoint, but will act on the first
+        if (lowerInput <= hue && upperInput >= hue) {
+            const scale = (upperOutput - lowerOutput) / (upperInput - lowerInput);
+            return (hue - lowerInput) * scale + lowerOutput;
+        }
     }
-  }
-  //should never get here
-  console.error();
-  return 0;
+    //should never get here
+    console.error();
+    return 0;
 };
 
 //follows the same formula, but reverses input and output
 export const colorWheelToNormal = (hue: number): number => {
-  for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
-    const [lowerOutput, lowerInput] = ADJUSTMENTS[i];
-    const [upperOutput, upperInput] = ADJUSTMENTS[i + 1];
-    //theoretically matches both in the case that hue equals a breakpoint, but will act on the first
-    if (lowerInput <= hue && upperInput >= hue) {
-      const scale = (upperOutput - lowerOutput) / (upperInput - lowerInput);
-      //console.log({ upperInput, lowerInput, upperOutput, lowerOutput, scale });
-      return (hue - lowerInput) * scale + lowerOutput;
+    for (let i = 0; i < ADJUSTMENTS.length - 1; i++) {
+        const [lowerOutput, lowerInput] = ADJUSTMENTS[i];
+        const [upperOutput, upperInput] = ADJUSTMENTS[i + 1];
+        //theoretically matches both in the case that hue equals a breakpoint, but will act on the first
+        if (lowerInput <= hue && upperInput >= hue) {
+            const scale = (upperOutput - lowerOutput) / (upperInput - lowerInput);
+            //console.log({ upperInput, lowerInput, upperOutput, lowerOutput, scale });
+            return (hue - lowerInput) * scale + lowerOutput;
+        }
     }
-  }
-  //should never get here
-  console.error();
-  return 0;
+    //should never get here
+    console.error();
+    return 0;
 };
 
 const runTest = () => {
-  for (let i = 0; i < 360; i += 15) {
-    const hue = i;
-    const adjusted = colorWheelToNormal(hue);
-    console.log("from", hue, "to", adjusted);
-  }
+    for (let i = 0; i < 360; i += 15) {
+        const hue = i;
+        const adjusted = colorWheelToNormal(hue);
+        console.log("from", hue, "to", adjusted);
+    }
 };

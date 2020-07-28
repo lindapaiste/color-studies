@@ -1,7 +1,7 @@
-import {I_ColorAdapter} from "../packages/ColorAdapter";
 import {getSpaceChannelNames} from "../spacesChannels/colorSpaces";
 import {ChannelName} from "../spacesChannels/types";
 import {I_FormulaClass} from "./types";
+import {I_ColorAdapter} from "../color/types";
 
 /**
  * includes additional information used for debugging and visualizing via tooltips, etc.
