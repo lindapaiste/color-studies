@@ -4,7 +4,6 @@ import {SelectMultipleColors} from "../../sharedComponents/form/SelectMultipleCo
 import {makeArray, shuffle} from "../../lib";
 import {getGradientColors} from "../../channel/ChannelGradient";
 import {SelectColor} from "../../sharedComponents/form/SelectColor";
-import {SelectAccessor} from "../../sharedComponents/form/SelectAccessor";
 import {usePartialState} from "../../lib/util-hooks";
 import {PaletteIcon, RandomIcon, ReverseIcon, ShuffleIcon} from "../../sharedComponents/ui/Icons";
 import {ChannelSliderInput} from "../../sharedComponents/form/ChannelSlider";
@@ -12,6 +11,7 @@ import {ShiftSettings} from "./types";
 import {getChannel} from "../../spacesChannels/channels";
 import {I_ColorAdapter} from "../../color/types";
 import {randomColor} from "../../color";
+import {SelectChannel} from "../../sharedComponents/form/SelectChannel";
 
 /**
  * want to be able to generate colors from a channel shift OR from select color
@@ -28,7 +28,7 @@ export const BoxColorControls = ({colors, setColors}: Props) => {
     const [settings, update] = usePartialState<ShiftSettings>({
         start: .2,
         end: .8,
-        channel: getChannel(['lch', 1])
+        channel: getChannel("lch.h")
     })
 
     const generateColors = () => {
@@ -64,10 +64,10 @@ export const BoxColorControls = ({colors, setColors}: Props) => {
                     height={46}
                 />
 
-                <SelectAccessor
+                <SelectChannel
                     label="Channel"
-                    value={settings.channel.accessor}
-                    onChange={v => update({channel: getChannel(v)})}
+                    value={settings.channel}
+                    onChange={v => update({channel: v})}
                 />
                 <ChannelSliderInput
                     label={"Output Range"}

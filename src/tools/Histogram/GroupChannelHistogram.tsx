@@ -2,9 +2,9 @@ import React from "react";
 import {ToolSettings} from "./types";
 import {Size} from "../../sharedComponents/form/types";
 import {createBuckets} from "./createBuckets";
-import {getGroupHexes} from "../../grouping/group-data";
 import {RenderAutoSizeHistogram} from "./AutosizeHistogram";
 import {hexToColor} from "../../color";
+import {getGroupHexes} from "../../grouping";
 
 /**
  * combines the computation and the render

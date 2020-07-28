@@ -1,4 +1,3 @@
-import chroma, {Color} from "chroma-js";
 import React, {useEffect, useMemo, useState} from "react";
 import {ChannelShiftControls, useControls} from "./ChannelShiftControls";
 import {createColors} from "../../channel/channelShiftSet";
@@ -8,14 +7,12 @@ import {RenderBoxData} from "./RenderBoxData";
 import {LeverControls} from "./LeverControls";
 import "./box-style.css";
 import {shuffleData} from "../../boxSets/shuffleData";
-import {flatMap} from "../../lib";
+import {flatMap, makeArray} from "../../lib";
 import {withModelNoise} from "../../noise/modelNoise";
-import {ColorAdapter} from "../../color/ColorAdapter";
 import {Toggle} from "../../sharedComponents/form/Toggle";
 import {usePartialState} from "../../lib/util-hooks";
-
-//export const getDistance = (a: Color, b: Color) => chroma.deltaE(a, b, 1, 5);
-export const getDistance = chroma.deltaE;
+import {I_ColorAdapter} from "../../color/types";
+import {deltaE76} from "../../difference/distance";
 
 /**
  * right now just looks at a bunch of random colors and filters
@@ -23,7 +20,7 @@ export const getDistance = chroma.deltaE;
  */
 
 export interface Props {
-    colors: Color[];
+    colors: I_ColorAdapter[];
     levers: Levers;
     isShuffle: boolean;
 }
@@ -35,17 +32,17 @@ export const NoisyBoxes = ({colors, levers, isShuffle}: Props) => {
      * the evaluation itself does not need the levers,
      * they are used when seeing if the evaluation is a match
      */
-    const evaluations: Evaluation<Color>[] = useMemo(() => {
+    const evaluations: Evaluation[] = useMemo(() => {
         // const random = randomColors(200);
-        const random = flatMap(colors, c => [...new Array(100)].map(() => chroma(withModelNoise({
-            color: new ColorAdapter(c),
+        const random = flatMap(colors, c => makeArray(100, () => withModelNoise({
+            color: c,
             colorSpace: "rgb",
             noiseRatio: .3
-        }).to("rgb"))));
-        return random.map(c => matchToChoices(getDistance, c, colors));
+        })));
+        return random.map(c => matchToChoices(deltaE76, c, colors));
     }, [colors]);
 
-    const boxData: BoxData<Color>[] = colors.map(color => ({
+    const boxData: BoxData[] = colors.map(color => ({
         color,
         matches: [],
         rejected: [],
@@ -65,7 +62,7 @@ export const NoisyBoxes = ({colors, levers, isShuffle}: Props) => {
     useEffect(
         () => {
             console.log("distance between boxes");
-            colors.map(c => colors.map(t => console.log(getDistance(c, t))));
+            colors.map(c => colors.map(t => console.log(deltaE76(c, t))));
         }, [colors]
     );
 

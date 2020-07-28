@@ -1,4 +1,4 @@
-import {ChangeEvent, CSSProperties, FunctionComponent, ReactNode} from "react";
+import {ChangeEvent, CSSProperties, DetailedHTMLProps, FunctionComponent, HTMLAttributes, ReactNode} from "react";
 import { TextFieldProps } from "@material-ui/core/TextField";
 
 export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
@@ -15,20 +15,24 @@ export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
  * all inputs receive a value
  * and call onChange with the new value and the event as a secondary prop
  * don't want to rely on a specific HTML element because the implementation could use a different one
+ * but can specify a target with a second generic param
  */
-export interface GenericProps<T> {
+export interface GenericProps<T, E = UsualElement> {
   value: T | undefined;
-  onChange(value: T, e: Event): void;
+  onChange(value: T, e: ChangeEvent<E>): void;
   label?: ReactNode;
+  id?: string;
   helperText?: ReactNode;
   disabled?: boolean;
   style?: CSSProperties;
   width?: number;
 }
 
-export type Event = ChangeEvent<
-  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
->;
+type UsualElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+export type Event = ChangeEvent<UsualElement>;
+
+export type ElementProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
 
 /**
  * removes the second param -- the event -- from onChange
@@ -47,7 +51,7 @@ export type WithTextFieldProps<T> = T & Omit<Partial<TextFieldProps>, keyof T>;
 /**
  * interface for using options with any sort of type-cast or complex data
  */
-export interface Option<T> {
+export interface Option_Raw<T> {
   key: string;
   raw: T;
   title: string;
@@ -56,4 +60,12 @@ export interface Option<T> {
 export interface Size {
   width: number;
   height: number;
+}
+
+/**
+ * any object with a key and title can fit the interface of an option
+ */
+export interface I_Option {
+  key: string;
+  title: string;
 }

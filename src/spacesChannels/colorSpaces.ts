@@ -68,7 +68,7 @@ export const ALL_ACCESSORS: ChannelAccessor[] = flatten(typedValues(KEYED_ACCESS
 
 export const spacesWithChannel = (channel: ChannelName): ColorSpaceName[] => {
     return COLOR_SPACE_NAMES.filter(
-        name => getSpaceChannelNames(name).includes(channel)
+        model => COLOR_SPACE_ARRAYS[model].includes(channel)
     );
 };
 

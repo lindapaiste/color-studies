@@ -3,8 +3,8 @@ import {ToolSettings} from "./types";
 import React from "react";
 import {NumberInput} from "../../sharedComponents/form/NumberInput";
 import {SelectGroup} from "../../sharedComponents/form/SelectGroup";
-import {SelectAccessor} from "../../sharedComponents/form/SelectAccessor";
 import {FlexRow} from "../../sharedComponents/ui/FlexRow";
+import {SelectChannel} from "../../sharedComponents/form/SelectChannel";
 
 export const HistogramControls = ({state, update}: StateUpdateProps<ToolSettings>) => (
     <FlexRow>
@@ -13,7 +13,7 @@ export const HistogramControls = ({state, update}: StateUpdateProps<ToolSettings
             onChange={v => update({group: v})}
             style={{width: "33.3%"}}
         />
-        <SelectAccessor
+        <SelectChannel
             value={state.channel}
             onChange={v => update({channel: v})}
             style={{width: "33.3%"}}

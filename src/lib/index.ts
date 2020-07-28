@@ -1,7 +1,7 @@
 import { isFunction, round } from "lodash";
 import chroma from "chroma-js";
 import {ColorTuple} from "../spacesChannels/types";
-export {shuffle, partition, flatMap, sampleSize, range, random, round, startCase as proper, sortBy, groupBy, isFunction, flatten, isEqual, identity, clamp, debounce, find, findIndex, mapValues } from "lodash";
+export {shuffle, partition, flatMap, sampleSize, range, random, round, startCase as proper, sortBy, groupBy, isFunction, flatten, isEqual, identity, clamp, debounce, find, findIndex, mapValues, pick, omit, sample } from "lodash";
 export {mean, standardDeviation} from "simple-statistics";
 
 //for back compat

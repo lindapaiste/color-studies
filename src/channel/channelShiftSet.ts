@@ -1,28 +1,36 @@
-import chroma, { Scale, Color } from "chroma-js";
-import { ChannelShiftSettings } from "../boxSets/types";
+import {ChannelShiftSettings} from "../boxSets/types";
+import ChannelGradient from "./ChannelGradient";
+import {randomColor} from "../color";
+import {I_ColorAdapter} from "../color/types";
+import ChannelAdapter from "../spacesChannels/ChannelAdapter";
 
-/**
- * this depends on chroma-js at the moment
- * and channel is the key rather than the channel name
- */
-export const channelShift = (
-  channel: string,
-  shift: number,
-  max: number
-): Scale => {
-  const color = chroma.random();
-  const initial = color.get(channel);
-  //this needs to be tweaked if shift is more than half the max
-  const shifted = color.set(
-    channel,
-    initial + shift > max ? initial - shift : initial + shift
-  );
-  console.log({ color, shifted });
-  return chroma.scale([color, shifted]);
-};
+const getEnds = (initial: I_ColorAdapter, channel: ChannelAdapter, shift: number) => {
+    //initial is either start or end depending on what side (min or max) it's closer to
+    //if the shift is more than half of the channel width, then may need to go beyond the initial regardless
+    //deal with that later because this function is barely used now
+    const iValue = initial.get(channel);
+    if (iValue + shift > channel.max) {
+        return {
+            start: iValue - shift,
+            end: iValue,
+        }
+    } else {
+        return {
+            start: iValue,
+            end: iValue + shift,
+        }
+    }
+}
 
-export const createColors = (props: ChannelShiftSettings): Color[] => {
-  const { channel, channelMax, shift, colorCount } = props;
-  const scale = channelShift(channel, shift, channelMax);
-  return scale.colors(colorCount, null);
+export const createColors = (props: ChannelShiftSettings): I_ColorAdapter[] => {
+    const {channel, shift, colorCount} = props;
+    const initial = randomColor();
+    const {start, end} = getEnds(initial, channel, shift);
+    const gradient = new ChannelGradient({
+        initial,
+        channel,
+        start,
+        end,
+    });
+    return gradient.colors(colorCount);
 };

@@ -1,13 +1,12 @@
 import React, {useState} from "react";
 import {RenderSet} from "../../sharedComponents/color/RenderSet";
 import {withChannelNoise} from "../../noise/channelNoise";
-import {ALL_ACCESSORS} from "../../spacesChannels/colorSpaces";
 import {makeArray} from "../../lib";
 import {NumberInput} from "../../sharedComponents/form/NumberInput";
-import {accessorKey, accessorTitle} from "../../spacesChannels/accessorConversion";
 import {Title} from "../../sharedComponents/ui/Title";
 import {TupleTooltip} from "../../sharedComponents/color/TupleTooltip";
 import {I_ColorAdapter} from "../../color/types";
+import {allChannels} from "../../spacesChannels/channels";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -37,14 +36,14 @@ export const CompareNoiseChannels = ({color, countPer = 10}: Props) => {
                 step={0.05}
             />
             <div>
-                {ALL_ACCESSORS.map(accessor => (
-                    <div key={accessorKey(accessor)}>
-                        <Title importance="h3">{accessorTitle(accessor)}</Title>
+                {allChannels().map(channel => (
+                    <div key={channel.key}>
+                        <Title importance="h3">{channel.title}</Title>
                         <RenderSet
                             colors={makeArray(countPer, () =>
-                                withChannelNoise(color, accessor, noiseRatio)
+                                withChannelNoise(color, channel, noiseRatio)
                             )}
-                            colorToTooltip={c => TupleTooltip(c.toClassed(accessor[0]))}
+                            colorToTooltip={c => TupleTooltip(c.toClassed(channel.modelObject))}
                         />
                     </div>
                 ))}

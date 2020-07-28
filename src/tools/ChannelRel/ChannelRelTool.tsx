@@ -19,8 +19,8 @@ export interface Settings {
 }
 
 const initialSettings: Settings = {
-    xChannel: getChannel(['hsl', 2]),
-    yChannel: getChannel(['lab', 0]),
+    xChannel: getChannel("hsl.l"),
+    yChannel: getChannel("lab.l"),
     colorCount: 25,
     stepCount: 10
 }

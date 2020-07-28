@@ -1,11 +1,9 @@
 import React from "react";
-import {CHANNEL_NAMES, normalize} from "../../spacesChannels/channelMaxes";
-import {nameToAccessor} from "../../spacesChannels/accessorConversion";
 import {DataTable} from "../ui/DataTable";
 import {Accordion} from "../ui/Accordion";
-import {proper, round} from "../../lib";
 import {I_ColorAdapter} from "../../color/types";
 import {eitherToColor} from "../../color";
+import {allChannels} from "../../spacesChannels/channels";
 
 export interface Props {
     color: I_ColorAdapter | string;
@@ -50,12 +48,13 @@ export const ColorInfo = ({color, initialOpen = true}: Props) => (
 export const ChannelValuesTable = ({color}: { color: I_ColorAdapter }) => (
     <DataTable
         labels={["Channel", "Value", "Normalized"]}
-        rows={CHANNEL_NAMES.map(name => {
-            const value = color.get(nameToAccessor(name));
+        rows={allChannels().map(channel => {
             return [
-                proper(name),
-                round(value, 0),
-                round(normalize(value, name), 3)
+                channel.title,
+                //whole number rounded channel value
+                color.get(channel, false, 0),
+                //normalized decimal value with 3 places
+                color.get(channel, true, 3)
             ];
         })}
     />

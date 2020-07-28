@@ -50,9 +50,12 @@ export class TupleClass<CS extends ColorSpaceName> implements I_TupleClass<CS>, 
 
     /**
      * gets either the normalized or the denormalized based on the value of a boolean prop
+     * will round to the desired precision, or return raw if precision is not set
      */
-    public getEither(normalized: boolean): ColorTuple<CS> {
-        return normalized ? this.normalized : this.deNormalized;
+    public getEither(normalized: boolean, precision?: number ): ColorTuple<CS> {
+        const raw = normalized ? this.normalized : this.deNormalized;
+        //can't just do precision ? because 0 is a valid value
+        return precision !== undefined ? tupleMap( raw, v => round(v, precision) ) : raw;
     }
 
     /**

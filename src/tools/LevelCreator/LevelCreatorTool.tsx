@@ -18,6 +18,7 @@ import {BallEditorControls} from "./BallsEditorControls";
 import {DistanceGrid} from "../DistanceGrid/DistanceGrid";
 import {I_ColorAdapter} from "../../color/types";
 import {randomColor} from "../../color";
+import {createLevelJson, logJson} from "../../boxSets/jsonDump";
 
 const initialFormulaSettings: FormulaSettings = {
     algo: "Euclidean",
@@ -86,6 +87,7 @@ export const LevelLoader = ({colors, ...props}: AdvancedSettings & { colors: I_C
             {data.length > 0 &&
             <BallEditorControls state={display} update={updateDisplay}/>
             }
+            <Button onClick={() => logJson(data, props)}>Log JSON</Button>
             <BallsEditor data={data} setData={setData} settings={mapSettingsInterface(props)} {...display}/>
         </div>
     )

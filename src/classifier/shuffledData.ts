@@ -1,5 +1,5 @@
-import GROUPINGS from "../grouping/group-data";
-import {shuffle, flatMap, sampleSize, partition} from "../lib";
+import {flatMap, partition, sampleSize, shuffle} from "../lib";
+import {allGroups} from "../grouping";
 
 export interface GroupedHex {
     hex: string,
@@ -11,9 +11,9 @@ export interface GroupedHex {
  * where each entry has its hex and the name of the group that it belongs to
  */
 export const shuffledHexes = (): GroupedHex[] => {
-    return shuffle(flatMap(GROUPINGS, ({hexes, name}) => hexes.map(hex => ({
+    return shuffle(flatMap(allGroups(), group => group.hexes.map(hex => ({
         hex,
-        group: name,
+        group: group.name,
     }))));
 };
 
@@ -41,6 +41,6 @@ export const getSplitSample = (group: string, count: number): [GroupedHex[], Gro
 /**
  * returns two arrays: first is inGroup, second is notInGroup
  */
-export const splitInGroup = <T extends {group: string}>(dataSet: T[], group: string): [T[], T[]] => {
-    return partition( dataSet, o => o.group === group );
+export const splitInGroup = <T extends { group: string }>(dataSet: T[], group: string): [T[], T[]] => {
+    return partition(dataSet, o => o.group === group);
 };

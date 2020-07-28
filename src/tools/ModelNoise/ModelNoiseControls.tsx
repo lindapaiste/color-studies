@@ -36,7 +36,7 @@ export const ModelNoiseControls = ({state, update}: StateUpdateProps<ModelNoiseS
                 }}
             />
             <WeightsInput
-                colorSpace={colorSpace}
+                model={colorSpace}
                 weights={weights}
                 onChange={v => update({weights: v})}
                 showReset={true}

@@ -19,9 +19,9 @@ export interface I_ColorAdapter extends I_GetHex {
 
     from<CS extends ColorSpaceName>(values: ColorTuple<CS> | TupleClass<CS>, colorSpace: CS | ModelAdapter<CS>): I_ColorAdapter;
 
-    get(accessor: ChannelAccessor | ChannelAdapter): number;
+    get(channel: ChannelAccessor | ChannelAdapter, normalized?: boolean, precision?: number ): number
 
-    set(accessor: ChannelAccessor | ChannelAdapter, value: number): I_ColorAdapter;
+    set(accessor: ChannelAccessor | ChannelAdapter, value: number, normalized?: boolean): I_ColorAdapter;
 }
 
 export interface I_GetHex {

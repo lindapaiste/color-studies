@@ -7,7 +7,6 @@ import {
     TestResults
 } from "../../classifier/perceptronModel";
 import {RenderSet} from "../../sharedComponents/color/RenderSet";
-import GROUPINGS from "../../grouping/group-data";
 import {Tool} from "../../sharedComponents/tool/Tool";
 import {PerceptronControls, Settings} from "./PerceptronControls";
 import ChannelAdapter from "../../spacesChannels/ChannelAdapter";
@@ -16,6 +15,8 @@ import {Title} from "../../sharedComponents/ui/Title";
 import {round, sortBy} from "../../lib";
 import {DataTable} from "../../sharedComponents/ui/DataTable";
 import {Accordion} from "../../sharedComponents/ui";
+import {randomGroup} from "../../grouping";
+
 /**
  * examine the results from applying the model to random colors
  */
@@ -71,7 +72,7 @@ export const PerceptronTest = ({group, channels, testCount, iterations}: Setting
     );
 
     //don't display results on a dummy model
-    if ( channels.length < 1 ) {
+    if (channels.length < 1) {
         return null;
     }
 
@@ -102,7 +103,7 @@ export const PerceptronTool = () => (
         initialSettings={{
             testCount: 30,
             channels: [],
-            group: GROUPINGS[0].name
+            group: randomGroup().name,
         }}
         RenderControls={PerceptronControls}
         RenderTool={PerceptronTest}

@@ -9,12 +9,13 @@ export class ModelAdapter<CS extends ColorSpaceName> {
 
     /**
      * stores channels as ChannelAdapter objects
+     * expect that creation of models comes first and triggers the creation of models, not the other way around
      */
     constructor(name: CS) {
         this.name = name;
         const channelNames = COLOR_SPACE_ARRAYS[name];
         this.channels = channelNames.map(
-            channel => ChannelAdapter.fromName(channel, name)
+            (channel, offset) => new ChannelAdapter(channel, this, offset)
         );
     }
 
@@ -22,7 +23,7 @@ export class ModelAdapter<CS extends ColorSpaceName> {
         return this.channels.length;
     }
 
-    get key(): string {
+    get key(): CS {
         return this.name;
     }
 

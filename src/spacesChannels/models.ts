@@ -9,6 +9,9 @@ type KeyedModelObjects = {
     [K in ColorSpaceName]-?: ModelAdapter<K>
 };
 
+/**
+ * keyed by color space name
+ */
 const KEYED_MODEL_OBJECTS = Object.fromEntries(COLOR_SPACE_NAMES.map(name => [name, new ModelAdapter(name)])) as KeyedModelObjects;
 
 /**
@@ -18,6 +21,13 @@ const KEYED_MODEL_OBJECTS = Object.fromEntries(COLOR_SPACE_NAMES.map(name => [na
 export const getModel = <CS extends ColorSpaceName>(name: CS): ModelAdapter<CS> => {
     return KEYED_MODEL_OBJECTS[name] as ModelAdapter<CS>;
     //return new ModelAdapter(name);
+}
+
+/**
+ * is the same thing, but the assumption of type is done internally
+ */
+export const getModelFromKey = (key: string): ModelAdapter<ColorSpaceName> => {
+    return KEYED_MODEL_OBJECTS[key as ColorSpaceName];
 }
 
 /**

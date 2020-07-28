@@ -1,4 +1,5 @@
 import {I_ColorAdapter} from "../color/types";
+import ChannelAdapter from "../spacesChannels/ChannelAdapter";
 
 export interface Levers {
     minDistance: number;
@@ -20,8 +21,7 @@ export interface GetDistance<T> {
 }
 
 export interface ChannelShiftSettings {
-    channel: string;
-    channelMax: number;
+    channel: ChannelAdapter;
     shift: number;
     colorCount: number;
 }
@@ -48,4 +48,22 @@ export enum ErrorCode {
     DISTANCE_TOO_SMALL,
     DISTINCTNESS_TOO_LARGE,
     DISTINCTNESS_TOO_SMALL,
+}
+
+/**
+ * for converting to something the game can understand
+ */
+
+export interface JSON_Ball {
+    color: string;
+    correctBox: number;
+}
+
+export interface JSON_Box {
+    color: string;
+}
+
+export interface JSON_Level {
+    boxes: JSON_Box[];
+    balls: JSON_Ball[];
 }

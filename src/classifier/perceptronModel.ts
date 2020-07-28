@@ -47,7 +47,7 @@ export const buildIsGroupModel = ({group, channels, iterations = 15}: BuildModel
     console.log(trainingData);
     //needs to iterate over training data multiple times - when to stop?
     for (let i = 0; i < iterations; i++) {
-        trainingData.forEach(({features, group}) => model.train(features, group === group ? 1 : 0));
+        trainingData.forEach(datum => model.train(datum.features, datum.group === group ? 1 : 0));
     }
     console.log(model);
     return {

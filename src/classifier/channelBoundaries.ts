@@ -3,6 +3,7 @@ import {boundaryModel, BoundaryModelAcc} from "./boundaryModel";
 import {ChannelAccessor} from "../spacesChannels/types";
 import {I_ConfusionMatrix} from "./ConfusionMatrix";
 import {I_ColorAdapter} from "../color/types";
+import ChannelAdapter from "../spacesChannels/ChannelAdapter";
 
 /**
  * applies the generic boundary model -- which takes any numeric data -- to the color data set
@@ -15,7 +16,7 @@ interface DataPoint {
     color: I_ColorAdapter,
 }
 
-export const channelBoundaries = (group: string, data: DataPoint[], channel: ChannelAccessor): BoundaryModelAcc<I_ConfusionMatrix> => {
+export const channelBoundaries = (group: string, data: DataPoint[], channel: ChannelAccessor | ChannelAdapter): BoundaryModelAcc<I_ConfusionMatrix> => {
     const [inGroup, notInGroup] = splitInGroup(data, group);
 
     /**

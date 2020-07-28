@@ -1,7 +1,7 @@
-import {getSpaceChannelNames} from "../spacesChannels/colorSpaces";
-import {ChannelName} from "../spacesChannels/types";
 import {I_FormulaClass} from "./types";
 import {I_ColorAdapter} from "../color/types";
+import {eitherToModel} from "../spacesChannels/models";
+import ChannelAdapter from "../spacesChannels/ChannelAdapter";
 
 /**
  * includes additional information used for debugging and visualizing via tooltips, etc.
@@ -9,7 +9,7 @@ import {I_ColorAdapter} from "../color/types";
  */
 
 export interface ChannelDiff {
-    channel: ChannelName;
+    channel: ChannelAdapter;
     value: number;
     diff: number;
 }
@@ -33,12 +33,13 @@ export class Calculation implements DebugDeltaE {
     }
 
     get channelDiffs(): ChannelDiff[] {
-        const first = this.target.to(this.formula.model);
-        const second = this.color.to(this.formula.model);
-        const names = getSpaceChannelNames(this.formula.model);
+        const model = eitherToModel(this.formula.model);
+        const first = this.target.to(model);
+        const second = this.color.to(model);
+        const channels = model.channels;
 
         return second.map((value, i) => ({
-            channel: names[i],
+            channel: channels[i],
             value,
             diff: value - first[i], //not abs
         }))

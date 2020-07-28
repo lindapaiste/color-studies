@@ -1,7 +1,7 @@
-import {ColorClassification} from "./types";
+import {StoredGroup} from "./types";
 //todo: remove brown/beige that came from Pantone pastel collection
 
-export const GROUPINGS: ColorClassification[] = [
+export const GROUPINGS: StoredGroup[] = [
   {
     name: "Neons",
     hexes: [
@@ -168,27 +168,27 @@ export const GROUPINGS: ColorClassification[] = [
        * luminosity & hue have no correlation to neonness
        */
       {
-        property: "blackness",
+        channel: "cmyk.k",
         min: 0,
         max: 37
         /**
-         * pinks and yellows have lower whiteness than blues, regardless of saturation.
+         * pinks and yellows have lower hwb.w than blues, regardless of saturation.
          * the highest values at 35 to 37 are for neon purples
          */
       },
       {
-        property: "whiteness",
+        channel: "hwb.w",
         min: 0,
         max: 25
         /*
-         * most neons have whiteness below 25, with 0 being a true neon,
+         * most neons have hwb.w below 25, with 0 being a true neon,
          * the current set includes many outside of that range, with values as high as 75,
          * but these could be moved to another category - either candy for the highest or brights for the intermediate
          * the reason to keep them would be to make the palette less blinding
          */
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 60,
         max: 100
         /**
@@ -197,7 +197,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsl",
+        channel: "hsl.s",
         min: 50,
         max: 100
         /**
@@ -206,7 +206,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "lightness",
+        channel: "hsl.l",
         min: 32,
         max: 65
         /**
@@ -399,18 +399,18 @@ export const GROUPINGS: ColorClassification[] = [
     ],
     definitions: [
       /*
-       * hue and saturationl can have any value
+       * hue and saturationHsl can have any value
        * saturation could be differentiator between serene neutral pastels and unicorn/candy pastels
        */
       {
-        property: "luminosity",
-        min: 0.54,
-        max: 0.9 //could go up to 1, but but then it's basically just white
+        channel: "xyz.y", //luminosity
+        min: 54,
+        max: 90 //could go up to 100, but but then it's basically just white
       },
-      { property: "lightness", min: 75, max: 95 },
-      { property: "saturationHsv", min: 0, max: 25 },
-      { property: "blackness", min: 0, max: 24 },
-      { property: "whiteness", min: 7, max: 95 }
+      { channel: "hsl.l", min: 75, max: 95 },
+      { channel: "hsv.s", min: 0, max: 25 },
+      { channel: "cmyk.k", min: 0, max: 24 },
+      { channel: "hwb.w", min: 7, max: 95 }
     ]
   },
   {
@@ -477,10 +477,10 @@ export const GROUPINGS: ColorClassification[] = [
     ],
     definitions: [
       /**
-       * hue, saturationHsl, luminosity, not related
+       * hue, hsl.s, luminosity, not related
        */
       {
-        property: "blackness",
+        channel: "cmyk.k",
         min: 0,
         max: 15
         /*
@@ -490,17 +490,17 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "whiteness",
+        channel: "hwb.w",
         min: 39,
         max: 90
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 0,
         max: 50
       },
       {
-        property: "lightness",
+        channel: "hsl.l",
         min: 60,
         max: 95
       }
@@ -598,15 +598,15 @@ export const GROUPINGS: ColorClassification[] = [
     ],
     definitions: [
       /**
-       * whiteness/lightness not correlated.  current set caps at 73 but there is no reason that pastel neutrals can't go here as well
+       * hwb.w/hsl.l not correlated.  current set caps at 73 but there is no reason that pastel neutrals can't go here as well
        */
       {
-        property: "blackness",
+        channel: "cmyk.k",
         min: 0,
         max: 65
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 0,
         max: 75
         /**
@@ -614,12 +614,12 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsl",
+        channel: "hsl.s",
         min: 0,
         max: 65
       },
       {
-        property: "hue",
+        channel: "hsl.h",
         min: 0,
         max: 65
         /**
@@ -804,18 +804,18 @@ export const GROUPINGS: ColorClassification[] = [
     ],
     definitions: [
       /**
-       * saturationl, hue, not correlated
+       * saturationHsl, hue, not correlated
        */
       {
-        property: "luminosity",
+        channel: "xyz.y", //luminosity
         min: 0,
-        max: 0.65
+        max: 65
         /**
          * a filterer but not a correlator -- lowest values are purple and highest are yellow
          */
       },
       {
-        property: "lightness",
+        channel: "hsl.l",
         min: 25,
         max: 65
         /**
@@ -823,7 +823,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 40,
         max: 100
         /**
@@ -833,7 +833,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "blackness",
+        channel: "cmyk.k",
         min: 0,
         max: 50
         /**
@@ -841,7 +841,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "whiteness",
+        channel: "hwb.w",
         min: 0,
         max: 35
         /**
@@ -878,7 +878,7 @@ export const GROUPINGS: ColorClassification[] = [
        * no relation to luminosity or hue
        */
       {
-        property: "whiteness",
+        channel: "hwb.w",
         min: 0,
         max: 20
         /**
@@ -886,7 +886,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "blackness",
+        channel: "cmyk.k",
         min: 0,
         max: 60
         /**
@@ -894,7 +894,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 75,
         max: 100
         /**
@@ -902,7 +902,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsl",
+        channel: "hsl.s",
         min: 60,
         max: 100
         /**
@@ -910,7 +910,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "lightness",
+        channel: "hsl.l",
         min: 15,
         max: 60
         /**
@@ -1040,16 +1040,16 @@ export const GROUPINGS: ColorClassification[] = [
     ],
     definitions: [
       {
-        property: "luminosity",
+        channel: "xyz.y", //luminosity
         min: 0,
-        max: 0.2
+        max: 20
         /**
          * strong correlation
          * outliers are lighter gray-blues, better suited elsewhere
          */
       },
       {
-        property: "lightness",
+        channel: "hsl.l",
         min: 10,
         max: 50
         /**
@@ -1057,7 +1057,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsl",
+        channel: "hsl.s",
         min: 0,
         max: 70
         /**
@@ -1065,7 +1065,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 0,
         max: 85
         /**
@@ -1073,7 +1073,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "blackness",
+        channel: "cmyk.k",
         min: 20,
         max: 90
         /**
@@ -1081,7 +1081,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "whiteness",
+        channel: "hwb.w",
         min: 0,
         max: 40
         /**
@@ -1167,27 +1167,27 @@ export const GROUPINGS: ColorClassification[] = [
        * blackness not correlated
        */
       {
-        property: "saturationHsl",
+        channel: "hsl.s",
         min: 20,
         max: 100
       },
       {
-        property: "saturationHsv",
+        channel: "hsv.s",
         min: 30,
         max: 100
       },
       {
-        property: "whiteness",
+        channel: "hwb.w",
         min: 0,
         max: 35
       },
       {
-        property: "lightness",
+        channel: "hsl.l",
         min: 15,
         max: 50
       },
       {
-        property: "luminosity",
+        channel: "xyz.y", //luminosity
         min: 0,
         max: 25
         /**
@@ -1195,7 +1195,7 @@ export const GROUPINGS: ColorClassification[] = [
          */
       },
       {
-        property: "hue",
+        channel: "hsl.h",
         min: 90,
         max: 360
         /**
@@ -1209,13 +1209,3 @@ export const GROUPINGS: ColorClassification[] = [
 
 export default GROUPINGS;
 
-export const GROUP_NAMES = GROUPINGS.map(o => o.name );
-
-export const getFromName = (name: string): ColorClassification | undefined => {
-    return GROUPINGS.find( o => o.name === name );
-};
-
-export const getGroupHexes = (name: string): string[] => {
-  const group = getFromName(name);
-  return group ? group.hexes : [];
-}

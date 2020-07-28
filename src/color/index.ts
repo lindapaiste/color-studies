@@ -1,7 +1,5 @@
 import {I_ColorAdapter, I_GetHex} from "./types";
 import {hasMethod, makeArray} from "../lib";
-import {ChannelName} from "../spacesChannels/types";
-import {nameToAccessor} from "../spacesChannels/accessorConversion";
 import chroma from "chroma-js";
 import ColorAdapter from "./ColorAdapter";
 
@@ -24,10 +22,6 @@ export const randomColors = (count: number): I_ColorAdapter[] => {
     return makeArray(count, randomColor);
 };
 
-
-export const hexProperty = (hex: string, property: ChannelName): number => {
-    return (new ColorAdapter(hex)).get(nameToAccessor(property));
-};
 
 /**
  * don't want to rely on the class itself, so avoid using new ColorAdapter in code

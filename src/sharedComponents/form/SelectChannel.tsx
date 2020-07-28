@@ -3,7 +3,7 @@ import {BaseField} from "./BaseField";
 import {GenericProps} from "./types";
 import {Option} from "./Option";
 import {ChannelAdapter} from "../../spacesChannels/ChannelAdapter";
-import {allChannels, getChannelFromKey} from "../../spacesChannels/channels";
+import {allChannels, getChannel} from "../../spacesChannels/channels";
 
 /**
  * here, the channel object is the value
@@ -15,7 +15,7 @@ export const SelectChannel = ({value, onChange, ...props}: GenericProps<ChannelA
         {...props}
         select
         value={value ? value.key : undefined}
-        onChange={(key, e) => onChange(getChannelFromKey(key), e)}
+        onChange={(key, e) => onChange(getChannel(key), e)}
     >
         {allChannels().map(channel => (
             <Option key={channel.key} value={channel.key}>

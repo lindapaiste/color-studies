@@ -47,7 +47,7 @@ export const DifferenceControls = ({
                 }}
             />
             <WeightsInput
-                colorSpace={state.model}
+                model={state.model}
                 weights={state.weights as ColorTuple<typeof state.model>}
                 onChange={v => update({weights: v})}
                 containerStyle={{

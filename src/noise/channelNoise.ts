@@ -1,23 +1,26 @@
 import {random} from "../lib";
 import {fixHue} from "../hue/hueShift";
-import {ChannelAccessor, ChannelName} from "../spacesChannels/types";
+import {ChannelAccessor} from "../spacesChannels/types";
 import {colorWheelToNormal, normalToColorWheel} from "../rainbow/colorWheel";
 import {getMax, isFixedMaxChannel} from "../spacesChannels/channelMaxes";
-import {accessorToName} from "../spacesChannels/accessorConversion";
 import {I_ColorAdapter} from "../color/types";
+import ChannelAdapter from "../spacesChannels/ChannelAdapter";
+import {eitherToName, eitherToObject} from "../spacesChannels/channels";
 
 export interface ChannelProps {
     min?: number; //default to 0 if not set
     max?: number;
     clamp?: boolean;
+
     preTransform?(v: number): number;
+
     postTransform?(v: number): number;
 }
 
 export interface BasicProps {
     value: number;
     noiseRatio: number;
-    channel: ChannelName;
+    channel: ChannelAdapter | ChannelAccessor;
 }
 
 export type SpecificProps = ChannelProps & Omit<BasicProps, 'channel'>
@@ -25,10 +28,13 @@ export type SpecificProps = ChannelProps & Omit<BasicProps, 'channel'>
 /**
  * can share this between noise generation and channel shift
  */
-export const getChannelProps = (channel: ChannelName): ChannelProps => {
+export const getChannelProps = (channel: ChannelAdapter | ChannelAccessor): ChannelProps => {
+    const object = eitherToObject(channel);
+    const name = object.name;
+
     let preTransform: (n: number) => number = c => c;
     let postTransform: (n: number) => number = c => c;
-    if ( channel === 'hue' ) {
+    if (name === 'hue') {
         preTransform = normalToColorWheel;
         postTransform = n => fixHue(colorWheelToNormal(n));
     }
@@ -37,7 +43,7 @@ export const getChannelProps = (channel: ChannelName): ChannelProps => {
      * with linear method, changes are barely visible in a RGB channel with a low initial value
      * changes in the higher numbers are more impactful
      */
-    else if ( ['red', 'green', 'blue'].includes( channel ) ) {
+    else if (['red', 'green', 'blue'].includes(name)) {
         preTransform = n => Math.pow(n, 2);
         postTransform = n => Math.pow(n, .5);
     }
@@ -46,8 +52,8 @@ export const getChannelProps = (channel: ChannelName): ChannelProps => {
     //could calculate based on other channels, but what if all channels are changing?
     let max;
     let clamp = true;
-    if ( isFixedMaxChannel( channel) ) {
-        max = getMax(channel);
+    if (isFixedMaxChannel(name)) {
+        max = getMax(name);
     } else {
         clamp = false;
     }
@@ -63,7 +69,7 @@ export const getChannelProps = (channel: ChannelName): ChannelProps => {
 export const noisyChannelValue = ({channel, ...props}: BasicProps): number => {
     return specificNoisyValue({
         ...props,
-        ...getChannelProps(channel),
+        ...getChannelProps(channel), //TODO replace with the standard transform version
     });
 };
 
@@ -79,8 +85,8 @@ export const specificNoisyValue = ({value, max = 100, min = 0, noiseRatio, postT
      *
      * clamp property makes constraining optional, which is needed for hue only
      */
-    const lower = clamp ? Math.max( _min, _initial - noiseAmount ) : _initial - noiseAmount;
-    const upper = clamp ? Math.min( _max, _initial + noiseAmount ) : _initial + noiseAmount;
+    const lower = clamp ? Math.max(_min, _initial - noiseAmount) : _initial - noiseAmount;
+    const upper = clamp ? Math.min(_max, _initial + noiseAmount) : _initial + noiseAmount;
     const noisy = postTransform(random(lower, upper, true));
     console.log({noisy, noiseAmount, min: postTransform(lower), max: postTransform(upper)});
     return noisy;
@@ -89,8 +95,8 @@ export const specificNoisyValue = ({value, max = 100, min = 0, noiseRatio, postT
 /**
  * applies channel noise to an I_ColorAdapter object
  */
-export const withChannelNoise = (color: I_ColorAdapter, channel: ChannelAccessor, noiseRatio: number): I_ColorAdapter => {
-  const value = color.get(channel);
-  const newValue = noisyChannelValue({channel: accessorToName(channel), noiseRatio, value});
-  return color.set(channel, newValue);
+export const withChannelNoise = (color: I_ColorAdapter, channel: ChannelAdapter | ChannelAccessor, noiseRatio: number): I_ColorAdapter => {
+    const value = color.get(channel);
+    const newValue = noisyChannelValue({channel, noiseRatio, value});
+    return color.set(channel, newValue);
 };

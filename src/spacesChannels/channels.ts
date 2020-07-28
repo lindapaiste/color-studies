@@ -1,7 +1,7 @@
-import {allModels} from "./models";
+import {allModels, getModel} from "./models";
 import {flatMap, sortBy} from "../lib";
 import {ChannelAdapter} from "./ChannelAdapter";
-import {ChannelAccessor} from "./types";
+import {ChannelAccessor, ChannelName} from "./types";
 
 /**
  * array of all channel objects, sorted by name
@@ -21,14 +21,12 @@ const KEYED_CHANNELS = Object.fromEntries( allChannels().map( channel => [channe
 /**
  * externalize creation of classes so that they don't need to be created more than once
  */
-export const getChannel = (channel: ChannelAccessor): ChannelAdapter => {
-    return new ChannelAdapter(channel);
-}
 
 /**
  * assumes that the key is valid
+ * @param key {string} in the form "hsl.s", "rgb.r", etc.
  */
-export const getChannelFromKey = (key: string): ChannelAdapter => {
+export const getChannel = (key: string): ChannelAdapter => {
     return KEYED_CHANNELS[key];
     //alternatively, return allChannels().find( channel => channel.key === key )
 }
@@ -40,6 +38,15 @@ export const eitherToAccessor = (channel: ChannelAdapter | ChannelAccessor): Cha
     return Array.isArray(channel) ? channel : channel.accessor;
 }
 
+const _accessorToChannel = (channel: ChannelAccessor ): ChannelAdapter => {
+    const [cs, offset] = channel;
+    return getModel(cs).channels[offset];
+}
+
 export const eitherToObject = (channel: ChannelAdapter | ChannelAccessor): ChannelAdapter => {
-    return Array.isArray(channel) ? getChannel(channel) : channel;
+    return Array.isArray(channel) ? _accessorToChannel(channel) : channel;
+}
+
+export const eitherToName = (channel: ChannelName | ChannelAccessor | ChannelAdapter ): ChannelName => {
+    return typeof channel === "string" ? channel : eitherToObject(channel).name;
 }

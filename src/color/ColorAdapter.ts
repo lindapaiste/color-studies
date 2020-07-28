@@ -3,7 +3,7 @@ import {ChannelAccessor, ColorSpaceName, ColorTuple} from "../spacesChannels/typ
 import convert from "color-convert";
 import {isDefined, replaceIndex} from "../lib";
 import {ChannelAdapter} from "../spacesChannels/ChannelAdapter";
-import {eitherToAccessor} from "../spacesChannels/channels";
+import {eitherToAccessor, eitherToObject} from "../spacesChannels/channels";
 import {ModelAdapter} from "../spacesChannels/ModelAdapter";
 import {eitherToModel, eitherToName} from "../spacesChannels/models";
 import {rgbToRyb, rybToRgb} from "./ryb";
@@ -159,18 +159,25 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
     /**
      * get a single channel value
      */
-    public get(channel: ChannelAccessor | ChannelAdapter): number {
-        const [cs, offset] = eitherToAccessor(channel);
-        return this.to(cs)[offset];
+    public get(channel: ChannelAccessor | ChannelAdapter, normalized: boolean = false, precision?: number ): number {
+        const _channel = eitherToObject(channel);
+        const tuple = this.toClassed(_channel.modelObject);
+        return tuple.getEither(normalized, precision)[_channel.offset];
     }
 
     /**
      * create a new Color object where one property has been changed
+     *
+     * doesn't check that the new tuple is valid, like for ones where the full range cannot be reached by every color
+     * can do this by going to rgb and back
+     *
+     * when the new color is created, it will have saved the potentially invalid value as a known conversion
      */
-    public set(channel: ChannelAccessor | ChannelAdapter, value: number): ColorAdapter {
+    public set(channel: ChannelAccessor | ChannelAdapter, value: number, normalized: boolean = false): ColorAdapter {
         const [cs, offset] = eitherToAccessor(channel);
-        const values = this.to(cs);
-        return this.from(replaceIndex(values, offset, value) as typeof values, cs);
+        const initial = this.toClassed(cs).getEither(normalized);
+        const edited = replaceIndex( initial, offset, value );
+        return ColorAdapter.fromTuple(new TupleClass( edited, cs, normalized ));
     }
 
     /**

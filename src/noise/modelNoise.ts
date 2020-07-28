@@ -1,9 +1,9 @@
-import {getSpaceChannelNames} from "../spacesChannels/colorSpaces";
 import {noisyChannelValue} from "./channelNoise";
 import {ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 import {I_ModelNoise, I_NoiseCreator, ModelNoiseSettings} from "./types";
 import {ifDefined} from "../lib";
 import {I_ColorAdapter} from "../color/types";
+import {getModel} from "../spacesChannels/models";
 
 /**
  * uses the same setup as Formula, where it is created from settings, but also serves as an access point to those settings
@@ -13,7 +13,7 @@ export class ModelNoise implements I_NoiseCreator, ModelNoiseSettings, I_ModelNo
     public readonly noiseRatio: number;
     public readonly weights: ColorTuple<ColorSpaceName>;
 
-    constructor ({colorSpace, noiseRatio, weights}: ModelNoiseSettings) {
+    constructor({colorSpace, noiseRatio, weights}: ModelNoiseSettings) {
         this.colorSpace = colorSpace;
         this.noiseRatio = noiseRatio;
         this.weights = weights;
@@ -47,10 +47,10 @@ export const calcNoisy = <CS extends ColorSpaceName>({colorSpace, values, noiseR
         if (!Array.isArray(weights)) {
             return 1;
         }
-        return ifDefined( weights[i], 1);
+        return ifDefined(weights[i], 1);
     };
 
-    const channels = getSpaceChannelNames(colorSpace);
+    const channels = getModel(colorSpace).channels;
 
     return values.map((value, i) => noisyChannelValue({
         channel: channels[i],

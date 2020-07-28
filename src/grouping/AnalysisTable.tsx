@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {GROUPINGS} from "./group-data";
 import {analyzeGroupProperties} from "./analyzeColors";
 import {isNumberKey, round, typedKeys} from "../lib";
 import {GroupColorAnalysis, PropertyAnalysis} from "./types";
+import {allGroups} from "./index";
 
 export const GroupsAnalysis = () => (
     <ResultsTable
-        columns={GROUPINGS.map(set => ({
+        columns={allGroups().map(set => ({
             group: set.name,
             data: analyzeGroupProperties(set.hexes)
         }))}

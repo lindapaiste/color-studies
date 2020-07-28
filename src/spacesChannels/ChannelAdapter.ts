@@ -1,8 +1,8 @@
 import {ChannelAccessor, ChannelMaxObject, ChannelName, ColorSpaceName} from "./types";
-import {accessorKey, accessorTitle, accessorToName, nameToAccessor} from "./accessorConversion";
 import {_getMaxPartialObject} from "./channelMaxes";
-import {getSpaceChannelNames} from "./colorSpaces";
-import {getModel} from "./models";
+import {allModels} from "./models";
+import {proper} from "../lib";
+import {ModelAdapter} from "./ModelAdapter";
 
 /**
  * one Channel object per channel name / color space pairing
@@ -14,6 +14,7 @@ import {getModel} from "./models";
 
 export class ChannelAdapter implements Required<ChannelMaxObject> {
     public readonly modelName: ColorSpaceName;
+    public readonly modelObject: ModelAdapter<ColorSpaceName>;
     public readonly offset: number;
     public readonly name: ChannelName;
     public readonly max: number;
@@ -21,10 +22,15 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
     public readonly isLooped: boolean;
     public readonly isVariable: boolean;
 
-    constructor(accessor: ChannelAccessor) {
-        this.modelName = accessor[0];
-        this.offset = accessor[1];
-        this.name = accessorToName(accessor);
+    /**
+     * assume that models are created first and the model triggers the creation of the channel
+     * so want to pass in the model rather than looking up something that might not exist yet
+     */
+    constructor(name: ChannelName, model: ModelAdapter<ColorSpaceName>, offset: number) {
+        this.modelObject = model;
+        this.modelName = model.name;
+        this.offset = offset;
+        this.name = name;
         const maxes = _getMaxPartialObject(this.name);
         this.max = maxes.max;
         this.min = maxes.min || 0;
@@ -36,16 +42,22 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
      * can construct from name, but also need to know the color space
      * can fallback to the first possible color space when there are multiple
      */
-    public static fromName(name: ChannelName, model?: ColorSpaceName): ChannelAdapter {
+    public static fromName(name: ChannelName, model?: ModelAdapter<ColorSpaceName>): ChannelAdapter {
         if (model === undefined) {
-            return new ChannelAdapter(nameToAccessor(name));
+            for (let cs of allModels()) {
+                const offset = cs.channels.findIndex(channel => channel.name === name);
+                if (offset !== -1) {
+                    return new ChannelAdapter(name, cs, offset);
+                }
+            }
+            throw new Error("cannot find any models with channel " + name);
         }
-        const channels = getSpaceChannelNames(model);
+        const channels = model.channels.map(c => c.name);
         const offset = channels.indexOf(name);
-        if (offset == -1) {
+        if (offset === -1) {
             throw new Error(`channel ${name} not found in color space ${model}, which has channels ${channels.join(", ")}`)
         }
-        return new ChannelAdapter([model, offset]);
+        return new ChannelAdapter(name, model, offset);
     }
 
     get accessor(): ChannelAccessor {
@@ -53,10 +65,10 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
     }
 
     /**
-     * stringified version of the accessor, ie. "hsl.0"
+     * use the slug as the key
      */
     get key(): string {
-        return accessorKey(this.accessor);
+        return this.slug;
     }
 
     /**
@@ -74,7 +86,14 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
      * drops off second word which is always for disambiguation and is redundant when the colorspace is included
      */
     get title(): string {
-        return accessorTitle(this.accessor);
+        return `${this.properName} (${this.modelObject.title})`;
+    }
+
+    /**
+     * returns just the capitalized name without the model
+     */
+    get properName(): string {
+        return proper(this.name).replace(/ .*/, ''); //two word names become "Hue Hsl" so want to remove the redundancy
     }
 
     /**
@@ -98,10 +117,6 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
      */
     public deNormalize(value: number): number {
         return value * (this.range) + this.min;
-    }
-
-    get modelObject() {
-        return getModel(this.modelName);
     }
 
     /**

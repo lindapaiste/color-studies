@@ -1,4 +1,5 @@
 import {ChannelAccessor} from "../../spacesChannels/types";
+import ChannelAdapter from "../../spacesChannels/ChannelAdapter";
 
 export interface CalcProps {
     hexes: string[];
@@ -32,6 +33,6 @@ export interface RenderProps {
 
 export interface ToolSettings {
     breakpoints: number;
-    channel: ChannelAccessor;
+    channel: ChannelAdapter;
     group: string;
 }

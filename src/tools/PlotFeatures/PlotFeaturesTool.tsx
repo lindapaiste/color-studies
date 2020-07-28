@@ -1,6 +1,5 @@
 import React from "react";
 import {PlotFeatures, Props} from "./PlotFeatures";
-import GROUPINGS from "../../grouping/group-data";
 import {SelectGroup} from "../../sharedComponents/form/SelectGroup";
 import {NumberInput} from "../../sharedComponents/form/NumberInput";
 import {FlexRow} from "../../sharedComponents/ui/FlexRow";
@@ -8,6 +7,7 @@ import {StateUpdateProps} from "../../lib/util-hooks";
 import {SelectChannel} from "../../sharedComponents/form/SelectChannel";
 import {Tool} from "../../sharedComponents/tool/Tool";
 import {isComplete, MaybeUndefined} from "../../lib";
+import {randomGroup} from "../../grouping";
 
 /**
  * tool allows dynamic creation of a PlotFeatures component
@@ -20,7 +20,7 @@ export const PlotFeaturesTool = () => (
     <Tool
         initialSettings={{
             colorCount: 100,
-            group: GROUPINGS[0].name,
+            group: randomGroup().name,
             xChannel: undefined,
             yChannel: undefined,
         }}

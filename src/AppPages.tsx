@@ -124,7 +124,7 @@ export const PAGES: AppPage[] = [
         Component: GroupsAnalysis
     },
     {
-        title: "Perceptron Results [unfinished]",
+        title: "Perceptron Classifier",
         path: "perceptron",
         Component: PerceptronTool
     },
