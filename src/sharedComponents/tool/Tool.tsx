@@ -20,11 +20,11 @@ import {mapValues} from "../../lib";
 export interface Props<Settings> {
     initialSettings: Settings;
     RenderControls: ComponentType<StateUpdateProps<Settings>>;
-    RenderTool: ComponentType<Settings & Size>;
+    RenderContents: ComponentType<Settings & Size>;
     toolPadding?: number | string | Padding;
 }
 
-export const Tool = <Settings extends {}>({initialSettings, RenderControls, RenderTool, toolPadding = 0}: Props<Settings>) => {
+export const Tool = <Settings extends {}>({initialSettings, RenderControls, RenderContents, toolPadding = 0}: Props<Settings>) => {
     const [settings, update] = usePartialState<Settings>(initialSettings);
     const [ref, dimensions] = useDimensions();
     const {width = 0, height = 0, y = 0} = dimensions;
@@ -46,7 +46,7 @@ export const Tool = <Settings extends {}>({initialSettings, RenderControls, Rend
                 paddingTop: padding.top,
                 //don't include the bottom as a failsafe to prevent unnecessary scrolling
             }}>
-                <RenderTool
+                <RenderContents
                     {...settings}
                     width={toolWidth}
                     height={toolHeight}

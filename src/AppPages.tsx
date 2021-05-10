@@ -17,16 +17,16 @@ import {RenderGroups} from "./tools/RenderGroups/RenderGroups";
 import {TestBoundaries} from "./tools/GroupBoundaries/TestBoundaries";
 import {ChannelRelTool} from "./tools/ChannelRel/ChannelRelTool";
 import {GroupsAnalysis} from "./grouping/AnalysisTable";
-import {PerceptronTool} from "./tools/Perceptron/PerceptronResults";
 import {Sandbox} from "./Sandbox";
 import {LevelCreatorTool} from "./tools/LevelCreator/LevelCreatorTool";
 import {ComponentType} from "react";
+import {PerceptronTool} from "./tools/Perceptron";
 
 interface AppPage {
     title: string;
     description?: string;
-    path: string; //do not include the slash at start
-    Component: ComponentType<{}>;
+    path: string; // do not include the slash at start
+    Component: ComponentType; // takes no arguments
 }
 
 /**

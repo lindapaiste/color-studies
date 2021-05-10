@@ -1,27 +1,40 @@
 //------------------------------HARD-CODED---------------------------------//
 
-export type ColorSpaceName = 'rgb' | 'hsl' | 'hsv' | 'hsi' | 'lab' | 'lch' | 'cmyk' | 'hwb' | 'xyz' | 'hcg' | 'ryb';
+export type ColorSpaceName =
+    'rgb'
+    | 'hsl'
+    | 'hsv'
+    | 'hsi'
+    | 'lab'
+    | 'lch'
+    | 'cmyk'
+    | 'hwb'
+    | 'xyz'
+    | 'hcg'
+    | 'ryb'
+    | 'hsluv'
+    | 'hpluv';
 
 export type ChannelCount<CS extends ColorSpaceName> = CS extends 'cmyk' ? 4 : 3;
 
 /**
  * as things become better organized, I think that naming the channels separately doesn't make sense
  * it only comes up if trying to get a value, ie. saturation, without specifying the color space
+ * only need separate entries if the channel ranges differ, ie. cmyk yellow is out of 100 whereas ryb yellow is out of 255
  */
 export type ChannelName =
-    //note: cmyk black and hwb blackness seem to be equal, but need to double check
-    'hue'
-    | 'lightness' | 'saturationHsl'
-    | 'value' | 'saturationHsv'
-    | 'intensity' | 'saturationHsi'
+//note: cmyk black and hwb blackness seem to be equal, but need to double check
+    'hue' | 'saturation'
+    | 'lightness' | 'value' | 'intensity'
     | 'red' | 'green' | 'blue'
     | 'cyan' | 'magenta' | 'yellow' | 'black'
-    | 'chroma' | 'chromaHcg' | 'a' | 'b' | 'hueLch'
+    | 'chroma' | 'chromaHcg' | 'a' | 'b'
     | 'luminance'  // from LAB & LCH - LAB refers to L as "lightness" while LCH refers to L as "luminance", but the numeric values are equal - it is the cube root of luminosity
     | 'luminosity' // aka "relative luminance" - from the XYZ color space
-    | 'blackness' | 'whiteness' | 'grayness'
+    | 'white' | 'gray'
     | 'x' | 'z'
-    | 'redRyb' | 'yellowRyb' | 'blueRyb'
+    | 'yellowRyb'
+    | 'pastel'
 
 
 export type VariableMaxChannel = 'a' | 'b';

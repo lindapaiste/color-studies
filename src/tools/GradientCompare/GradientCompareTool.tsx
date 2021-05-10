@@ -37,6 +37,6 @@ export const GradientCompareTool = () => (
             colors: randomColors(3),
         }}
         RenderControls={GradientCompareControls}
-        RenderTool={GradientModelCompare}
+        RenderContents={GradientModelCompare}
     />
 );

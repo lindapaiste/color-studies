@@ -29,6 +29,6 @@ export const ChannelRelTool = () => (
     <Tool
         initialSettings={initialSettings}
         RenderControls={ChannelRelControls}
-        RenderTool={ChannelRelPlot}
+        RenderContents={ChannelRelPlot}
     />
 )

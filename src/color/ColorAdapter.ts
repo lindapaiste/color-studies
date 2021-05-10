@@ -1,7 +1,7 @@
 import chroma, {Color as ChromaColor} from "chroma-js";
 import {ChannelAccessor, ColorSpaceName, ColorTuple} from "../spacesChannels/types";
 import convert from "color-convert";
-import {isDefined, replaceIndex} from "../lib";
+import {isDefined, replaceIndex, tupleMap} from "../lib";
 import {ChannelAdapter} from "../spacesChannels/ChannelAdapter";
 import {eitherToAccessor, eitherToObject} from "../spacesChannels/channels";
 import {ModelAdapter} from "../spacesChannels/ModelAdapter";
@@ -9,6 +9,7 @@ import {eitherToModel, eitherToName} from "../spacesChannels/models";
 import {rgbToRyb, rybToRgb} from "./ryb";
 import {TupleClass} from "../spacesChannels/TupleClass";
 import {I_ColorAdapter, I_GetHex} from "./types";
+import {hpluvToRgb, hsluvToRgb, rgbToHpluv, rgbToHsluv} from "hsluv";
 
 /**
  * --doesn't work--
@@ -67,6 +68,10 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
         return classed;
     }
 
+    private get _rawRgb() {
+        return this.internal.rgb(false);
+    }
+
     /**
      * get a raw numeric conversion
      *
@@ -78,9 +83,9 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
     private _createTuple(colorSpace: ColorSpaceName): ColorTuple<typeof colorSpace> {
         switch (colorSpace) {
             case 'rgb':
-                return this.internal.rgb(false);
+                return this._rawRgb;
             case 'ryb':
-                return rgbToRyb(this.internal.rgb(false));
+                return rgbToRyb(this._rawRgb);
             case 'hwb':
             case 'hcg':
             case 'xyz':
@@ -88,12 +93,16 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
             case 'hsl':
             case 'hsv':
             case 'cmyk':
-                return convert.rgb[colorSpace].raw(this.internal.rgb(false));
+                return convert.rgb[colorSpace].raw(this._rawRgb);
             case 'hsi':
                 const [h, s, i] = this.internal.hsi();
                 return [h, 100 * s, 100 * i];
             case 'lch':
                 return this.internal.lch();
+            case "hsluv":
+                return rgbToHsluv(this.toClassed('rgb').normalized);
+            case "hpluv":
+                return rgbToHpluv(this.toClassed('rgb').normalized);
         }
     }
 
@@ -153,13 +162,18 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
             case 'ryb':
                 //converted to rgb via a custom function
                 return chroma(rybToRgb(values as ColorTuple<'ryb'>), 'rgb');
+            case "hsluv":
+                //use hsluv package
+                return chroma(tupleMap(hsluvToRgb(values as ColorTuple<'hsluv'>), v => v * 255), 'rgb');
+            case "hpluv":
+                return chroma(tupleMap(hpluvToRgb(values as ColorTuple<'hpluv'>), v => v * 255), 'rgb');
         }
     }
 
     /**
      * get a single channel value
      */
-    public get(channel: ChannelAccessor | ChannelAdapter, normalized: boolean = false, precision?: number ): number {
+    public get(channel: ChannelAccessor | ChannelAdapter, normalized: boolean = false, precision?: number): number {
         const _channel = eitherToObject(channel);
         const tuple = this.toClassed(_channel.modelObject);
         return tuple.getEither(normalized, precision)[_channel.offset];
@@ -176,8 +190,8 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
     public set(channel: ChannelAccessor | ChannelAdapter, value: number, normalized: boolean = false): ColorAdapter {
         const [cs, offset] = eitherToAccessor(channel);
         const initial = this.toClassed(cs).getEither(normalized);
-        const edited = replaceIndex( initial, offset, value );
-        return ColorAdapter.fromTuple(new TupleClass( edited, cs, normalized ));
+        const edited = replaceIndex(initial, offset, value);
+        return ColorAdapter.fromTuple(new TupleClass(edited, cs, normalized));
     }
 
     /**

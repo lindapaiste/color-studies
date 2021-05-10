@@ -1,10 +1,6 @@
-import {flatMap, partition, sampleSize, shuffle} from "../lib";
-import {allGroups} from "../grouping";
-
-export interface GroupedHex {
-    hex: string,
-    group: string
-}
+import {flatMap, omitBy, partition, sampleSize, shuffle} from "../lib";
+import {allGroups, getGroup} from "../grouping";
+import {GroupedHex, I_Expected} from "./types";
 
 /**
  * reformats the nested hexes from the groupings data set into an shuffled array
@@ -37,6 +33,34 @@ export const getSplitSample = (group: string, count: number): [GroupedHex[], Gro
     const [inGroup, notInGroup] = splitInGroup(dataSet, group);
     return [sampleSize(inGroup, count), sampleSize(notInGroup, count)];
 };
+
+/**
+ * half are from the group, and half are from any other group
+ */
+export const getBalancedSample = (group: string, totalCount: number): Array<GroupedHex & I_Expected> => {
+    const countPer = Math.ceil(totalCount/2);
+    const dataSet = shuffledHexes();
+    const [inGroup, notInGroup] = splitInGroup(dataSet, group);
+    return shuffle([
+        ...sampleSize(inGroup, countPer).map( obj => ({
+            ...obj,
+            expected: true,
+        })),
+        ...sampleSize(notInGroup, countPer).map( obj => ({
+            ...obj,
+            expected: false,
+        }))
+    ]);
+}
+
+export const sampleGroupHexes = (group: string, count: number): string[] => {
+    return sampleSize(getGroup(group)?.hexes, count);
+}
+
+export const sampleNonGroupHexes = (group: string, count: number): string[] => {
+    const hexes = flatMap(omitBy(allGroups(), g => g.name === group), g => g.hexes);
+    return sampleSize( hexes, count);
+}
 
 /**
  * returns two arrays: first is inGroup, second is notInGroup

@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 
 export interface Props {
   importance?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  size?: number;
+  size?: string | number;
   children: ReactNode;
 }
 

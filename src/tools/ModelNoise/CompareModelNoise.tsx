@@ -27,7 +27,7 @@ export const CompareModelNoise = (props: CompareProps) => (
     <Tool
         initialSettings={DEFAULT_NOISE_SETTINGS}
         RenderControls={ModelNoiseControls}
-        RenderTool={settings => Results({settings, ...props})}
+        RenderContents={settings => Results({settings, ...props})}
     />
 );
 

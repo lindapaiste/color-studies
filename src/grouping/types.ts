@@ -8,7 +8,6 @@ import {ChannelName} from "../spacesChannels/types";
  */
 export interface StoredGroup {
     name: string;
-    hexes: string[];
     //definitions and correlations both use the key of the channel
     definitions?: PropertyDef[];
     correlatedChannels?: string[];

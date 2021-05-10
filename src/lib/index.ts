@@ -1,18 +1,12 @@
 import { isFunction, round } from "lodash";
 import chroma from "chroma-js";
 import {ColorTuple} from "../spacesChannels/types";
-export {shuffle, partition, flatMap, sampleSize, range, random, round, startCase as proper, sortBy, groupBy, isFunction, flatten, isEqual, identity, clamp, debounce, find, findIndex, mapValues, pick, omit, sample } from "lodash";
+export {shuffle, partition, flatMap, sampleSize, range, random, round, startCase as proper, sortBy, groupBy, isFunction, flatten, isEqual, identity, clamp, debounce, find, findIndex, mapValues, pick, omit, sample, omitBy } from "lodash";
 export {mean, standardDeviation} from "simple-statistics";
 
 //for back compat
 export type HSL = ColorTuple<'hsl'>;
 export type RGB = ColorTuple<'rgb'>;
-
-export const makeColorString = (type: "rgb" | "rgba" | "hsl" | "hsla") => (
-  color: Array<string | number>
-): string => {
-  return type + "(" + color.join(",") + ")";
-};
 
 /**
  * hsl requires the % sign in the string
@@ -77,16 +71,6 @@ export const percentString = (
   const rounded = round(percent, decimals);
   return rounded + "%";
 };
-
-export const randomHex = (): string => {
-  return chroma.random().hex();
-};
-
-export const randomRgb = (): RGB => [
-  255 * Math.random(),
-  255 * Math.random(),
-  255 * Math.random()
-];
 
 type Entry<T> = { [K in keyof T]: [K & string, T[K]] }[keyof T];
 

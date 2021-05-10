@@ -25,7 +25,7 @@ export const PlotFeaturesTool = () => (
             yChannel: undefined,
         }}
         RenderControls={PlotFeaturesControls}
-        RenderTool={props => isComplete(props) ? <PlotFeatures {...props}/> : null}
+        RenderContents={props => isComplete(props) ? <PlotFeatures {...props}/> : null}
     />
 )
 

@@ -1,11 +1,12 @@
 import React from "react";
 import Plot from "react-plotly.js";
-import {getSplitSample, GroupedHex} from "../../classifier/shuffledData";
+import {getSplitSample} from "../../classifier/shuffledData";
 import {Data} from "plotly.js";
 import useDimensions from "../../lib/useDimensions";
 import {ifDefined} from "../../lib";
 import {ChannelAdapter} from "../../spacesChannels/ChannelAdapter";
 import {hexToColor} from "../../color";
+import {GroupedHex} from "../../classifier/types";
 
 /**
  * creates a scatter plot based on two color properties (x and y)

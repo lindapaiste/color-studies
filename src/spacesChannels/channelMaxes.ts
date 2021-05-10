@@ -55,17 +55,10 @@ const STANDARD_MAXES: ChannelMaxes = {
         max: 360,
         isLooped: true
     },
-    hueLch: {
-        max: 360,
-        isLooped: true
-    },
-    saturationHsl: 100,
-    saturationHsv: 100,
-    saturationHsi: 100,
+    saturation: 100,
     lightness: 100,
     value: 100,
-    whiteness: 100,
-    blackness: 100,
+    white: 100,
     cyan: 100,
     magenta: 100,
     yellow: 100,
@@ -94,10 +87,9 @@ const STANDARD_MAXES: ChannelMaxes = {
         min: -108,
         isVariable: true
     },
-    grayness: 100,
-    redRyb: 255,
+    gray: 100,
     yellowRyb: 255,
-    blueRyb: 255,
+    pastel: 100,
 };
 
 export const CHANNEL_NAMES = typedKeys(STANDARD_MAXES).sort();

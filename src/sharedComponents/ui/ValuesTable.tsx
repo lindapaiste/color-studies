@@ -45,7 +45,7 @@ export const ValuesTable = <T extends {}>({
       </TableHead>
       <TableBody>
         {entries.map(([key, value]) => (
-          <TableRow>
+          <TableRow key={key}>
             <TableCell component="th" scope={"row"}>
               {transformKey(key)}
             </TableCell>

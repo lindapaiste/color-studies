@@ -11,8 +11,9 @@
  * Conditionals (2x2x2 matrix of conditional probabilities of [actual, predicted] x [true, false]  x (conditional on opposite of [actual, predicted]) [true, false])
  * Scores (various numeric measurements which determine how good the classifier is)
  */
+import {I_ResultGroups} from "./types";
 
-export interface TestResults {
+export interface TestResults extends I_ResultGroups<number> {
     falsePositives: number;
     truePositives: number;
     falseNegatives: number;

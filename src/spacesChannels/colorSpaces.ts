@@ -20,16 +20,18 @@ type ColorSpaceArrays = {
  */
 export const COLOR_SPACE_ARRAYS: ColorSpaceArrays = {
     rgb: ['red', 'green', 'blue'],
-    hsl: ['hue', 'saturationHsl', 'lightness'],
-    hsi: ['hue', 'saturationHsi', 'intensity'],
-    hsv: ['hue', 'saturationHsv', 'value'],
+    hsl: ['hue', 'saturation', 'lightness'],
+    hsi: ['hue', 'saturation', 'intensity'],
+    hsv: ['hue', 'saturation', 'value'],
     lab: ['luminance', 'a', 'b'],
-    lch: ['luminance', 'chroma', 'hueLch'],
+    lch: ['luminance', 'chroma', 'hue'],
     cmyk: ['cyan', 'magenta', 'yellow', 'black'],
-    hwb: ['hue', 'whiteness', 'blackness'],
-    hcg: ['hue', 'chromaHcg', 'grayness'],
+    hwb: ['hue', 'white', 'black'],
+    hcg: ['hue', 'chromaHcg', 'gray'],
     xyz: ['x', 'luminosity', 'z'],
-    ryb: ['redRyb', 'yellowRyb', 'blueRyb']
+    ryb: ['red', 'yellowRyb', 'blue'],
+    hpluv: ['hue', 'pastel', 'luminosity'],
+    hsluv: ['hue', 'saturation', 'luminosity']
 };
 /**
  * not included:

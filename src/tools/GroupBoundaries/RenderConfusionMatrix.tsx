@@ -22,7 +22,7 @@ export const ExpandableConfusionMatrix = ({results}: {
                 <Render2x2ResultsMatrix {...results} />
             </Accordion>
 
-            <Accordion title="Accuracy Metrics">
+            <Accordion title={"Accuracy: " + percentString(results.balancedAccuracy, 1)}>
                 <RenderMetrics
                     results={results}
                     metrics={[...conditionalsKeys, ...scoresKeys]}

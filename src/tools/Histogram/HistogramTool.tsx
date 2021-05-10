@@ -16,7 +16,7 @@ export const HistogramTool = () => (
             channel: getChannel("hsl.l"),
         }}
         RenderControls={HistogramControls}
-        RenderTool={GroupChannelHistogram}
+        RenderContents={GroupChannelHistogram}
         toolPadding={"10%"}
     />
 );

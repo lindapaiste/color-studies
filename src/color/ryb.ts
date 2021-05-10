@@ -46,7 +46,7 @@ export const rgbToRyb = (rgb: ColorTuple<'rgb'>, max: number = 255): ColorTuple<
     const nDivide = ( value: number ): number => n > 0 ? value / n : value;
     //and add in the black component
 
-    console.log({iWhite,iBlack,rRgb,gRgb,bRgb, minRG,rRyb,yRyb,bRyb,n});
+    //console.log({iWhite,iBlack,rRgb,gRgb,bRgb, minRG,rRyb,yRyb,bRyb,n});
     return [rRyb, yRyb, bRyb]
         .map(nDivide)
         .map( v => v + iBlack) as ColorTuple<'rgb'>;

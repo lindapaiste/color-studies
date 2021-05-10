@@ -1,7 +1,7 @@
-import {MatchResult, PropertyDef, StoredGroup} from "./types";
-import {getChannel} from "../spacesChannels/channels";
+import {MatchResult, StoredGroup} from "./types";
 import GroupConstraints from "./GroupConstraints";
 import {I_ColorAdapter} from "../color/types";
+import hexes from "./hexes.json";
 
 export class ColorGrouping {
     public readonly hexes: string[];
@@ -9,8 +9,8 @@ export class ColorGrouping {
     public readonly definitions: GroupConstraints;
 
     constructor(data: StoredGroup) {
-        this.hexes = data.hexes;
         this.name = data.name;
+        this.hexes = hexes[this.name as keyof typeof hexes] || [];
         this.definitions = new GroupConstraints(data.definitions || []);
     }
 
