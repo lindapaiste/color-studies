@@ -20,4 +20,4 @@ export const getGroupHexes = (name: string): string[] => {
 /**
  * forms can use a random group as the start point rather than always starting with the first
  */
-export const randomGroup = (): ColorGrouping => <ColorGrouping>sample(KEYED_GROUPS);
+export const randomGroup = (): ColorGrouping => sample(KEYED_GROUPS) as ColorGrouping;

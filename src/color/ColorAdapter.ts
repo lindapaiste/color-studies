@@ -138,7 +138,7 @@ export class ColorAdapter implements I_ColorAdapter, I_GetHex {
      *
      * again cannot use generic with switch statement
      */
-    private static _createChroma(values: ColorTuple<typeof colorSpace>, colorSpace: ColorSpaceName): ChromaColor {
+    private static _createChroma(values: ColorTuple<ColorSpaceName>, colorSpace: ColorSpaceName): ChromaColor {
         switch (colorSpace) {
             case 'rgb':
             case 'lch':
