@@ -1,17 +1,15 @@
 {
-  "name": "react",
+  "name": "color-studies",
+  "author": "Linda Paiste",
   "version": "1.0.0",
-  "description": "React example starter project",
-  "keywords": [
-    "react",
-    "starter"
-  ],
-  "main": "src/index.js",
+  "description": "Tools for analyzing colors and color groupings",
+  "main": "src/index.tsx",
   "dependencies": {
     "@material-ui/core": "4.11.0",
-    "@material-ui/icons": "4.9.1",
+    "@material-ui/icons": "^4.9.1",
     "chroma-js": "2.1.0",
     "color": "3.1.2",
+    "delta-e": "0.0.8",
     "hsluv": "0.1.0",
     "lodash": "4.17.19",
     "ml-regression": "5.0.0",
@@ -19,19 +17,31 @@
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-plotly.js": "2.4.0",
-    "react-router-dom": "5.2.0",
-    "react-scripts-ts": "3.1.0",
+    "react-router-dom": "^5.2.0",
     "regression": "2.0.1",
-    "simple-statistics": "7.1.0"
+    "simple-statistics": "^7.1.0"
   },
   "devDependencies": {
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "@types/jest": "^26.0.5",
+    "@types/react-dom": "^16.9.8",
+    "@types/chroma-js": "^2.0.0",
+    "@types/color": "^3.0.1",
+    "@types/lodash": "^4.14.157",
+    "@types/react-plotly.js": "^2.2.4",
+    "@types/react-router": "^5.1.8",
+    "@types/react-router-dom": "^5.1.5",
+    "react-scripts-ts": "3.1.0",
+    "react-scripts": "^3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --max_old_space_size=4096 start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",
