@@ -8,24 +8,23 @@ import {SelectChannel} from "../../sharedComponents/form/SelectChannel";
 import {Tool} from "../../sharedComponents/tool/Tool";
 import {isComplete, MaybeUndefined} from "../../lib";
 import {randomGroup} from "../../grouping";
+import {randomChannel} from "../../spacesChannels/channels";
 
 /**
  * tool allows dynamic creation of a PlotFeatures component
  * by allowing the user to select the group, two properties/channels (x and y)
  * and sample size (count) for the plot
- *
- * does not set initial axis values, so needs an extra check before rendering tool
  */
 export const PlotFeaturesTool = () => (
     <Tool
         initialSettings={{
             colorCount: 100,
             group: randomGroup().name,
-            xChannel: undefined,
-            yChannel: undefined,
+            xChannel: randomChannel(),
+            yChannel: randomChannel(),
         }}
         RenderControls={PlotFeaturesControls}
-        RenderContents={props => isComplete(props) ? <PlotFeatures {...props}/> : null}
+        RenderContents={PlotFeatures}
     />
 )
 

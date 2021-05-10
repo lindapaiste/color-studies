@@ -1,56 +1,47 @@
-import {Data} from "plotly.js";
 import {intervals} from "../../lib";
 import {Size} from "../../sharedComponents/form/types";
 import React, {useMemo} from "react";
-import Plot from "react-plotly.js";
 import {Settings} from "./ChannelRelTool";
-import {I_ColorAdapter} from "../../color/types";
 import {randomColors} from "../../color";
+import {CartesianGrid, Line, ScatterChart, Scatter, Tooltip, XAxis, YAxis} from "recharts";
+import {colorToPoint} from "../PlotFeatures/PlotFeatures";
 
-/**
- * each initial color becomes one line
- * the points on that line are made from transforming the x-axis property
- */
-const getTrace = ({stepCount, xChannel, yChannel}: Omit<Settings, 'colorCount'>) =>
-    (initial: I_ColorAdapter): Data => {
-        //x values are evenly spaces increments
-        const x = intervals(xChannel.min, xChannel.max, stepCount);
-        //y values are calculated by setting the x
-        const y = x.map(xVal => initial.set(xChannel, xVal).get(yChannel));
-        return {
-            x,
-            y,
-            mode: "lines",
-            type: "scatter",
-            line: {
-                color: initial.hex()
-            },
-            text: initial.hex(),
-            hoverinfo: "x+y+text"
-        }
-    }
+export const ChannelRelPlot = ({xChannel, yChannel, colorCount, stepCount, width, height}: Settings & Partial<Size>) => {
 
-
-export const ChannelRelPlot = ({xChannel, yChannel, colorCount, stepCount, width = 1400, height = 1000}: Settings & Partial<Size>) => {
+    const colors = useMemo(
+        () => randomColors(colorCount),
+        [colorCount]
+    );
 
     /**
-     * don't want to recalculate data on resize
+     * each initial color becomes one line
+     * the points on that line are made from transforming the x-axis property
      */
-    const data = useMemo(
-        () => randomColors(colorCount).map(getTrace({xChannel, yChannel, stepCount})),
-        [xChannel, yChannel, colorCount, stepCount]
+    const lines = useMemo(
+        () => colors.map(initial => {
+            // x values are evenly spaces increments
+            const xs = intervals(xChannel.min, xChannel.max, stepCount);
+            // y values are calculated by setting the x
+            const points = xs.map(x => initial.set(xChannel, x))
+                .map(colorToPoint(xChannel, yChannel));
+            return {
+                name: initial.hex(),
+                color: initial.hex(),
+                points,
+            }
+        }),
+        [xChannel, yChannel, colors, stepCount]
     )
 
     return (
-        <Plot
-            data={data}
-            layout={{
-                showlegend: false,
-                width,
-                height,
-                'xaxis.title': xChannel.title,
-                'yaxis.title': yChannel.title
-            }}
-        />
+        <ScatterChart width={width} height={height} data={lines}>
+            <CartesianGrid strokeDasharray="3 3"/>
+            <XAxis dataKey="x" name={xChannel.name} label={xChannel.name} type="number"/>
+            <YAxis dataKey="y" name={yChannel.name} label={yChannel.name} type="number"/>
+            <Tooltip/>
+            {lines.map(({points, color, name}) => (
+                <Scatter key={name} name={name} fill={color} line data={points} legendType="none"/>
+            ))}
+        </ScatterChart>
     );
 }

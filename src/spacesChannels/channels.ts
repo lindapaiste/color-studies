@@ -2,6 +2,7 @@ import {allModels, getModel} from "./models";
 import {flatMap, sortBy} from "../lib";
 import {ChannelAdapter} from "./ChannelAdapter";
 import {ChannelAccessor, ChannelName} from "./types";
+import sample from "lodash/sample";
 
 /**
  * array of all channel objects, sorted by name
@@ -12,6 +13,11 @@ export const ALL_CHANNELS: ChannelAdapter[] = sortBy( flatMap(allModels(), m => 
  * a function makes things more flexible BUT don't need to re-sort or re-map every time it is called
  */
 export const allChannels = () => ALL_CHANNELS;
+
+/**
+ * pick a random channel, usually for an initial value
+ */
+export const randomChannel = (): ChannelAdapter => sample(allChannels())!;
 
 /**
  * object of channels keyed by channel key for easy lookup
