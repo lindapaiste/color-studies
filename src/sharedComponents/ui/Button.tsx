@@ -1,1 +1,1 @@
-export {Button} from "@material-ui/core";
+export { Button } from "@material-ui/core";

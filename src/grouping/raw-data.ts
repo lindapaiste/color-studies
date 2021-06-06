@@ -1,10 +1,10 @@
-import {StoredGroup} from "./types";
-//todo: remove brown/beige that came from Pantone pastel collection
+import { StoredGroup } from "./types";
+// todo: remove brown/beige that came from Pantone pastel collection
 
 export const GROUPINGS: StoredGroup[] = [
   {
     name: "Neons",
-    correlatedChannels: [ 'hcg.c', 'hsi.i', 'hsl.l', 'hsi.s', 'hsv.s', 'hwb.w', ],
+    correlatedChannels: ["hcg.c", "hsi.i", "hsl.l", "hsi.s", "hsv.s", "hwb.w"],
     definitions: [
       /**
        * luminosity & hue have no correlation to neonness
@@ -12,7 +12,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "cmyk.k",
         min: 0,
-        max: 37
+        max: 37,
         /**
          * pinks and yellows have lower hwb.w than blues, regardless of saturation.
          * the highest values at 35 to 37 are for neon purples
@@ -21,7 +21,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hwb.w",
         min: 0,
-        max: 25
+        max: 25,
         /*
          * most neons have hwb.w below 25, with 0 being a true neon,
          * the current set includes many outside of that range, with values as high as 75,
@@ -32,7 +32,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsv.s",
         min: 60,
-        max: 100
+        max: 100,
         /**
          * this is a CLEAR indicator of neon-ness
          * the cutoff is arbitrary, but the higher the value the more neon
@@ -41,7 +41,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.s",
         min: 50,
-        max: 100
+        max: 100,
         /**
          * this does not sort for neon-ness in the way that saturationv does,
          * but all values include the more pastel ones are over 50
@@ -50,12 +50,12 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.l",
         min: 32,
-        max: 65
+        max: 65,
         /**
          * blues start at 32, reds are more like 50, and those above 65 can be reclassified
          */
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Pastels",
@@ -65,15 +65,15 @@ export const GROUPINGS: StoredGroup[] = [
        * saturation could be differentiator between serene neutral pastels and unicorn/candy pastels
        */
       {
-        channel: "xyz.y", //luminosity
+        channel: "xyz.y", // luminosity
         min: 54,
-        max: 90 //could go up to 100, but but then it's basically just white
+        max: 90, // could go up to 100, but but then it's basically just white
       },
       { channel: "hsl.l", min: 75, max: 95 },
       { channel: "hsv.s", min: 0, max: 25 },
       { channel: "cmyk.k", min: 0, max: 24 },
-      { channel: "hwb.w", min: 7, max: 95 }
-    ]
+      { channel: "hwb.w", min: 7, max: 95 },
+    ],
     /**
      * found a really good perceptron with weights
      *
@@ -91,7 +91,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "cmyk.k",
         min: 0,
-        max: 15
+        max: 15,
         /*
          * current group includes some up to 35,
          * but this is a good sorting indicator with the core of the group < 10
@@ -101,19 +101,19 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hwb.w",
         min: 39,
-        max: 90
+        max: 90,
       },
       {
         channel: "hsv.s",
         min: 0,
-        max: 50
+        max: 50,
       },
       {
         channel: "hsl.l",
         min: 60,
-        max: 95
-      }
-    ]
+        max: 95,
+      },
+    ],
   },
   {
     name: "Neutrals",
@@ -124,12 +124,12 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "cmyk.k",
         min: 0,
-        max: 65
+        max: 65,
       },
       {
         channel: "hsv.s",
         min: 0,
-        max: 75
+        max: 75,
         /**
          * not a strong correlation, but don't want neons
          */
@@ -137,17 +137,17 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.s",
         min: 0,
-        max: 65
+        max: 65,
       },
       {
         channel: "hsl.h",
         min: 0,
-        max: 65
+        max: 65,
         /**
          * only reason to include outside this range would be if it is very gray
          */
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Brights",
@@ -156,9 +156,9 @@ export const GROUPINGS: StoredGroup[] = [
        * saturationHsl, hue, not correlated
        */
       {
-        channel: "xyz.y", //luminosity
+        channel: "xyz.y", // luminosity
         min: 0,
-        max: 65
+        max: 65,
         /**
          * a filterer but not a correlator -- lowest values are purple and highest are yellow
          */
@@ -166,7 +166,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.l",
         min: 25,
-        max: 65
+        max: 65,
         /**
          * again skewed by hue with blue low and ROY high
          */
@@ -174,7 +174,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsv.s",
         min: 40,
-        max: 100
+        max: 100,
         /**
          * strong correlation
          * but can be skewed a little by color. some blues and purples appear bright despite lower values, ( ie. #87c8d7)
@@ -184,7 +184,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "cmyk.k",
         min: 0,
-        max: 50
+        max: 50,
         /**
          * some correlation, but skewed by yellow/blue bias
          */
@@ -192,12 +192,12 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hwb.w",
         min: 0,
-        max: 35
+        max: 35,
         /**
          * strong correlation
          */
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Crayola",
@@ -208,7 +208,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hwb.w",
         min: 0,
-        max: 20
+        max: 20,
         /**
          * strong correlation
          */
@@ -216,7 +216,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "cmyk.k",
         min: 0,
-        max: 60
+        max: 60,
         /**
          * filters but doesn't correlate
          */
@@ -224,7 +224,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsv.s",
         min: 75,
-        max: 100
+        max: 100,
         /**
          * strong correlation
          */
@@ -232,7 +232,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.s",
         min: 60,
-        max: 100
+        max: 100,
         /**
          * strong correlation
          */
@@ -240,20 +240,20 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.l",
         min: 15,
-        max: 60
+        max: 60,
         /**
          * filters but doesn't correlate
          */
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Dark & Moody",
     definitions: [
       {
-        channel: "xyz.y", //luminosity
+        channel: "xyz.y", // luminosity
         min: 0,
-        max: 20
+        max: 20,
         /**
          * strong correlation
          * outliers are lighter gray-blues, better suited elsewhere
@@ -262,7 +262,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.l",
         min: 10,
-        max: 50
+        max: 50,
         /**
          * strong correlation, with target around 25
          */
@@ -270,7 +270,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.s",
         min: 0,
-        max: 70
+        max: 70,
         /**
          * not much correlation
          */
@@ -278,7 +278,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsv.s",
         min: 0,
-        max: 85
+        max: 85,
         /**
          * not much correlation
          */
@@ -286,7 +286,7 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "cmyk.k",
         min: 20,
-        max: 90
+        max: 90,
         /**
          * not much correlation
          */
@@ -294,12 +294,12 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hwb.w",
         min: 0,
-        max: 40
+        max: 40,
         /**
          * strong correlation
          */
-      }
-    ]
+      },
+    ],
   },
   {
     name: "Jewel Tones",
@@ -310,27 +310,27 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.s",
         min: 20,
-        max: 100
+        max: 100,
       },
       {
         channel: "hsv.s",
         min: 30,
-        max: 100
+        max: 100,
       },
       {
         channel: "hwb.w",
         min: 0,
-        max: 35
+        max: 35,
       },
       {
         channel: "hsl.l",
         min: 15,
-        max: 50
+        max: 50,
       },
       {
-        channel: "xyz.y", //luminosity
+        channel: "xyz.y", // luminosity
         min: 0,
-        max: 25
+        max: 25,
         /**
          * strongest correlation
          */
@@ -338,15 +338,14 @@ export const GROUPINGS: StoredGroup[] = [
       {
         channel: "hsl.h",
         min: 90,
-        max: 360
+        max: 360,
         /**
          * note: this leaves off a few reds because I don't know how to account for the cyclical nature of hue.
          * curious to see what a very luminous orange or yellow looks like and if it makes sense to include them
          */
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 export default GROUPINGS;
-

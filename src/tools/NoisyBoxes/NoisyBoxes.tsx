@@ -1,18 +1,18 @@
-import React, {useEffect, useMemo, useState} from "react";
-import {ChannelShiftControls, useControls} from "./ChannelShiftControls";
-import {createColors} from "../../channel/channelShiftSet";
-import {BoxData, Evaluation, Levers} from "../../boxSets/types";
-import {getError, matchToChoices} from "../../boxSets/colorMatchesBox";
-import {RenderBoxData} from "./RenderBoxData";
-import {LeverControls} from "./LeverControls";
+import React, { useEffect, useMemo, useState } from "react";
+import { ChannelShiftControls, useControls } from "./ChannelShiftControls";
+import { createColors } from "../../channel/channelShiftSet";
+import { BoxData, Evaluation, Levers } from "../../boxSets/types";
+import { getError, matchToChoices } from "../../boxSets/colorMatchesBox";
+import { RenderBoxData } from "./RenderBoxData";
+import { LeverControls } from "./LeverControls";
 import "./box-style.css";
-import {shuffleData} from "../../boxSets/shuffleData";
-import {flatMap, makeArray} from "../../lib";
-import {withModelNoise} from "../../noise/modelNoise";
-import {Toggle} from "../../sharedComponents/form/Toggle";
-import {usePartialState} from "../../lib/util-hooks";
-import {I_ColorAdapter} from "../../color/types";
-import {deltaE76} from "../../difference/distance";
+import { shuffleData } from "../../boxSets/shuffleData";
+import { flatMap, makeArray } from "../../lib";
+import { withModelNoise } from "../../noise/modelNoise";
+import { Toggle } from "../../sharedComponents/form/Toggle";
+import { usePartialState } from "../../lib/util-hooks";
+import { I_ColorAdapter } from "../../color/types";
+import { deltaE76 } from "../../difference/distance";
 
 /**
  * right now just looks at a bunch of random colors and filters
@@ -20,94 +20,87 @@ import {deltaE76} from "../../difference/distance";
  */
 
 export interface Props {
-    colors: I_ColorAdapter[];
-    levers: Levers;
-    isShuffle: boolean;
+  colors: I_ColorAdapter[];
+  levers: Levers;
+  isShuffle: boolean;
 }
 
-export const NoisyBoxes = ({colors, levers, isShuffle}: Props) => {
-    /**
-     * use Memos to reduce re-rendering because want to
-     * be able to tweak levers with the same color choices
-     * the evaluation itself does not need the levers,
-     * they are used when seeing if the evaluation is a match
-     */
-    const evaluations: Evaluation[] = useMemo(() => {
-        // const random = randomColors(200);
-        const random = flatMap(colors, c => makeArray(100, () => withModelNoise({
-            color: c,
-            colorSpace: "rgb",
-            noiseRatio: .3
-        })));
-        return random.map(c => matchToChoices(deltaE76, c, colors));
-    }, [colors]);
-
-    const boxData: BoxData[] = colors.map(color => ({
-        color,
-        matches: [],
-        rejected: [],
-    }));
-
-    evaluations.forEach(evaluation => {
-        const isError = getError(evaluation, levers);
-        if (isError) return;
-        const i = colors.indexOf(evaluation.match);
-        if (i === -1) {
-            console.error("cannot find index for color object");
-            return;
-        }
-        boxData[i].matches.push(evaluation);
-    });
-
-    useEffect(
-        () => {
-            console.log("distance between boxes");
-            colors.map(c => colors.map(t => console.log(deltaE76(c, t))));
-        }, [colors]
+export const NoisyBoxes = ({ colors, levers, isShuffle }: Props) => {
+  /**
+   * use Memos to reduce re-rendering because want to
+   * be able to tweak levers with the same color choices
+   * the evaluation itself does not need the levers,
+   * they are used when seeing if the evaluation is a match
+   */
+  const evaluations: Evaluation[] = useMemo(() => {
+    // const random = randomColors(200);
+    const random = flatMap(colors, (c) =>
+      makeArray(100, () =>
+        withModelNoise({
+          color: c,
+          colorSpace: "rgb",
+          noiseRatio: 0.3,
+        })
+      )
     );
+    return random.map((c) => matchToChoices(deltaE76, c, colors));
+  }, [colors]);
 
-    const final = isShuffle ? shuffleData(boxData) : boxData;
+  const boxData: BoxData[] = colors.map((color) => ({
+    color,
+    matches: [],
+    rejected: [],
+  }));
 
-    return <RenderBoxData data={final}/>;
+  evaluations.forEach((evaluation) => {
+    const isError = getError(evaluation, levers);
+    if (isError) return;
+    const i = colors.indexOf(evaluation.match);
+    if (i === -1) {
+      console.error("cannot find index for color object");
+      return;
+    }
+    boxData[i].matches.push(evaluation);
+  });
+
+  useEffect(() => {
+    console.log("distance between boxes");
+    colors.map((c) => colors.map((t) => console.log(deltaE76(c, t))));
+  }, [colors]);
+
+  const final = isShuffle ? shuffleData(boxData) : boxData;
+
+  return <RenderBoxData data={final} />;
 };
 
-
 export const DEFAULT_LEVERS: Levers = {
-    minDistance: 0,
-    maxDistance: 20,
-    minDistinctness: 10,
-    maxDistinctness: 50
+  minDistance: 0,
+  maxDistance: 20,
+  minDistinctness: 10,
+  maxDistinctness: 50,
 };
 
 export const NoisyBoxTool = () => {
-    const [controls, setControls] = useControls();
-    const [levers, updateLevers] = usePartialState(DEFAULT_LEVERS);
-    const [isShuffle, setIsShuffle] = useState(false);
+  const [controls, setControls] = useControls();
+  const [levers, updateLevers] = usePartialState(DEFAULT_LEVERS);
+  const [isShuffle, setIsShuffle] = useState(false);
 
-    const colors = useMemo(() => {
-            try {
-                return createColors(controls);
-            } catch (e) {
-                return [];
-            }
-        }, [controls]
-    );
+  const colors = useMemo(() => {
+    try {
+      return createColors(controls);
+    } catch (e) {
+      return [];
+    }
+  }, [controls]);
 
-    return (
-        <div className="boxes-tool-screen">
-            <div>
-                <ChannelShiftControls
-                    state={controls}
-                    update={setControls}
-                />
-                <LeverControls state={levers} update={updateLevers}/>
-                <Toggle
-                    value={isShuffle}
-                    onChange={setIsShuffle}
-                    label="Shuffled"
-                />
-            </div>
-            <NoisyBoxes colors={colors} levers={levers} isShuffle={isShuffle}/>
-        </div>
-    );
+  return (
+    <div className="boxes-tool-screen">
+      <div>
+        <ChannelShiftControls state={controls} update={setControls} />
+        <LeverControls state={levers} update={updateLevers} />
+        <Toggle value={isShuffle} onChange={setIsShuffle} label="Shuffled" />
+      </div>
+      <NoisyBoxes colors={colors} levers={levers} isShuffle={isShuffle} />
+    </div>
+  );
 };

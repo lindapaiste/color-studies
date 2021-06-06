@@ -1,5 +1,5 @@
-import MTooltip, {TooltipProps} from "@material-ui/core/Tooltip";
-import React, {ReactNode} from "react";
+import MTooltip, { TooltipProps } from "@material-ui/core/Tooltip";
+import React, { ReactNode } from "react";
 
 /**
  * mostly exists for decoupling from material UI (but I'm passing through so....)
@@ -9,22 +9,28 @@ import React, {ReactNode} from "react";
  *
  * adding an extra div for the ref screws up flexbox layouts
  */
-export const Tooltip = ({title, arrow = true, children, ...props}: TooltipProps) => (
-    <MTooltip {...props} title={title} arrow={arrow}>
-        {children}
-    </MTooltip>
-)
+export const Tooltip = ({
+  title,
+  arrow = true,
+  children,
+  ...props
+}: TooltipProps) => (
+  <MTooltip {...props} title={title} arrow={arrow}>
+    {children}
+  </MTooltip>
+);
 
-const RefHandler = React.forwardRef<HTMLDivElement, { children: ReactNode }>(({children}, ref) => (
-    <div ref={ref}>
-        {children}
-    </div>
-))
+const RefHandler = React.forwardRef<HTMLDivElement, { children: ReactNode }>(
+  ({ children }, ref) => <div ref={ref}>{children}</div>
+);
 
-export const TooltipRef = ({title, arrow = true, children, ...props}: TooltipProps) => (
-    <MTooltip {...props} title={title} arrow={arrow}>
-        <RefHandler>
-            {children}
-        </RefHandler>
-    </MTooltip>
-)
+export const TooltipRef = ({
+  title,
+  arrow = true,
+  children,
+  ...props
+}: TooltipProps) => (
+  <MTooltip {...props} title={title} arrow={arrow}>
+    <RefHandler>{children}</RefHandler>
+  </MTooltip>
+);

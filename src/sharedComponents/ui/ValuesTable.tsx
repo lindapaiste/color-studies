@@ -17,17 +17,14 @@ export interface Props<T> {
   labels?: [string, string];
 }
 
-const defaultTransformValue = <T extends any>(value: T): string | number => {
-  if (typeof value === "number") {
-    return round(value, 2);
-  } else return value.toString();
-};
+const defaultTransformValue = <T extends any>(value: T): string | number =>
+  typeof value === "number" ? round(value, 2) : String(value);
 
 export const ValuesTable = <T extends {}>({
   data = [],
   transformKey = proper,
   transformValue = defaultTransformValue,
-  labels = ["Property", "Value"]
+  labels = ["Property", "Value"],
 }: Props<T>) => {
   const entries = Array.isArray(data) ? data : typedEntries(data);
 
@@ -46,7 +43,7 @@ export const ValuesTable = <T extends {}>({
       <TableBody>
         {entries.map(([key, value]) => (
           <TableRow key={key}>
-            <TableCell component="th" scope={"row"}>
+            <TableCell component="th" scope="row">
               {transformKey(key)}
             </TableCell>
             <TableCell>{transformValue(value)}</TableCell>

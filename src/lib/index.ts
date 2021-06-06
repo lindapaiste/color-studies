@@ -1,12 +1,35 @@
 import { isFunction, round } from "lodash";
-import chroma from "chroma-js";
-import {ColorTuple} from "../spacesChannels/types";
-export {shuffle, partition, flatMap, sampleSize, range, random, round, startCase as proper, sortBy, groupBy, isFunction, flatten, isEqual, identity, clamp, debounce, find, findIndex, mapValues, pick, omit, sample, omitBy } from "lodash";
-export {mean, standardDeviation} from "simple-statistics";
+import { ColorTuple } from "../spacesChannels/types";
+export {
+  shuffle,
+  partition,
+  flatMap,
+  sampleSize,
+  range,
+  random,
+  round,
+  startCase as proper,
+  sortBy,
+  groupBy,
+  isFunction,
+  flatten,
+  isEqual,
+  identity,
+  clamp,
+  debounce,
+  find,
+  findIndex,
+  mapValues,
+  pick,
+  omit,
+  sample,
+  omitBy,
+} from "lodash";
+export { mean, standardDeviation } from "simple-statistics";
 
-//for back compat
-export type HSL = ColorTuple<'hsl'>;
-export type RGB = ColorTuple<'rgb'>;
+// for back compat
+export type HSL = ColorTuple<"hsl">;
+export type RGB = ColorTuple<"rgb">;
 
 /**
  * hsl requires the % sign in the string
@@ -24,7 +47,7 @@ export const replaceIndex = <T, AT extends T[]>(
   i: number,
   value: T
 ): AT => {
-  //export const replaceIndex = <T extends Array<any>>(array: T, i: number, value: Unpack<T>): T => {
+  // export const replaceIndex = <T extends Array<any>>(array: T, i: number, value: Unpack<T>): T => {
   return Object.assign([...array], { [i]: value }) as AT;
 };
 
@@ -41,13 +64,13 @@ export const removeIndex = <T>(array: T[], i: number): T[] => {
 
 export type Unpack<A> = A extends Array<infer E> ? E : A;
 
-export type NonEmpty<A> = A & {0: Unpack<A>}
+export type NonEmpty<A> = A & { 0: Unpack<A> };
 
 export type NonEmptyArray<T> = T[] & [T];
 
 export const isNotEmpty = <T>(array: T[]): array is NonEmptyArray<T> => {
   return array.length > 0;
-}
+};
 
 /**
  * lodash version returns T | undefined
@@ -55,9 +78,11 @@ export const isNotEmpty = <T>(array: T[]): array is NonEmptyArray<T> => {
  * could define the last() function such that it knows it cannot return undefined only if the array cannot be empty
  * ...but can't get this quite right...
  */
-export const last = <T>(array: T[]): typeof array extends NonEmptyArray<T> ? T : T | undefined => {
+export const last = <T>(
+  array: T[]
+): typeof array extends NonEmptyArray<T> ? T : T | undefined => {
   return isNotEmpty(array) ? array[array.length - 1] : undefined;
-}
+};
 
 /**
  * expects the number to be a fraction of 1, but can be out of 100 with optional third parameter is100
@@ -85,7 +110,7 @@ export const typedKeys = <OT>(object: OT) => {
     keyof OT extends string ? keyof OT : string
   >;
 };
-//export type KeyType<OT> = keyof OT extends string ? keyof OT : string;
+// export type KeyType<OT> = keyof OT extends string ? keyof OT : string;
 
 export const typedEntries = <OT>(object: OT) => {
   return Object.entries(object) as Entries<OT>;
@@ -114,7 +139,7 @@ export const intervals = (
   count: number
 ): number[] => {
   const step = (end - start) / (count - 1);
-  return makeArray(count, i => start + i * step);
+  return makeArray(count, (i) => start + i * step);
 };
 
 export const withHash = (hex: string): string => {
@@ -122,29 +147,34 @@ export const withHash = (hex: string): string => {
 };
 
 export const hasMethod = (obj: any, method: string): boolean => {
-  //note: cannot use hasOwnProperty because the property might be inherited
+  // note: cannot use hasOwnProperty because the property might be inherited
   return typeof obj === "object" && isFunction(obj[method]);
 };
 
-export const isDefined = <T>(value: T | undefined): value is T => value !== undefined;
+export const isDefined = <T>(value: T | undefined): value is T =>
+  value !== undefined;
 export const isUndefined = <T>(value: T | undefined): value is undefined =>
   value === undefined;
 
-export const ifDefined = <T, B>( value: T | undefined, fallback: B ): T | B => {
-  return isDefined( value ) ? value : fallback;
-}
+export const ifDefined = <T, B>(value: T | undefined, fallback: B): T | B => isDefined(value) ? value : fallback;
 
 export type TypePropertyKeys<T, E> = {
-  [K in keyof T]-?: Required<T>[K] extends E ? K : never
+  [K in keyof T]-?: Required<T>[K] extends E ? K : never;
 }[keyof T];
 
-export const isNumberKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T, number> => {
+export const isNumberKey = <T>(
+  key: keyof T,
+  data: T
+): key is TypePropertyKeys<T, number> => {
   return typeof data[key] === "number";
-}
+};
 
-export const isArrayKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T, any[]> => {
-  return Array.isArray( data[key] );
-}
+export const isArrayKey = <T>(
+  key: keyof T,
+  data: T
+): key is TypePropertyKeys<T, any[]> => {
+  return Array.isArray(data[key]);
+};
 
 /**
  * is basically the same as array map except that it preserves the type ( length )
@@ -152,11 +182,16 @@ export const isArrayKey = <T>(key: keyof T, data: T): key is TypePropertyKeys<T,
  * use carefully - if T is anything beyond a tuple then it is NOT guaranteed that type T is really preserved
  * as written, cannot cast tuple to a different type of same length
  */
-export const tupleMap = <ET extends any, AT extends ET[]>(array: AT, mapper: ((value: ET, index: number, tuple: AT) => ET) | ET): AT => {
-  return array.map((value, index, array) => isFunction(mapper) ? mapper(value, index, array as AT) : mapper) as AT;
+export const tupleMap = <T extends any[]>(
+  array: T,
+  mapper: ((value: T[number], index: number, tuple: T) => T[number]) | T[number]
+): T => {
+  const callback = isFunction(mapper) ? mapper : () => mapper;
+  return array.map(callback as any) as T;
 }
 
-export type SelectivePartial<T, U extends keyof T> = Omit<T, U> & Partial<Pick<T, U>>
+export type SelectivePartial<T, U extends keyof T> = Omit<T, U> &
+  Partial<Pick<T, U>>;
 
 /**
  * the property has to be set, but can be set to undefined
@@ -176,4 +211,4 @@ export type NoUndefined<T> = {
  */
 export const isComplete = <T>(props: T): props is NoUndefined<T> => {
   return Object.values(props).every(isDefined);
-}
+};

@@ -1,18 +1,15 @@
 import React from "react";
-import {RenderSet} from "sharedComponents/color/RenderSet";
-import {ModelPalette} from "./tools/PaletteCompare/ModelPalette";
-import {ModelAdapter} from "./spacesChannels/ModelAdapter";
-import {ColorAdapter} from "./color/ColorAdapter";
-import {rgbToRyb, rybToRgb} from "./color/ryb";
-import {makeIterativePerceptron} from "./classifier/IterativeChannelPerceptron";
-import {TestedModel} from "./classifier/TestedModel";
+import { ModelPalette } from "./tools/PaletteCompare/ModelPalette";
+import { ModelAdapter } from "./spacesChannels/ModelAdapter";
+import { ColorAdapter } from "./color/ColorAdapter";
+import { rgbToRyb } from "./color/ryb";
+import { makeIterativePerceptron } from "./classifier/IterativeChannelPerceptron";
+import { TestedModel } from "./classifier/TestedModel";
 
 export const Sandbox = () => {
+  const perceptron = makeIterativePerceptron("Neons", 1000, 10);
 
-    const perceptron = makeIterativePerceptron('Neons', 1000, 10);
-
-
-    /*
+  /*
     ChannelAdapter {modelName: "lab", modelObject: ModelAdapter, offset: 0, name: "luminance", max: 100, …}
 1: ChannelAdapter {modelName: "hwb", modelObject: ModelAdapter, offset: 1, name: "white", max: 100, …}
 2: ChannelAdapter {modelName: "xyz", modelObject: ModelAdapter, offset: 2, name: "z", max: 109, …}
@@ -62,26 +59,22 @@ no false negatives but a lot of false positives
 2: ChannelAdapter {modelName: "lch", modelObject: ModelAdapter, offset: 0, name: "luminance", ma
 length: 6
      */
-    const tested = new TestedModel( perceptron, 500 );
+  const tested = new TestedModel(perceptron, 500);
 
-    console.log( tested.accuracy );
+  console.log(tested.accuracy);
 
-    console.log( tested.model );
+  console.log(tested.model);
 
-    const purple = [127,0,255];
+  console.log(rgbToRyb([127.5, 0, 255], 255));
+  console.log(rgbToRyb([0.5, 0, 1], 1));
 
-    console.log(rgbToRyb([127.5,0,255], 255));
-    console.log(rgbToRyb([.5,0,1], 1));
+  const model = new ModelAdapter("xyz");
 
-    const model = new ModelAdapter('xyz');
+  const color = ColorAdapter.staticFrom([81, 0, 37], "rgb");
 
-    const color = ColorAdapter.staticFrom([81, 0, 37], 'rgb');
+  console.log(color.to("xyz"));
 
-    console.log(color.to('xyz'));
-
-    return (
-        <ModelPalette model={model} totalCount={100} perRow={10}/>
-    );
+  return <ModelPalette model={model} totalCount={100} perRow={10} />;
 };
 
 /*

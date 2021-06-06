@@ -1,13 +1,18 @@
-import {splitInGroup} from "./shuffledData";
-import {BoundaryModel} from "./BoundaryModel";
-import {I_ColorAdapter} from "../color/types";
+import { splitInGroup } from "./shuffledData";
+import { BoundaryModel } from "./BoundaryModel";
+import { I_ColorAdapter } from "../color/types";
 import ChannelAdapter from "../spacesChannels/ChannelAdapter";
-import {GroupedColor, I_BinaryClassifier, I_Boundary, I_Testable} from "./types";
+import {
+  GroupedColor,
+  I_BinaryClassifier,
+  I_Boundary,
+  I_Testable,
+} from "./types";
 
 interface Result {
-    color: I_ColorAdapter;
-    channel: number;
-    predicted: boolean;
+  color: I_ColorAdapter;
+  channel: number;
+  predicted: boolean;
 }
 
 /**
@@ -17,57 +22,66 @@ interface Result {
  * the model internally contains a BoundaryModel, but also knows what group and channel it represents
  */
 
-export class ChannelBoundaryModel implements I_BinaryClassifier<I_ColorAdapter>, I_Testable<I_ColorAdapter, Result>, I_Boundary {
+export class ChannelBoundaryModel
+  implements
+    I_BinaryClassifier<I_ColorAdapter>,
+    I_Testable<I_ColorAdapter, Result>,
+    I_Boundary
+{
+  public model: I_BinaryClassifier<number> & I_Boundary;
 
-    public model: I_BinaryClassifier<number> & I_Boundary;
-    public group: string;
-    public channel: ChannelAdapter;
+  public group: string;
 
-    /**
-     * build the model in the constructor
-     */
-    constructor(group: string, data: GroupedColor[], channel: ChannelAdapter) {
-        this.channel = channel;
-        this.group = group;
+  public channel: ChannelAdapter;
 
-        const [inGroup, notInGroup] = splitInGroup(data, group);
+  /**
+   * build the model in the constructor
+   */
+  constructor(group: string, data: GroupedColor[], channel: ChannelAdapter) {
+    this.channel = channel;
+    this.group = group;
 
-        /**
-         * need to ignore NaN for hue, or else thing get screwed up further down
-         */
-        const valuesIn = inGroup.map(({color}) => color.get(channel)).filter(n => !isNaN(n));
-        const valuesOut = notInGroup.map(({color}) => color.get(channel)).filter(n => !isNaN(n));
-
-        this.model = new BoundaryModel(valuesIn, valuesOut);
-    }
+    const [inGroup, notInGroup] = splitInGroup(data, group);
 
     /**
-     * this is good, but want to somehow return the channel value
+     * need to ignore NaN for hue, or else thing get screwed up further down
      */
-    public predict(input: I_ColorAdapter): boolean {
-        const value = input.get(this.channel);
-        return this.model.predict(value);
-    }
+    const valuesIn = inGroup
+      .map(({ color }) => color.get(channel))
+      .filter((n) => !Number.isNaN(n));
+    const valuesOut = notInGroup
+      .map(({ color }) => color.get(channel))
+      .filter((n) => !Number.isNaN(n));
 
-    /**
-     * fulfills I_Testable interface
-     */
-    public predictResult(color: I_ColorAdapter): Result {
-        const channel = color.get(this.channel);
-        const predicted = this.model.predict(channel);
-        return {
-            color,
-            channel,
-            predicted,
-        }
-    }
+    this.model = new BoundaryModel(valuesIn, valuesOut);
+  }
 
-    get cutoff() {
-        return this.model.cutoff;
-    }
+  /**
+   * this is good, but want to somehow return the channel value
+   */
+  public predict(input: I_ColorAdapter): boolean {
+    const value = input.get(this.channel);
+    return this.model.predict(value);
+  }
 
-    get isGreater() {
-        return this.model.isGreater;
-    }
+  /**
+   * fulfills I_Testable interface
+   */
+  public predictResult(color: I_ColorAdapter): Result {
+    const channel = color.get(this.channel);
+    const predicted = this.model.predict(channel);
+    return {
+      color,
+      channel,
+      predicted,
+    };
+  }
 
+  get cutoff() {
+    return this.model.cutoff;
+  }
+
+  get isGreater() {
+    return this.model.isGreater;
+  }
 }

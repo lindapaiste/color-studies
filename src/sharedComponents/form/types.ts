@@ -1,4 +1,11 @@
-import {ChangeEvent, CSSProperties, DetailedHTMLProps, FunctionComponent, HTMLAttributes, ReactNode} from "react";
+import {
+  ChangeEvent,
+  CSSProperties,
+  DetailedHTMLProps,
+  FunctionComponent,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 import { TextFieldProps } from "@material-ui/core/TextField";
 
 export type UseFormTuple<T, P = {}> = [T, FunctionComponent<P>];
@@ -32,7 +39,7 @@ type UsualElement = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
 export type Event = ChangeEvent<UsualElement>;
 
-export type ElementProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>
+export type ElementProps<T> = DetailedHTMLProps<HTMLAttributes<T>, T>;
 
 /**
  * removes the second param -- the event -- from onChange

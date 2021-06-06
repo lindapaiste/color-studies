@@ -1,7 +1,7 @@
 import { I_Perceptron, Binary, Features, Activate } from "./types";
-import {ifDefined, makeArray} from "../../lib";
+import { ifDefined, makeArray } from "../../lib";
 /**
- * https://github.com/Elyx0/rosenblattperceptronjs/blob/master/src/Perceptron.js
+ * https:// github.com/Elyx0/rosenblattperceptronjs/blob/master/src/Perceptron.js
  */
 
 /**
@@ -30,15 +30,15 @@ import {ifDefined, makeArray} from "../../lib";
  */
 
 export interface Props {
-    learningRate?: number;
-    //can create with initial weights
-    weights?: number[];
-    //can pass an initial bias weight
-    bias?: number;
-    //can pass in a custom activation function, or default to using heaviside
-    activate?: Activate;
-    //whether to log everything to the console
-    log?: boolean;
+  learningRate?: number;
+  // can create with initial weights
+  weights?: number[];
+  // can pass an initial bias weight
+  bias?: number;
+  // can pass in a custom activation function, or default to using heaviside
+  activate?: Activate;
+  // whether to log everything to the console
+  log?: boolean;
 }
 
 /**
@@ -49,92 +49,95 @@ export interface Props {
 export const heaviside = (n: number): Binary => (n > 0 ? 1 : 0);
 
 export class Perceptron implements I_Perceptron {
-    public readonly learningRate: number;
-    public weights: number[];
-    public bias: number;
-    private readonly activate: Activate;
-    private didInit: boolean;
-    private log: boolean;
+  public readonly learningRate: number;
+  public weights: number[];
+  public bias: number;
+  private readonly activate: Activate;
+  private didInit: boolean;
+  private log: boolean;
 
+  /**
+   * if no weights are passed in the constructor,
+   * cannot set to random yet because won't know the length of features
+   */
+  constructor(props: Props = {}) {
+    this.learningRate = props.learningRate || 0.5;
+    this.weights = props.weights || [];
+    this.bias = props.bias || 0;
+    this.activate = props.activate || heaviside;
+    this.log = props.log || false;
+    this.didInit = false;
+  }
+
+  /**
+   * some implementations return -1/1 while others return 0/1
+   * initializing to 0 makes more sense with -1/1 while random makes more sense with 0/1
+   * but the initial value is of little importance wither way
+   */
+  private init(inputs: Features) {
+    // if there are some weights passed in but it's too short, preserve those while adding extra
+    this.weights = makeArray(inputs.length, (i) =>
+      ifDefined(this.weights[i], Math.random())
+    );
+    if (this.log) console.log("initialized with weights:", this.weights);
+    this.didInit = true;
+  }
+
+  /**
+   * returns true if no changes needed to be made,
+   * or false if the weights were adjusted
+   */
+  public train(inputs: Features, expected: Binary): boolean {
+    if (!this.didInit) this.init(inputs); // initialize on first training
+
+    const actual = this.predict(inputs);
+    if (actual === expected) return true; // Correct weights return and don't touch anything.
+
+    // Otherwise update each weight by adding the error * learningRate relative to the input
+    if (this.log) console.log("changed weights from", this.weights);
+    this.weights = this.weights.map(
+      (w, i) => w + this.delta(actual, expected, inputs[i])
+    );
+    if (this.log) console.log("to", this.weights);
+    // do the same for the bias, using 1 in place of an input
+    if (this.log) console.log("changed bias from", this.bias);
+    this.bias += this.delta(actual, expected, 1);
+    if (this.log) console.log("to", this.bias);
+    return false;
+  }
+
+  // Calculates the difference between actual and expected for a given input
+  private delta(actual: number, expected: number, input: number) {
+    const error = expected - actual; // the direction of the error
     /**
-     * if no weights are passed in the constructor,
-     * cannot set to random yet because won't know the length of features
+     * note: error here is either +1 or -1
+     * could be more accurate if looking at raw value rather than just true or false
      */
-    constructor(props: Props = {}) {
-        this.learningRate = props.learningRate || 0.5;
-        this.weights = props.weights || [];
-        this.bias = props.bias || 0;
-        this.activate = props.activate || heaviside;
-        this.log = props.log || false;
-        this.didInit = false;
-    }
-
     /**
-     * some implementations return -1/1 while others return 0/1
-     * initializing to 0 makes more sense with -1/1 while random makes more sense with 0/1
-     * but the initial value is of little importance wither way
+     * want to learn faster in the beginning but then slow down
      */
-    private init(inputs: Features) {
-        // if there are some weights passed in but it's too short, preserve those while adding extra
-        this.weights = makeArray(inputs.length, i => ifDefined(this.weights[i], Math.random()));
-        if (this.log) console.log("initialized with weights:", this.weights);
-        this.didInit = true;
-    }
+    return error * this.learningRate * input;
+  }
 
-    /**
-     * returns true if no changes needed to be made,
-     * or false if the weights were adjusted
-     */
-    public train(inputs: Features, expected: Binary): boolean {
-        if (!this.didInit) this.init(inputs); //initialize on first training
+  /**
+   * returns the raw score: sum(inputs * weights) + weighted bias
+   */
+  public score(inputs: Features, weights: number[] = this.weights): number {
+    if (!this.didInit) this.init(inputs);
 
-        const actual = this.predict(inputs);
-        if (actual === expected) return true; // Correct weights return and don't touch anything.
+    // use bias as the initial value of the array reduce rather than adding as a separate step
+    return inputs
+      .map((inp, i) => inp * weights[i])
+      .reduce((sum, curr) => sum + curr, this.bias);
+  }
 
-        // Otherwise update each weight by adding the error * learningRate relative to the input
-        if (this.log) console.log("changed weights from", this.weights);
-        this.weights = this.weights.map(
-            (w, i) => w + this.delta(actual, expected, inputs[i])
-        );
-        if (this.log) console.log("to", this.weights);
-        //do the same for the bias, using 1 in place of an input
-        if (this.log) console.log("changed bias from", this.bias);
-        this.bias += this.delta(actual, expected, 1);
-        if (this.log) console.log("to", this.bias);
-        return false;
-    }
-
-    // Calculates the difference between actual and expected for a given input
-    private delta(actual: number, expected: number, input: number) {
-        const error = expected - actual; //the direction of the error
-        /**
-         * note: error here is either +1 or -1
-         * could be more accurate if looking at raw value rather than just true or false
-         */
-        /**
-         * want to learn faster in the beginning but then slow down
-         */
-        return error * this.learningRate * input;
-    }
-
-    /**
-     * returns the raw score: sum(inputs * weights) + weighted bias
-     */
-    public score(inputs: Features, weights: number[] = this.weights): number {
-        if ( ! this.didInit ) this.init(inputs);
-
-        //use bias as the initial value of the array reduce rather than adding as a separate step
-        return inputs.map((inp, i) => inp * weights[i])
-            .reduce((sum, curr) => sum + curr, this.bias);
-    }
-
-    /**
-     * applies the activation function to the raw score
-     */
-    public predict(inputs: Features): number {
-        if (this.log) console.log("inputs", inputs, "score", this.score(inputs));
-        return this.activate(this.score(inputs));
-    }
+  /**
+   * applies the activation function to the raw score
+   */
+  public predict(inputs: Features): number {
+    if (this.log) console.log("inputs", inputs, "score", this.score(inputs));
+    return this.activate(this.score(inputs));
+  }
 }
 
 export default Perceptron;

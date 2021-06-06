@@ -12,7 +12,7 @@ export const Title = ({ importance = "h2", size, children }: Props) => {
     <Typography
       variant={importance}
       style={{
-        fontSize: size
+        fontSize: size,
       }}
     >
       {children}

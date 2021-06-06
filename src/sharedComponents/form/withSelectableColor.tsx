@@ -1,9 +1,8 @@
 import React, { ComponentType, FunctionComponent, useState } from "react";
-import { SelectColor } from "./SelectColor";
-import { debounce } from "../../lib";
-import { Props as SelectProps } from "./SelectColor";
-import {I_ColorAdapter} from "../../color/types";
-import {randomColor} from "../../color";
+import { SelectColor, Props as SelectProps } from "./SelectColor";
+import { debounce } from "lodash";
+import { I_ColorAdapter } from "../../color/types";
+import { randomColor } from "../../color";
 /**
  * for tools which are initialized with a random color,
  * but now can allow that color to be changed
@@ -17,25 +16,27 @@ import {randomColor} from "../../color";
 
 type ExtraProps = Omit<SelectProps, "value" | "onChange">;
 
-export const withSelectableColor = <P extends { color: I_ColorAdapter }>(
-  Component: ComponentType<P>,
-  selectColorProps: ExtraProps = {}
-): FunctionComponent<Omit<P, "color">> => props => {
-  const [color, setColor] = useState(randomColor());
-  //const [cachedColor, setCachedColor] = useState(randomColor());
+export const withSelectableColor =
+  <P extends { color: I_ColorAdapter }>(
+    Component: ComponentType<P>,
+    selectColorProps: ExtraProps = {}
+  ): FunctionComponent<Omit<P, "color">> =>
+  (props) => {
+    const [color, setColor] = useState(randomColor());
+    // const [cachedColor, setCachedColor] = useState(randomColor());
 
-  const onChange = debounce(setColor, 250, { trailing: true });
+    const onChange = debounce(setColor, 250, { trailing: true });
 
-  return (
-    <div>
-      <SelectColor
-        label="Select Color"
-        randomize={true}
-        {...selectColorProps}
-        value={color}
-        onChange={onChange}
-      />
-      <Component {...{ ...props, color } as P} />
-    </div>
-  );
-};
+    return (
+      <div>
+        <SelectColor
+          label="Select Color"
+          randomize
+          {...selectColorProps}
+          value={color}
+          onChange={onChange}
+        />
+        <Component {...({ ...props, color } as P)} />
+      </div>
+    );
+  };

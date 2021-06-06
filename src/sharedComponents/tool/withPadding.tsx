@@ -1,4 +1,4 @@
-import React, {ComponentType, FunctionComponent, PropsWithChildren} from "react";
+import React, { ComponentType, PropsWithChildren } from "react";
 
 /**
  * can wrap the controls render in a "withPadding" HOC
@@ -11,20 +11,27 @@ import React, {ComponentType, FunctionComponent, PropsWithChildren} from "react"
  * so have to specify the generic
  * ie. RenderControls={withPadding<StateUpdateProps<ToolSettings>>(HistogramControls, {bottom: 20})}
  */
-export type Sides = 'top' | 'left' | 'right' | 'bottom';
-export type Padding = Partial<Record<Sides, string | number>>
+export type Sides = "top" | "left" | "right" | "bottom";
+export type Padding = Partial<Record<Sides, string | number>>;
 
-export const withPadding = <Props extends {}>(Component: ComponentType<Props>, padding: number | string | Padding) =>
-    (props: PropsWithChildren<Props>) => {
-        const style = typeof padding === "object" ? {
+export const withPadding =
+  <Props extends {}>(
+    Component: ComponentType<Props>,
+    padding: number | string | Padding
+  ) =>
+  (props: PropsWithChildren<Props>) => {
+    const style =
+      typeof padding === "object"
+        ? {
             paddingLeft: padding.left,
             paddingRight: padding.right,
             paddingTop: padding.top,
-            paddingBottom: padding.bottom
-        } : { padding };
-        return (
-            <div style={style}>
-                <Component {...props}/>
-            </div>
-        );
-    }
+            paddingBottom: padding.bottom,
+          }
+        : { padding };
+    return (
+      <div style={style}>
+        <Component {...props} />
+      </div>
+    );
+  };

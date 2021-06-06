@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {RenderSet} from "../../sharedComponents/color/RenderSet";
-import {withChannelNoise} from "../../noise/channelNoise";
-import {makeArray} from "../../lib";
-import {NumberInput} from "../../sharedComponents/form/NumberInput";
-import {Title} from "../../sharedComponents/ui/Title";
-import {TupleTooltip} from "../../sharedComponents/color/TupleTooltip";
-import {I_ColorAdapter} from "../../color/types";
-import {allChannels} from "../../spacesChannels/channels";
+import React, { useState } from "react";
+import { RenderSet } from "../../sharedComponents/color/RenderSet";
+import { withChannelNoise } from "../../noise/channelNoise";
+import { makeArray } from "../../lib";
+import { NumberInput } from "../../sharedComponents/form/NumberInput";
+import { Title } from "../../sharedComponents/ui/Title";
+import { TupleTooltip } from "../../sharedComponents/color/TupleTooltip";
+import { I_ColorAdapter } from "../../color/types";
+import { allChannels } from "../../spacesChannels/channels";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -17,39 +17,41 @@ import {allChannels} from "../../spacesChannels/channels";
  */
 
 export interface Props {
-    color: I_ColorAdapter;
-    countPer?: number;
+  color: I_ColorAdapter;
+  countPer?: number;
 }
 
-//TODO: HCG noise is totally wrong -- why?
+// TODO: HCG noise is totally wrong -- why?
 
-export const CompareNoiseChannels = ({color, countPer = 10}: Props) => {
-    const [noiseRatio, setNoiseRatio] = useState(0.1);
+export const CompareNoiseChannels = ({ color, countPer = 10 }: Props) => {
+  const [noiseRatio, setNoiseRatio] = useState(0.1);
 
-    return (
-        <div>
-            <NumberInput
-                label="Noise Ratio"
-                value={noiseRatio}
-                onChange={setNoiseRatio}
-                isInt={false}
-                step={0.05}
+  return (
+    <div>
+      <NumberInput
+        label="Noise Ratio"
+        value={noiseRatio}
+        onChange={setNoiseRatio}
+        isInt={false}
+        step={0.05}
+      />
+      <div>
+        {allChannels().map((channel) => (
+          <div key={channel.key}>
+            <Title importance="h3">{channel.title}</Title>
+            <RenderSet
+              colors={makeArray(countPer, () =>
+                withChannelNoise(color, channel, noiseRatio)
+              )}
+              colorToTooltip={(c) =>
+                TupleTooltip(c.toClassed(channel.modelObject))
+              }
             />
-            <div>
-                {allChannels().map(channel => (
-                    <div key={channel.key}>
-                        <Title importance="h3">{channel.title}</Title>
-                        <RenderSet
-                            colors={makeArray(countPer, () =>
-                                withChannelNoise(color, channel, noiseRatio)
-                            )}
-                            colorToTooltip={c => TupleTooltip(c.toClassed(channel.modelObject))}
-                        />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default CompareNoiseChannels;

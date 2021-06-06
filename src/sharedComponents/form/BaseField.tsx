@@ -1,13 +1,14 @@
 import React from "react";
-import TextField, {TextFieldProps} from "@material-ui/core/TextField";
-import {GenericProps, WithTextFieldProps} from "./types";
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import { GenericProps } from "./types";
 
 /**
  * base element can accept any string, number, or undefined as the value
  * but the onChange is based on e.target.value which is always a string
  * prop variant is no longer required
  */
-export type BaseProps = Partial<Omit<TextFieldProps, 'onChange'>> & Pick<GenericProps<string>, 'onChange'>
+export type BaseProps = Partial<Omit<TextFieldProps, "onChange">> &
+  Pick<GenericProps<string>, "onChange">;
 
 /**
  * basically just maps the onChange and adds variant = outlined
@@ -16,11 +17,11 @@ export type BaseProps = Partial<Omit<TextFieldProps, 'onChange'>> & Pick<Generic
  * but not passing input props from specific instances of those components
  */
 
-export const BaseField = ({value, onChange, ...props}: BaseProps) => (
-    <TextField
-        variant="outlined"
-        {...props}
-        value={value}
-        onChange={e => onChange(e.target.value, e)}
-    />
+export const BaseField = ({ value, onChange, ...props }: BaseProps) => (
+  <TextField
+    variant="outlined"
+    {...props}
+    value={value}
+    onChange={(e) => onChange(e.target.value, e)}
+  />
 );

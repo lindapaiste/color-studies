@@ -1,12 +1,11 @@
 import React from "react";
-import {ModelAdapter} from "../../spacesChannels/ModelAdapter";
-import {ColorSpaceName} from "../../spacesChannels/types";
-import {CompareChromaScaleModes} from "./ChromaScale";
-import {Tool} from "../../sharedComponents/tool/Tool";
-import {GradientCompareControls} from "./GradientCompareControls";
+import { ModelAdapter } from "../../spacesChannels/ModelAdapter";
+import { ColorSpaceName } from "../../spacesChannels/types";
+import { Tool } from "../../sharedComponents/tool/Tool";
+import { GradientCompareControls } from "./GradientCompareControls";
 import GradientModelCompare from "./GradientModelCompare";
-import {I_ColorAdapter} from "../../color/types";
-import {randomColors} from "../../color";
+import { I_ColorAdapter } from "../../color/types";
+import { randomColors } from "../../color";
 
 /**
  * observations:
@@ -23,20 +22,19 @@ import {randomColors} from "../../color";
  */
 
 export interface Props {
-    colors: I_ColorAdapter[];
-    count?: number;
-    models?: ModelAdapter<ColorSpaceName>[];
-    transform?: boolean;
+  colors: I_ColorAdapter[];
+  count?: number;
+  models?: ModelAdapter<ColorSpaceName>[];
+  transform?: boolean;
 }
 
-
 export const GradientCompareTool = () => (
-    <Tool
-        initialSettings={{
-            count: 10,
-            colors: randomColors(3),
-        }}
-        RenderControls={GradientCompareControls}
-        RenderContents={GradientModelCompare}
-    />
+  <Tool
+    initialSettings={{
+      count: 10,
+      colors: randomColors(3),
+    }}
+    RenderControls={GradientCompareControls}
+    RenderContents={GradientModelCompare}
+  />
 );

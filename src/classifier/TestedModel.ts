@@ -1,17 +1,16 @@
-import {GroupColorClassifier} from "./types";
-import {I_ConfusionMatrix} from "./ConfusionMatrix";
-import {GroupModelTest} from "./GroupModelTest";
+import { GroupColorClassifier } from "./types";
+import { I_ConfusionMatrix } from "./ConfusionMatrix";
+import { GroupModelTest } from "./GroupModelTest";
 
-export class TestedModel <M extends GroupColorClassifier<any>> {
+export class TestedModel<M extends GroupColorClassifier<any>> {
+  public readonly model: M;
 
-    public readonly model: M;
-    public readonly accuracy: I_ConfusionMatrix;
+  public readonly accuracy: I_ConfusionMatrix;
 
-    constructor(model: M, testCount: number) {
-        const tester = new GroupModelTest(model);
-        tester.test(testCount);
-        this.model = model;
-        this.accuracy = tester.accuracy;
-    }
-
+  constructor(model: M, testCount: number) {
+    const tester = new GroupModelTest(model);
+    tester.test(testCount);
+    this.model = model;
+    this.accuracy = tester.accuracy;
+  }
 }

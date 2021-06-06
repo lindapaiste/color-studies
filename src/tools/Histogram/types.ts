@@ -1,10 +1,9 @@
-import {ChannelAccessor} from "../../spacesChannels/types";
 import ChannelAdapter from "../../spacesChannels/ChannelAdapter";
 
 export interface CalcProps {
-    hexes: string[];
-    breakpoints: number | number[]; //either a count, or an array of specific percentage breaks, as fractions of 1
-    hexToValue(hex: string): number;
+  hexes: string[];
+  breakpoints: number | number[]; // either a count, or an array of specific percentage breaks, as fractions of 1
+  hexToValue(hex: string): number;
 }
 
 /**
@@ -12,27 +11,27 @@ export interface CalcProps {
  * NOT the min and max of the actual values contained in the bucket
  */
 export interface Bucket {
-    min: number;
-    max: number;
-    entries: Array<{
-        color: string;
-        value: number;
-    }>;
-    width: number; //expressed as a fraction of 1 relative to the whole histogram
+  min: number;
+  max: number;
+  entries: Array<{
+    color: string;
+    value: number;
+  }>;
+  width: number; // expressed as a fraction of 1 relative to the whole histogram
 }
 
 /**
  * note: prop buckets requires that the buckets be in order
  */
 export interface RenderProps {
-    colorWidth: number;
-    colorHeight: number;
-    height: number;
-    buckets: Bucket[];
+  colorWidth: number;
+  colorHeight: number;
+  height: number;
+  buckets: Bucket[];
 }
 
 export interface ToolSettings {
-    breakpoints: number;
-    channel: ChannelAdapter;
-    group: string;
+  breakpoints: number;
+  channel: ChannelAdapter;
+  group: string;
 }

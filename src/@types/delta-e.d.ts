@@ -1,13 +1,11 @@
-import {LAB} from "../difference/types";
+import { LAB } from "../difference/types";
 
-declare module 'delta-e' {
+declare module "delta-e" {
+  export default class DeltaE {
+    getDeltaE76(lab1: LAB, lab2: LAB): number;
 
-    export default class DeltaE {
+    getDeltaE94(lab1: LAB, lab2: LAB): number;
 
-        getDeltaE76(lab1: LAB, lab2: LAB): number;
-
-        getDeltaE94(lab1: LAB, lab2: LAB): number;
-
-        getDeltaE00(lab1: LAB, lab2: LAB): number;
-    }
+    getDeltaE00(lab1: LAB, lab2: LAB): number;
+  }
 }

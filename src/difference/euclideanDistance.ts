@@ -2,7 +2,7 @@
  * for hues which have NaN, consider the difference to be 0.
  * needs special treatment or else the distance is NaN
  */
-const nanFix = (n: number): number => (isNaN(n) ? 0 : n);
+const nanFix = (n: number): number => (Number.isNaN(n) ? 0 : n);
 
 /**
  * for ease of use, I am defining the tuples as number[]
@@ -13,13 +13,13 @@ const nanFix = (n: number): number => (isNaN(n) ? 0 : n);
  * as well as the weights, where weight > 1 will increase the total and weight < 1 will decrease it
  */
 export const rawDistance = (
-    a: number[],
-    b: number[],
-    weights: number[]
+  a: number[],
+  b: number[],
+  weights: number[]
 ): number => {
-    const squaredSum = a.reduce(
-        (acc, curr, i) => acc + weights[i] * Math.pow(nanFix(curr - b[i]), 2),
-        0
-    );
-    return Math.sqrt(squaredSum);
+  const squaredSum = a.reduce(
+    (acc, curr, i) => acc + weights[i] * Math.pow(nanFix(curr - b[i]), 2),
+    0
+  );
+  return Math.sqrt(squaredSum);
 };

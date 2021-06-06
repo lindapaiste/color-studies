@@ -24,7 +24,7 @@ export const replaceHue = <T extends HueFirstTuple>(
  * originally designed for hsluv but works with any hue-first three tuple
  */
 export const shiftHue = <T extends HueFirstTuple>(color: T, diff: number): T =>
-  replaceHue(color, h => h + diff);
+  replaceHue(color, (h) => h + diff);
 
 export const makeHueShiftSet = <T extends HueFirstTuple>(
   start: T,

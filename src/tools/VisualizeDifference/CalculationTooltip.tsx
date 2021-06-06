@@ -1,6 +1,6 @@
 import React from "react";
-import {DebugDeltaE} from "../../difference/Calculation";
-import {proper, round} from "../../lib";
+import { DebugDeltaE } from "../../difference/Calculation";
+import { round } from "../../lib";
 
 /**
  * for each channel, show the channel name, value, and how much it differs from the target
@@ -9,10 +9,13 @@ import {proper, round} from "../../lib";
  *
  * originally had this in the Calculation class, but I prefer the classes to not use React
  */
-export const CalculationTooltip = ({channelDiffs}: DebugDeltaE) => (
-    <>
-        {channelDiffs.map(({value, diff, channel}) => (
-            <div key={channel.key}>{channel.properName}: {round(value)} ({diff > 0 ? "+" : "-"}{round(diff)})</div>
-        ))}
-    </>
-)
+export const CalculationTooltip = ({ channelDiffs }: DebugDeltaE) => (
+  <>
+    {channelDiffs.map(({ value, diff, channel }) => (
+      <div key={channel.key}>
+        {channel.properName}: {round(value)} ({diff > 0 ? "+" : "-"}
+        {round(diff)})
+      </div>
+    ))}
+  </>
+);

@@ -1,7 +1,7 @@
-import {useMemo, useState} from "react";
-import {GroupPerceptron} from "../../classifier/GroupPerceptron";
-import {GroupModelTest} from "../../classifier/GroupModelTest";
-import {RenderProps, Settings} from "./types";
+import { useMemo, useState } from "react";
+import { GroupPerceptron } from "../../classifier/GroupPerceptron";
+import { GroupModelTest } from "../../classifier/GroupModelTest";
+import { RenderProps, Settings } from "./types";
 
 /**
  * separate the logic which turns settings into a model and a set of results
@@ -10,30 +10,36 @@ import {RenderProps, Settings} from "./types";
  * but understand that model and results are useless if channels is empty
  * instead, only include the component which calls this hook if channels are set
  */
-export const usePerceptron = ({group, channels, testCount, iterations}: Settings): RenderProps => {
-    const [replay, setReplay] = useState(0); //the stored value doesn't really mean anything, it's just a way to trigger useEffect or useMemo
+export const usePerceptron = ({
+  group,
+  channels,
+  testCount,
+  iterations,
+}: Settings): RenderProps => {
+  const [replay, setReplay] = useState(0); // the stored value doesn't really mean anything, it's just a way to trigger useEffect or useMemo
 
-    const model = useMemo(
-        () => new GroupPerceptron({group, channels, iterations}),
-        [group, channels, iterations]
-    );
+  const model = useMemo(
+    () => new GroupPerceptron({ group, channels, iterations }),
+    [group, channels, iterations]
+  );
 
-    const results = useMemo(
-        () => {
-            const tester = new GroupModelTest(model, true);
-            tester.test(testCount);
-            return tester;
-        },
-        [model, testCount, replay, channels]
-    );
+  const results = useMemo(
+    () => {
+      const tester = new GroupModelTest(model, true);
+      tester.test(testCount);
+      return tester;
+    },
+    // eslint-disable-next-line
+    [model, testCount, replay]
+  );
 
-    const onClickRefresh = () => setReplay(r => r + 1);
+  const onClickRefresh = () => setReplay((r) => r + 1);
 
-    return {
-        model,
-        results,
-        onClickRefresh,
-    }
-}
+  return {
+    model,
+    results,
+    onClickRefresh,
+  };
+};
 
 export default usePerceptron;
