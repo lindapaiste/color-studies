@@ -10,6 +10,7 @@
     "prettier"
   ],
   "extends": [
+    "react-app",
     "eslint:recommended",
     "plugin:react/recommended",
     "airbnb-typescript",

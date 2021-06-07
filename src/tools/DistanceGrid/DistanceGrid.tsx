@@ -6,50 +6,18 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { I_DeltaECalculator } from "../../difference/types";
-import { round } from "../../lib";
-import { I_ColorAdapter } from "../../color/types";
+import { DeltaECalculator } from "logic/difference/types";
+import { round } from "lib";
+import { IColorAdapter } from "logic/color/types";
 
 /**
  * takes an array of colors and compares each one to all of the others
  */
 
 export interface Props {
-  calculator: I_DeltaECalculator;
-  colors: I_ColorAdapter[];
+  calculator: DeltaECalculator;
+  colors: IColorAdapter[];
 }
-
-/**
- * can do a simple render of deltaEs using DataTable, but need to use root table elements in order to have custom background colors
- */
-export const DistanceGrid = ({ colors, calculator }: Props) => {
-  const label = (hex: string) => (
-    <TableCell key={hex} style={{ backgroundColor: hex }}>
-      {hex}
-    </TableCell>
-  );
-
-  return (
-    <Table>
-      <TableHead>
-        <TableCell />
-        {colors.map((color) => label(color.hex()))}
-      </TableHead>
-      <TableBody>
-        {colors.map((color) => (
-          <TableRow key={color.hex()}>
-            {label(color.hex())}
-            {colors.map((c) => (
-              <TableCell key={c.hex()}>
-                <DistanceCell a={c} b={color} calculator={calculator} />
-              </TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-};
 
 /**
  * renders the deltaE number next to the two colors, vertically stacked
@@ -59,9 +27,9 @@ export const DistanceCell = ({
   b,
   calculator,
 }: {
-  a: I_ColorAdapter;
-  b: I_ColorAdapter;
-  calculator: I_DeltaECalculator;
+  a: IColorAdapter;
+  b: IColorAdapter;
+  calculator: DeltaECalculator;
 }) => {
   const deltaE = round(calculator.getDeltaE(a, b), 2);
   return (
@@ -99,5 +67,37 @@ export const DistanceCell = ({
         />
       </div>
     </div>
+  );
+};
+
+/**
+ * can do a simple render of deltaEs using DataTable, but need to use root table elements in order to have custom background colors
+ */
+export const DistanceGrid = ({ colors, calculator }: Props) => {
+  const label = (hex: string) => (
+    <TableCell key={hex} style={{ backgroundColor: hex }}>
+      {hex}
+    </TableCell>
+  );
+
+  return (
+    <Table>
+      <TableHead>
+        <TableCell />
+        {colors.map((color) => label(color.hex()))}
+      </TableHead>
+      <TableBody>
+        {colors.map((color) => (
+          <TableRow key={color.hex()}>
+            {label(color.hex())}
+            {colors.map((c) => (
+              <TableCell key={c.hex()}>
+                <DistanceCell a={c} b={color} calculator={calculator} />
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };

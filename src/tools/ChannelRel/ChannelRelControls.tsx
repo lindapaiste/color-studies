@@ -1,8 +1,6 @@
 import React from "react";
-import { StateUpdateProps } from "../../lib/util-hooks";
-import { FlexRow } from "../../sharedComponents/ui/FlexRow";
-import { SelectChannel } from "../../sharedComponents/form/SelectChannel";
-import { NumberInput } from "../../sharedComponents/form/NumberInput";
+import { FlexRow, NumberInput, SelectChannel } from "components";
+import { StateUpdateProps } from "lib/util-hooks";
 import { Settings } from "./ChannelRelTool";
 
 export const ChannelRelControls = ({

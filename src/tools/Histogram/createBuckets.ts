@@ -1,5 +1,5 @@
+import { findIndex, last, range, sortBy } from "lib";
 import { Bucket, CalcProps } from "./types";
-import { findIndex, last, range, sortBy } from "../../lib";
 
 /**
  * include maximum, or not? what about minimum?

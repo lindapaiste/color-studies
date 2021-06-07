@@ -1,10 +1,8 @@
 import React from "react";
-import { ChannelShiftSettings } from "../../boxSets/types";
-import { NumberInput } from "../../sharedComponents/form/NumberInput";
-import { StateUpdateProps, usePartialState } from "../../lib/util-hooks";
-import { getChannel } from "../../spacesChannels/channels";
-import { SelectChannel } from "../../sharedComponents/form/SelectChannel";
-import FlexRow from "../../sharedComponents/ui/FlexRow";
+import { ChannelShiftSettings } from "logic/boxSets/types";
+import { FlexRow, NumberInput, SelectChannel } from "components";
+import { StateUpdateProps, usePartialState } from "lib/util-hooks";
+import { getChannel } from "logic/spacesChannels/channels";
 
 export const CHANNEL_SHIFT_DEFAULT: ChannelShiftSettings = {
   channel: getChannel("lab.l"),
@@ -14,12 +12,12 @@ export const CHANNEL_SHIFT_DEFAULT: ChannelShiftSettings = {
 /**
  * hook automatically applies default settings so that the state is never empty
  */
-export const useControls = (initialValue?: Partial<ChannelShiftSettings>) => {
-  return usePartialState<ChannelShiftSettings>({
+export const useControls = (initialValue?: Partial<ChannelShiftSettings>) =>
+  usePartialState<ChannelShiftSettings>({
     ...CHANNEL_SHIFT_DEFAULT,
     ...initialValue,
   });
-};
+
 /**
  * separated the controls from the results so that other components can use the same set of controls
  */

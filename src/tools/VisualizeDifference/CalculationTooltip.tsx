@@ -1,6 +1,6 @@
 import React from "react";
-import { DebugDeltaE } from "../../difference/Calculation";
-import { round } from "../../lib";
+import { DebugDeltaE } from "logic/difference/Calculation";
+import { round } from "lib";
 
 /**
  * for each channel, show the channel name, value, and how much it differs from the target

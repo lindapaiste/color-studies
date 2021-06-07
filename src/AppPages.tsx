@@ -1,23 +1,25 @@
 import { ComponentType } from "react";
+import {
+  ExpandableColorInfo,
+  withSelectableColor,
+  withSelectMultipleColors,
+} from "components";
 import { PlotFeaturesTool } from "./tools/PlotFeatures/PlotFeaturesTool";
 import { HistogramTool } from "./tools/Histogram/HistogramTool";
 import { VisualizeDifference } from "./tools/VisualizeDifference/VisualizeDifference";
 import { DistanceGridTool } from "./tools/DistanceGrid/DistanceGridTool";
 import { ChannelGradientTool } from "./tools/ChannelGradient/ChannelGradientTool";
-import { withSelectableColor } from "./sharedComponents/form/withSelectableColor";
 import { CompareNoiseChannels } from "./tools/ChannelNoise/CompareNoiseChannels";
-import { withSelectMultipleColors } from "./sharedComponents/form/withSelectMultipleColors";
 import { CompareModelNoise } from "./tools/ModelNoise/CompareModelNoise";
 import { NoisyBoxTool } from "./tools/NoisyBoxes/NoisyBoxes";
 import { GradientCompareTool } from "./tools/GradientCompare/GradientCompareTool";
-import { ColorWheelComparison } from "./rainbow/ColorWheelComparison";
+import { ColorWheelComparison } from "./tools/ColorWheel/ColorWheelComparison";
 import { PaletteCompareTool } from "./tools/PaletteCompare/PaletteCompare";
 import { ForceToAll } from "./tools/ForceToRules/ForceToRules";
-import { ColorInfo } from "./sharedComponents/color/ColorInfo";
 import { RenderGroups } from "./tools/RenderGroups/RenderGroups";
 import { TestBoundaries } from "./tools/GroupBoundaries/TestBoundaries";
 import { ChannelRelTool } from "./tools/ChannelRel/ChannelRelTool";
-import { GroupsAnalysis } from "./grouping/AnalysisTable";
+import { GroupsAnalysis } from "./tools/AnalysisTable";
 import { Sandbox } from "./Sandbox";
 import { LevelCreatorTool } from "./tools/LevelCreator/LevelCreatorTool";
 import PerceptronTool from "./tools/Perceptron";
@@ -101,7 +103,10 @@ export const PAGES: AppPage[] = [
   {
     title: "Color Info",
     path: "info",
-    Component: withSelectableColor(ColorInfo, { width: 200, height: 200 }),
+    Component: withSelectableColor(ExpandableColorInfo, {
+      width: 200,
+      height: 200,
+    }),
   },
   {
     title: "View Groups",

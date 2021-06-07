@@ -1,6 +1,6 @@
 import React from "react";
-import { Tool } from "../../sharedComponents/tool/Tool";
-import { randomGroup } from "../../grouping";
+import { Tool } from "components";
+import { randomGroupName } from "data";
 import PerceptronControls from "./PerceptronControls";
 import { Settings } from "./types";
 import usePerceptron from "./usePerceptron";
@@ -20,7 +20,7 @@ const PerceptronTool = () => (
     initialSettings={{
       testCount: 400,
       channels: [],
-      group: randomGroup().name,
+      group: randomGroupName(),
     }}
     RenderControls={PerceptronControls}
     // handle the conditional here

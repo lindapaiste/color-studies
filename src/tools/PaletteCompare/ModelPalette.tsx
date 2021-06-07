@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
-import { ColorAdapter } from "../../color/ColorAdapter";
-import { ColorSpaceName, ColorTuple } from "../../spacesChannels/types";
-import { flatMap, intervals, replaceIndex } from "../../lib";
-import { ModelAdapter } from "../../spacesChannels/ModelAdapter";
-import { RenderSet } from "../../sharedComponents/color/RenderSet";
-import useDimensions from "../../lib/useDimensions";
-import { TupleTooltip } from "../../sharedComponents/color/TupleTooltip";
+import { ColorAdapter } from "logic/color/ColorAdapter";
+import { ColorSpaceName, ColorTuple } from "logic/spacesChannels/types";
+import { flatMap, intervals, replaceIndex } from "lib";
+import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
+import { ColorSet, TupleTooltip } from "components";
+import useDimensions from "lib/useDimensions";
 
 /**
  * a visual representation of the contents of a colorspace
@@ -29,9 +28,7 @@ export const allSpaceTuples = <CS extends ColorSpaceName>(
   // intervalCount is the count of points per channel
   // take the nth root of the desired total
   // must be a whole number as this is the length of an array
-  const intervalCount = Math.round(
-    totalCount ** (1 / model.channelCount)
-  );
+  const intervalCount = Math.round(totalCount ** (1 / model.channelCount));
 
   for (let i = 0; i < model.channelCount; i++) {
     tuples = flatMap(tuples, (tuple) =>
@@ -68,10 +65,10 @@ export const ModelPalette = ({
 
   return (
     <div ref={ref} style={{ width: "100%" }}>
-      <RenderSet
+      <ColorSet
         colors={colors}
         colorToTooltip={(c) => c.tooltip}
-        colorToString={(c) => c.hex}
+        colorToHex={(c) => c.hex}
         wrap
         height={size}
       />

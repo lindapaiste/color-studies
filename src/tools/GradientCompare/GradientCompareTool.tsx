@@ -1,11 +1,11 @@
 import React from "react";
-import { ModelAdapter } from "../../spacesChannels/ModelAdapter";
-import { ColorSpaceName } from "../../spacesChannels/types";
-import { Tool } from "../../sharedComponents/tool/Tool";
+import { Tool } from "components";
+import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
+import { ColorSpaceName } from "logic/spacesChannels/types";
+import { IColorAdapter } from "logic/color/types";
+import { randomColors } from "logic/color";
 import { GradientCompareControls } from "./GradientCompareControls";
-import GradientModelCompare from "./GradientModelCompare";
-import { I_ColorAdapter } from "../../color/types";
-import { randomColors } from "../../color";
+import { GradientModelCompare } from "./GradientModelCompare";
 
 /**
  * observations:
@@ -22,7 +22,7 @@ import { randomColors } from "../../color";
  */
 
 export interface Props {
-  colors: I_ColorAdapter[];
+  colors: IColorAdapter[];
   count?: number;
   models?: ModelAdapter<ColorSpaceName>[];
   transform?: boolean;

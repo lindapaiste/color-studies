@@ -1,11 +1,11 @@
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import React from "react";
-import { Title } from "sharedComponents/ui/Title";
+import { Title } from "components";
 import { PAGES } from "./AppPages";
-import { sampleGroupHexes } from "./classifier/shuffledData";
+import { sampleGroupHexes } from "./logic/classification/training/shuffledData";
 
 const backgroundColors = sampleGroupHexes("Candy", PAGES.length);
 

@@ -1,7 +1,7 @@
-import { Levers } from "../../boxSets/types";
-import { I_FormulaClass } from "../../difference/types";
-import { I_ModelNoise } from "../../noise/types";
-import { ChannelAdapter } from "../../spacesChannels/ChannelAdapter";
+import { Levers } from "logic/boxSets/types";
+import { FormulaCalculator } from "logic/difference/types";
+import { IModelNoise } from "logic/noise/types";
+import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
 
 export interface Identifier {
   boxIndex: number;
@@ -12,8 +12,8 @@ export interface Identifier {
  * is basically BallCreateSettings but with noise and distance as objects rather than formulas
  */
 export interface AdvancedSettings extends Levers {
-  formula: I_FormulaClass;
-  noise: I_ModelNoise;
+  formula: FormulaCalculator;
+  noise: IModelNoise;
   count: number;
 }
 

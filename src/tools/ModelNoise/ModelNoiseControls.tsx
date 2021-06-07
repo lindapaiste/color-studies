@@ -1,10 +1,7 @@
 import React from "react";
-import { StateUpdateProps } from "../../lib/util-hooks";
-import { ModelNoiseSettings } from "../../noise/types";
-import { NumberInput } from "../../sharedComponents/form/NumberInput";
-import { SelectModel } from "../../sharedComponents/form/SelectModel";
-import { WeightsInput } from "../../sharedComponents/form/WeightsInput";
-import { FlexRow } from "../../sharedComponents/ui/FlexRow";
+import { StateUpdateProps } from "lib/util-hooks";
+import { ModelNoiseSettings } from "logic/noise/types";
+import { FlexRow, NumberInput, SelectModel, WeightsInput } from "components";
 
 /**
  * Not controlling any state here.

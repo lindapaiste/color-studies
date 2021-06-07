@@ -1,18 +1,17 @@
 import React, { FunctionComponent, useMemo, useState } from "react";
-import { makeArray } from "../../lib";
-import { usePartialState } from "../../lib/util-hooks";
-import { FormulaSettings } from "../../difference/types";
-import { DifferenceControls } from "../DistanceGrid/DifferenceControls";
-import { Calculation } from "../../difference/Calculation";
-import { Formula } from "../../difference/Formula";
-import { Title } from "../../sharedComponents/ui/Title";
-import { SelectColor } from "../../sharedComponents/form/SelectColor";
+import { makeArray } from "lib";
+import { SelectColor, Title } from "components";
+import { usePartialState } from "lib/util-hooks";
+import { randomColor } from "logic/color";
+import { FormulaSettings } from "logic/difference/types";
+import { Calculation } from "logic/difference/Calculation";
+import { Formula } from "logic/difference/Formula";
 import {
   DataPoint,
   RenderBracketedDifference,
 } from "./RenderBracketedDifference";
 import { CalculationTooltip } from "./CalculationTooltip";
-import { randomColor } from "../../color";
+import { DifferenceControls } from "../DistanceGrid/DifferenceControls";
 
 export interface Props {
   count?: number;

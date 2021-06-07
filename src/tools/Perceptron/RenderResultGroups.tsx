@@ -1,38 +1,34 @@
 import React, { ReactNode } from "react";
 import {
-  I_GetGroupedResults,
-  I_TestOutput,
+  IGetGroupedResults,
   ResultType,
-} from "../../classifier/types";
-import { I_ColorAdapter } from "../../color/types";
-import { Title } from "../../sharedComponents/ui/Title";
-import {
-  Props as RenderSetProps,
-  RenderSet,
-} from "../../sharedComponents/color/RenderSet";
+  TestOutput,
+} from "logic/classification/types";
+import { IColorAdapter } from "logic/color/types";
+import { ColorSet, ColorSetProps, Title } from "components";
 
 /**
- * breaks a results object into four separate RenderSet components
+ * breaks a results object into four separate ColorSet components
  * pass in a resultToTooltip prop to handle custom tooltip
- * any other props get passed down to RenderSet
+ * any other props get passed down to ColorSet
  */
 
-export interface Props<R extends I_TestOutput<I_ColorAdapter>> {
-  results: I_GetGroupedResults<R>;
+export interface Props<R extends TestOutput<IColorAdapter>> {
+  results: IGetGroupedResults<R>;
 
-  // RenderSet: ComponentType<{ results: R[] }>;
+  // ColorSet: ComponentType<{ results: R[] }>;
   resultToTooltip?(result: R): NonNullable<ReactNode>;
 }
 
-export const RenderResultGroups = <R extends I_TestOutput<I_ColorAdapter>>({
+export const RenderResultGroups = <R extends TestOutput<IColorAdapter>>({
   results,
   resultToTooltip,
   ...props
-}: Props<R> & Partial<RenderSetProps<R>>) => {
+}: Props<R> & Partial<ColorSetProps<R>>) => {
   const getGroupProps = (group: ResultType) => ({
     ...props,
     colors: results.getResults(group),
-    colorToString: (r: R) => r.value.hex(),
+    colorToHex: (r: R) => r.value.hex(),
     colorToTooltip: resultToTooltip,
     wrap: true,
   });
@@ -40,13 +36,13 @@ export const RenderResultGroups = <R extends I_TestOutput<I_ColorAdapter>>({
   return (
     <div>
       <Title importance="h3">True Positives</Title>
-      <RenderSet {...getGroupProps("truePositives")} />
+      <ColorSet {...getGroupProps("truePositives")} />
       <Title importance="h3">False Positives</Title>
-      <RenderSet {...getGroupProps("falsePositives")} />
+      <ColorSet {...getGroupProps("falsePositives")} />
       <Title importance="h3">True Negatives</Title>
-      <RenderSet {...getGroupProps("trueNegatives")} />
+      <ColorSet {...getGroupProps("trueNegatives")} />
       <Title importance="h3">False Negatives</Title>
-      <RenderSet {...getGroupProps("falseNegatives")} />
+      <ColorSet {...getGroupProps("falseNegatives")} />
     </div>
   );
 };

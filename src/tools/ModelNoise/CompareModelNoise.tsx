@@ -1,14 +1,27 @@
 import React from "react";
+import { ColorSet, Swatch, Title, Tool } from "components";
+import { makeArray } from "lib";
+import { withModelNoise } from "logic/noise/modelNoise";
+import { DEFAULT_NOISE_SETTINGS, ModelNoiseSettings } from "logic/noise/types";
+import { IColorAdapter } from "logic/color/types";
 import { Props } from "../ChannelNoise/CompareNoiseChannels";
-import { Swatch } from "../../sharedComponents/color/Swatch";
-import { makeArray } from "../../lib";
-import { RenderSet } from "../../sharedComponents/color/RenderSet";
-import { withModelNoise } from "../../noise/modelNoise";
-import { DEFAULT_NOISE_SETTINGS, ModelNoiseSettings } from "../../noise/types";
 import { ModelNoiseControls } from "./ModelNoiseControls";
-import { Title } from "../../sharedComponents/ui/Title";
-import { Tool } from "../../sharedComponents/tool/Tool";
-import { I_ColorAdapter } from "../../color/types";
+
+/**
+ * makes a band of the original color on top of the normal ColorSet
+ */
+export const NoisyColors = ({
+  color,
+  countPer = 25,
+  settings,
+}: Props & { settings: ModelNoiseSettings }) => (
+  <div>
+    <Swatch color={color.hex()} size="100%" height={30} />
+    <ColorSet
+      colors={makeArray(countPer, () => withModelNoise({ color, ...settings }))}
+    />
+  </div>
+);
 
 /**
  * tool to visualize the changes made by adjusting weights
@@ -16,7 +29,7 @@ import { I_ColorAdapter } from "../../color/types";
  */
 
 export interface CompareProps {
-  colors: I_ColorAdapter[];
+  colors: IColorAdapter[];
   countPer?: number;
 }
 
@@ -42,20 +55,4 @@ export const CompareModelNoise = (props: CompareProps) => (
     RenderControls={ModelNoiseControls}
     RenderContents={(settings) => Results({ settings, ...props })}
   />
-);
-
-/**
- * makes a band of the original color on top of the normal RenderSet
- */
-export const NoisyColors = ({
-  color,
-  countPer = 25,
-  settings,
-}: Props & { settings: ModelNoiseSettings }) => (
-  <div>
-    <Swatch color={color.hex()} size="100%" height={30} />
-    <RenderSet
-      colors={makeArray(countPer, () => withModelNoise({ color, ...settings }))}
-    />
-  </div>
 );

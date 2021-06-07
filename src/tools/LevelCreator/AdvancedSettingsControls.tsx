@@ -1,13 +1,12 @@
 import React from "react";
-import { StateUpdateProps } from "../../lib/util-hooks";
-import { Title } from "../../sharedComponents/ui/Title";
-import { NumberInput } from "../../sharedComponents/form/NumberInput";
+import { StateUpdateProps } from "lib/util-hooks";
+import { NumberInput, Title } from "components";
+import { Formula } from "logic/difference/Formula";
+import { ModelNoise } from "logic/noise/modelNoise";
+import { BallCreateSettings } from "logic/boxSets/generateBoxBalls";
 import { DifferenceControls } from "../DistanceGrid/DifferenceControls";
-import { Formula } from "../../difference/Formula";
 import { LeverControls } from "../NoisyBoxes/LeverControls";
 import { ModelNoiseControls } from "../ModelNoise/ModelNoiseControls";
-import { ModelNoise } from "../../noise/modelNoise";
-import { BallCreateSettings } from "../../boxSets/generateBoxBalls";
 import { AdvancedSettings } from "./types";
 
 /**
@@ -46,10 +45,8 @@ export const AdvancedSettingsControls = ({
 
 export const mapSettingsInterface = (
   settings: AdvancedSettings
-): BallCreateSettings => {
-  return {
-    ...settings,
-    getDistance: (a, b) => settings.formula.getDeltaE(a, b),
-    createNoisy: (c) => settings.noise.getNoisy(c),
-  };
-};
+): BallCreateSettings => ({
+  ...settings,
+  getDistance: (a, b) => settings.formula.getDeltaE(a, b),
+  createNoisy: (c) => settings.noise.getNoisy(c),
+});

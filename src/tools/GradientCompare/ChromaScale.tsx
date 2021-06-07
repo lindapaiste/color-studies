@@ -1,7 +1,6 @@
 import React from "react";
 import { scale } from "chroma-js";
-import { Title } from "../../sharedComponents/ui/Title";
-import { RenderSet } from "../../sharedComponents/color/RenderSet";
+import { ColorSet, Title } from "components";
 import { Props } from "./GradientCompareTool";
 
 /**
@@ -14,13 +13,13 @@ export const CompareChromaScaleModes = ({ colors, count = 4 }: Props) => {
   return (
     <div>
       <Title importance="h3">Mode: RGB</Title>
-      <RenderSet colors={colorScale.mode("rgb").colors(count)} />
+      <ColorSet colors={colorScale.mode("rgb").colors(count)} />
       <Title importance="h3">Mode: HCL</Title>
-      <RenderSet colors={colorScale.mode("hcl").colors(count)} />
+      <ColorSet colors={colorScale.mode("hcl").colors(count)} />
       <Title importance="h3">Mode: HSV</Title>
-      <RenderSet colors={colorScale.mode("hsv").colors(count)} />
+      <ColorSet colors={colorScale.mode("hsv").colors(count)} />
       <Title importance="h3">Mode: LAB</Title>
-      <RenderSet colors={colorScale.mode("lab").colors(count)} />
+      <ColorSet colors={colorScale.mode("lab").colors(count)} />
     </div>
   );
 };

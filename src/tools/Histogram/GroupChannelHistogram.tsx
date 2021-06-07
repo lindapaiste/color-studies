@@ -1,10 +1,10 @@
 import React from "react";
+import { getGroupHexes } from "data";
+import { Size } from "lib";
+import { hexToColor } from "logic/color";
 import { ToolSettings } from "./types";
-import { Size } from "../../sharedComponents/form/types";
 import { createBuckets } from "./createBuckets";
 import { RenderAutoSizeHistogram } from "./AutosizeHistogram";
-import { hexToColor } from "../../color";
-import { getGroupHexes } from "../../grouping";
 
 /**
  * combines the computation and the render

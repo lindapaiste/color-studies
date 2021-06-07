@@ -1,31 +1,31 @@
 import React, { useState } from "react";
-import { Button } from "../../sharedComponents/ui/Button";
-import { SelectMultipleColors } from "../../sharedComponents/form/SelectMultipleColors";
-import { makeArray, shuffle } from "../../lib";
-import { getGradientColors } from "../../channel/ChannelGradient";
-import { SelectColor } from "../../sharedComponents/form/SelectColor";
-import { usePartialState } from "../../lib/util-hooks";
 import {
+  Button,
+  ChannelSliderInput,
   PaletteIcon,
   RandomIcon,
   ReverseIcon,
+  SelectChannel,
+  SelectColor,
+  SelectMultipleColors,
   ShuffleIcon,
-} from "../../sharedComponents/ui/Icons";
-import { ChannelSliderInput } from "../../sharedComponents/form/ChannelSlider";
+} from "components";
+import { makeArray, shuffle } from "lib";
+import { getGradientColors } from "logic/gradient/ChannelGradient";
+import { usePartialState } from "lib/util-hooks";
+import { getChannel } from "logic/spacesChannels/channels";
+import { IColorAdapter } from "logic/color/types";
+import { randomColor } from "logic/color";
 import { ShiftSettings } from "./types";
-import { getChannel } from "../../spacesChannels/channels";
-import { I_ColorAdapter } from "../../color/types";
-import { randomColor } from "../../color";
-import { SelectChannel } from "../../sharedComponents/form/SelectChannel";
 
 /**
  * want to be able to generate colors from a channel shift OR from select color
  */
 
 export interface Props {
-  colors: I_ColorAdapter[];
+  colors: IColorAdapter[];
 
-  setColors(c: I_ColorAdapter[]): void;
+  setColors(c: IColorAdapter[]): void;
 }
 
 export const BoxColorControls = ({ colors, setColors }: Props) => {

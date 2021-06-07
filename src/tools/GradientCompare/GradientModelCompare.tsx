@@ -1,8 +1,8 @@
 import React from "react";
+import { Title } from "components";
+import { StitchedGradient } from "logic/gradient/StitchedGradient";
 import { Props } from "./GradientCompareTool";
-import { Title } from "../../sharedComponents/ui/Title";
-import RenderGradientSet from "./RenderGradientSet";
-import StitchedGradient from "../../channel/StitchedGradient";
+import { RenderGradientSet } from "./RenderGradientSet";
 
 export const GradientModelCompare = ({
   models = [],

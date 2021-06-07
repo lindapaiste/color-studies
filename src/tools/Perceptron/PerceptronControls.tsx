@@ -1,9 +1,11 @@
 import React from "react";
-import { StateUpdateProps } from "../../lib/util-hooks";
-import FlexRow from "../../sharedComponents/ui/FlexRow";
-import { SelectGroup } from "../../sharedComponents/form/SelectGroup";
-import MultiSelectChannel from "../../sharedComponents/form/MultiSelectChannel";
-import NumberInput from "../../sharedComponents/form/NumberInput";
+import {
+  NumberInput,
+  FlexRow,
+  MultiSelectChannel,
+  SelectGroup,
+} from "components";
+import { StateUpdateProps } from "lib/util-hooks";
 import { Settings } from "./types";
 
 export const PerceptronControls = ({

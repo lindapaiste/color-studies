@@ -1,14 +1,13 @@
 import React from "react";
 import { last } from "lodash";
-import { ColorInfo } from "../../sharedComponents/color/ColorInfo";
-import { Swatch } from "../../sharedComponents/color/Swatch";
-import { ColorAdapter } from "../../color/ColorAdapter";
-import { I_ColorAdapter, PropColor } from "../../color/types";
-import { allGroups, randomGroup } from "../../grouping";
-import { ColorGrouping } from "../../grouping/ColorGrouping";
-import ChannelAdapter from "../../spacesChannels/ChannelAdapter";
-import { Title } from "../../sharedComponents/ui/Title";
-import PropertyConstraint from "../../grouping/PropertyConstraint";
+import { ExpandableColorInfo, Swatch, Title } from "components";
+import { allGroupNames, randomGroupName } from "data";
+import { ColorAdapter } from "logic/color/ColorAdapter";
+import { IColorAdapter, PropColor } from "logic/color/types";
+import { ColorGrouping } from "logic/classification/constraints/ColorGrouping";
+import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
+import { PropertyConstraint } from "logic/classification/constraints/PropertyConstraint";
+import { getColorGrouping } from "logic/classification/constraints/getGroup";
 
 /**
  * play with rgb(47, 60, 14) going to pastel
@@ -16,7 +15,7 @@ import PropertyConstraint from "../../grouping/PropertyConstraint";
  */
 export const Temp = () => {
   const color = new ColorAdapter("rgb(47, 60, 14)");
-  const group = randomGroup();
+  const group = getColorGrouping(randomGroupName());
   console.log(group.name);
   return (
     <div>
@@ -26,23 +25,19 @@ export const Temp = () => {
   );
 };
 
-export const ForceToAll = ({ color }: PropColor) => {
-  return (
-    <div>
-      {allGroups().map((group) => {
-        return (
-          <div>
-            <Title importance="h3">{group.name}</Title>
-            <ForceToRules color={color} group={group} />
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+export const ForceToAll = ({ color }: PropColor) => (
+  <div>
+    {allGroupNames().map((name) => (
+      <div>
+        <Title importance="h3">{name}</Title>
+        <ForceToRules color={color} group={getColorGrouping(name)} />
+      </div>
+    ))}
+  </div>
+);
 
 export interface Props {
-  color: I_ColorAdapter;
+  color: IColorAdapter;
   group: ColorGrouping;
   maxAttempts?: number;
   fuzz?: number;
@@ -55,7 +50,7 @@ export const ForceToRules = ({
   fuzz = 0.1,
 }: Props) => {
   const phases: Array<{
-    color: I_ColorAdapter;
+    color: IColorAdapter;
     channel: ChannelAdapter | null;
   }> = [{ color, channel: null }];
 
@@ -112,7 +107,7 @@ export const ForceToRules = ({
             <Title importance="h4">Edited {channel?.title}</Title>
           )}
           <Swatch color={color} size={100} />
-          <ColorInfo color={color} initialOpen={false} />
+          <ExpandableColorInfo color={color} initialOpen={false} />
         </div>
       ))}
       <Title importance="h4">{isOkay ? "Passed" : "Still Failed"}</Title>

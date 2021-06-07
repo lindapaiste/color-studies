@@ -2,18 +2,21 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BallCreateSettings,
   generateBall,
-} from "../../boxSets/generateBoxBalls";
-import { replaceIndex } from "../../lib";
-import { Button } from "../../sharedComponents/ui/Button";
-import { Box, Ball, TooltipContent } from "../NoisyBoxes/RenderBoxData";
-import { IconTooltipButton } from "../../sharedComponents/ui/IconTooltipButton";
-import { EditIcon, XCircleIcon } from "../../sharedComponents/ui/Icons";
-import { getError, matchToChoices } from "../../boxSets/colorMatchesBox";
-import { SelectColor } from "../../sharedComponents/form/SelectColor";
-import { BoxData, Rejection } from "../../boxSets/types";
+} from "logic/boxSets/generateBoxBalls";
+import { replaceIndex } from "lib";
+import {
+  Button,
+  EditIcon,
+  IconTooltipButton,
+  SelectColor,
+  XCircleIcon,
+} from "components";
+import { getError, matchToChoices } from "logic/boxSets/colorMatchesBox";
+import { BoxData, Rejection } from "logic/boxSets/types";
+import { shuffleData } from "logic/boxSets/shuffleData";
+import { IColorAdapter } from "logic/color/types";
+import { Ball, Box, TooltipContent } from "../NoisyBoxes/RenderBoxData";
 import { BallDisplaySettings, Identifier } from "./types";
-import { shuffleData } from "../../boxSets/shuffleData";
-import { I_ColorAdapter } from "../../color/types";
 
 export interface DataProps {
   data: BoxData[];
@@ -90,7 +93,7 @@ export const BallsEditor = ({
         </>
       )}
       <div
-        className={"boxes-area"}
+        className="boxes-area"
         style={{ backgroundColor: darkBackground ? "black" : "white" }}
       >
         {_data.map((box, boxIndex) => (
@@ -153,7 +156,7 @@ export const EditingBall = ({
   id,
 }: DataProps & { id: Identifier }) => {
   const setBallColor = useCallback(
-    (color: I_ColorAdapter) => {
+    (color: IColorAdapter) => {
       const box = data[id.boxIndex];
       const ball = box.matches[id.ballIndex];
       setData(

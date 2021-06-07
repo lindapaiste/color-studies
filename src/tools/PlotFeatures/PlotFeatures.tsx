@@ -8,14 +8,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { getSplitSample } from "../../classifier/shuffledData";
-import { ChannelAdapter } from "../../spacesChannels/ChannelAdapter";
-import { hexToColor } from "../../color";
-import { GroupedHex } from "../../classifier/types";
-import { Size } from "../../sharedComponents/form/types";
-import { Swatch } from "../../sharedComponents/color/Swatch";
-import { I_ColorAdapter } from "../../color/types";
-import { ChannelAccessor } from "../../spacesChannels/types";
+import { getSplitSample } from "logic/classification/training/shuffledData";
+import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
+import { hexToColor } from "logic/color";
+import { GroupedHex } from "logic/classification/types";
+import { Size } from "lib";
+import { Swatch } from "components";
+import { IColorAdapter } from "logic/color/types";
+import { ChannelAccessor } from "logic/spacesChannels/types";
 
 /**
  * creates a scatter plot based on two color properties (x and y)
@@ -41,7 +41,7 @@ export const colorToPoint =
     xChannel: ChannelAdapter | ChannelAccessor,
     yChannel: ChannelAdapter | ChannelAccessor
   ) =>
-  (color: I_ColorAdapter) => ({
+  (color: IColorAdapter) => ({
     x: color.get(xChannel, false, 2),
     y: color.get(yChannel, false, 2),
     hex: color.hex(),

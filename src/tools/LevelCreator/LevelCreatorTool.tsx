@@ -1,16 +1,18 @@
 import React, { useCallback, useState } from "react";
+import { Accordion, Button } from "components";
+import { makeArray } from "lib";
 import { BoxColorControls } from "./BoxColorControls";
-import { makeArray } from "../../lib";
-import { Accordion } from "../../sharedComponents/ui";
-import { Formula } from "../../difference/Formula";
-import { usePartialState } from "../../lib/util-hooks";
-import { FormulaSettings } from "../../difference/types";
+import { Formula } from "logic/difference/Formula";
+import { usePartialState } from "lib/util-hooks";
+import { FormulaSettings } from "logic/difference/types";
 import { DEFAULT_LEVERS } from "../NoisyBoxes/NoisyBoxes";
-import { generateBoxes } from "../../boxSets/generateBoxBalls";
-import { DEFAULT_NOISE_SETTINGS } from "../../noise/types";
-import { ModelNoise } from "../../noise/modelNoise";
-import { BoxData } from "../../boxSets/types";
-import { Button } from "sharedComponents/ui/Button";
+import { generateBoxes } from "logic/boxSets/generateBoxBalls";
+import { DEFAULT_NOISE_SETTINGS } from "logic/noise/types";
+import { ModelNoise } from "logic/noise/modelNoise";
+import { BoxData } from "logic/boxSets/types";
+import { IColorAdapter } from "logic/color/types";
+import { randomColor } from "logic/color";
+import { logJson } from "logic/boxSets/jsonDump";
 import {
   AdvancedSettingsControls,
   mapSettingsInterface,
@@ -19,9 +21,6 @@ import { BallsEditor } from "./BallEditor";
 import { AdvancedSettings, BallDisplaySettings } from "./types";
 import { BallEditorControls } from "./BallsEditorControls";
 import { DistanceGrid } from "../DistanceGrid/DistanceGrid";
-import { I_ColorAdapter } from "../../color/types";
-import { randomColor } from "../../color";
-import { logJson } from "../../boxSets/jsonDump";
 
 const initialFormulaSettings: FormulaSettings = {
   algo: "Euclidean",
@@ -34,7 +33,7 @@ export const LevelLoader = ({
   settings,
 }: {
   settings: AdvancedSettings;
-  colors: I_ColorAdapter[];
+  colors: IColorAdapter[];
 }) => {
   const generateBalls = useCallback(
     () => generateBoxes(colors, mapSettingsInterface(settings)),

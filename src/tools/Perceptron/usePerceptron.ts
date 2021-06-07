@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { GroupPerceptron } from "../../classifier/GroupPerceptron";
-import { GroupModelTest } from "../../classifier/GroupModelTest";
+import { GroupPerceptron } from "logic/classification/model/perceptron/GroupPerceptron";
+import { GroupModelTest } from "logic/classification/accuracy/GroupModelTest";
 import { RenderProps, Settings } from "./types";
 
 /**

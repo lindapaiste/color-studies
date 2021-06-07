@@ -1,7 +1,7 @@
 import React from "react";
 import { Slider } from "@material-ui/core";
-import { Levers } from "../../boxSets/types";
-import { StateUpdateProps } from "../../lib/util-hooks";
+import { Levers } from "logic/boxSets/types";
+import { StateUpdateProps } from "lib/util-hooks";
 
 /**
  * UI Component for setting values of Levers interface

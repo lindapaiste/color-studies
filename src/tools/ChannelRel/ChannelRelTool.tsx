@@ -1,7 +1,7 @@
 import React from "react";
-import { ChannelAdapter } from "../../spacesChannels/ChannelAdapter";
-import { getChannel } from "../../spacesChannels/channels";
-import { Tool } from "../../sharedComponents/tool/Tool";
+import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
+import { getChannel } from "logic/spacesChannels/channels";
+import { Tool } from "components";
 import { ChannelRelControls } from "./ChannelRelControls";
 import { ChannelRelPlot } from "./ChannelRelPlot";
 

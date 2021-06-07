@@ -1,14 +1,16 @@
 import React from "react";
+import {
+  FlexRow,
+  NumberInput,
+  SelectChannel,
+  SelectGroup,
+  Tool,
+} from "components";
+import { StateUpdateProps } from "lib/util-hooks";
+import { MaybeUndefined } from "lib";
+import { randomChannel } from "logic/spacesChannels/channels";
+import { randomGroupName } from "data";
 import { PlotFeatures, Props } from "./PlotFeatures";
-import { SelectGroup } from "../../sharedComponents/form/SelectGroup";
-import { NumberInput } from "../../sharedComponents/form/NumberInput";
-import { FlexRow } from "../../sharedComponents/ui/FlexRow";
-import { StateUpdateProps } from "../../lib/util-hooks";
-import { SelectChannel } from "../../sharedComponents/form/SelectChannel";
-import { Tool } from "../../sharedComponents/tool/Tool";
-import { MaybeUndefined } from "../../lib";
-import { randomGroup } from "../../grouping";
-import { randomChannel } from "../../spacesChannels/channels";
 
 /**
  * using partial settings because does not set a default x and y axis
@@ -62,7 +64,7 @@ export const PlotFeaturesTool = () => (
   <Tool
     initialSettings={{
       colorCount: 100,
-      group: randomGroup().name,
+      group: randomGroupName(),
       xChannel: randomChannel(),
       yChannel: randomChannel(),
     }}

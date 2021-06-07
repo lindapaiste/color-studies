@@ -1,10 +1,9 @@
 import React from "react";
+import { round } from "lib";
+import { Tooltip } from "components";
+import { logProfile } from "logic/color/logProfile";
 import { RenderProps } from "./types";
-import { round } from "../../lib";
-import { logProfile } from "../../sharedComponents/color/Swatch";
-import { Tooltip } from "../../sharedComponents/ui/Tooltip";
 import "./histogram.css";
-
 /**
  * base render function depends on the sizing being passing into it
  * will not make any changes to avoid overflows

@@ -7,10 +7,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { intervals } from "../../lib";
-import { Size } from "../../sharedComponents/form/types";
+import { intervals, Size } from "lib";
+import { randomColors } from "logic/color";
 import { Settings } from "./ChannelRelTool";
-import { randomColors } from "../../color";
 import { colorToPoint } from "../PlotFeatures/PlotFeatures";
 
 export const ChannelRelPlot = ({

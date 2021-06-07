@@ -22,8 +22,8 @@ function useDimensions({
   const [dimensions, setDimensions] = useState<DOMRect | {}>({});
   const [node, setNode] = useState<HTMLElement | null>(null);
 
-  const ref = useCallback((node: HTMLElement | null) => {
-    setNode(node);
+  const ref = useCallback((newNode: HTMLElement | null) => {
+    setNode(newNode);
   }, []);
 
   useLayoutEffect(() => {

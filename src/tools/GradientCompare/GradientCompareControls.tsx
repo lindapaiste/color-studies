@@ -1,11 +1,13 @@
 import React from "react";
-import { StateUpdateProps } from "../../lib/util-hooks";
+import {
+  CheckboxInput,
+  FlexRow,
+  MultiSelectModel,
+  NumberInput,
+  SelectMultipleColors,
+} from "components";
+import { StateUpdateProps } from "lib/util-hooks";
 import { Props } from "./GradientCompareTool";
-import SelectMultipleColors from "../../sharedComponents/form/SelectMultipleColors";
-import NumberInput from "../../sharedComponents/form/NumberInput";
-import FlexRow from "../../sharedComponents/ui/FlexRow";
-import { MultiSelectModel } from "../../sharedComponents/form/MultiSelectModel";
-import CheckboxInput from "../../sharedComponents/form/CheckboxInput";
 
 export const GradientCompareControls = ({
   state,

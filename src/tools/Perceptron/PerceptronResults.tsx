@@ -1,18 +1,21 @@
 import React from "react";
-import ChannelAdapter from "../../spacesChannels/ChannelAdapter";
-import { Button } from "../../sharedComponents/ui/Button";
-import { round } from "../../lib";
-import { DataTable } from "../../sharedComponents/ui/DataTable";
-import { Accordion, Text } from "../../sharedComponents/ui";
-import { RenderResultGroups } from "./RenderResultGroups";
-import { ExpandableConfusionMatrix } from "../GroupBoundaries/RenderConfusionMatrix";
 import {
-  I_GroupPerceptron,
-  I_ImpossibleCheck,
+  Button,
+  Accordion,
+  Text,
+  DataTable,
+  ExpandableConfusionMatrix,
+} from "components";
+import { round } from "lib";
+import { RenderResultGroups } from "./RenderResultGroups";
+import {
+  IGroupPerceptron,
+  ImpossibleCheck,
   PerceptronResult,
-} from "../../classifier/types";
+} from "logic/classification/types";
+import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
+import { GroupPerceptron } from "logic/classification/model/perceptron/GroupPerceptron";
 import { RenderProps } from "./types";
-import { GroupPerceptron } from "../../classifier/GroupPerceptron";
 
 /**
  * examine the results from applying the model to colors
@@ -88,7 +91,7 @@ export const ResultTooltip = ({
  * display a table with the weights and bias for a perceptron model
  * don't use the spread operator because it won't work with class get() values
  */
-export const RenderModel = ({ model }: { model: I_GroupPerceptron }) => (
+export const RenderModel = ({ model }: { model: IGroupPerceptron }) => (
   <DataTable
     labels={["Property", "Weight"]}
     rows={[
@@ -101,7 +104,7 @@ export const RenderModel = ({ model }: { model: I_GroupPerceptron }) => (
 export const RenderImpossibleError = ({
   check,
 }: {
-  check: I_ImpossibleCheck;
+  check: ImpossibleCheck;
 }) => {
   if (check.isImpossible) {
     return (

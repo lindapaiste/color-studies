@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { PAGES } from "./AppPages";
-import { MenuIcon } from "./sharedComponents/ui/Icons";
+import { MenuIcon } from "./components";
 
 /**
  * props title and path refer to the current page
@@ -40,7 +40,7 @@ export const TopMenu = ({ currentTitle }: Props) => {
           </MenuItem>
           {PAGES.map(({ title, path }) => (
             <MenuItem key={path}>
-              <Link to={"/" + path}>{title}</Link>
+              <Link to={`/${path}`}>{title}</Link>
             </MenuItem>
           ))}
         </Menu>

@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { ChannelShiftControls, useControls } from "./ChannelShiftControls";
-import { createColors } from "../../channel/channelShiftSet";
-import { BoxData, Evaluation, Levers } from "../../boxSets/types";
-import { getError, matchToChoices } from "../../boxSets/colorMatchesBox";
+import { createColors } from "logic/gradient/channelShiftSet";
+import { BoxData, Evaluation, Levers } from "logic/boxSets/types";
+import { getError, matchToChoices } from "logic/boxSets/colorMatchesBox";
+import { shuffleData } from "logic/boxSets/shuffleData";
+import { flatMap, makeArray } from "lib";
+import { withModelNoise } from "logic/noise/modelNoise";
+import { Toggle } from "components";
+import { usePartialState } from "lib/util-hooks";
+import { IColorAdapter } from "logic/color/types";
+import { deltaE76 } from "logic/difference/distance";
 import { RenderBoxData } from "./RenderBoxData";
 import { LeverControls } from "./LeverControls";
+import { ChannelShiftControls, useControls } from "./ChannelShiftControls";
 import "./box-style.css";
-import { shuffleData } from "../../boxSets/shuffleData";
-import { flatMap, makeArray } from "../../lib";
-import { withModelNoise } from "../../noise/modelNoise";
-import { Toggle } from "../../sharedComponents/form/Toggle";
-import { usePartialState } from "../../lib/util-hooks";
-import { I_ColorAdapter } from "../../color/types";
-import { deltaE76 } from "../../difference/distance";
 
 /**
  * right now just looks at a bunch of random colors and filters
@@ -20,7 +20,7 @@ import { deltaE76 } from "../../difference/distance";
  */
 
 export interface Props {
-  colors: I_ColorAdapter[];
+  colors: IColorAdapter[];
   levers: Levers;
   isShuffle: boolean;
 }

@@ -1,10 +1,10 @@
 import React from "react";
 import { ModelPalette } from "./tools/PaletteCompare/ModelPalette";
-import { ModelAdapter } from "./spacesChannels/ModelAdapter";
-import { ColorAdapter } from "./color/ColorAdapter";
-import { rgbToRyb } from "./color/ryb";
-import { makeIterativePerceptron } from "./classifier/IterativeChannelPerceptron";
-import { TestedModel } from "./classifier/TestedModel";
+import { ModelAdapter } from "./logic/spacesChannels/ModelAdapter";
+import { ColorAdapter } from "./logic/color/ColorAdapter";
+import { rgbToRyb } from "./logic/color/ryb";
+import { makeIterativePerceptron } from "./logic/classification/model/perceptron/IterativeChannelPerceptron";
+import { TestedModel } from "./logic/classification/accuracy/TestedModel";
 
 export const Sandbox = () => {
   const perceptron = makeIterativePerceptron("Neons", 1000, 10);

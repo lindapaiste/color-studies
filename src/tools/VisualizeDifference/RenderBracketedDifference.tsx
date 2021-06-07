@@ -1,14 +1,13 @@
 import React, { ReactNode, useMemo } from "react";
-import { round, sortBy } from "../../lib";
-import { Title } from "../../sharedComponents/ui/Title";
-import { RenderSet } from "../../sharedComponents/color/RenderSet";
-import { I_ColorAdapter } from "../../color/types";
+import { round, sortBy } from "lib";
+import { ColorSet, Title } from "components";
+import { IColorAdapter } from "logic/color/types";
 
 /**
  * data must include color and deltaE, but can also include a tooltip
  */
 export interface DataPoint {
-  color: I_ColorAdapter;
+  color: IColorAdapter;
   deltaE: number;
   tooltip?: ReactNode;
 }
@@ -39,9 +38,9 @@ export const RenderBracketedDifference = ({ data, chunkWidth = 10 }: Props) => {
           <Title importance="h3">
             from {i * chunkWidth} to {(i + 1) * chunkWidth}
           </Title>
-          <RenderSet
+          <ColorSet
             colors={chunk}
-            colorToString={(o: DataPoint) => o.color.hex()}
+            colorToHex={(o: DataPoint) => o.color.hex()}
             colorToTooltip={(o: DataPoint) => o.tooltip || round(o.deltaE, 2)}
           />
         </div>

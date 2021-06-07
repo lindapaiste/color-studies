@@ -1,14 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { shuffledHexes } from "../../classifier/shuffledData";
-import { ChannelBoundaryModel } from "../../classifier/ChannelBoundaryModel";
-import { SelectGroup } from "../../sharedComponents/form/SelectGroup";
-import { round, sortBy } from "../../lib";
-import { ExpandableConfusionMatrix } from "./RenderConfusionMatrix";
-import { Title } from "../../sharedComponents/ui/Title";
-import { hexToColor } from "../../color";
-import { allChannels } from "../../spacesChannels/channels";
-import { randomGroup } from "../../grouping";
-import { GroupModelTest } from "../../classifier/GroupModelTest";
+import { round, sortBy } from "lib";
+import { ExpandableConfusionMatrix, Title, SelectGroup } from "components";
+import { shuffledHexes } from "logic/classification/training/shuffledData";
+import { ChannelBoundaryModel } from "logic/classification/model/boundary/ChannelBoundaryModel";
+import { hexToColor } from "logic/color";
+import { allChannels } from "logic/spacesChannels/channels";
+import { GroupModelTest } from "logic/classification/accuracy/GroupModelTest";
+import { randomGroupName } from "../../data";
 
 /**
  * based on the selected group name, calculates a boundary model for every property
@@ -17,7 +15,7 @@ import { GroupModelTest } from "../../classifier/GroupModelTest";
  * can expand to show detailed analysis
  */
 export const TestBoundaries = () => {
-  const [group, setGroup] = useState(randomGroup().name);
+  const [group, setGroup] = useState(randomGroupName);
   // const [property, SelectProperty] = useSelectProperty();
   // const [sampleSize, SampleSizeInput] = useNumberInput(100);
 

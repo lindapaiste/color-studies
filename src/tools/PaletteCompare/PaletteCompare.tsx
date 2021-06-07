@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { ColorSpaceName } from "../../spacesChannels/types";
+import { MultiSelectModel, Title } from "components";
+import { ColorSpaceName } from "logic/spacesChannels/types";
+import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
 import { ModelPalette } from "./ModelPalette";
-import { Title } from "../../sharedComponents/ui/Title";
-import MultiSelectModel from "../../sharedComponents/form/MultiSelectModel";
-import { ModelAdapter } from "../../spacesChannels/ModelAdapter";
 
 /**
  * this does work, but selecting too many leads to a call stack size exceeded error

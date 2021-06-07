@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { makeArray } from "../../lib";
-import { useFormula } from "../../difference/useFormula";
-import { Accordion } from "../../sharedComponents/ui";
-import { SelectMultipleColors } from "../../sharedComponents/form/SelectMultipleColors";
+import { Accordion, SelectMultipleColors } from "components";
+import { makeArray } from "lib";
+import { randomColor } from "logic/color";
+import { useFormula } from "logic/difference/useFormula";
 import { DifferenceControls } from "./DifferenceControls";
 import { DistanceGrid } from "./DistanceGrid";
-import { randomColor } from "../../color";
 
 /**
  * tool allows for customization of the colors and the deltaE formula
@@ -16,10 +15,10 @@ export const DistanceGridTool = () => {
 
   return (
     <div>
-      <Accordion title={"Edit Colors"}>
+      <Accordion title="Edit Colors">
         <SelectMultipleColors value={colors} onChange={setColors} />
       </Accordion>
-      <Accordion title={"Adjust DeltaE Formula"}>
+      <Accordion title="Adjust DeltaE Formula">
         <DifferenceControls state={formula} update={update} />
       </Accordion>
       <DistanceGrid calculator={formula} colors={colors} />

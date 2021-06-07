@@ -1,6 +1,6 @@
 import React from "react";
+import { Size } from "lib";
 import { Bucket, RenderProps } from "./types";
-import { Size } from "../../sharedComponents/form/types";
 import { RenderHistogram } from "./RenderHistogram";
 
 const COLUMNS_PER_BAR = 3;

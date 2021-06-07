@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { RenderSet } from "../../sharedComponents/color/RenderSet";
-import { withChannelNoise } from "../../noise/channelNoise";
-import { makeArray } from "../../lib";
-import { NumberInput } from "../../sharedComponents/form/NumberInput";
-import { Title } from "../../sharedComponents/ui/Title";
-import { TupleTooltip } from "../../sharedComponents/color/TupleTooltip";
-import { I_ColorAdapter } from "../../color/types";
-import { allChannels } from "../../spacesChannels/channels";
+import { withChannelNoise } from "logic/noise/channelNoise";
+import { makeArray } from "lib";
+import { Title, TupleTooltip, NumberInput, ColorSet } from "components";
+import { allChannels } from "logic/spacesChannels/channels";
+import { IColorAdapter } from "logic/color/types";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -17,7 +14,7 @@ import { allChannels } from "../../spacesChannels/channels";
  */
 
 export interface Props {
-  color: I_ColorAdapter;
+  color: IColorAdapter;
   countPer?: number;
 }
 
@@ -39,7 +36,7 @@ export const CompareNoiseChannels = ({ color, countPer = 10 }: Props) => {
         {allChannels().map((channel) => (
           <div key={channel.key}>
             <Title importance="h3">{channel.title}</Title>
-            <RenderSet
+            <ColorSet
               colors={makeArray(countPer, () =>
                 withChannelNoise(color, channel, noiseRatio)
               )}
