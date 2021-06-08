@@ -1,10 +1,10 @@
 import React from "react";
 import { Tool } from "components";
 import { randomGroupName } from "data";
-import PerceptronControls from "./PerceptronControls";
+import { PerceptronControls } from "./PerceptronControls";
 import { Settings } from "./types";
-import usePerceptron from "./usePerceptron";
-import RenderPerceptronTest from "./PerceptronResults";
+import { usePerceptron } from "./usePerceptron";
+import { RenderPerceptronTest } from "./PerceptronResults";
 
 /**
  * apply hook logic to render
@@ -15,7 +15,7 @@ export const PerceptronTest = (settings: Settings) => {
   return <RenderPerceptronTest {...props} />;
 };
 
-const PerceptronTool = () => (
+export const PerceptronTool = () => (
   <Tool
     initialSettings={{
       testCount: 400,
@@ -29,5 +29,3 @@ const PerceptronTool = () => (
     }
   />
 );
-
-export default PerceptronTool;

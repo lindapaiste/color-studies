@@ -41,7 +41,7 @@ export class AllChannelBoundaries {
     );
     const tester = new GroupModelTest(model);
     tester.test(100);
-    const accuracy = tester.accuracy;
+    const { accuracy } = tester;
     return {
       channel,
       model,

@@ -10,7 +10,7 @@ import { IPerceptron, Binary, Features, ActivationFunc } from "./types";
  * separated the bias from the other weights
  *
  * can pass in the activation function in the constructor for more extensibility
- * but in order to use "Binary" typehint, need to make ActivationFunc, Props, class, and IPerceptron all generic
+ * but in order to use "Binary" typehint, need to make ActivationFunc, PerceptronProps, class, and IPerceptron all generic
  */
 
 /**
@@ -29,7 +29,7 @@ import { IPerceptron, Binary, Features, ActivationFunc } from "./types";
  * it does not matter, but I have to pick one and be consistent with it
  */
 
-export interface Props {
+export interface PerceptronProps {
   learningRate?: number;
   // can create with initial weights
   weights?: number[];
@@ -65,7 +65,7 @@ export class Perceptron implements IPerceptron {
    * if no weights are passed in the constructor,
    * cannot set to random yet because won't know the length of features
    */
-  constructor(props: Props = {}) {
+  constructor(props: PerceptronProps = {}) {
     this.learningRate = props.learningRate || 0.5;
     this.weights = props.weights || [];
     this.bias = props.bias || 0;

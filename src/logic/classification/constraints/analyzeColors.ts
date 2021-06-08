@@ -31,8 +31,8 @@ export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
      * Geometric mean and harmonic mean require positive numbers, so must drop zeros.
      * In order to minimize changes to output, replace zeros with a tiny number.
      */
-    geometricMean: geometricMean(values.map(v => Math.max(v, 0.001))),
-    harmonicMean: harmonicMean(values.map(v => Math.max(v, 0.001))),
+    geometricMean: geometricMean(values.map((v) => Math.max(v, 0.001))),
+    harmonicMean: harmonicMean(values.map((v) => Math.max(v, 0.001))),
     standardDeviation: standardDeviation(values),
   };
 };

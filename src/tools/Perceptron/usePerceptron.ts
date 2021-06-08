@@ -41,5 +41,3 @@ export const usePerceptron = ({
     onClickRefresh,
   };
 };
-
-export default usePerceptron;

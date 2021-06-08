@@ -22,7 +22,8 @@ import { ChannelRelTool } from "./tools/ChannelRel/ChannelRelTool";
 import { GroupsAnalysis } from "./tools/AnalysisTable";
 import { Sandbox } from "./Sandbox";
 import { LevelCreatorTool } from "./tools/LevelCreator/LevelCreatorTool";
-import PerceptronTool from "./tools/Perceptron";
+import { PerceptronTool } from "./tools/Perceptron";
+import { NeuralNetworkTool } from "./tools/NeuralNetwork";
 
 interface AppPage {
   title: string;
@@ -132,6 +133,11 @@ export const PAGES: AppPage[] = [
     title: "Perceptron Classifier",
     path: "perceptron",
     Component: PerceptronTool,
+  },
+  {
+    title: "Neural Network Classifier",
+    path: "neural",
+    Component: NeuralNetworkTool,
   },
   {
     title: "Sandbox",

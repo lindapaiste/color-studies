@@ -7,7 +7,6 @@ import {
   ExpandableConfusionMatrix,
 } from "components";
 import { round } from "lib";
-import { RenderResultGroups } from "./RenderResultGroups";
 import {
   IGroupPerceptron,
   ImpossibleCheck,
@@ -16,6 +15,7 @@ import {
 import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
 import { GroupPerceptron } from "logic/classification/model/perceptron/GroupPerceptron";
 import { RenderProps } from "./types";
+import { RenderResultGroups } from "../../components/organisms/RenderResultGroups";
 
 /**
  * examine the results from applying the model to colors
@@ -119,5 +119,3 @@ export const RenderImpossibleError = ({
   }
   return null;
 };
-
-export default RenderPerceptronTest;

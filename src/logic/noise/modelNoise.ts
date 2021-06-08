@@ -50,9 +50,7 @@ export const calcNoisy = <CS extends ColorSpaceName>({
    * default to 1 if no weights array is passed in
    * or if it has the wrong number of entries
    */
-  const getWeight = (i: number): number => {
-    return weights?.[i] ?? 1;
-  };
+  const getWeight = (i: number): number => weights?.[i] ?? 1;
 
   const channels = getModel(colorSpace).channels;
 

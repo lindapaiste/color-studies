@@ -1,8 +1,8 @@
 import React, { ComponentType, FunctionComponent, useState } from "react";
 import { makeArray } from "lib";
-import { SelectMultipleColors, Props } from "../molecules/SelectMultipleColors";
 import { IColorAdapter } from "logic/color/types";
 import { randomColor } from "logic/color";
+import { SelectMultipleColors, Props } from "../molecules/SelectMultipleColors";
 
 /**
  * works the same way as withSelectableColor, but for an array of colors instead of just one
