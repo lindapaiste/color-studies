@@ -16,11 +16,10 @@ export const makeRainbow = (
 export const makeRandom = (count: number): HSL[] =>
   generateSet(count, randomHsluv);
 
-const hslToHex = (c: HSL): string => ColorAdapter.staticFrom(c, 'hsl').hex();
+const hslToHex = (c: HSL): string => ColorAdapter.staticFrom(c, "hsl").hex();
 
 export const toMappedString = (c: HSL): string =>
   hslToHex(replaceHue(c, colorWheelToNormal));
-
 
 /**
  * renders a set using both methods
