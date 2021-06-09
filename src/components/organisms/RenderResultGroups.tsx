@@ -5,7 +5,7 @@ import {
   TestOutput,
 } from "logic/classification/types";
 import { IColorAdapter } from "logic/color/types";
-import { ColorSet, ColorSetProps, Title } from "components";
+import { ColorSet, ColorSetProps, Title } from "components/index";
 
 /**
  * breaks a results object into four separate ColorSet components

@@ -2,6 +2,7 @@ import chroma, { Color as ChromaColor } from "chroma-js";
 import convert from "color-convert";
 import { isDefined, replaceIndex, tupleMap } from "lib";
 import { hpluvToRgb, hsluvToRgb, rgbToHpluv, rgbToHsluv } from "hsluv";
+import { isDefined, replaceIndex, tupleMap } from "lib";
 import {
   ChannelAccessor,
   ColorSpaceName,
@@ -107,6 +108,8 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
         return rgbToHsluv(this.toClassed("rgb").normalized);
       case "hpluv":
         return rgbToHpluv(this.toClassed("rgb").normalized);
+      default:
+        throw new Error(`unknown color space ${colorSpace}`);
     }
   }
 
@@ -200,6 +203,8 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
           tupleMap(hpluvToRgb(values as ColorTuple<"hpluv">), (v) => v * 255),
           "rgb"
         );
+      default:
+        throw new Error(`unknown color space ${colorSpace}`);
     }
   }
 

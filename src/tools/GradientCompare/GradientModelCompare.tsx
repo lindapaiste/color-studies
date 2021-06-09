@@ -26,5 +26,3 @@ export const GradientModelCompare = ({
     ))}
   </div>
 );
-
-export default GradientModelCompare;

@@ -18,5 +18,3 @@ export const RenderGradientSet = ({ count = 10, gradient }: Props) => (
     colorToTooltip={(color) => TupleTooltip(color.toClassed(gradient.model))}
   />
 );
-
-export default RenderGradientSet;
