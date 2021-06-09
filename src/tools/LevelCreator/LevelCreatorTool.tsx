@@ -1,11 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { Accordion, Button } from "components";
 import { makeArray } from "lib";
-import { BoxColorControls } from "./BoxColorControls";
 import { Formula } from "logic/difference/Formula";
 import { usePartialState } from "lib/util-hooks";
 import { FormulaSettings } from "logic/difference/types";
-import { DEFAULT_LEVERS } from "../NoisyBoxes/NoisyBoxes";
 import { generateBoxes } from "logic/boxSets/generateBoxBalls";
 import { DEFAULT_NOISE_SETTINGS } from "logic/noise/types";
 import { ModelNoise } from "logic/noise/modelNoise";
@@ -21,6 +19,8 @@ import { BallsEditor } from "./BallEditor";
 import { AdvancedSettings, BallDisplaySettings } from "./types";
 import { BallEditorControls } from "./BallsEditorControls";
 import { DistanceGrid } from "../DistanceGrid/DistanceGrid";
+import { BoxColorControls } from "./BoxColorControls";
+import { DEFAULT_LEVERS } from "../NoisyBoxes/NoisyBoxes";
 
 const initialFormulaSettings: FormulaSettings = {
   algo: "Euclidean",

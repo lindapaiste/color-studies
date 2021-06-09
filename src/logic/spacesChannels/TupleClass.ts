@@ -3,7 +3,7 @@ import { ColorSpaceName, ColorTuple } from "./types";
 import { ModelAdapter } from "./ModelAdapter";
 import { eitherToModel, ModelOrName } from "./models";
 
-export interface I_TupleClass<CS extends ColorSpaceName> {
+export interface ITupleClass<CS extends ColorSpaceName> {
   model: ModelAdapter<CS>;
   normalized: ColorTuple<CS>;
   deNormalized: ColorTuple<CS>;
@@ -14,7 +14,7 @@ export interface I_TupleClass<CS extends ColorSpaceName> {
  * give it some methods so that it can act like an array
  */
 export class TupleClass<CS extends ColorSpaceName>
-  implements I_TupleClass<CS>, ArrayLike<number>
+  implements ITupleClass<CS>, ArrayLike<number>
 {
   public normalized: ColorTuple<CS>;
 

@@ -20,9 +20,9 @@ import { RenderGroups } from "./tools/RenderGroups/RenderGroups";
 import { TestBoundaries } from "./tools/GroupBoundaries/TestBoundaries";
 import { ChannelRelTool } from "./tools/ChannelRel/ChannelRelTool";
 import { GroupsAnalysis } from "./tools/AnalysisTable";
-import { Sandbox } from "./Sandbox";
 import { LevelCreatorTool } from "./tools/LevelCreator/LevelCreatorTool";
-import PerceptronTool from "./tools/Perceptron";
+import { PerceptronTool } from "./tools/Perceptron";
+import { NeuralNetworkTool } from "./tools/NeuralNetwork";
 
 interface AppPage {
   title: string;
@@ -134,9 +134,9 @@ export const PAGES: AppPage[] = [
     Component: PerceptronTool,
   },
   {
-    title: "Sandbox",
-    path: "sandbox",
-    Component: Sandbox,
+    title: "Neural Network Classifier",
+    path: "neural",
+    Component: NeuralNetworkTool,
   },
   {
     title: "Level Creator Tool",

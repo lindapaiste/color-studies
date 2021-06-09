@@ -1,20 +1,28 @@
-import { flatMap, omitBy, partition, sampleSize, shuffle } from "lib";
+import { partition, sampleSize, shuffle } from "lib";
 import { allGroups, getGroupHexes } from "data";
 import { GroupedHex, HasExpected } from "../types";
 
 /**
- * reformats the nested hexes from the groupings data set into an shuffled array
+ * Reformats the nested hexes from the groupings data set into a flat array
  * where each entry has its hex and the name of the group that it belongs to
  */
-export const shuffledHexes = (): GroupedHex[] =>
-  shuffle(
-    flatMap(allGroups(), (group) =>
-      group.hexes.map((hex) => ({
-        hex,
-        group: group.name,
-      }))
-    )
-  );
+const groupedHexes: GroupedHex[] = allGroups().flatMap((group) =>
+  group.hexes.map((hex) => ({
+    hex,
+    group: group.name,
+  }))
+);
+
+/**
+ * Shuffles the grouped hexes into random order.
+ */
+export const shuffledHexes = (): GroupedHex[] => shuffle(groupedHexes);
+
+/**
+ * Get a random sampling of grouped hexes.
+ */
+export const sampleHexes = (count: number): GroupedHex[] =>
+  sampleSize(groupedHexes, count);
 
 /**
  * creates a data set based upon a passed in "hexToFeatures" function
@@ -75,9 +83,6 @@ export const sampleGroupHexes = (group: string, count: number): string[] =>
   sampleSize(getGroupHexes(group), count);
 
 export const sampleNonGroupHexes = (group: string, count: number): string[] => {
-  const hexes = flatMap(
-    omitBy(allGroups(), (g) => g.name === group),
-    (g) => g.hexes
-  );
+  const hexes = allGroups().flatMap((g) => (g.name === group ? [] : g.hexes));
   return sampleSize(hexes, count);
 };

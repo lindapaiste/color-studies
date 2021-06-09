@@ -4,6 +4,20 @@ import { IModelNoise, INoiseCreator, ModelNoiseSettings } from "./types";
 import { IColorAdapter } from "../color/types";
 import { getModel } from "../spacesChannels/models";
 
+export const withModelNoise = <CS extends ColorSpaceName>({
+  color,
+  colorSpace,
+  ...props
+}: Props<CS>): IColorAdapter => {
+  const values = color.to(colorSpace);
+  const noisy = calcNoisy({
+    ...props,
+    values: values as ColorTuple<CS>,
+    colorSpace,
+  });
+  return color.from(noisy, colorSpace);
+};
+
 /**
  * uses the same setup as Formula, where it is created from settings, but also serves as an access point to those settings
  */
@@ -50,11 +64,9 @@ export const calcNoisy = <CS extends ColorSpaceName>({
    * default to 1 if no weights array is passed in
    * or if it has the wrong number of entries
    */
-  const getWeight = (i: number): number => {
-    return weights?.[i] ?? 1;
-  };
+  const getWeight = (i: number): number => weights?.[i] ?? 1;
 
-  const channels = getModel(colorSpace).channels;
+  const { channels } = getModel(colorSpace);
 
   return values.map((value, i) =>
     noisyChannelValue({
@@ -67,20 +79,6 @@ export const calcNoisy = <CS extends ColorSpaceName>({
 
 export type Props<CS extends ColorSpaceName> = Omit<CalcProps<CS>, "values"> & {
   color: IColorAdapter;
-};
-
-export const withModelNoise = <CS extends ColorSpaceName>({
-  color,
-  colorSpace,
-  ...props
-}: Props<CS>): IColorAdapter => {
-  const values = color.to(colorSpace);
-  const noisy = calcNoisy({
-    ...props,
-    values: values as ColorTuple<CS>,
-    colorSpace,
-  });
-  return color.from(noisy, colorSpace);
 };
 
 /**

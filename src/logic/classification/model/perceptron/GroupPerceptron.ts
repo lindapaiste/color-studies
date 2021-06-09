@@ -94,9 +94,7 @@ export class GroupPerceptron implements IGroupPerceptron {
       );
     }
     score += this.bias;
-    console.log(
-      "adding bias of " + this.bias + " for a final score of " + score
-    );
+    console.log(`adding bias of ${this.bias} for a final score of ${score}`);
     return score;
   };
 

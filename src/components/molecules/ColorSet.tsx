@@ -18,6 +18,8 @@ interface BaseProps<T> {
 
   colorToTooltip?(color: T): NonNullable<ReactNode>;
 
+  onClickColor?(color: T): void;
+
   wrap?: boolean;
   // height refers to the height of each element if the set is wrapped
   height?: number | string;
@@ -38,6 +40,7 @@ export const ColorSet = <T extends any>({
   colorToTooltip,
   wrap = false,
   height = 100,
+  onClickColor,
 }: ColorSetProps<T>) => {
   const findHex = (color: T): string => {
     if (colorToHex) return colorToHex(color);
@@ -71,7 +74,10 @@ export const ColorSet = <T extends any>({
                 flex: 1,
                 minWidth: wrap ? height : undefined,
               }}
-              onClick={() => logProfile(hex)}
+              onClick={() => {
+                onClickColor?.(color);
+                logProfile(hex);
+              }}
             />
           </Tooltip>
         );

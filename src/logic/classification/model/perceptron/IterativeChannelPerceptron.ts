@@ -69,7 +69,7 @@ export class IterativeChannelPerceptron {
           this.model = model.model;
           this.accuracy = model.accuracy;
           this.channels.push(boundary.channel);
-          console.log("added channel " + boundary.channel.title);
+          console.log(`added channel ${boundary.channel.title}`);
           return true;
         }
       );

@@ -27,5 +27,3 @@ export const PerceptronControls = ({
     />
   </FlexRow>
 );
-
-export default PerceptronControls;

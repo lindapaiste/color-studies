@@ -25,6 +25,8 @@ export {
   omit,
   sample,
   omitBy,
+  uniq,
+  orderBy,
 } from "lodash";
 export { mean, standardDeviation } from "simple-statistics";
 
@@ -84,7 +86,7 @@ export const percentString = (
 ) => {
   const percent = is100 ? float : 100 * float;
   const rounded = round(percent, decimals);
-  return rounded + "%";
+  return `${rounded}%`;
 };
 
 type Entry<T> = { [K in keyof T]: [K & string, T[K]] }[keyof T];
@@ -125,7 +127,7 @@ export const intervals = (
 };
 
 export const withHash = (hex: string): string =>
-  hex.substr(0, 1) === "#" ? hex : "#" + hex;
+  hex.substr(0, 1) === "#" ? hex : `#${hex}`;
 
 export const hasMethod = (obj: any, method: string): boolean =>
   // note: cannot use hasOwnProperty because the property might be inherited

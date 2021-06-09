@@ -17,8 +17,7 @@ export const allGroups = (): NameAndHexes[] => ALL_GROUP_OBJECTS;
 
 export const allGroupNames = (): string[] => Object.keys(HEXES);
 
-export const getGroupHexes = (name: string): string[] => {
-  return (HEXES as Record<string, string[]>)[name] ?? [];
-};
+export const getGroupHexes = (name: string): string[] =>
+  (HEXES as Record<string, string[]>)[name] ?? [];
 
 export const randomGroupName = (): string => sample(allGroupNames()) as string;

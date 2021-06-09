@@ -71,7 +71,7 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
           return new ChannelAdapter(name, cs, offset);
         }
       }
-      throw new Error("cannot find any models with channel " + name);
+      throw new Error(`cannot find any models with channel ${name}`);
     }
     const channels = model.channels.map((c) => c.name);
     const offset = channels.indexOf(name);
@@ -103,7 +103,7 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
    */
   get slug(): string {
     const letter = this.modelName[this.offset];
-    return this.modelName + "." + letter;
+    return `${this.modelName}.${letter}`;
   }
 
   /**

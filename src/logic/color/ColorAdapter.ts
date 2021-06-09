@@ -1,12 +1,12 @@
 import chroma, { Color as ChromaColor } from "chroma-js";
 import convert from "color-convert";
+import { isDefined, replaceIndex, tupleMap } from "lib";
 import { hpluvToRgb, hsluvToRgb, rgbToHpluv, rgbToHsluv } from "hsluv";
 import {
   ChannelAccessor,
   ColorSpaceName,
   ColorTuple,
 } from "../spacesChannels/types";
-import { isDefined, replaceIndex, tupleMap } from "lib";
 import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
 import { eitherToAccessor, eitherToObject } from "../spacesChannels/channels";
 import { ModelAdapter } from "../spacesChannels/ModelAdapter";
@@ -14,14 +14,6 @@ import { eitherToModel, eitherToName } from "../spacesChannels/models";
 import { rgbToRyb, rybToRgb } from "./ryb";
 import { TupleClass } from "../spacesChannels/TupleClass";
 import { IColorAdapter, CanGetHex } from "./types";
-
-/**
- * --doesn't work--
- * do this rather than Record so that the generic of the TupleClass matches the key
- */
-type KeyedConversions = {
-  [P in ColorSpaceName]: TupleClass<P>;
-};
 
 export class ColorAdapter implements IColorAdapter, CanGetHex {
   /**

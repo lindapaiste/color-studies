@@ -35,7 +35,7 @@ const KEYED_CHANNELS = Object.fromEntries(
 
 /**
  * assumes that the key is valid
- * @param key {string} in the form "hsl.s", "rgb.r", etc.
+ * Takes key in the form "hsl.s", "rgb.r", etc.
  */
 export const getChannel = (key: string): ChannelAdapter => KEYED_CHANNELS[key];
 // alternatively, return allChannels().find( channel => channel.key === key )
@@ -47,7 +47,7 @@ export const eitherToAccessor = (
   channel: ChannelAdapter | ChannelAccessor
 ): ChannelAccessor => (Array.isArray(channel) ? channel : channel.accessor);
 
-const _accessorToChannel = (channel: ChannelAccessor): ChannelAdapter => {
+const accessorToChannel = (channel: ChannelAccessor): ChannelAdapter => {
   const [cs, offset] = channel;
   return getModel(cs).channels[offset];
 };
@@ -55,7 +55,7 @@ const _accessorToChannel = (channel: ChannelAccessor): ChannelAdapter => {
 export const eitherToObject = (
   channel: ChannelAdapter | ChannelAccessor
 ): ChannelAdapter =>
-  Array.isArray(channel) ? _accessorToChannel(channel) : channel;
+  Array.isArray(channel) ? accessorToChannel(channel) : channel;
 
 export const eitherToName = (
   channel: ChannelName | ChannelAccessor | ChannelAdapter
