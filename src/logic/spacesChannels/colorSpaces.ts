@@ -19,7 +19,7 @@ export const COLOR_SPACE_ARRAYS = {
   cmyk: ["cyan", "magenta", "yellow", "black"],
   hwb: ["hue", "white", "black"],
   hcg: ["hue", "chromaHcg", "gray"],
-  xyz: ["x", "luminosity", "z"], // TODO: figure out how to have "xyz.y" as the slug and still use luminosity settings.
+  xyz: ["x", "luminosity", "z"],
   ryb: ["red", "yellowRyb", "blue"],
   hpluv: ["hue", "pastel", "luminosity"],
   hsluv: ["hue", "saturation", "luminosity"],
@@ -50,17 +50,27 @@ export type ChannelName = {
 }[keyof CsMap];
 
 /**
- * Helper utility type to get the first letter of the channel.
+ * Break the color space name up into a tuple of letters and add these to the name,
+ * ie Slugs<'hsl'> = ["hsl.h", "hsl.s", "hsl.l"].
+ *
+ * Need to use the letters from the colorspace in order to account for abnormal names
+ * like "xyx.y" = "luminosity" and "cmyk.k" = "black".
  */
-type FirstLetter<S> = S extends `${infer L}${string}` ? L : never;
+type Slugs<
+  Original extends string,
+  Remaining extends string = Original
+> = Remaining extends ""
+  ? []
+  : Remaining extends `${infer Letter}${infer Rest}`
+  ? [`${Original}.${Letter}`, ...Slugs<Original, Rest>]
+  : [];
 
 /**
  * Union type of all CS-channel slugs, like 'rgb.b', 'hsl.h', etc.
+ * Note: includes a few invalid entries like "hsluv.u", but this is okay.
  */
 export type ChannelSlug = {
-  [K in keyof CsMap]: CsMap[K] extends readonly (infer T)[]
-    ? `${K}.${FirstLetter<T>}`
-    : never;
+  [K in keyof CsMap]: Slugs<K>[number];
 }[keyof CsMap];
 
 // ----------------------------DERIVED VALUES-------------------------------//

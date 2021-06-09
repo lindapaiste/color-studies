@@ -2,8 +2,9 @@ import { round } from "lib";
 import { ChannelAdapter } from "../../spacesChannels/ChannelAdapter";
 import { getChannel } from "../../spacesChannels/channels";
 import { IColorAdapter } from "../../color/types";
+import { ChannelSlug } from "../../spacesChannels/colorSpaces";
 
-export interface PropertyDef<T = string> {
+export interface PropertyDef<T = ChannelSlug> {
   channel: T;
   min: number;
   max: number;

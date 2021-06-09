@@ -1,5 +1,6 @@
 import React from "react";
 import { MenuItem as Option } from "@material-ui/core";
+import { ChannelSlug } from "logic/spacesChannels/colorSpaces";
 import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
 import { allChannels, getChannel } from "logic/spacesChannels/channels";
 import { Field } from "./Field";
@@ -19,7 +20,7 @@ export const SelectChannel = ({
     {...props}
     select
     value={value ? value.key : undefined}
-    onChange={(key, e) => onChange(getChannel(key), e)}
+    onChange={(key, e) => onChange(getChannel(key as ChannelSlug), e)}
   >
     {allChannels().map((channel) => (
       <Option key={channel.key} value={channel.key}>
