@@ -1,7 +1,7 @@
 import { LAB, KeyedLCHWeights } from "./types";
 
 /**
- * copied from https:// github.com/zschuessler/DeltaE/blob/master/src/dE00.js
+ * copied from https://github.com/zschuessler/DeltaE/blob/master/src/dE00.js
  * but converted to typescript
  */
 
@@ -105,9 +105,6 @@ export default class DeltaE2000 {
   RsubT: number;
 
   constructor(x1: LAB, x2: LAB, weights?: KeyedLCHWeights) {
-    const sqrt = Math.sqrt;
-    const pow = Math.pow;
-
     this.x1 = x1;
     this.x2 = x2;
 
@@ -123,8 +120,8 @@ export default class DeltaE2000 {
     this.LBar = (x1.L + x2.L) / 2;
 
     // C1 & C2
-    this.C1 = sqrt(pow(x1.A, 2) + pow(x1.B, 2));
-    this.C2 = sqrt(pow(x2.A, 2) + pow(x2.B, 2));
+    this.C1 = Math.sqrt(x1.A ** 2 + x1.B ** 2);
+    this.C2 = Math.sqrt(x2.A ** 2 + x2.B ** 2);
 
     // C Bar
     this.CBar = (this.C1 + this.C2) / 2;
@@ -132,20 +129,18 @@ export default class DeltaE2000 {
     // A Prime 1
     this.aPrime1 =
       x1.A +
-      (x1.A / 2) *
-        (1 - sqrt(pow(this.CBar, 7) / (pow(this.CBar, 7) + pow(25, 7))));
+      (x1.A / 2) * (1 - Math.sqrt(this.CBar ** 7 / (this.CBar ** 7 + 25 ** 7)));
 
     // A Prime 2
     this.aPrime2 =
       x2.A +
-      (x2.A / 2) *
-        (1 - sqrt(pow(this.CBar, 7) / (pow(this.CBar, 7) + pow(25, 7))));
+      (x2.A / 2) * (1 - Math.sqrt(this.CBar ** 7 / (this.CBar ** 7 + 25 ** 7)));
 
     // C Prime 1
-    this.CPrime1 = sqrt(pow(this.aPrime1, 2) + pow(x1.B, 2));
+    this.CPrime1 = Math.sqrt(this.aPrime1 ** 2 + x1.B ** 2);
 
     // C Prime 2
-    this.CPrime2 = sqrt(pow(this.aPrime2, 2) + pow(x2.B, 2));
+    this.CPrime2 = Math.sqrt(this.aPrime2 ** 2 + x2.B ** 2);
 
     // C Bar Prime
     this.CBarPrime = (this.CPrime1 + this.CPrime2) / 2;
@@ -155,7 +150,8 @@ export default class DeltaE2000 {
 
     // S sub L
     this.SsubL =
-      1 + (0.015 * pow(this.LBar - 50, 2)) / sqrt(20 + pow(this.LBar - 50, 2));
+      1 +
+      (0.015 * (this.LBar - 50) ** 2) / Math.sqrt(20 + (this.LBar - 50) ** 2);
 
     // S sub C
     this.SsubC = 1 + 0.045 * this.CBarPrime;
@@ -194,10 +190,6 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   getDeltaE(): number {
-    const sqrt = Math.sqrt;
-    const sin = Math.sin;
-    const pow = Math.pow;
-
     // h Prime 1
     this.hPrime1 = this.gethPrime1();
 
@@ -210,8 +202,8 @@ export default class DeltaE2000 {
     // Delta H Prime
     this.deltaHPrime =
       2 *
-      sqrt(this.CPrime1 * this.CPrime2) *
-      sin(degreesToRadians(this.deltahPrime) / 2);
+      Math.sqrt(this.CPrime1 * this.CPrime2) *
+      Math.sin(degreesToRadians(this.deltahPrime) / 2);
 
     // H Bar Prime
     this.HBarPrime = this.getHBarPrime();
@@ -230,11 +222,8 @@ export default class DeltaE2000 {
     const chroma = this.deltaCPrime / (this.ksubC * this.SsubC);
     const hue = this.deltaHPrime / (this.ksubH * this.SsubH);
 
-    return sqrt(
-      pow(lightness, 2) +
-        pow(chroma, 2) +
-        pow(hue, 2) +
-        this.RsubT * chroma * hue
+    return Math.sqrt(
+      lightness ** 2 + chroma ** 2 + hue ** 2 + this.RsubT * chroma * hue
     );
   }
 
@@ -244,15 +233,14 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   getRsubT(): number {
-    const sin = Math.sin;
-    const sqrt = Math.sqrt;
-    const pow = Math.pow;
-    const exp = Math.exp;
-
     return (
       -2 *
-      sqrt(pow(this.CBarPrime, 7) / (pow(this.CBarPrime, 7) + pow(25, 7))) *
-      sin(degreesToRadians(60 * exp(-pow((this.HBarPrime - 275) / 25, 2))))
+      Math.sqrt(this.CBarPrime ** 7 / (this.CBarPrime ** 7 + 25 ** 7)) *
+      Math.sin(
+        degreesToRadians(
+          60 * Math.exp(-Math.pow((this.HBarPrime - 275) / 25, 2))
+        )
+      )
     );
   }
 
@@ -262,14 +250,12 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   getT(): number {
-    const cos = Math.cos;
-
     return (
       1 -
-      0.17 * cos(degreesToRadians(this.HBarPrime - 30)) +
-      0.24 * cos(degreesToRadians(2 * this.HBarPrime)) +
-      0.32 * cos(degreesToRadians(3 * this.HBarPrime + 6)) -
-      0.2 * cos(degreesToRadians(4 * this.HBarPrime - 63))
+      0.17 * Math.cos(degreesToRadians(this.HBarPrime - 30)) +
+      0.24 * Math.cos(degreesToRadians(2 * this.HBarPrime)) +
+      0.32 * Math.cos(degreesToRadians(3 * this.HBarPrime + 6)) -
+      0.2 * Math.cos(degreesToRadians(4 * this.HBarPrime - 63))
     );
   }
 
@@ -279,9 +265,7 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   getHBarPrime(): number {
-    const abs = Math.abs;
-
-    if (abs(this.hPrime1 - this.hPrime2) > 180) {
+    if (Math.abs(this.hPrime1 - this.hPrime2) > 180) {
       return (this.hPrime1 + this.hPrime2 + 360) / 2;
     }
 
@@ -294,23 +278,21 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   getDeltahPrime(): number {
-    const abs = Math.abs;
-
     // When either C′1 or C′2 is zero, then Δh′ is irrelevant and may be set to
     // zero.
     if (this.C1 === 0 || this.C2 === 0) {
       return 0;
     }
 
-    if (abs(this.hPrime1 - this.hPrime2) <= 180) {
+    if (Math.abs(this.hPrime1 - this.hPrime2) <= 180) {
       return this.hPrime2 - this.hPrime1;
     }
 
     if (this.hPrime2 <= this.hPrime1) {
       return this.hPrime2 - this.hPrime1 + 360;
-    } else {
-      return this.hPrime2 - this.hPrime1 - 360;
     }
+
+    return this.hPrime2 - this.hPrime1 - 360;
   }
 
   /**
@@ -319,7 +301,7 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   gethPrime1(): number {
-    return this._gethPrimeFn(this.x1.B, this.aPrime1);
+    return this.gethPrimeFn(this.x1.B, this.aPrime1);
   }
 
   /**
@@ -328,7 +310,7 @@ export default class DeltaE2000 {
    * @returns {number}
    */
   gethPrime2(): number {
-    return this._gethPrimeFn(this.x2.B, this.aPrime2);
+    return this.gethPrimeFn(this.x2.B, this.aPrime2);
   }
 
   /**
@@ -337,7 +319,7 @@ export default class DeltaE2000 {
    * @private
    * @returns {number}
    */
-  _gethPrimeFn = (x: number, y: number): number => {
+  private gethPrimeFn = (x: number, y: number): number => {
     if (x === 0 && y === 0) {
       return 0;
     }

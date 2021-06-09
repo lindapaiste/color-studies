@@ -46,9 +46,9 @@ export class Trainer {
      */
     let i = 0;
     while (!this.isTrained && this.stages.length < maxEpochs) {
-      if (this.log) console.log("starting epoch " + i);
+      if (this.log) console.log(`Starting epoch ${i}`);
       this.isTrained = this.epoch(trainingSet);
-      if (this.log) console.log("is trained? " + this.isTrained);
+      if (this.log) console.log(`Is trained? ${this.isTrained}`);
       i++;
     }
   }

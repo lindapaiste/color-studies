@@ -1,44 +1,52 @@
-import { typedKeys } from "lib";
-import {
-  _ChannelMax,
-  _Maximum,
-  _VariableMax,
-  ChannelMaxObject,
-  ChannelName,
-  FixedMaxChannel,
-  I_Range,
-  VariableMaxChannel,
-} from "./types";
+import { mapValues } from "lib";
+import { ChannelName } from "./colorSpaces";
 
-export const isFixedMaxChannel = (
-  channel: ChannelName
-): channel is FixedMaxChannel =>
-  typeof STANDARD_MAXES[channel] === "number" ||
-  !getMaxObject(channel).isVariable;
-
-export const isVariableMaxChannel = (
-  channel: ChannelName
-): channel is VariableMaxChannel => !isFixedMaxChannel(channel);
-
-export const isFixedMaximum = (max: _Maximum): max is number =>
-  typeof max === "number";
-
-export const isVariableMaximum = (max: _Maximum): max is _VariableMax =>
-  !isFixedMaximum(max);
-
-/*
-export function standardMax(channel: FixedMaxChannel): number
-export function standardMax(channel: VariableMaxChannel, color: Color): number
-export function standardMax(channel: ChannelName, color: ChannelName extends VariableMaxChannel ? Color : Color | undefined): number {
-    return isVariableMaxChannel(channel) ? standardMaxes[channel](color) : standardMaxes[channel];
+export interface ChannelMaxObject {
+  /**
+   * The maximum value for this channel in its unnormalized form,
+   * such as 255 for RGB, 360 for hue, etc.
+   */
+  max: number;
+  /**
+   * The minimum value for this channel in its unnormalized form.
+   * Is typically 0.
+   */
+  min?: number;
+  /**
+   * If true, the min and max depend on the values of the other channels.
+   * Thus the min and max cannot always be reached for an arbitrary color.
+   * True for a and b in LAB.
+   */
+  isVariable?: boolean;
+  /**
+   * If true, the values of this channel are cyclical such that
+   * the min and the max are equal.
+   * True for hue channel in all models.
+   */
+  isLooped?: boolean;
 }
-*/
 
-export type ChannelMaxes = {
-  [K in ChannelName]-?: number | (Partial<ChannelMaxObject> & { max: number });
-};
+/**
+ * Use a function to create maxes.
+ * Assigns numbers to the max property. Does not fill in optional entries.
+ * Previously inferred the ChannelName type from this map.
+ * Now using the ChannelName from the color space map to ensure that every
+ * channel name must be included.
+ */
+const createKeyedMaxes = (
+  maxes: Record<ChannelName, number | ChannelMaxObject>
+): Record<ChannelName, ChannelMaxObject> =>
+  mapValues<Record<ChannelName, number | ChannelMaxObject>, ChannelMaxObject>(
+    maxes,
+    (v) => (typeof v === "number" ? { max: v } : v)
+  );
 
-const STANDARD_MAXES: ChannelMaxes = {
+/**
+ * As things become better organized, I think that naming the channels separately for each colorspace doesn't make sense.
+ * It only comes up if trying to get a value, ie. saturation, without specifying the color space.
+ * Only need separate entries if the channel ranges differ, ie. cmyk yellow is out of 100 whereas ryb yellow is out of 255.
+ */
+export const STANDARD_MAXES = createKeyedMaxes({
   // note: chroma uses 1 max for cmyk while color-convert uses 100
   red: 255,
   green: 255,
@@ -54,13 +62,16 @@ const STANDARD_MAXES: ChannelMaxes = {
   cyan: 100,
   magenta: 100,
   yellow: 100,
+  // note: cmyk black and hwb blackness seem to be equal, but need to double check
   black: 100,
   x: 95.05,
   z: 109,
+  // aka "relative luminance" - from the XYZ color space
   luminosity: {
     max: 100,
     isVariable: true,
   },
+  // from LAB & LCH - LAB refers to L as "lightness" while LCH refers to L as "luminance", but the numeric values are equal - it is the cube root of luminosity
   luminance: {
     // hard max at 100, but cannot always reach 100 without changing hue
     max: 100,
@@ -82,65 +93,10 @@ const STANDARD_MAXES: ChannelMaxes = {
   gray: 100,
   yellowRyb: 255,
   pastel: 100,
-};
-
-export const CHANNEL_NAMES = typedKeys(STANDARD_MAXES).sort();
-
-export const _getMaxPartialObject = (
-  channel: ChannelName
-): Partial<ChannelMaxObject> & { max: number } => {
-  const max = STANDARD_MAXES[channel];
-  return typeof max === "number" ? { max } : max;
-};
-
-export const getMaxObject = (
-  channel: ChannelName
-): ChannelMaxObject & I_Range => {
-  const max = STANDARD_MAXES[channel];
-  const defaults = {
-    min: 0,
-    isVariable: false,
-    isLooped: false,
-  };
-  if (typeof max === "number") {
-    return {
-      ...defaults,
-      max,
-    };
-  }
-  return {
-    ...defaults,
-    ...max,
-  };
-};
-
-export const getMaxOrFormula = <C extends ChannelName>(
-  channel: C
-): _ChannelMax<C> => STANDARD_MAXES[channel] as _ChannelMax<C>; // don't know why this "as" is needed, but it is
-
-export const getMax = (channel: ChannelName): number =>
-  getMaxObject(channel).max;
-
-export const getMin = (channel: ChannelName): number =>
-  getMaxObject(channel).min || 0;
-
-export const isChannelName = (name: any): name is ChannelName =>
-  typeof name === "string" && STANDARD_MAXES.hasOwnProperty(name);
+});
 
 /**
- * transforms into a number from 0 to 1
- * where 0 and 1 are the total min and max for the channel (not the limits for this color)
+ * Instead of exporting the raw data, just export a lookup function.
  */
-export const normalize = (value: number, channel: ChannelName): number => {
-  const { min, max } = getMaxObject(channel);
-  return (value - min) / (max - min);
-};
-
-/**
- * transforms a normalized number from 0 to 1
- * back into an actual channel value (ie. 0-360, 0-100, etc.)
- */
-export const deNormalize = (value: number, channel: ChannelName): number => {
-  const { min, max } = getMaxObject(channel);
-  return value * (max - min) + min;
-};
+export const getChannelMaxes = (channel: ChannelName): ChannelMaxObject =>
+  STANDARD_MAXES[channel];

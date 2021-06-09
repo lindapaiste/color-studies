@@ -5,16 +5,12 @@ import { ModelAdapter } from "./ModelAdapter";
 
 export type ModelOrName<CS extends ColorSpaceName> = CS | ModelAdapter<CS>;
 
-type KeyedModelObjects = {
-  [K in ColorSpaceName]-?: ModelAdapter<K>;
-};
-
 /**
  * keyed by color space name
  */
 const KEYED_MODEL_OBJECTS = Object.fromEntries(
   COLOR_SPACE_NAMES.map((name) => [name, new ModelAdapter(name)])
-) as KeyedModelObjects;
+) as Record<ColorSpaceName, ModelAdapter<ColorSpaceName>>;
 
 /**
  * use a getter outside the class so that I can possibly store locally to minimize repeat creation
@@ -27,6 +23,7 @@ export const getModel = <CS extends ColorSpaceName>(
 
 /**
  * is the same thing, but the assumption of type is done internally
+ * Allows key to be any string so that this can be used in Select components.
  */
 export const getModelFromKey = (key: string): ModelAdapter<ColorSpaceName> =>
   KEYED_MODEL_OBJECTS[key as ColorSpaceName];

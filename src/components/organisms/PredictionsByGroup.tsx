@@ -22,7 +22,7 @@ export const PredictionsGroupSection = ({
 
   const [correct, incorrect] = useMemo(
     () => partition(results, (r) => r.group === group),
-    [results]
+    [results, group]
   );
 
   return (

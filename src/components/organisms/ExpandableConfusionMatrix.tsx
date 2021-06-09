@@ -7,7 +7,7 @@ import {
 } from "logic/classification/accuracy/metrics";
 import { ResultsMatrix } from "./ResultsMatrix";
 import { ResultMetrics } from "./ResultMetrics";
-import { Accordion } from "../index";
+import { Accordion } from "../molecules";
 
 /**
  * contains multiple UI components for displaying all or part of the ConfusionMatrix interface
@@ -24,7 +24,7 @@ export const ExpandableConfusionMatrix = ({
     </Accordion>
 
     <Accordion
-      title={"Accuracy: " + percentString(results.balancedAccuracy, 1)}
+      title={`Accuracy: ${percentString(results.balancedAccuracy, 1)}`}
     >
       <ResultMetrics
         results={results}

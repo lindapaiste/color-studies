@@ -1,9 +1,7 @@
 import React from "react";
 import { Slider } from "@material-ui/core";
 import { Size } from "lib";
-import { ChannelAccessor } from "logic/spacesChannels/types";
-import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
-import { eitherToObject } from "logic/spacesChannels/channels";
+import { ChannelArg, toChannelObject } from "logic/spacesChannels/channels";
 import { IColorAdapter } from "logic/color/types";
 import { GenericProps, WithoutE } from "../atoms/types";
 import { GradientBar } from "../atoms";
@@ -15,7 +13,7 @@ import { FormLabelWrapper } from "../atoms/LabelWrapper";
 // number | [number, number];
 export interface ExtraProps {
   color: IColorAdapter;
-  channel: ChannelAccessor | ChannelAdapter;
+  channel: ChannelArg;
   normalized: boolean;
 }
 
@@ -33,7 +31,7 @@ export const ChannelSlider = <T extends number | number[]>({
   height = 50,
   ...props
 }: Props<T>) => {
-  const channelObj = eitherToObject(channel);
+  const channelObj = toChannelObject(channel);
   return (
     <div style={{ position: "relative" }}>
       <GradientBar

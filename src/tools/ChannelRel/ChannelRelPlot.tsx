@@ -9,8 +9,8 @@ import {
 } from "recharts";
 import { intervals, Size } from "lib";
 import { randomColors } from "logic/color";
-import { Settings } from "./ChannelRelTool";
 import { colorToPoint } from "../PlotFeatures/PlotFeatures";
+import { Settings } from "./settings";
 
 export const ChannelRelPlot = ({
   xChannel,

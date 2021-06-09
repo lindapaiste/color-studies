@@ -3,6 +3,9 @@ import { ChannelCountTuple, ColorSpaceName, ColorTuple } from "./types";
 import { ChannelAdapter } from "./ChannelAdapter";
 import { COLOR_SPACE_ARRAYS } from "./colorSpaces";
 
+/**
+ * Not much logic here, primarily serves as a collection of 3 ChannelAdapters.
+ */
 export class ModelAdapter<CS extends ColorSpaceName> {
   public readonly name: CS;
 
@@ -10,7 +13,7 @@ export class ModelAdapter<CS extends ColorSpaceName> {
 
   /**
    * stores channels as ChannelAdapter objects
-   * expect that creation of models comes first and triggers the creation of models, not the other way around
+   * expect that creation of models comes first and triggers the creation of channels, not the other way around
    */
   constructor(name: CS) {
     this.name = name;

@@ -1,7 +1,7 @@
 import React from "react";
 import { FlexRow, NumberInput, SelectChannel } from "components";
 import { StateUpdateProps } from "lib/util-hooks";
-import { Settings } from "./ChannelRelTool";
+import { Settings } from "./settings";
 
 export const ChannelRelControls = ({
   state,

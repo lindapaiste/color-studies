@@ -48,7 +48,7 @@ export const RenderAutoSizeHistogram = ({
   const sizes = calcSizes(chartSize, buckets);
 
   return (
-    <div style={{ margin: padPercent + "%" }}>
+    <div style={{ margin: `${padPercent}%` }}>
       <RenderHistogram {...sizes} buckets={buckets} height={chartSize.height} />
     </div>
   );

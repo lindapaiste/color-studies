@@ -61,5 +61,3 @@ export class ModelGradient<CS extends ColorSpaceName> implements IGradient {
     return makeArray(count, colorI);
   }
 }
-
-export default ModelGradient;

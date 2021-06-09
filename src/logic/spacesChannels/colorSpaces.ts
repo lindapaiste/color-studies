@@ -1,24 +1,15 @@
-import { flatten, typedEntries, typedKeys, typedValues } from "lib";
-import { CHANNEL_NAMES } from "./channelMaxes";
-import {
-  ChannelAccessor,
-  ChannelCount,
-  ChannelName,
-  ChannelObjectAll,
-  ChannelTuple,
-  ColorSpaceName,
-  ColorTuple,
-} from "./types";
+import { mapValues, typedKeys, typedValues, uniq } from "lib";
 
-type ColorSpaceArrays = {
-  [K in ColorSpaceName]-?: ChannelTuple<K>;
-};
+// ------------------------------DATA---------------------------------//
 
 /**
  * don't want to rely on any specific data structure as the root, but it is ok to export the data in a known format
  * if changing the data structure in the future, can rearrange into this format and export
+ *
+ * Channels must be listed in the correct order for the lookup by slug to work,
+ * given the current assumptions in the implementation.
  */
-export const COLOR_SPACE_ARRAYS: ColorSpaceArrays = {
+export const COLOR_SPACE_ARRAYS = {
   rgb: ["red", "green", "blue"],
   hsl: ["hue", "saturation", "lightness"],
   hsi: ["hue", "saturation", "intensity"],
@@ -28,73 +19,75 @@ export const COLOR_SPACE_ARRAYS: ColorSpaceArrays = {
   cmyk: ["cyan", "magenta", "yellow", "black"],
   hwb: ["hue", "white", "black"],
   hcg: ["hue", "chromaHcg", "gray"],
-  xyz: ["x", "luminosity", "z"],
+  xyz: ["x", "luminosity", "z"], // TODO: figure out how to have "xyz.y" as the slug and still use luminosity settings.
   ryb: ["red", "yellowRyb", "blue"],
   hpluv: ["hue", "pastel", "luminosity"],
   hsluv: ["hue", "saturation", "luminosity"],
-};
+} as const;
 /**
  * not included:
  * CMY - has higher values in each channel than cmyk because they are added together to get the black
  * YUV
- * RYB
  */
 
-export const COLOR_SPACE_NAMES: ColorSpaceName[] =
-  typedKeys(COLOR_SPACE_ARRAYS);
-
-type KeyedAccessors = {
-  [K in ChannelName]-?: ChannelAccessor[];
-};
-
-const getKeyedAccessors = (): KeyedAccessors => {
-  const result = Object.fromEntries(
-    CHANNEL_NAMES.map((name) => [name, []] as [ChannelName, ChannelAccessor[]])
-  ) as KeyedAccessors;
-  typedEntries(COLOR_SPACE_ARRAYS).forEach(([colorSpace, channels]) => {
-    channels.forEach((channel, i) => {
-      result[channel].push([colorSpace, i]);
-    });
-  });
-  return result;
-};
-
-const getAllChannels = (): ChannelObjectAll[] =>
-  typedEntries(getKeyedAccessors()).map(([name, accessors]) => ({
-    name,
-    accessors,
-  }));
-
-// don't need to recompute because it doesn't change
-export const GROUPED_ACCESSORS = getAllChannels();
-
-export const KEYED_ACCESSORS = getKeyedAccessors();
-
-export const ALL_ACCESSORS: ChannelAccessor[] = flatten(
-  typedValues(KEYED_ACCESSORS)
-);
-
-export const spacesWithChannel = (channel: ChannelName): ColorSpaceName[] =>
-  COLOR_SPACE_NAMES.filter((model) =>
-    COLOR_SPACE_ARRAYS[model].includes(channel)
-  );
-
-export const getSpaceChannelNames = <CS extends ColorSpaceName>(
-  cs: CS
-): ChannelTuple<CS> => COLOR_SPACE_ARRAYS[cs] as unknown as ChannelTuple<CS>;
-
-export const channelCount = <CS extends ColorSpaceName>(
-  cs: CS
-): ChannelCount<CS> => COLOR_SPACE_ARRAYS[cs].length as ChannelCount<CS>;
-
-export const isColorSpace = (cs: any): cs is ColorSpaceName =>
-  typeof cs === "string" && cs in COLOR_SPACE_ARRAYS;
+// ----------------------------DERIVED TYPES-------------------------------//
 
 /**
- * checks that the length of the array is enough for the color space
- * can include extra entries -- assumes that these will be ignored
+ * Can derive the TypeScript types from the object.
  */
-export const isValidTuple = <CS extends ColorSpaceName>(
-  array: number[],
-  cs: CS
-): array is ColorTuple<CS> => array.length >= channelCount(cs);
+type CsMap = typeof COLOR_SPACE_ARRAYS;
+
+/**
+ * Union type of all lowercase 3/4-letter color space names.
+ */
+export type ColorSpaceName = keyof CsMap;
+
+/**
+ * Union type of all channel names.
+ */
+export type ChannelName = {
+  [K in keyof CsMap]: CsMap[K] extends readonly (infer T)[] ? T : never;
+}[keyof CsMap];
+
+/**
+ * Helper utility type to get the first letter of the channel.
+ */
+type FirstLetter<S> = S extends `${infer L}${string}` ? L : never;
+
+/**
+ * Union type of all CS-channel slugs, like 'rgb.b', 'hsl.h', etc.
+ */
+export type ChannelSlug = {
+  [K in keyof CsMap]: CsMap[K] extends readonly (infer T)[]
+    ? `${K}.${FirstLetter<T>}`
+    : never;
+}[keyof CsMap];
+
+// ----------------------------DERIVED VALUES-------------------------------//
+
+/**
+ * Array of color space names.
+ */
+export const COLOR_SPACE_NAMES: ColorSpaceName[] =
+  typedKeys(COLOR_SPACE_ARRAYS).sort();
+
+/**
+ * Array of all channel names, deduplicated.
+ */
+export const CHANNEL_NAMES: ChannelName[] = uniq(
+  typedValues(COLOR_SPACE_ARRAYS).flat().sort()
+);
+
+/**
+ * Channel slugs, keyed by channel.
+ */
+export const KEYED_SLUGS: Record<ColorSpaceName, ChannelSlug[]> = mapValues(
+  COLOR_SPACE_ARRAYS,
+  (channels, cs) =>
+    channels.map((channel) => `${cs}.${channel.substr(0, 1)}` as ChannelSlug)
+);
+
+/**
+ * Array of all channel slugs.
+ */
+export const CHANNEL_SLUGS: ChannelSlug[] = typedValues(KEYED_SLUGS).flat();

@@ -1,13 +1,8 @@
 import { proper } from "lib";
-import {
-  ChannelAccessor,
-  ChannelMaxObject,
-  ChannelName,
-  ColorSpaceName,
-} from "./types";
-import { _getMaxPartialObject } from "./channelMaxes";
-import { allModels } from "./models";
+import { ChannelAccessor, ChannelName, ColorSpaceName } from "./types";
+import { getChannelMaxes, ChannelMaxObject } from "./channelMaxes";
 import { ModelAdapter } from "./ModelAdapter";
+import { ChannelSlug } from "./colorSpaces";
 
 /**
  * one Channel object per channel name / color space pairing
@@ -47,42 +42,11 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
     this.modelName = model.name;
     this.offset = offset;
     this.name = name;
-    const maxes = _getMaxPartialObject(this.name);
+    const maxes = getChannelMaxes(this.name);
     this.max = maxes.max;
     this.min = maxes.min || 0;
     this.isLooped = maxes.isLooped || false;
     this.isVariable = maxes.isVariable || false;
-  }
-
-  /**
-   * can construct from name, but also need to know the color space
-   * can fallback to the first possible color space when there are multiple
-   */
-  public static fromName(
-    name: ChannelName,
-    model?: ModelAdapter<ColorSpaceName>
-  ): ChannelAdapter {
-    if (model === undefined) {
-      for (let cs of allModels()) {
-        const offset = cs.channels.findIndex(
-          (channel) => channel.name === name
-        );
-        if (offset !== -1) {
-          return new ChannelAdapter(name, cs, offset);
-        }
-      }
-      throw new Error(`cannot find any models with channel ${name}`);
-    }
-    const channels = model.channels.map((c) => c.name);
-    const offset = channels.indexOf(name);
-    if (offset === -1) {
-      throw new Error(
-        `channel ${name} not found in color space ${model}, which has channels ${channels.join(
-          ", "
-        )}`
-      );
-    }
-    return new ChannelAdapter(name, model, offset);
   }
 
   get accessor(): ChannelAccessor {
@@ -92,7 +56,7 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
   /**
    * use the slug as the key
    */
-  get key(): string {
+  get key(): ChannelSlug {
     return this.slug;
   }
 
@@ -101,9 +65,9 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
    * previously stored the channels with letter keys,
    * but now relying on the assumption that the color space name matches the channel letters
    */
-  get slug(): string {
+  get slug(): ChannelSlug {
     const letter = this.modelName[this.offset];
-    return `${this.modelName}.${letter}`;
+    return `${this.modelName}.${letter}` as ChannelSlug;
   }
 
   /**

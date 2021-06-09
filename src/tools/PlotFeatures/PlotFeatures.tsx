@@ -15,7 +15,7 @@ import { GroupedHex } from "logic/classification/types";
 import { Size } from "lib";
 import { Swatch } from "components";
 import { IColorAdapter } from "logic/color/types";
-import { ChannelAccessor } from "logic/spacesChannels/types";
+import { ChannelArg } from "../../logic/spacesChannels/channels";
 
 /**
  * creates a scatter plot based on two color properties (x and y)
@@ -37,11 +37,7 @@ export interface Props {
  * Get an x and a y from a color.  Is also used in ChannelRelPlot.
  */
 export const colorToPoint =
-  (
-    xChannel: ChannelAdapter | ChannelAccessor,
-    yChannel: ChannelAdapter | ChannelAccessor
-  ) =>
-  (color: IColorAdapter) => ({
+  (xChannel: ChannelArg, yChannel: ChannelArg) => (color: IColorAdapter) => ({
     x: color.get(xChannel, false, 2),
     y: color.get(yChannel, false, 2),
     hex: color.hex(),

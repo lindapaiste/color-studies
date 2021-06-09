@@ -1,5 +1,5 @@
 import React from "react";
-import { round } from "lib";
+import { percentString, round } from "lib";
 import { Tooltip } from "components";
 import { logProfile } from "logic/color/logProfile";
 import { RenderProps } from "./types";
@@ -19,19 +19,19 @@ export const RenderHistogram = ({
     {buckets.map((bucket, i) => (
       <div
         // outer div which hold the bucket contents and the label
-        key={i}
+        key={bucket.min}
         className="barContainer"
         style={{
-          width: bucket.width * 100 + "%",
+          width: percentString(bucket.width),
         }}
       >
         <div
           // column of boxes stacked at the bottom
           className="bar"
         >
-          {bucket.entries.map((entry, j) => (
+          {bucket.entries.map((entry) => (
             <Tooltip
-              key={j}
+              key={entry.color}
               title={
                 <div>
                   <div>{entry.color}</div>

@@ -3,18 +3,12 @@ import { ColorSpaceName, ColorTuple } from "./types";
 import { ModelAdapter } from "./ModelAdapter";
 import { eitherToModel, ModelOrName } from "./models";
 
-export interface ITupleClass<CS extends ColorSpaceName> {
-  model: ModelAdapter<CS>;
-  normalized: ColorTuple<CS>;
-  deNormalized: ColorTuple<CS>;
-  rounded: ColorTuple<CS>;
-}
-
 /**
- * give it some methods so that it can act like an array
+ * Wrapper around a color values tuple can act as an array ( implements ArrayLike ),
+ * but can also handle normalization and denormalization of its values.
  */
 export class TupleClass<CS extends ColorSpaceName>
-  implements ITupleClass<CS>, ArrayLike<number>
+  implements ArrayLike<number>
 {
   public normalized: ColorTuple<CS>;
 
@@ -104,5 +98,3 @@ export class TupleClass<CS extends ColorSpaceName>
    * map() wouldn't match the signature or an array map
    */
 }
-
-export default TupleClass;

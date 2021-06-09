@@ -64,7 +64,7 @@ export const SelectMultipleColors = ({
       >
         {colors.map((color, i) => (
           <div
-            key={i}
+            key={color.hex()}
             style={{
               display: "flex",
             }}
@@ -95,5 +95,3 @@ export const SelectMultipleColors = ({
     </div>
   );
 };
-
-export default SelectMultipleColors;

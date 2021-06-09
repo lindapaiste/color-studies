@@ -15,9 +15,8 @@ interface Data<T> {
   i: number;
 }
 
-const sortByGroup = <T extends any>(data: Data<T>[]) => {
-  return groupBy(data, (d) => d.group);
-};
+const sortByGroup = <T extends any>(data: Data<T>[]) =>
+  groupBy(data, (d) => d.group);
 
 export const ClassifyTool = <T extends any>({
   colors,

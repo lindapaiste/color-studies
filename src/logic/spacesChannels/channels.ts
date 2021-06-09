@@ -2,7 +2,8 @@ import { sample } from "lodash";
 import { flatMap, sortBy } from "lib";
 import { allModels, getModel } from "./models";
 import { ChannelAdapter } from "./ChannelAdapter";
-import { ChannelAccessor, ChannelName } from "./types";
+import { ChannelAccessor } from "./types";
+import { ChannelSlug, ColorSpaceName } from "./colorSpaces";
 
 /**
  * array of all channel objects, sorted by name
@@ -37,27 +38,40 @@ const KEYED_CHANNELS = Object.fromEntries(
  * assumes that the key is valid
  * Takes key in the form "hsl.s", "rgb.r", etc.
  */
-export const getChannel = (key: string): ChannelAdapter => KEYED_CHANNELS[key];
+export const getChannel = (key: ChannelSlug): ChannelAdapter =>
+  KEYED_CHANNELS[key];
 // alternatively, return allChannels().find( channel => channel.key === key )
 
 /**
- * helper so that ColorAdapter and other can accept channel in multiple forms
+ * A channel can be represented by:
+ * - an adapter object
+ * - an accessor array
+ * - a string slug
  */
-export const eitherToAccessor = (
-  channel: ChannelAdapter | ChannelAccessor
-): ChannelAccessor => (Array.isArray(channel) ? channel : channel.accessor);
+export type ChannelArg = ChannelAdapter | ChannelAccessor | ChannelSlug;
+
+/**
+ * helpers so that ColorAdapter and other can accept channel in multiple forms
+ */
+
+const slugToAccessor = (channel: ChannelSlug): ChannelAccessor => {
+  const [cs, letter] = channel.split(".");
+  return [cs as ColorSpaceName, cs.indexOf(letter)];
+};
 
 const accessorToChannel = (channel: ChannelAccessor): ChannelAdapter => {
   const [cs, offset] = channel;
   return getModel(cs).channels[offset];
 };
 
-export const eitherToObject = (
-  channel: ChannelAdapter | ChannelAccessor
-): ChannelAdapter =>
-  Array.isArray(channel) ? accessorToChannel(channel) : channel;
+export const toChannelAccessor = (channel: ChannelArg): ChannelAccessor => {
+  if (typeof channel === "string") return slugToAccessor(channel);
+  return Array.isArray(channel) ? channel : channel.accessor;
+};
 
-export const eitherToName = (
-  channel: ChannelName | ChannelAccessor | ChannelAdapter
-): ChannelName =>
-  typeof channel === "string" ? channel : eitherToObject(channel).name;
+export const toChannelObject = (channel: ChannelArg): ChannelAdapter => {
+  if (Array.isArray(channel)) return accessorToChannel(channel);
+  if (typeof channel === "string")
+    return accessorToChannel(slugToAccessor(channel));
+  return channel;
+};

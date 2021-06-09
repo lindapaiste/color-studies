@@ -1,14 +1,11 @@
 import { random } from "lib";
 import { fixHue } from "../hue/hueShift";
-import { ChannelAccessor } from "../spacesChannels/types";
 import {
   colorWheelToNormal,
   normalToColorWheel,
 } from "../adjustment/colorWheel";
-import { getMax, isFixedMaxChannel } from "../spacesChannels/channelMaxes";
 import { IColorAdapter } from "../color/types";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
-import { eitherToObject } from "../spacesChannels/channels";
+import { ChannelArg, toChannelObject } from "../spacesChannels/channels";
 
 export interface ChannelProps {
   min?: number; // default to 0 if not set
@@ -23,7 +20,7 @@ export interface ChannelProps {
 export interface BasicProps {
   value: number;
   noiseRatio: number;
-  channel: ChannelAdapter | ChannelAccessor;
+  channel: ChannelArg;
 }
 
 export type SpecificProps = ChannelProps & Omit<BasicProps, "channel">;
@@ -31,11 +28,9 @@ export type SpecificProps = ChannelProps & Omit<BasicProps, "channel">;
 /**
  * can share this between noise generation and channel shift
  */
-export const getChannelProps = (
-  channel: ChannelAdapter | ChannelAccessor
-): ChannelProps => {
-  const object = eitherToObject(channel);
-  const name = object.name;
+export const getChannelProps = (channel: ChannelArg): ChannelProps => {
+  const object = toChannelObject(channel);
+  const { name } = object;
 
   let preTransform: (n: number) => number = (c) => c;
   let postTransform: (n: number) => number = (c) => c;
@@ -56,8 +51,8 @@ export const getChannelProps = (
   // could calculate based on other channels, but what if all channels are changing?
   let max;
   let clamp = true;
-  if (isFixedMaxChannel(name)) {
-    max = getMax(name);
+  if (!object.isVariable) {
+    max = object.max;
   } else {
     clamp = false;
   }
@@ -70,16 +65,6 @@ export const getChannelProps = (
   };
 };
 
-export const noisyChannelValue = ({
-  channel,
-  ...props
-}: BasicProps): number => {
-  return specificNoisyValue({
-    ...props,
-    ...getChannelProps(channel), // TODO replace with the standard transform version
-  });
-};
-
 export const specificNoisyValue = ({
   value,
   max = 100,
@@ -89,11 +74,11 @@ export const specificNoisyValue = ({
   preTransform = (n) => n,
   clamp = false,
 }: SpecificProps): number => {
-  const _initial = preTransform(value);
-  const _min = preTransform(min);
-  const _max = preTransform(max);
+  const initial = preTransform(value);
+  const vMin = preTransform(min);
+  const vMax = preTransform(max);
   // thought about passing noise amount instead of noise ratio, but want to base it on the transformed value of max
-  const noiseAmount = _max * noiseRatio;
+  const noiseAmount = vMax * noiseRatio;
   /**
    * it is important to remove the possibility of out of range values
    * BEFORE picking the random number in order to distribute properly
@@ -101,11 +86,11 @@ export const specificNoisyValue = ({
    * clamp property makes constraining optional, which is needed for hue only
    */
   const lower = clamp
-    ? Math.max(_min, _initial - noiseAmount)
-    : _initial - noiseAmount;
+    ? Math.max(vMin, initial - noiseAmount)
+    : initial - noiseAmount;
   const upper = clamp
-    ? Math.min(_max, _initial + noiseAmount)
-    : _initial + noiseAmount;
+    ? Math.min(vMax, initial + noiseAmount)
+    : initial + noiseAmount;
   const noisy = postTransform(random(lower, upper, true));
   console.log({
     noisy,
@@ -116,12 +101,18 @@ export const specificNoisyValue = ({
   return noisy;
 };
 
+export const noisyChannelValue = ({ channel, ...props }: BasicProps): number =>
+  specificNoisyValue({
+    ...props,
+    ...getChannelProps(channel), // TODO replace with the standard transform version
+  });
+
 /**
  * applies channel noise to an IColorAdapter object
  */
 export const withChannelNoise = (
   color: IColorAdapter,
-  channel: ChannelAdapter | ChannelAccessor,
+  channel: ChannelArg,
   noiseRatio: number
 ): IColorAdapter => {
   const value = color.get(channel);

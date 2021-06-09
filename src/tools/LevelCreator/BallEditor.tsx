@@ -43,6 +43,59 @@ export const RejectionTooltip = (props: Rejection) => (
   </div>
 );
 
+// TODO: this component is a mess
+export const EditingBall = ({
+  data,
+  setData,
+  settings,
+  id,
+}: DataProps & { id: Identifier }) => {
+  const setBallColor = useCallback(
+    (color: IColorAdapter) => {
+      const box = data[id.boxIndex];
+      const ball = box.matches[id.ballIndex];
+      setData(
+        replaceIndex(data, id.boxIndex, {
+          ...box,
+          matches: replaceIndex(box.matches, id.ballIndex, { ...ball, color }),
+        })
+      );
+    },
+    [setData, id, data]
+  );
+
+  // the ball color passed down from props based on id
+  const receivedColor = data[id.boxIndex].matches[id.ballIndex].color;
+
+  const [color, setColor] = useState(receivedColor);
+
+  // change color when switching id
+  useEffect(() => {
+    setColor(receivedColor);
+  }, [receivedColor]);
+
+  const evaluation = matchToChoices(
+    settings.getDistance,
+    color,
+    data.map((box) => box.color)
+  );
+
+  const error = getError(evaluation, settings, data[id.boxIndex].color);
+
+  useEffect(() => {
+    if (error === false) {
+      setBallColor(color);
+    }
+  }, [color, error, setBallColor]);
+
+  return (
+    <div>
+      <SelectColor value={color} onChange={setColor} />
+      {error && <div>{error.message}</div>}
+    </div>
+  );
+};
+
 /**
  * only allow editing when not shuffled
  * otherwise, need to redo because would not know the actual position/id in the data object
@@ -144,59 +197,6 @@ export const BallsEditor = ({
           </Box>
         ))}
       </div>
-    </div>
-  );
-};
-
-// TODO: this component is a mess
-export const EditingBall = ({
-  data,
-  setData,
-  settings,
-  id,
-}: DataProps & { id: Identifier }) => {
-  const setBallColor = useCallback(
-    (color: IColorAdapter) => {
-      const box = data[id.boxIndex];
-      const ball = box.matches[id.ballIndex];
-      setData(
-        replaceIndex(data, id.boxIndex, {
-          ...box,
-          matches: replaceIndex(box.matches, id.ballIndex, { ...ball, color }),
-        })
-      );
-    },
-    [setData, id, data]
-  );
-
-  // the ball color passed down from props based on id
-  const receivedColor = data[id.boxIndex].matches[id.ballIndex].color;
-
-  const [color, setColor] = useState(receivedColor);
-
-  // change color when switching id
-  useEffect(() => {
-    setColor(receivedColor);
-  }, [receivedColor]);
-
-  const evaluation = matchToChoices(
-    settings.getDistance,
-    color,
-    data.map((box) => box.color)
-  );
-
-  const error = getError(evaluation, settings, data[id.boxIndex].color);
-
-  useEffect(() => {
-    if (error === false) {
-      setBallColor(color);
-    }
-  }, [color, error, setBallColor]);
-
-  return (
-    <div>
-      <SelectColor value={color} onChange={setColor} />
-      {error && <div>{error.message}</div>}
     </div>
   );
 };

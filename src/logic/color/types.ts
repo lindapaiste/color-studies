@@ -1,11 +1,7 @@
-import {
-  ChannelAccessor,
-  ColorSpaceName,
-  ColorTuple,
-} from "../spacesChannels/types";
+import { ColorSpaceName, ColorTuple } from "../spacesChannels/types";
 import { ModelAdapter } from "../spacesChannels/ModelAdapter";
 import { TupleClass } from "../spacesChannels/TupleClass";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { ChannelArg } from "../spacesChannels/channels";
 
 /**
  * interface requires that object can be converted to a number tuple of any type
@@ -31,17 +27,9 @@ export interface IColorAdapter extends CanGetHex {
     colorSpace: CS | ModelAdapter<CS>
   ): IColorAdapter;
 
-  get(
-    channel: ChannelAccessor | ChannelAdapter,
-    normalized?: boolean,
-    precision?: number
-  ): number;
+  get(channel: ChannelArg, normalized?: boolean, precision?: number): number;
 
-  set(
-    accessor: ChannelAccessor | ChannelAdapter,
-    value: number,
-    normalized?: boolean
-  ): IColorAdapter;
+  set(channel: ChannelArg, value: number, normalized?: boolean): IColorAdapter;
 }
 
 export interface CanGetHex {

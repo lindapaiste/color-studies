@@ -2,19 +2,26 @@ import chroma, { Color as ChromaColor } from "chroma-js";
 import convert from "color-convert";
 import { isDefined, replaceIndex, tupleMap } from "lib";
 import { hpluvToRgb, hsluvToRgb, rgbToHpluv, rgbToHsluv } from "hsluv";
-import { isDefined, replaceIndex, tupleMap } from "lib";
 import {
   ChannelAccessor,
   ColorSpaceName,
   ColorTuple,
 } from "../spacesChannels/types";
 import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
-import { eitherToAccessor, eitherToObject } from "../spacesChannels/channels";
+import {
+  ChannelArg,
+  toChannelAccessor,
+  toChannelObject,
+} from "../spacesChannels/channels";
 import { ModelAdapter } from "../spacesChannels/ModelAdapter";
 import { eitherToModel, eitherToName } from "../spacesChannels/models";
 import { rgbToRyb, rybToRgb } from "./ryb";
 import { TupleClass } from "../spacesChannels/TupleClass";
 import { IColorAdapter, CanGetHex } from "./types";
+
+/**
+ * Wraps the chroma.js object and adds a few additional color spaces.
+ */
 
 export class ColorAdapter implements IColorAdapter, CanGetHex {
   /**
@@ -216,7 +223,7 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
     normalized: boolean = false,
     precision?: number
   ): number {
-    const channelObj = eitherToObject(channel);
+    const channelObj = toChannelObject(channel);
     const tuple = this.toClassed(channelObj.modelObject);
     return tuple.getEither(normalized, precision)[channelObj.offset];
   }
@@ -230,11 +237,11 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
    * when the new color is created, it will have saved the potentially invalid value as a known conversion
    */
   public set(
-    channel: ChannelAccessor | ChannelAdapter,
+    channel: ChannelArg,
     value: number,
     normalized: boolean = false
   ): ColorAdapter {
-    const [cs, offset] = eitherToAccessor(channel);
+    const [cs, offset] = toChannelAccessor(channel);
     const initial = this.toClassed(cs).getEither(normalized);
     const edited = replaceIndex(initial, offset, value);
     return ColorAdapter.fromTuple(new TupleClass(edited, cs, normalized));

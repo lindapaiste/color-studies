@@ -87,10 +87,7 @@ export class GroupPerceptron implements IGroupPerceptron {
     for (let i = 0; i < this.weights.length; i++) {
       score += this.weights[i] * features[i];
       console.log(
-        "adding " +
-          this.weights[i] * features[i] +
-          " for a new score of " +
-          score
+        `adding ${this.weights[i] * features[i]} for a new score of ${score}`
       );
     }
     score += this.bias;

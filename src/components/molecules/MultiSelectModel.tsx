@@ -15,5 +15,3 @@ export const MultiSelectModel = (
     {...props}
   />
 );
-
-export default MultiSelectModel;

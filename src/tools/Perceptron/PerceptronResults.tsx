@@ -5,6 +5,7 @@ import {
   Text,
   DataTable,
   ExpandableConfusionMatrix,
+  RenderResultGroups,
 } from "components";
 import { round } from "lib";
 import {
@@ -15,7 +16,6 @@ import {
 import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
 import { GroupPerceptron } from "logic/classification/model/perceptron/GroupPerceptron";
 import { RenderProps } from "./types";
-import { RenderResultGroups } from "./RenderResultGroups";
 
 /**
  * examine the results from applying the model to colors
@@ -23,29 +23,6 @@ import { RenderResultGroups } from "./RenderResultGroups";
  *
  * previously did a sort by predicted score, but this is isn't supported by the new abstract implementation
  */
-
-export const RenderPerceptronTest = ({
-  model,
-  results,
-  onClickRefresh,
-}: RenderProps) => (
-  <div>
-    <RenderImpossibleError check={model.impossibleCheck()} />
-    <Button onClick={onClickRefresh}>Refresh Results</Button>
-    <PerceptronBoundary model={model} />
-    <Accordion title="Model Weights">
-      <RenderModel model={model} />
-    </Accordion>
-    <ExpandableConfusionMatrix results={results.accuracy} />
-    <RenderResultGroups
-      results={results}
-      resultToTooltip={(result) => (
-        <ResultTooltip result={result} channels={model.channels} />
-      )}
-      height={40}
-    />
-  </div>
-);
 
 /**
  * if there is only one channel in model, then can easily display the value that flips true to false
@@ -119,3 +96,26 @@ export const RenderImpossibleError = ({
   }
   return null;
 };
+
+export const RenderPerceptronTest = ({
+  model,
+  results,
+  onClickRefresh,
+}: RenderProps) => (
+  <div>
+    <RenderImpossibleError check={model.impossibleCheck()} />
+    <Button onClick={onClickRefresh}>Refresh Results</Button>
+    <PerceptronBoundary model={model} />
+    <Accordion title="Model Weights">
+      <RenderModel model={model} />
+    </Accordion>
+    <ExpandableConfusionMatrix results={results.accuracy} />
+    <RenderResultGroups
+      results={results}
+      resultToTooltip={(result) => (
+        <ResultTooltip result={result} channels={model.channels} />
+      )}
+      height={40}
+    />
+  </div>
+);

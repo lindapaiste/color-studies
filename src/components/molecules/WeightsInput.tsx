@@ -39,7 +39,7 @@ export const WeightsInput = <CS extends ColorSpaceName>({
       {modelObj.channels.map((channel, i) => (
         <NumberInput
           key={channel.key}
-          label={channel.title + " Weight"}
+          label={`${channel.title} Weight`}
           value={weights[i]}
           onChange={(v) => onChange(replaceIndex(weights, i, v))}
           min={0}

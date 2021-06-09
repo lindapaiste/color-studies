@@ -5,18 +5,6 @@ import "./box-style.css";
 import { round } from "lib";
 import { CanGetHex } from "logic/color/types";
 
-export const RenderBoxData = ({ data }: { data: BoxData<CanGetHex>[] }) => (
-  <div className="boxes-area">
-    {data.map((box, i) => (
-      <Box key={i} color={box.color}>
-        {box.matches.map((match, j) => (
-          <Ball key={j} {...match} />
-        ))}
-      </Box>
-    ))}
-  </div>
-);
-
 export const Box = ({
   color,
   children,
@@ -63,4 +51,16 @@ export const Ball = ({
       style={{ backgroundColor: props.color.hex() }}
     />
   </Tooltip>
+);
+
+export const RenderBoxData = ({ data }: { data: BoxData<CanGetHex>[] }) => (
+  <div className="boxes-area">
+    {data.map((box, i) => (
+      <Box key={i} color={box.color}>
+        {box.matches.map((match, j) => (
+          <Ball key={j} {...match} />
+        ))}
+      </Box>
+    ))}
+  </div>
 );
