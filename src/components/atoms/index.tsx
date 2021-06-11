@@ -2,6 +2,12 @@ export {
   Button,
   Typography as Text,
   MenuItem as Option,
+  Table,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableHead,
+  TableSortLabel,
 } from "@material-ui/core";
 export { CheckboxInput } from "./CheckboxInput";
 export { Field } from "./Field";

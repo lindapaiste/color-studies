@@ -1,116 +1,44 @@
 import React from "react";
-import { last } from "lodash";
-import { ExpandableColorInfo, Swatch, Title } from "components";
-import { allGroupNames, randomGroupName } from "data";
-import { ColorAdapter } from "logic/color/ColorAdapter";
-import { IColorAdapter, PropColor } from "logic/color/types";
-import { ColorGrouping } from "logic/classification/constraints/ColorGrouping";
-import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
-import { PropertyConstraint } from "logic/classification/constraints/PropertyConstraint";
+import { CheckCircle, ErrorOutline } from "@material-ui/icons";
+import { Accordion, ExpandableColorInfo, Swatch, Title } from "components";
+import { allGroupNames } from "data";
+import { PropColor } from "logic/color/types";
 import { getColorGrouping } from "logic/classification/constraints/getGroup";
+import { forceColor } from "../../logic/classification/constraints/forceColor";
 
-/**
- * play with rgb(47, 60, 14) going to pastel
- * or (141, 136, 196)
- */
-export const Temp = () => {
-  const color = new ColorAdapter("rgb(47, 60, 14)");
-  const group = getColorGrouping(randomGroupName());
-  console.log(group.name);
-  return (
-    <div>
-      <h3>{group.name}</h3>
-      <ForceToRules color={color} group={group} />
-    </div>
-  );
-};
+// TODO: the order of rules matters -- how to control this?
 
 export const ForceToAll = ({ color }: PropColor) => (
   <div>
-    {allGroupNames().map((name) => (
-      <div>
-        <Title importance="h3">{name}</Title>
-        <ForceToRules color={color} group={getColorGrouping(name)} />
-      </div>
-    ))}
+    <Title importance="h3">Initial Color</Title>
+    <Swatch color={color} size={100} />
+    {allGroupNames().map((name) => {
+      const group = getColorGrouping(name);
+      const result = forceColor({ color, rules: group.definitions });
+      return (
+        <div>
+          <Title importance="h3">
+            As: {name} {result.passed ? <CheckCircle /> : <ErrorOutline />}
+          </Title>
+          <Swatch color={result.color} size={100} />
+          <Accordion title="Details">
+            {result.phases.map(({ color: modifiedColor, channel, message }) => (
+              <div key={modifiedColor.hex()}>
+                <Title importance="h4">Edited {channel.title}</Title>
+                <Title importance="h5">{message}</Title>
+                <Swatch color={modifiedColor} size={300} height={30} />
+                <ExpandableColorInfo
+                  color={modifiedColor}
+                  initialOpen={false}
+                />
+              </div>
+            ))}
+            <Title importance="h4">
+              {result.passed ? "Passed" : "Still Failed"}
+            </Title>
+          </Accordion>
+        </div>
+      );
+    })}
   </div>
 );
-
-export interface Props {
-  color: IColorAdapter;
-  group: ColorGrouping;
-  maxAttempts?: number;
-  fuzz?: number;
-}
-
-export const ForceToRules = ({
-  color,
-  group,
-  maxAttempts = 10,
-  fuzz = 0.1,
-}: Props) => {
-  const phases: Array<{
-    color: IColorAdapter;
-    channel: ChannelAdapter | null;
-  }> = [{ color, channel: null }];
-
-  const applyRule = (cond: PropertyConstraint) => {
-    const channel = cond.channel;
-    const property = cond.channel.name;
-    const initial = last(phases)?.color;
-    if (!initial) return;
-    const value = initial.get(channel, true);
-    if (value > cond.max) {
-      const color = initial.set(channel, cond.max, true);
-      phases.push({ color, channel });
-      console.log("set " + property + " to " + cond.max);
-    } else if (value < cond.min) {
-      const color = initial.set(channel, cond.min, true);
-      phases.push({ color, channel });
-      console.log("set " + property + " to " + cond.min);
-    } else {
-      console.log(property + " ok");
-    }
-  };
-
-  let isOkay = false;
-  let i = 0;
-
-  while (!isOkay && i < maxAttempts) {
-    const errors = group.colorFits(
-      // @ts-ignore
-      last(phases).color,
-      false,
-      fuzz
-    );
-    console.log(errors);
-    if (errors.matches) {
-      console.log("Color Okay!");
-      isOkay = true;
-    }
-
-    /**
-     * previously edited all values here, but what about one at a time?
-     * separating into a function to make that switch easier
-     */
-    errors.errors.map((e) => applyRule(e.condition));
-    // /group.definitions.conditions.forEach(applyRule);
-
-    i++;
-  }
-
-  return (
-    <div>
-      {phases.map(({ color, channel }, i) => (
-        <div key={i}>
-          {channel !== null && (
-            <Title importance="h4">Edited {channel?.title}</Title>
-          )}
-          <Swatch color={color} size={100} />
-          <ExpandableColorInfo color={color} initialOpen={false} />
-        </div>
-      ))}
-      <Title importance="h4">{isOkay ? "Passed" : "Still Failed"}</Title>
-    </div>
-  );
-};

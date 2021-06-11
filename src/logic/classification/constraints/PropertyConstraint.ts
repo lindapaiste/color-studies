@@ -4,8 +4,8 @@ import { getChannel } from "../../spacesChannels/channels";
 import { IColorAdapter } from "../../color/types";
 import { ChannelSlug } from "../../spacesChannels/colorSpaces";
 
-export interface PropertyDef<T = ChannelSlug> {
-  channel: T;
+export interface PropertyDef {
+  channel: ChannelSlug;
   min: number;
   max: number;
 }

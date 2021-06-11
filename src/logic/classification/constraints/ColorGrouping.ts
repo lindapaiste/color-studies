@@ -1,6 +1,5 @@
 import { getGroupHexes, NameAndHexes } from "data";
-import { MatchResult } from "./types";
-import { GroupConstraints } from "./GroupConstraints";
+import { GroupConstraints, MatchResult } from "./GroupConstraints";
 import { IColorAdapter } from "../../color/types";
 import { StoredGroup } from "./constraint-data";
 

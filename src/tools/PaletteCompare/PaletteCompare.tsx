@@ -1,15 +1,15 @@
 import React, { useState } from "react";
+import { sampleSize } from "lib";
 import { MultiSelectModel, Title } from "components";
-import { ColorSpaceName } from "logic/spacesChannels/types";
-import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
 import { ModelPalette } from "./ModelPalette";
+import { allModels } from "../../logic/spacesChannels/models";
 
 /**
  * this does work, but selecting too many leads to a call stack size exceeded error
  * reduced from 1000 (10^3) per to 512 (8^3) per
  */
 export const PaletteCompareTool = () => {
-  const [models, setModels] = useState<ModelAdapter<ColorSpaceName>[]>([]);
+  const [models, setModels] = useState(sampleSize(allModels(), 2));
 
   return (
     <div>

@@ -1,6 +1,17 @@
-import { MatchError, MatchResult } from "./types";
 import { IColorAdapter } from "../../color/types";
 import { PropertyConstraint, PropertyDef } from "./PropertyConstraint";
+import { ChannelSlug } from "../../spacesChannels/colorSpaces";
+
+export interface MatchError {
+  property: ChannelSlug;
+  condition: PropertyConstraint;
+  message: string;
+}
+
+export interface MatchResult {
+  matches: boolean;
+  errors: MatchError[];
+}
 
 /**
  * in the future could have targets where the difference matters,
@@ -28,7 +39,7 @@ export class GroupConstraints {
       if (error) {
         errors.push({
           condition,
-          property: condition.channel.name,
+          property: condition.channel.slug,
           message: error,
         });
         if (!reportAll) {

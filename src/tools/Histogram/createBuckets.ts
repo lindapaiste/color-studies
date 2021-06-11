@@ -33,7 +33,6 @@ export const createBuckets = ({
   const highest = last(sorted);
   const minValue = lowest ? lowest.value : 0;
   const maxValue = highest ? highest.value : 0;
-  console.log({ objects, sorted, minValue, maxValue });
   const breaks =
     typeof breakpoints === "number"
       ? calcBreaks(minValue, maxValue, breakpoints)
@@ -52,8 +51,6 @@ export const createBuckets = ({
     });
     // don't need to add or subtract anything because array.slice is inclusive on the start but not on the end
     startWith = endBefore;
-    console.log({ min, max, startWith, endBefore });
   }
-  console.log({ buckets });
   return buckets;
 };

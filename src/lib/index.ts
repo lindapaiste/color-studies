@@ -27,6 +27,7 @@ export {
   omitBy,
   uniq,
   orderBy,
+  keyBy,
 } from "lodash";
 export { mean, standardDeviation } from "simple-statistics";
 

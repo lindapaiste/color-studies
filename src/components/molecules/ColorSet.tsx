@@ -64,6 +64,9 @@ export const ColorSet = <T extends any>({
         const hex = findHex(color);
         return (
           <Tooltip
+            // using hex as key caused visual bugs and error
+            // "Children cannot be added or removed during a reorder operation"
+            // eslint-disable-next-line react/no-array-index-key
             key={i}
             title={colorToTooltip?.(color) ?? tooltips?.[i] ?? hex}
           >

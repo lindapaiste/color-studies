@@ -5,11 +5,9 @@ import {
   median,
   standardDeviation,
 } from "simple-statistics";
-import { GroupColorAnalysis, PropertyAnalysis } from "./types";
 import { allChannels } from "../../spacesChannels/channels";
 import { hexToColor } from "../../color";
-
-// TODO: investigate NaN in hue channels
+import { GroupColorAnalysis, PropertyAnalysis } from "./types";
 
 export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
   const min = Math.min(...values);
@@ -38,12 +36,15 @@ export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
 };
 
 // input should be anything that Color can use as an input to the Constructor
-export const analyzeGroupProperties = (hexes: string[]): GroupColorAnalysis => {
+export const analyzeGroupProperties = (
+  hexes: string[],
+  normalized = false
+): GroupColorAnalysis => {
   const objects = hexes.map(hexToColor);
 
   const pairs = allChannels().map((channel) => [
     channel.key,
-    analyzeValueArray(objects.map((c) => c.get(channel))),
+    analyzeValueArray(objects.map((c) => c.get(channel, normalized))),
   ]);
 
   return Object.fromEntries(pairs) as GroupColorAnalysis;

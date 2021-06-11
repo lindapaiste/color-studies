@@ -42,18 +42,15 @@ export const RandomComparison = () => {
 };
 
 export const ColorWheelComparison = () => {
-  const sets = [
-    makeRainbow(3),
-    makeRainbow(6),
-    makeRainbow(12),
-    makeRainbow(24),
-    makeRainbow(48),
-  ];
+  const sets = [3, 6, 12, 24, 48].map((n) => ({
+    n,
+    colors: makeRainbow(n),
+  }));
 
   return (
     <div>
-      {sets.map((colors, i) => (
-        <div key={i}>
+      {sets.map(({ colors, n }) => (
+        <div key={n}>
           <CompareSet colors={colors} />
         </div>
       ))}
