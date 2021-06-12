@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { DeltaECalculator } from "logic/difference/types";
 import { round } from "lib";
-import { IColorAdapter } from "logic/color/types";
+import { ColorAdapter } from "logic";
 
 /**
  * takes an array of colors and compares each one to all of the others
@@ -16,7 +16,7 @@ import { IColorAdapter } from "logic/color/types";
 
 export interface Props {
   calculator: DeltaECalculator;
-  colors: IColorAdapter[];
+  colors: ColorAdapter[];
 }
 
 /**
@@ -27,8 +27,8 @@ export const DistanceCell = ({
   b,
   calculator,
 }: {
-  a: IColorAdapter;
-  b: IColorAdapter;
+  a: ColorAdapter;
+  b: ColorAdapter;
   calculator: DeltaECalculator;
 }) => {
   const deltaE = round(calculator.getDeltaE(a, b), 2);

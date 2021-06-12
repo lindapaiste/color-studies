@@ -14,9 +14,9 @@ import {
 import { getError, matchToChoices } from "logic/boxSets/colorMatchesBox";
 import { BoxData, Rejection } from "logic/boxSets/types";
 import { shuffleData } from "logic/boxSets/shuffleData";
-import { IColorAdapter } from "logic/color/types";
 import { Ball, Box, TooltipContent } from "../NoisyBoxes/RenderBoxData";
 import { BallDisplaySettings, Identifier } from "./types";
+import { ColorAdapter } from "../../logic";
 
 export interface DataProps {
   data: BoxData[];
@@ -51,7 +51,7 @@ export const EditingBall = ({
   id,
 }: DataProps & { id: Identifier }) => {
   const setBallColor = useCallback(
-    (color: IColorAdapter) => {
+    (color: ColorAdapter) => {
       const box = data[id.boxIndex];
       const ball = box.matches[id.ballIndex];
       setData(

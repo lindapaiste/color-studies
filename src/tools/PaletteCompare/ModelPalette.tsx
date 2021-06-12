@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import { ColorAdapter } from "logic/color/ColorAdapter";
-import { ColorSpaceName, ColorTuple } from "logic/spacesChannels/types";
+import { ColorAdapter } from "logic/convert/ColorAdapter";
+import { ColorSpaceName, ColorTuple } from "logic/colorspaces/types";
 import { flatMap, intervals, replaceIndex } from "lib";
-import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
+import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
 import { ColorSet, TupleTooltip } from "components";
 
 /**
@@ -64,7 +64,7 @@ export const ModelPalette = ({ model, totalCount, perRow, width }: Props) => {
       const deNormalized = model.deNormalize(tuple);
       return {
         hex: ColorAdapter.staticFrom(deNormalized, model.name).hex(),
-        tooltip: <TupleTooltip model={model} deNormalized={deNormalized} />,
+        tooltip: <TupleTooltip model={model} values={deNormalized} />,
       };
     });
   }, [model, totalCount]);

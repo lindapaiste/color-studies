@@ -1,6 +1,6 @@
 import { colorWheelToNormal, normalToColorWheel } from "./colorWheel";
 import { fixHue } from "../hue/hueShift";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
 
 /**
  * want to be able to use either no transform ( false ), the standard channel transform ( true ), or a custom transform

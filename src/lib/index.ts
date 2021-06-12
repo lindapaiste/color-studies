@@ -1,5 +1,5 @@
 import { isFunction, round } from "lodash";
-import { ColorTuple } from "../logic/spacesChannels/types";
+import { ColorTuple } from "../logic/colorspaces/types";
 
 export {
   shuffle,

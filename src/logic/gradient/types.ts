@@ -1,6 +1,6 @@
-import { ModelAdapter } from "../spacesChannels/ModelAdapter";
-import { ColorSpaceName } from "../spacesChannels/types";
-import { IColorAdapter } from "../color/types";
+import { ModelAdapter } from "../colorspaces/ModelAdapter";
+import { ColorSpaceName } from "../colorspaces/types";
+import { ColorAdapter } from "../convert";
 
 /**
  * Channel and Model gradient can share the same interface
@@ -8,6 +8,6 @@ import { IColorAdapter } from "../color/types";
  * which takes a count and returns an array of color objects
  */
 export interface IGradient {
-  colors(count: number): IColorAdapter[];
+  colors(count: number): ColorAdapter[];
   model: ModelAdapter<ColorSpaceName>;
 }

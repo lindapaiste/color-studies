@@ -9,13 +9,13 @@ import {
   YAxis,
 } from "recharts";
 import { getSplitSample } from "logic/classification/training/shuffledData";
-import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
-import { hexToColor } from "logic/color";
+import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
+import { ColorAdapter } from "logic/convert";
 import { GroupedHex } from "logic/classification/types";
 import { Size } from "lib";
 import { Swatch } from "components";
-import { IColorAdapter } from "logic/color/types";
-import { ChannelArg } from "../../logic/spacesChannels/channels";
+import { ChannelArg } from "../../logic/colorspaces/channels";
+import { hexToColor } from "../../logic";
 
 /**
  * creates a scatter plot based on two color properties (x and y)
@@ -37,7 +37,7 @@ export interface Props {
  * Get an x and a y from a color.  Is also used in ChannelRelPlot.
  */
 export const colorToPoint =
-  (xChannel: ChannelArg, yChannel: ChannelArg) => (color: IColorAdapter) => ({
+  (xChannel: ChannelArg, yChannel: ChannelArg) => (color: ColorAdapter) => ({
     x: color.get(xChannel, false, 2),
     y: color.get(yChannel, false, 2),
     hex: color.hex(),

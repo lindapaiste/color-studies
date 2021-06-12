@@ -1,5 +1,5 @@
-import { ChannelAdapter } from "../../logic/spacesChannels/ChannelAdapter";
-import { allChannels } from "../../logic/spacesChannels/channels";
+import { ChannelAdapter } from "../../logic/colorspaces/ChannelAdapter";
+import { allChannels } from "../../logic/colorspaces/channels";
 
 export interface Settings {
   channels: ChannelAdapter[];

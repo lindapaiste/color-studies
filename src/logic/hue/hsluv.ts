@@ -1,5 +1,5 @@
 import { makeHueShiftSet } from "./hue-shared";
-import { ColorTuple } from "../spacesChannels/types";
+import { ColorTuple } from "../colorspaces/types";
 
 export const randomHsluv = (): ColorTuple<"hsl"> => [
   360 * Math.random(),

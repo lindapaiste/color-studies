@@ -1,8 +1,8 @@
 import React from "react";
 import { Slider, TextField } from "@material-ui/core";
 import { Size } from "lib";
-import { ChannelArg, toChannelObject } from "logic/spacesChannels/channels";
-import { IColorAdapter } from "logic/color/types";
+import { ColorAdapter } from "logic";
+import { ChannelArg, toChannelObject } from "logic/colorspaces/channels";
 import { GenericProps, WithoutE } from "../atoms/types";
 import { GradientBar } from "../atoms";
 
@@ -10,7 +10,7 @@ import { GradientBar } from "../atoms";
  * expects a normalized value between 0 and 1
  */
 export interface ExtraProps {
-  startColor: IColorAdapter;
+  startColor: ColorAdapter;
   channel: ChannelArg;
   normalized: boolean;
 }

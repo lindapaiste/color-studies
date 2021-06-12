@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FlexRow, NumberInput, SelectColor, Title } from "components";
-import { allChannels } from "logic/spacesChannels/channels";
+import { allChannels } from "logic/colorspaces/channels";
 import { ChannelGradient } from "logic/gradient/ChannelGradient";
-import { randomColor } from "logic/color";
 import { RenderGradientSet } from "../GradientCompare/RenderGradientSet";
+import { randomColor } from "../../logic/convert/random";
 
 export const ChannelGradientTool = () => {
   const [color, setColor] = useState(randomColor());

@@ -8,9 +8,9 @@ import {
   YAxis,
 } from "recharts";
 import { intervals, Size } from "lib";
-import { randomColors } from "logic/color";
 import { colorToPoint } from "../PlotFeatures/PlotFeatures";
 import { Settings } from "./settings";
+import { randomColors } from "../../logic/convert/random";
 
 export const ChannelRelPlot = ({
   xChannel,

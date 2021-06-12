@@ -1,42 +1,40 @@
 import chroma, { Color as ChromaColor } from "chroma-js";
 import convert from "color-convert";
-import { isDefined, replaceIndex, tupleMap } from "lib";
+import { tupleMap, round } from "lib";
 import { hpluvToRgb, hsluvToRgb, rgbToHpluv, rgbToHsluv } from "hsluv";
-import {
-  ChannelAccessor,
-  ColorSpaceName,
-  ColorTuple,
-} from "../spacesChannels/types";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
 import {
   ChannelArg,
   toChannelAccessor,
   toChannelObject,
-} from "../spacesChannels/channels";
-import { ModelAdapter } from "../spacesChannels/ModelAdapter";
-import { eitherToModel, eitherToName } from "../spacesChannels/models";
-import { rgbToRyb, rybToRgb } from "./ryb";
-import { TupleClass } from "../spacesChannels/TupleClass";
-import { IColorAdapter, CanGetHex } from "./types";
+} from "../colorspaces/channels";
+import { ModelAdapter } from "../colorspaces/ModelAdapter";
+import { eitherToModel, eitherToName } from "../colorspaces/models";
+import { rgbToRyb, rybToRgb } from "./ryb/ryb";
+import { TupleClass } from "../colorspaces/TupleClass";
 
 /**
  * Wraps the chroma.js object and adds a few additional color spaces.
+ *
+ * Color can be converted to a tuple of any type.
+ *
+ * Can get or set the value of any channel.
  */
-
-export class ColorAdapter implements IColorAdapter, CanGetHex {
+export class ColorAdapter {
   /**
-   * internally stores a Chroma.js color object
+   * Internally stores a Chroma.js color object.
    */
   public internal: ChromaColor;
 
   /**
-   * save known conversions so that the math doesn't have to be executed multiple times if doing back and forth conversions
-   * key by model for easy lookup
-   * readonly because it is never replaced, but it IS added to
+   * Save known conversions so that the math doesn't have to be
+   * executed multiple times if doing back and forth conversions.
+   * Key by model for easy lookup.
+   * Readonly because it is never replaced, but it IS added to.
    */
-  private readonly conversions: Partial<
-    Record<ColorSpaceName, TupleClass<ColorSpaceName>>
-  >;
+  private readonly conversions: {
+    [K in ColorSpaceName]?: TupleClass<ColorSpaceName>;
+  };
 
   /**
    * can construct from a Chroma object
@@ -48,27 +46,19 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
   }
 
   /**
-   * mainly for back-compat, want to access just the tuple array
-   * but goes through toClassed anyways so that it goes through local lookup and storage
+   * Converts to a specific color space.
+   *
+   * Returns an existing tuple if the conversion is already known,
+   * or converts the color and stores for later access.
+   *
+   * ALWAYS returns the raw/denormalized version for consistency.
    */
-  public to<CS extends ColorSpaceName>(
-    colorSpace: CS | ModelAdapter<CS>,
-    rounded?: boolean
-  ): ColorTuple<CS> {
-    const tuple = this.toClassed(colorSpace);
-    return rounded ? tuple.rounded : tuple.deNormalized;
-  }
-
-  /**
-   * returns an existing tuple if the conversion is already known,
-   * or converts the color and stores for later access
-   */
-  public toClassed<CS extends ColorSpaceName>(
+  public toCs<CS extends ColorSpaceName>(
     colorSpace: ModelAdapter<CS> | CS
   ): TupleClass<CS> {
     const key = eitherToName(colorSpace);
-    const existing = this.conversions[key];
-    if (isDefined(existing)) {
+    const existing = this.conversions[key]?.deNormalize();
+    if (existing) {
       return existing as TupleClass<CS>;
     }
     const tuple = this.createTuple(key) as ColorTuple<CS>;
@@ -77,6 +67,9 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
     return classed;
   }
 
+  /**
+   * RGB is used as an intermediary for conversion which are not accepted by every model.
+   */
   private get rawRgb() {
     return this.internal.rgb(false);
   }
@@ -112,17 +105,20 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
       case "lch":
         return this.internal.lch();
       case "hsluv":
-        return rgbToHsluv(this.toClassed("rgb").normalized);
+        return rgbToHsluv(this.toCs("rgb").normalize().values);
       case "hpluv":
-        return rgbToHpluv(this.toClassed("rgb").normalized);
+        return rgbToHpluv(this.toCs("rgb").normalize().values);
       default:
         throw new Error(`unknown color space ${colorSpace}`);
     }
   }
 
   /**
-   * can accept a tuple object or an array of numbers
-   * if passing raw values, it is assumed that they are NOT normalized
+   * Can accept:
+   *  - a string hex
+   *  - a Tuple object, which knows its own colorSpace and isNormalized
+   *  - an array of numbers and the colorSpace that they represent.
+   *    When passing raw values, it is assumed that they are NOT normalized.
    */
   public static staticFrom<CS extends ColorSpaceName>(
     values: ColorTuple<CS> | TupleClass<CS>,
@@ -142,19 +138,20 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
     tuple: TupleClass<CS>
   ): ColorAdapter {
     const adapter = new ColorAdapter(
-      this.createChroma(tuple.deNormalized, tuple.model.name)
+      this.createChroma(tuple.deNormalize().values, tuple.model.name)
     );
     adapter.conversions[tuple.model.name] = tuple;
     return adapter;
   }
 
   /**
-   * all static creations go through creating a Chroma.js object, so separate this step
+   * All static creations go through creating a Chroma.js object, so separate this step
+   * Models which lack built-in support from Chroma.js will get converted to RGB.
    *
    * again cannot use generic with switch statement
    */
   private static createChroma(
-    values: ColorTuple<ColorSpaceName>,
+    values: ColorTuple,
     colorSpace: ColorSpaceName
   ): ChromaColor {
     switch (colorSpace) {
@@ -208,13 +205,13 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
    * get a single channel value
    */
   public get(
-    channel: ChannelAccessor | ChannelAdapter,
+    channel: ChannelArg,
     normalized: boolean = false,
     precision?: number
   ): number {
     const channelObj = toChannelObject(channel);
-    const tuple = this.toClassed(channelObj.modelObject);
-    return tuple.getEither(normalized, precision)[channelObj.offset];
+    const tuple = this.toCs(channelObj.modelObject);
+    return round(tuple.to(normalized)[channelObj.offset], precision);
   }
 
   /**
@@ -231,9 +228,9 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
     normalized: boolean = false
   ): ColorAdapter {
     const [cs, offset] = toChannelAccessor(channel);
-    const initial = this.toClassed(cs).getEither(normalized);
-    const edited = replaceIndex(initial, offset, value);
-    return ColorAdapter.fromTuple(new TupleClass(edited, cs, normalized));
+    return ColorAdapter.fromTuple(
+      this.toCs(cs).to(normalized).replace(offset, value)
+    );
   }
 
   /**

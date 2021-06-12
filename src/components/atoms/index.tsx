@@ -26,4 +26,4 @@ export { Swatch } from "./Swatch";
 export { Title } from "./Title";
 export { Toggle } from "./Toggle";
 export { Tooltip } from "./Tooltip";
-export { TupleTooltip } from "./TupleTooltip";
+export { TupleTooltip, tupleTooltipFactory } from "./TupleTooltip";

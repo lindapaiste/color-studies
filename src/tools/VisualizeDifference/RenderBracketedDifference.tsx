@@ -1,13 +1,13 @@
 import React, { ReactNode, useMemo } from "react";
 import { round, sortBy } from "lib";
 import { ColorSet, Title } from "components";
-import { IColorAdapter } from "logic/color/types";
+import { ColorAdapter } from "logic";
 
 /**
  * data must include color and deltaE, but can also include a tooltip
  */
 export interface DataPoint {
-  color: IColorAdapter;
+  color: ColorAdapter;
   deltaE: number;
   tooltip?: ReactNode;
 }

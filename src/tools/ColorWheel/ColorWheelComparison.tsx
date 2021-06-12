@@ -5,7 +5,7 @@ import { colorWheelToNormal } from "logic/adjustment/colorWheel";
 import { ColorSet, ColorSetProps } from "components";
 import { HSL } from "lib";
 import { randomHsluv } from "logic/hue/hsluv";
-import { ColorAdapter } from "../../logic/color/ColorAdapter";
+import { ColorAdapter } from "logic";
 
 export const makeRainbow = (
   count: number,

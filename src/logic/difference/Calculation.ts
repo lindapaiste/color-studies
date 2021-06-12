@@ -1,7 +1,7 @@
 import { FormulaCalculator } from "./types";
-import { IColorAdapter } from "../color/types";
-import { eitherToModel } from "../spacesChannels/models";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { eitherToModel } from "../colorspaces/models";
+import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { ColorAdapter } from "../convert";
 
 /**
  * includes additional information used for debugging and visualizing via tooltips, etc.
@@ -22,13 +22,13 @@ export interface DebugDeltaE {
 export class Calculation implements DebugDeltaE {
   private formula: FormulaCalculator;
 
-  private target: IColorAdapter;
+  private target: ColorAdapter;
 
-  private color: IColorAdapter;
+  private color: ColorAdapter;
 
   public readonly deltaE: number;
 
-  constructor(formula: FormulaCalculator, a: IColorAdapter, b: IColorAdapter) {
+  constructor(formula: FormulaCalculator, a: ColorAdapter, b: ColorAdapter) {
     this.formula = formula;
     this.color = a;
     this.target = b;
@@ -37,11 +37,11 @@ export class Calculation implements DebugDeltaE {
 
   get channelDiffs(): ChannelDiff[] {
     const model = eitherToModel(this.formula.model);
-    const first = this.target.to(model);
-    const second = this.color.to(model);
+    const first = this.target.toCs(model).deNormalize();
+    const second = this.color.toCs(model).deNormalize();
     const { channels } = model;
 
-    return second.map((value, i) => ({
+    return second.values.map((value, i) => ({
       channel: channels[i],
       value,
       diff: value - first[i], // not abs

@@ -1,5 +1,5 @@
-import { ColorSpaceName, ColorTuple } from "../spacesChannels/types";
-import { IColorAdapter } from "../color/types";
+import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
+import { ColorAdapter } from "../convert";
 
 /**
  * could include color here rather than in HOC
@@ -7,7 +7,7 @@ import { IColorAdapter } from "../color/types";
 export interface ModelNoiseSettings {
   colorSpace: ColorSpaceName;
   noiseRatio: number;
-  weights: ColorTuple<ColorSpaceName>;
+  weights: ColorTuple;
 }
 
 /**
@@ -24,7 +24,7 @@ export const DEFAULT_NOISE_SETTINGS: ModelNoiseSettings = {
 };
 
 export interface INoiseCreator {
-  getNoisy(base: IColorAdapter): IColorAdapter;
+  getNoisy(base: ColorAdapter): ColorAdapter;
 }
 
 export type IModelNoise = INoiseCreator & ModelNoiseSettings;

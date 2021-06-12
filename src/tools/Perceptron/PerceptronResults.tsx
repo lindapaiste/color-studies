@@ -13,7 +13,7 @@ import {
   ImpossibleCheck,
   PerceptronResult,
 } from "logic/classification/types";
-import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
 import { GroupPerceptron } from "logic/classification/model/perceptron/GroupPerceptron";
 import { RenderProps } from "./types";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { getGroupHexes } from "data";
 import { Size } from "lib";
-import { hexToColor } from "logic/color";
+import { hexToColor } from "logic";
 import { ToolSettings } from "./types";
 import { createBuckets } from "./createBuckets";
 import { RenderAutoSizeHistogram } from "./AutosizeHistogram";

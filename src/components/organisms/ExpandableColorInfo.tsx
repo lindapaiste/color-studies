@@ -1,11 +1,10 @@
 import React from "react";
 import { Accordion } from "components";
-import { IColorAdapter } from "logic/color/types";
-import { eitherToColor } from "logic/color";
+import { eitherToColor, ColorAdapter } from "logic";
 import { ChannelValuesTable } from "./ChannelValuesTable";
 
 export interface Props {
-  color: IColorAdapter | string;
+  color: ColorAdapter | string;
   initialOpen?: boolean;
 }
 

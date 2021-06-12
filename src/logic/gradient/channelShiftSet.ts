@@ -1,11 +1,11 @@
 import { ChannelShiftSettings } from "../boxSets/types";
 import { ChannelGradient } from "./ChannelGradient";
-import { randomColor } from "../color";
-import { IColorAdapter } from "../color/types";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { ColorAdapter } from "../convert";
+import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { randomColor } from "../convert/random";
 
 const getEnds = (
-  initial: IColorAdapter,
+  initial: ColorAdapter,
   channel: ChannelAdapter,
   shift: number
 ) => {
@@ -25,7 +25,7 @@ const getEnds = (
   };
 };
 
-export const createColors = (props: ChannelShiftSettings): IColorAdapter[] => {
+export const createColors = (props: ChannelShiftSettings): ColorAdapter[] => {
   const { channel, shift, colorCount } = props;
   const initial = randomColor();
   const { start, end } = getEnds(initial, channel, shift);

@@ -1,8 +1,8 @@
 import { last, round } from "lib";
-import { IColorAdapter } from "../../color/types";
 import { PropertyConstraint } from "./PropertyConstraint";
-import { ChannelAdapter } from "../../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../../colorspaces/ChannelAdapter";
 import { GroupConstraints } from "./GroupConstraints";
+import { ColorAdapter } from "../../convert";
 
 /**
  * Modify a color such that it fits to pre-defined constraints of a group
@@ -12,7 +12,7 @@ export interface Props {
   /**
    * The initial color.
    */
-  color: IColorAdapter;
+  color: ColorAdapter;
   /**
    * The ruleset to force into.
    */
@@ -34,7 +34,7 @@ export interface Modification {
   /**
    * The new, modified color.
    */
-  color: IColorAdapter;
+  color: ColorAdapter;
   /**
    * The channel which was changed.
    */
@@ -56,7 +56,7 @@ export interface Result {
   /**
    * The final color
    */
-  color: IColorAdapter;
+  color: ColorAdapter;
   /**
    * An array with the data for all steps.
    */
@@ -75,7 +75,7 @@ export const forceColor = ({
    * Applies one rule and stores the changes to the phases array.
    */
   const applyRule = (
-    initial: IColorAdapter,
+    initial: ColorAdapter,
     { channel, min, max }: PropertyConstraint
   ) => {
     const value = initial.get(channel, true);

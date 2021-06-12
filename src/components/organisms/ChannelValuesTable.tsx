@@ -1,13 +1,13 @@
 import React from "react";
-import { IColorAdapter } from "logic/color/types";
-import { allChannels } from "logic/spacesChannels/channels";
+import { ColorAdapter } from "logic";
+import { allChannels } from "logic/colorspaces/channels";
 import { DataTable } from "../molecules";
 
 /**
  * displays both the number (out of 255, 100, etc.) and the normalized decimal value
  * just the table, not the accordion
  */
-export const ChannelValuesTable = ({ color }: { color: IColorAdapter }) => (
+export const ChannelValuesTable = ({ color }: { color: ColorAdapter }) => (
   <DataTable
     labels={["Channel", "Value", "Normalized"]}
     rows={allChannels().map((channel) => [

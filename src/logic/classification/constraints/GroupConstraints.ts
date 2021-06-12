@@ -1,6 +1,6 @@
-import { IColorAdapter } from "../../color/types";
 import { PropertyConstraint, PropertyDef } from "./PropertyConstraint";
-import { ChannelSlug } from "../../spacesChannels/colorSpaces";
+import { ChannelSlug } from "../../colorspaces/colorSpaces";
+import { ColorAdapter } from "../../convert";
 
 export interface MatchError {
   property: ChannelSlug;
@@ -28,7 +28,7 @@ export class GroupConstraints {
   }
 
   public colorFits(
-    color: IColorAdapter,
+    color: ColorAdapter,
     reportAll: boolean = true,
     fuzz = 0.1
   ): MatchResult {

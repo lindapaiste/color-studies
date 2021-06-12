@@ -1,21 +1,11 @@
-import {
-  WeightedDeltaEFormula,
-  DeltaEFormula,
-  KeyedLCHWeights,
-  LAB,
-} from "./types";
-import DeltaE2000 from "./DeltaE2000";
-import DeltaE1994 from "./DeltaE1994";
-import { ColorSpaceName } from "../spacesChannels/types";
+import { WeightedDeltaEFormula, KeyedLCHWeights, LAB } from "./types";
+import { ColorSpaceName } from "../colorspaces/types";
 import { EuclideanCalculator } from "./EuclideanCalculator";
-import { IColorAdapter } from "../color/types";
+import { ColorAdapter } from "../convert";
 
-/**
- * most of this is made redundant by new compat classes
- */
-
-export const toKeyedLAB = (tuple: [number, number, number]): LAB => {
-  const [L, A, B] = tuple;
+export const toKeyedLAB = (color: ColorAdapter): LAB => {
+  const labTuple = color.toCs("lab").deNormalize();
+  const [L, A, B] = labTuple;
   return { L, A, B };
 };
 
@@ -30,7 +20,7 @@ export const toKeyedWeights = (
 export const makeEuclideanDifference =
   <CS extends ColorSpaceName>(
     colorSpace: CS
-  ): WeightedDeltaEFormula<IColorAdapter, CS> =>
+  ): WeightedDeltaEFormula<ColorAdapter, CS> =>
   (a, b, weights): number =>
     new EuclideanCalculator({
       model: colorSpace,
@@ -38,47 +28,3 @@ export const makeEuclideanDifference =
     }).getDeltaE(a, b);
 
 export const deltaE76 = makeEuclideanDifference("lab");
-
-export const rgbDist = makeEuclideanDifference("rgb");
-
-// CMC 1984: https:// en.wikipedia.org/wiki/Color_difference#CMC_l:c_(1984)
-
-export const makeDeltaE00 =
-  (weights?: number[]): DeltaEFormula =>
-  (a, b): number => {
-    const converter = new DeltaE2000(
-      toKeyedLAB(a.to("lab")),
-      toKeyedLAB(b.to("lab")),
-      toKeyedWeights(weights)
-    );
-    return converter.getDeltaE();
-  };
-
-export const makeDeltaE94 =
-  (weights?: number[]): DeltaEFormula =>
-  (a, b): number => {
-    const converter = new DeltaE1994(
-      toKeyedLAB(a.to("lab")),
-      toKeyedLAB(b.to("lab")),
-      toKeyedWeights(weights)
-    );
-    return converter.getDeltaE();
-  };
-
-/**
- * also export basic one-step formulas
- * weights can be partially filled or left off completely
- * each component of weights defaults to 1
- */
-
-export const deltaE00: WeightedDeltaEFormula<IColorAdapter> = (
-  a,
-  b,
-  weights
-): number => makeDeltaE00(weights)(a, b);
-
-export const deltaE94: WeightedDeltaEFormula<IColorAdapter> = (
-  a,
-  b,
-  weights
-): number => makeDeltaE94(weights)(a, b);

@@ -1,53 +1,45 @@
 import { noisyChannelValue } from "./channelNoise";
-import { ColorSpaceName, ColorTuple } from "../spacesChannels/types";
+import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
 import { IModelNoise, INoiseCreator, ModelNoiseSettings } from "./types";
-import { IColorAdapter } from "../color/types";
-import { getModel } from "../spacesChannels/models";
-import { ColorAdapter } from "../color/ColorAdapter";
+import { TupleClass } from "../colorspaces/TupleClass";
+import { ColorAdapter } from "../convert";
 
 export interface CalcProps<CS extends ColorSpaceName> {
-  colorSpace: CS;
   noiseRatio: number;
-  values: ColorTuple<CS>;
-  // maximums: ColorTuple<CS>;
+  values: TupleClass<CS>;
   weights?: ColorTuple<CS>;
 }
 
 export const calcNoisy = <CS extends ColorSpaceName>({
-  colorSpace,
-  values,
+  values: tuple,
   noiseRatio,
   weights,
-}: CalcProps<CS>): ColorTuple<CS> => {
+}: CalcProps<CS>): TupleClass<CS> => {
   /**
    * default to 1 if no weights array is passed in
    * or if it has the wrong number of entries
    */
   const getWeight = (i: number): number => weights?.[i] ?? 1;
 
-  const { channels } = getModel(colorSpace);
-
-  return values.map((value, i) =>
+  return tuple.map((value, i) =>
     noisyChannelValue({
-      channel: channels[i],
+      channel: tuple.channels[i],
       value,
       noiseRatio: noiseRatio * getWeight(i),
     })
-  ) as ColorTuple<CS>;
+  );
 };
 
 export const withModelNoise = <CS extends ColorSpaceName>({
   color,
   colorSpace,
   ...props
-}: Props<CS>): IColorAdapter => {
-  const values = color.to(colorSpace);
+}: Props<CS>): ColorAdapter => {
   const noisy = calcNoisy({
     ...props,
-    values: values as ColorTuple<CS>,
-    colorSpace,
+    values: color.toCs(colorSpace),
   });
-  return ColorAdapter.staticFrom(noisy, colorSpace);
+  return ColorAdapter.fromTuple(noisy);
 };
 
 /**
@@ -60,7 +52,7 @@ export class ModelNoise
 
   public readonly noiseRatio: number;
 
-  public readonly weights: ColorTuple<ColorSpaceName>;
+  public readonly weights: ColorTuple;
 
   constructor({ colorSpace, noiseRatio, weights }: ModelNoiseSettings) {
     this.colorSpace = colorSpace;
@@ -68,7 +60,7 @@ export class ModelNoise
     this.weights = weights;
   }
 
-  getNoisy(base: IColorAdapter): IColorAdapter {
+  getNoisy(base: ColorAdapter): ColorAdapter {
     return withModelNoise({ color: base, ...this });
   }
 }
@@ -79,13 +71,6 @@ export class ModelNoise
  */
 
 export type Props<CS extends ColorSpaceName> = Omit<CalcProps<CS>, "values"> & {
-  color: IColorAdapter;
+  color: ColorAdapter;
+  colorSpace: CS;
 };
-
-/**
- * note from previous version using chroma:
- *
- * can call the channel function directly, but how to ensure that it exists?
- * can loop though get( channel ) with colorSpace.split('') for each letter
- * only colorspace that won't work right just using the letters is gl
- */

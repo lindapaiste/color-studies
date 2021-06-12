@@ -1,7 +1,6 @@
 import React from "react";
 import { Size } from "lib";
-import { IColorAdapter } from "logic/color/types";
-import { hexToColor } from "logic/color";
+import { ColorAdapter, hexToColor } from "logic";
 import { Field } from "./Field";
 import { GenericProps, WithoutE } from "./types";
 import { RandomizeColor } from "./RandomizeColor";
@@ -11,7 +10,7 @@ import { RandomizeColor } from "./RandomizeColor";
  * so that it can be called by randomize button
  */
 export type Props = Partial<Size> &
-  WithoutE<GenericProps<IColorAdapter>> & {
+  WithoutE<GenericProps<ColorAdapter>> & {
     randomize?: boolean;
   };
 
@@ -20,8 +19,8 @@ export type Props = Partial<Size> &
  * can apply any CSS style properties to it
  * right now just passing width and height but leaving the borders
  *
- * previously had separate implementations for value formats hex and IColorAdapter
- * now just using IColorAdapter as the core
+ * previously had separate implementations for value formats hex and ColorAdapter
+ * now just using ColorAdapter as the core
  */
 export const SelectColor = React.forwardRef<HTMLDivElement, Props>(
   (

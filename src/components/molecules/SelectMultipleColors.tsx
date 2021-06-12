@@ -1,8 +1,7 @@
 import React from "react";
 import { Button, Tooltip, Typography } from "@material-ui/core";
 import { removeIndex, replaceIndex } from "@lindapaiste/array-edit";
-import { IColorAdapter } from "logic/color/types";
-import { randomColor } from "logic/color";
+import { ColorAdapter } from "logic/convert";
 import { Size, debounce } from "lib";
 import { GenericProps, WithoutE } from "../atoms/types";
 import {
@@ -11,6 +10,7 @@ import {
   PlusCircleIcon,
   XCircleIcon,
 } from "../atoms";
+import { randomColor } from "../../logic/convert/random";
 
 /**
  * value is an array of I_ColorAdapters
@@ -26,7 +26,7 @@ import {
  * can initiate with an assigned count of random colors
  */
 export type Props = Partial<Size> &
-  WithoutE<GenericProps<IColorAdapter[]>> & {
+  WithoutE<GenericProps<ColorAdapter[]>> & {
     isFixedCount?: boolean;
   };
 

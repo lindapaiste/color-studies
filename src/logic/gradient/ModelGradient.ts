@@ -1,20 +1,19 @@
 import { intervals, makeArray } from "lib";
 import { TransformPair } from "../adjustment/transforms";
-import { ColorAdapter } from "../color/ColorAdapter";
-import { ModelAdapter } from "../spacesChannels/ModelAdapter";
+import { ModelAdapter } from "../colorspaces/ModelAdapter";
 import {
   ChannelCountTuple,
   ColorSpaceName,
   ColorTuple,
-} from "../spacesChannels/types";
-import { TupleClass } from "../spacesChannels/TupleClass";
+} from "../colorspaces/types";
+import { TupleClass } from "../colorspaces/TupleClass";
 import { ModelTransform } from "./ModelTransform";
 import { IGradient } from "./types";
-import { IColorAdapter } from "../color/types";
+import { ColorAdapter } from "../convert";
 
 export interface Props<CS extends ColorSpaceName> {
-  start: IColorAdapter;
-  end: IColorAdapter;
+  start: ColorAdapter;
+  end: ColorAdapter;
   model: ModelAdapter<CS>;
   transform?: boolean | ChannelCountTuple<CS, boolean | TransformPair>;
 }
@@ -40,17 +39,17 @@ export class ModelGradient<CS extends ColorSpaceName> implements IGradient {
     // transform class fills in the gaps from transform prop
     this.transform = new ModelTransform({ model, transform, normalized: true });
     // internally stored start and end are already transformed
-    this.start = this.transform.applyPre(start.toClassed(model));
-    this.end = this.transform.applyPre(end.toClassed(model));
+    this.start = this.transform.applyPre(start.toCs(model));
+    this.end = this.transform.applyPre(end.toCs(model));
   }
 
-  public colors(count: number): IColorAdapter[] {
+  public colors(count: number): ColorAdapter[] {
     // get 3 (or 4) vectors with the values of the channel
     const vectors = this.model.channels.map((channel, i) =>
       intervals(this.start[i], this.end[i], count)
     );
     // make a color object from an index of the vectors
-    const colorI = (i: number): IColorAdapter => {
+    const colorI = (i: number): ColorAdapter => {
       const values = vectors.map((array) => array[i]) as ColorTuple<CS>;
       // post-transform each value
       const tuple = this.transform.applyPost(

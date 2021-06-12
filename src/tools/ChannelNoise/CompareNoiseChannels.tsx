@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { withChannelNoise } from "logic/noise/channelNoise";
 import { makeArray } from "lib";
-import { Title, TupleTooltip, NumberInput, ColorSet } from "components";
-import { allChannels } from "logic/spacesChannels/channels";
-import { IColorAdapter } from "logic/color/types";
+import { Title, NumberInput, ColorSet, tupleTooltipFactory } from "components";
+import { allChannels } from "logic/colorspaces/channels";
+import { ColorAdapter } from "logic";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -14,7 +14,7 @@ import { IColorAdapter } from "logic/color/types";
  */
 
 export interface Props {
-  color: IColorAdapter;
+  color: ColorAdapter;
   countPer?: number;
 }
 
@@ -40,9 +40,7 @@ export const CompareNoiseChannels = ({ color, countPer = 10 }: Props) => {
               colors={makeArray(countPer, () =>
                 withChannelNoise(color, channel, noiseRatio)
               )}
-              colorToTooltip={(c) =>
-                TupleTooltip(c.toClassed(channel.modelObject))
-              }
+              colorToTooltip={tupleTooltipFactory(channel.modelObject)}
             />
           </div>
         ))}

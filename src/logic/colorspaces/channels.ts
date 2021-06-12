@@ -69,6 +69,9 @@ export const toChannelAccessor = (channel: ChannelArg): ChannelAccessor => {
   return Array.isArray(channel) ? channel : channel.accessor;
 };
 
+export const toChannelIndex = (channel: ChannelArg | number): number =>
+  typeof channel === "number" ? channel : toChannelAccessor(channel)[1];
+
 export const toChannelObject = (channel: ChannelArg): ChannelAdapter => {
   if (Array.isArray(channel)) return accessorToChannel(channel);
   if (typeof channel === "string")

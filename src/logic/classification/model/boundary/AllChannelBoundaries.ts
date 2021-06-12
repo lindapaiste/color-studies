@@ -2,9 +2,9 @@ import { sortBy } from "lodash";
 import { GroupedColor } from "../../types";
 import { ChannelBoundaryModel } from "./ChannelBoundaryModel";
 import { GroupModelTest } from "../../accuracy/GroupModelTest";
-import { ChannelAdapter } from "../../../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
 import { ConfusionMatrix } from "../../accuracy/ConfusionMatrix";
-import { allChannels } from "../../../spacesChannels/channels";
+import { allChannels } from "../../../colorspaces/channels";
 
 export interface IChannelModel {
   channel: ChannelAdapter;

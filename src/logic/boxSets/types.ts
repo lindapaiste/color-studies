@@ -1,5 +1,5 @@
-import { IColorAdapter } from "../color/types";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { ColorAdapter } from "../convert";
 
 export interface Levers {
   minDistance: number;
@@ -8,7 +8,7 @@ export interface Levers {
   maxDistinctness: number;
 }
 
-export interface Evaluation<T = IColorAdapter> {
+export interface Evaluation<T = ColorAdapter> {
   color: T;
   match: T;
   distance: number;
@@ -26,13 +26,13 @@ export interface ChannelShiftSettings {
   colorCount: number;
 }
 
-export interface BoxData<T = IColorAdapter> {
+export interface BoxData<T = ColorAdapter> {
   color: T; // the box color
   matches: Evaluation<T>[]; // the balls
   rejected?: Rejection<T>[]; // rejected balls
 }
 
-export interface Rejection<T = IColorAdapter> extends Evaluation<T> {
+export interface Rejection<T = ColorAdapter> extends Evaluation<T> {
   error: MatchError;
 }
 

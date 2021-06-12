@@ -1,9 +1,9 @@
 import React from "react";
 import { ColorSet, Swatch, Title, Tool } from "components";
+import { ColorAdapter } from "logic";
 import { makeArray } from "lib";
 import { withModelNoise } from "logic/noise/modelNoise";
 import { DEFAULT_NOISE_SETTINGS, ModelNoiseSettings } from "logic/noise/types";
-import { IColorAdapter } from "logic/color/types";
 import { Props } from "../ChannelNoise/CompareNoiseChannels";
 import { ModelNoiseControls } from "./ModelNoiseControls";
 
@@ -29,7 +29,7 @@ export const NoisyColors = ({
  */
 
 export interface CompareProps {
-  colors: IColorAdapter[];
+  colors: ColorAdapter[];
   countPer?: number;
 }
 

@@ -5,10 +5,9 @@ import {
   ResultType,
 } from "../types";
 import { ModelTest, Res } from "./ModelTest";
-import { IColorAdapter } from "../../color/types";
 import { getBalancedSample } from "../training/shuffledData";
-import { ColorAdapter } from "../../color/ColorAdapter";
 import { ConfusionMatrix } from "./ConfusionMatrix";
+import { ColorAdapter } from "../../convert";
 
 /**
  * handles converting DataPoints to expected true/false, etc.
@@ -17,11 +16,11 @@ import { ConfusionMatrix } from "./ConfusionMatrix";
  */
 
 export class GroupModelTest<R extends HasPredicted>
-  implements IGetGroupedResults<Res<IColorAdapter, R>>
+  implements IGetGroupedResults<Res<ColorAdapter, R>>
 {
   public readonly group: string;
 
-  public results: ModelTest<IColorAdapter, R>;
+  public results: ModelTest<ColorAdapter, R>;
 
   constructor(model: GroupColorClassifier<R>, debug: boolean = false) {
     this.group = model.group;
@@ -43,6 +42,6 @@ export class GroupModelTest<R extends HasPredicted>
     return this.results.matrix;
   }
 
-  getResults = (type: ResultType | undefined): Res<IColorAdapter, R>[] =>
+  getResults = (type: ResultType | undefined): Res<ColorAdapter, R>[] =>
     this.results.getResults(type);
 }

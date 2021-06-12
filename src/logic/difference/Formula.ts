@@ -1,9 +1,9 @@
 import { Algo, FormulaSettings, DeltaECalculator } from "./types";
-import { ColorSpaceName } from "../spacesChannels/types";
+import { ColorSpaceName } from "../colorspaces/types";
 import { EuclideanCalculator } from "./EuclideanCalculator";
 import { DeltaE00Compat } from "./DeltaE00Compat";
 import { DeltaE94Compat } from "./DeltaE94Compat";
-import { IColorAdapter } from "../color/types";
+import { ColorAdapter } from "../convert";
 
 // TODO: Hue weight not doing anything on CIE1994
 // L & C < 1 causes distance over 100
@@ -60,7 +60,7 @@ export class Formula implements FormulaSettings, DeltaECalculator {
    * implement as a function rather than returning the calculator method
    * because that creates problems with ambiguous "this"
    */
-  getDeltaE(a: IColorAdapter, b: IColorAdapter): number {
+  getDeltaE(a: ColorAdapter, b: ColorAdapter): number {
     return this.calculator.getDeltaE(a, b);
   }
 }

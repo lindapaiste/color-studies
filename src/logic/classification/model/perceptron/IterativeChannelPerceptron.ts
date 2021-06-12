@@ -1,8 +1,8 @@
-import { ChannelAdapter } from "../../../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
 import { AllChannelBoundaries } from "../boundary/AllChannelBoundaries";
 import { getBalancedSample } from "../../training/shuffledData";
 import { GroupedColor, HasExpected, PerceptronProps } from "../../types";
-import { ColorAdapter } from "../../../color/ColorAdapter";
+import { ColorAdapter } from "../../../convert";
 import { ConfusionMatrix } from "../../accuracy/ConfusionMatrix";
 import { GroupPerceptron } from "./GroupPerceptron";
 import { TestedModel } from "../../accuracy/TestedModel";

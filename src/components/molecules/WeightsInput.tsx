@@ -1,8 +1,8 @@
 import React, { CSSProperties } from "react";
 import { replaceIndex, tupleMap } from "lib";
-import { ColorSpaceName, ColorTuple } from "logic/spacesChannels/types";
-import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
-import { eitherToModel } from "logic/spacesChannels/models";
+import { ColorSpaceName, ColorTuple } from "logic/colorspaces/types";
+import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
+import { eitherToModel } from "logic/colorspaces/models";
 import { IconTooltipButton, RefreshIcon, NumberInput } from "../atoms";
 
 /**

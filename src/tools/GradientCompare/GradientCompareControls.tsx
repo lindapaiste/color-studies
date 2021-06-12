@@ -7,9 +7,9 @@ import {
   SelectMultipleColors,
 } from "components";
 import { StateUpdateProps } from "lib/util-hooks";
-import { IColorAdapter } from "logic/color/types";
-import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
-import { ColorSpaceName } from "logic/spacesChannels/types";
+import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
+import { ColorSpaceName } from "logic/colorspaces/types";
+import { ColorAdapter } from "logic";
 
 /**
  * observations:
@@ -26,7 +26,7 @@ import { ColorSpaceName } from "logic/spacesChannels/types";
  */
 
 export interface Settings {
-  colors: IColorAdapter[];
+  colors: ColorAdapter[];
   count?: number;
   models?: ModelAdapter<ColorSpaceName>[];
   transform?: boolean;

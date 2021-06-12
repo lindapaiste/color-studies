@@ -1,7 +1,7 @@
 import React from "react";
-import { ColorSpaceName } from "logic/spacesChannels/types";
-import { allModels, getModelFromKey } from "logic/spacesChannels/models";
-import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
+import { ColorSpaceName } from "logic/colorspaces/types";
+import { allModels, getModelFromKey } from "logic/colorspaces/models";
+import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
 import { MultiSelect, UserProps } from "./MultiSelect";
 
 export const MultiSelectModel = (

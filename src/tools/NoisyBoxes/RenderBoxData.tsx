@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 import { Tooltip } from "components";
 import { BoxData, Evaluation } from "logic/boxSets/types";
-import "./box-style.css";
 import { round } from "lib";
-import { CanGetHex } from "logic/color/types";
+import { CanGetHex } from "logic";
+import "./box-style.css";
 
 export const Box = ({
   color,

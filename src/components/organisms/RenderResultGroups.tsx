@@ -4,8 +4,8 @@ import {
   ResultType,
   TestOutput,
 } from "logic/classification/types";
-import { IColorAdapter } from "logic/color/types";
 import { ColorSet, ColorSetProps, Title } from "components/index";
+import { ColorAdapter } from "logic";
 
 /**
  * breaks a results object into four separate ColorSet components
@@ -13,14 +13,14 @@ import { ColorSet, ColorSetProps, Title } from "components/index";
  * any other props get passed down to ColorSet
  */
 
-export interface Props<R extends TestOutput<IColorAdapter>> {
+export interface Props<R extends TestOutput<ColorAdapter>> {
   results: IGetGroupedResults<R>;
 
   // ColorSet: ComponentType<{ results: R[] }>;
   resultToTooltip?(result: R): NonNullable<ReactNode>;
 }
 
-export const RenderResultGroups = <R extends TestOutput<IColorAdapter>>({
+export const RenderResultGroups = <R extends TestOutput<ColorAdapter>>({
   results,
   resultToTooltip,
   ...props

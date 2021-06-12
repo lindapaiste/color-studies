@@ -1,7 +1,6 @@
 import React from "react";
 import { withHash } from "lib";
-import { CanGetHex } from "logic/color/types";
-import { logProfile } from "../../logic/color/logProfile";
+import { logProfile, CanGetHex } from "logic";
 
 export interface Props {
   color: CanGetHex | string;

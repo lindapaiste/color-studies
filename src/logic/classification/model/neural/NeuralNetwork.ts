@@ -12,9 +12,9 @@ import {
 } from "@tensorflow/tfjs";
 import { orderBy } from "lib";
 import { allGroupNames } from "data";
-import { ChannelAdapter } from "../../../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
 import { GroupedHex } from "../../types";
-import { ColorAdapter } from "../../../color/ColorAdapter";
+import { ColorAdapter } from "../../../convert";
 import { OneHotEncoder } from "./OneHotEncoder";
 
 /**

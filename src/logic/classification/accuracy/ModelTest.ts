@@ -19,7 +19,7 @@ import {
  *
  *
  *
- * T is the type of the input (IColorAdapter)
+ * T is the type of the input (ColorAdapter)
  * S is what the model returns from its getResult function
  * Res is the returned result plus {expected}
  *

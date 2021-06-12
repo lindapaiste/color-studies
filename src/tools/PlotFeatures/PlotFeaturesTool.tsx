@@ -8,7 +8,7 @@ import {
 } from "components";
 import { StateUpdateProps } from "lib/util-hooks";
 import { MaybeUndefined } from "lib";
-import { randomChannel } from "logic/spacesChannels/channels";
+import { randomChannel } from "logic/colorspaces/channels";
 import { randomGroupName } from "data";
 import { PlotFeatures, Props } from "./PlotFeatures";
 

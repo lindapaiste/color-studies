@@ -1,7 +1,7 @@
 import React from "react";
 import { percentString, round } from "lib";
 import { Tooltip } from "components";
-import { logProfile } from "logic/color/logProfile";
+import { logProfile } from "logic/convert/profile";
 import { RenderProps } from "./types";
 import "./histogram.css";
 /**

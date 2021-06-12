@@ -1,6 +1,6 @@
 import { BoxData, Evaluation, Levers, MatchError } from "./types";
 import { getError, matchToChoices } from "./colorMatchesBox";
-import { IColorAdapter } from "../color/types";
+import { ColorAdapter } from "../convert";
 
 /**
  * changeable settings for box balls:
@@ -20,9 +20,9 @@ import { IColorAdapter } from "../color/types";
  */
 
 export interface BallCreateSettings extends Levers {
-  getDistance(a: IColorAdapter, b: IColorAdapter): number;
+  getDistance(a: ColorAdapter, b: ColorAdapter): number;
 
-  createNoisy(c: IColorAdapter): IColorAdapter;
+  createNoisy(c: ColorAdapter): ColorAdapter;
 
   count: number;
 }
@@ -33,7 +33,7 @@ export interface BallCreateSettings extends Levers {
  * this function returns all of the possible matches, along with their evaluations,
  * and leaves it up to the renderer to filter out matches which do not fit the constraints
  */
-/* const generateBoxData = (color: IColorAdapter, choices: IColorAdapter[], count: number, noiseRatio: number, colorSpace: ColorSpaceName): BoxData => {
+/* const generateBoxData = (color: ColorAdapter, choices: ColorAdapter[], count: number, noiseRatio: number, colorSpace: ColorSpaceName): BoxData => {
     const noisyColors = makeArray(count, () => withModelNoise({color, noiseRatio, colorSpace}));
     return {
         color,
@@ -51,9 +51,9 @@ export interface BallCreateSettings extends Levers {
  * or 1000 attempts have been made, whichever comes first
  */
 const generateBoxContents = (
-  color: IColorAdapter,
+  color: ColorAdapter,
   settings: BallCreateSettings,
-  choices: IColorAdapter[]
+  choices: ColorAdapter[]
 ): BoxData => {
   const { createNoisy, getDistance, count } = settings;
 
@@ -93,9 +93,9 @@ const generateBoxContents = (
  * when only needing to replace one ball
  */
 export const generateBall = (
-  color: IColorAdapter,
+  color: ColorAdapter,
   settings: BallCreateSettings,
-  choices: IColorAdapter[]
+  choices: ColorAdapter[]
 ): Evaluation => {
   const contents = generateBoxContents(
     color,
@@ -106,7 +106,7 @@ export const generateBall = (
 };
 
 export const generateBoxes = (
-  colors: IColorAdapter[],
+  colors: ColorAdapter[],
   settings: BallCreateSettings
 ): BoxData[] =>
   colors.map((color) => generateBoxContents(color, settings, colors));

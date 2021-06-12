@@ -1,8 +1,8 @@
 import React, { ComponentType, FunctionComponent, useState } from "react";
 import { debounce } from "lodash";
-import { IColorAdapter } from "logic/color/types";
-import { randomColor } from "logic/color";
+import { ColorAdapter } from "logic/convert";
 import { SelectColor, Props as SelectProps } from "../atoms/SelectColor";
+import { randomColor } from "../../logic/convert/random";
 /**
  * for tools which are initialized with a random color,
  * but now can allow that color to be changed
@@ -17,7 +17,7 @@ import { SelectColor, Props as SelectProps } from "../atoms/SelectColor";
 type ExtraProps = Omit<SelectProps, "value" | "onChange">;
 
 export const withSelectableColor =
-  <P extends { color: IColorAdapter }>(
+  <P extends { color: ColorAdapter }>(
     Component: ComponentType<P>,
     selectColorProps: ExtraProps = {}
   ): FunctionComponent<Omit<P, "color">> =>

@@ -1,8 +1,8 @@
 import { round } from "lib";
-import { ChannelAdapter } from "../../spacesChannels/ChannelAdapter";
-import { getChannel } from "../../spacesChannels/channels";
-import { IColorAdapter } from "../../color/types";
-import { ChannelSlug } from "../../spacesChannels/colorSpaces";
+import { ChannelAdapter } from "../../colorspaces/ChannelAdapter";
+import { getChannel } from "../../colorspaces/channels";
+import { ChannelSlug } from "../../colorspaces/colorSpaces";
+import { ColorAdapter } from "../../convert";
 
 export interface PropertyDef {
   channel: ChannelSlug;
@@ -31,7 +31,7 @@ export class PropertyConstraint {
    * needs a small allowance mainly to account for rounding errors when setting value exactly to the min or max
    */
   getMatchError = (
-    color: IColorAdapter,
+    color: ColorAdapter,
     allowance: number = 0
   ): string | false => {
     // look at the normalized value
@@ -58,5 +58,5 @@ export class PropertyConstraint {
 export const getAllowance = (
   channel: ChannelAdapter,
   fuzzPercent: number
-  // color?: IColorAdapter
+  // color?: ColorAdapter
 ) => channel.range * fuzzPercent; // is is divided by 100 or not?

@@ -1,7 +1,7 @@
 import React from "react";
 import { isNumberKey, round, typedKeys, proper } from "lib";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "components";
-import { ChannelSlug } from "logic/spacesChannels/colorSpaces";
+import { ChannelSlug } from "logic/colorspaces/colorSpaces";
 import { PropertyAnalysis } from "../../logic/classification/averages/types";
 
 /**

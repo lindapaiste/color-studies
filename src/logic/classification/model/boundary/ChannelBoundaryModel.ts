@@ -1,16 +1,16 @@
 import { splitInGroup } from "../../training/shuffledData";
 import { BoundaryModel } from "./BoundaryModel";
-import { IColorAdapter } from "../../../color/types";
-import { ChannelAdapter } from "../../../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
 import {
   GroupedColor,
   BinaryClassifier,
   Boundary,
   ITestable,
 } from "../../types";
+import { ColorAdapter } from "../../../convert";
 
 interface Result {
-  color: IColorAdapter;
+  color: ColorAdapter;
   channel: number;
   predicted: boolean;
 }
@@ -24,8 +24,8 @@ interface Result {
 
 export class ChannelBoundaryModel
   implements
-    BinaryClassifier<IColorAdapter>,
-    ITestable<IColorAdapter, Result>,
+    BinaryClassifier<ColorAdapter>,
+    ITestable<ColorAdapter, Result>,
     Boundary
 {
   public model: BinaryClassifier<number> & Boundary;
@@ -59,7 +59,7 @@ export class ChannelBoundaryModel
   /**
    * this is good, but want to somehow return the channel value
    */
-  public predict(input: IColorAdapter): boolean {
+  public predict(input: ColorAdapter): boolean {
     const value = input.get(this.channel);
     return this.model.predict(value);
   }
@@ -67,7 +67,7 @@ export class ChannelBoundaryModel
   /**
    * fulfills ITestable interface
    */
-  public predictResult(color: IColorAdapter): Result {
+  public predictResult(color: ColorAdapter): Result {
     const channel = color.get(this.channel);
     const predicted = this.model.predict(channel);
     return {

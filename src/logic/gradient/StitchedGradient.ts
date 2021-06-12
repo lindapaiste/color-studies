@@ -1,8 +1,8 @@
 import { ModelGradient, Props as GradientProps } from "./ModelGradient";
-import { ColorSpaceName } from "../spacesChannels/types";
-import { IColorAdapter, PropColorArray } from "../color/types";
+import { ColorSpaceName } from "../colorspaces/types";
 import { IGradient } from "./types";
-import { ModelAdapter } from "../spacesChannels/ModelAdapter";
+import { ModelAdapter } from "../colorspaces/ModelAdapter";
+import { ColorAdapter } from "../convert";
 
 /**
  * rather than just going from A to B, can create a gradient from any number of colors
@@ -16,8 +16,9 @@ import { ModelAdapter } from "../spacesChannels/ModelAdapter";
 export type Props<CS extends ColorSpaceName> = Pick<
   GradientProps<CS>,
   "model" | "transform"
-> &
-  PropColorArray;
+> & {
+  colors: ColorAdapter[];
+};
 
 export class StitchedGradient<CS extends ColorSpaceName> implements IGradient {
   public readonly model: ModelAdapter<CS>; // not using get() because of possible empty gradients array
@@ -54,7 +55,7 @@ export class StitchedGradient<CS extends ColorSpaceName> implements IGradient {
     }
   }
 
-  colors(count: number): IColorAdapter[] {
+  colors(count: number): ColorAdapter[] {
     // early exit on empty to avoid divide by zero
     if (this.gradients.length === 0) return [];
     const countPer = Math.ceil(count / this.gradients.length);

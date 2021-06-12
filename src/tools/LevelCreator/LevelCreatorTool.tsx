@@ -8,8 +8,7 @@ import { generateBoxes } from "logic/boxSets/generateBoxBalls";
 import { DEFAULT_NOISE_SETTINGS } from "logic/noise/types";
 import { ModelNoise } from "logic/noise/modelNoise";
 import { BoxData } from "logic/boxSets/types";
-import { IColorAdapter } from "logic/color/types";
-import { randomColor } from "logic/color";
+import { ColorAdapter } from "logic/convert";
 import { logJson } from "logic/boxSets/jsonDump";
 import {
   AdvancedSettingsControls,
@@ -21,6 +20,7 @@ import { BallEditorControls } from "./BallsEditorControls";
 import { DistanceGrid } from "../DistanceGrid/DistanceGrid";
 import { BoxColorControls } from "./BoxColorControls";
 import { DEFAULT_LEVERS } from "../NoisyBoxes/NoisyBoxes";
+import { randomColor } from "../../logic/convert/random";
 
 const initialFormulaSettings: FormulaSettings = {
   algo: "Euclidean",
@@ -33,7 +33,7 @@ export const LevelLoader = ({
   settings,
 }: {
   settings: AdvancedSettings;
-  colors: IColorAdapter[];
+  colors: ColorAdapter[];
 }) => {
   const generateBalls = useCallback(
     () => generateBoxes(colors, mapSettingsInterface(settings)),

@@ -1,7 +1,7 @@
 import React from "react";
-import { ColorSet, TupleTooltip } from "components";
+import { ColorSet, tupleTooltipFactory } from "components";
 import { IGradient } from "logic/gradient/types";
-import { IColorAdapter } from "logic/color/types";
+import { ColorAdapter } from "logic";
 
 export interface Props {
   count?: number;
@@ -13,8 +13,8 @@ export interface Props {
  * uses the model values as the tooltip
  */
 export const RenderGradientSet = ({ count = 10, gradient }: Props) => (
-  <ColorSet<IColorAdapter>
+  <ColorSet<ColorAdapter>
     colors={gradient.colors(count)}
-    colorToTooltip={(color) => TupleTooltip(color.toClassed(gradient.model))}
+    colorToTooltip={tupleTooltipFactory(gradient.model)}
   />
 );

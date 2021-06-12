@@ -1,9 +1,9 @@
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
-import { ColorSpaceName } from "../spacesChannels/types";
+import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { ColorSpaceName } from "../colorspaces/types";
 import { TransformPair } from "../adjustment/transforms";
 import { ModelGradient } from "./ModelGradient";
 import { IGradient } from "./types";
-import { IColorAdapter } from "../color/types";
+import { ColorAdapter } from "../convert";
 
 /**
  * start from one initial color and change its value along one channel
@@ -13,7 +13,7 @@ import { IColorAdapter } from "../color/types";
  */
 
 export interface Props {
-  initial: IColorAdapter;
+  initial: ColorAdapter;
   channel: ChannelAdapter;
   transform?: boolean | TransformPair;
   start?: number;
@@ -40,7 +40,7 @@ export class ChannelGradient implements IGradient {
     });
   }
 
-  public colors(count: number): IColorAdapter[] {
+  public colors(count: number): ColorAdapter[] {
     return this.internal.colors(count);
   }
 
@@ -59,5 +59,5 @@ export type GetGradientProps = Props & { count: number };
 export const getGradientColors = ({
   count,
   ...props
-}: GetGradientProps): IColorAdapter[] =>
+}: GetGradientProps): ColorAdapter[] =>
   new ChannelGradient(props).colors(count);

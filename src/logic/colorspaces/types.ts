@@ -37,9 +37,9 @@ export type Tuple<N, T> = N extends 3
   ? [T, T, T]
   : N extends 4
   ? [T, T, T, T]
-  : never;
+  : [T, T, T, T] | [T, T, T];
 
-export type ColorTuple<CS extends ColorSpaceName> = Tuple<
+export type ColorTuple<CS extends ColorSpaceName = ColorSpaceName> = Tuple<
   ChannelCount<CS>,
   number
 >;

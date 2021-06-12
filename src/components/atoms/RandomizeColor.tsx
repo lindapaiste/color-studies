@@ -1,8 +1,8 @@
 import React from "react";
-import { randomColor } from "logic/color";
-import { IColorAdapter } from "logic/color/types";
+import { ColorAdapter } from "logic/convert";
 import { IconTooltipButton } from "./IconTooltipButton";
 import { RandomIcon } from "./Icons";
+import { randomColor } from "../../logic/convert/random";
 
 /**
  * randomize icon button from prop onChange
@@ -10,7 +10,7 @@ import { RandomIcon } from "./Icons";
 export const RandomizeColor = ({
   onChange,
 }: {
-  onChange: (c: IColorAdapter) => void;
+  onChange: (c: ColorAdapter) => void;
 }) => (
   <IconTooltipButton
     title="Randomize Color"

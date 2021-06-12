@@ -1,5 +1,5 @@
-import { ColorSpaceName, ColorTuple } from "../spacesChannels/types";
-import { IColorAdapter } from "../color/types";
+import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
+import { ColorAdapter } from "../convert";
 
 export interface LAB {
   L: number;
@@ -21,7 +21,7 @@ export interface WeightedDeltaEFormula<T, CS extends ColorSpaceName = "lch"> {
  * assume that the calculator takes weights into account internally
  */
 export interface DeltaEFormula {
-  (a: IColorAdapter, b: IColorAdapter): number;
+  (a: ColorAdapter, b: ColorAdapter): number;
 }
 
 /**
@@ -29,7 +29,7 @@ export interface DeltaEFormula {
  * and has a getDeltaE method for two colors
  */
 export interface DeltaECalculator {
-  getDeltaE(a: IColorAdapter, b: IColorAdapter): number;
+  getDeltaE(a: ColorAdapter, b: ColorAdapter): number;
 }
 
 export type Algo = "CIE2000" | "CIE1994" | "Euclidean";

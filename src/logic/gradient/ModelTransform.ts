@@ -1,8 +1,8 @@
 // an array of transforms for each channel
-import { ifDefined, tupleMap } from "lib";
-import { ChannelCountTuple, ColorSpaceName } from "../spacesChannels/types";
-import { ModelAdapter } from "../spacesChannels/ModelAdapter";
-import { TupleClass } from "../spacesChannels/TupleClass";
+import { tupleMap } from "lib";
+import { ChannelCountTuple, ColorSpaceName } from "../colorspaces/types";
+import { ModelAdapter } from "../colorspaces/ModelAdapter";
+import { TupleClass } from "../colorspaces/TupleClass";
 import { getStandardTransform, TransformPair } from "../adjustment/transforms";
 
 export type ModelTransformArray<CS extends ColorSpaceName> = ChannelCountTuple<
@@ -28,10 +28,11 @@ export class ModelTransform<CS extends ColorSpaceName> {
 
   private readonly normalized: boolean;
 
-  constructor(props: Props<CS>) {
-    this.model = props.model;
-    this.normalized = ifDefined(props.normalized, false);
-    let transforms = props.transform;
+  constructor({ model, normalized = false, transform }: Props<CS>) {
+    this.model = model;
+    this.normalized = normalized;
+    let transforms = transform;
+    // TODO: handling of transforms is a mess
     // handle all true / all false
     if (typeof transforms === "boolean") {
       transforms = this.model.makeTuple(transforms);
@@ -59,12 +60,10 @@ export class ModelTransform<CS extends ColorSpaceName> {
     tuple: TupleClass<CS>,
     direction: keyof TransformPair
   ): TupleClass<CS> {
-    const initial = tuple.getEither(this.normalized);
-    const mapped = tupleMap(initial, (value, i) => {
+    return tuple.to(this.normalized).map((value, i) => {
       const transform = this.transforms[i]; // don't get the right type inference if using ternary on this.transforms[i]
       return transform === false ? value : transform[direction](value);
     });
-    return new TupleClass(mapped, this.model, this.normalized);
   }
 
   public applyPre(tuple: TupleClass<CS>): TupleClass<CS> {

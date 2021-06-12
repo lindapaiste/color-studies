@@ -1,15 +1,15 @@
 import React from "react";
 import { round } from "lodash";
-import { ColorSpaceName, ColorTuple } from "logic/spacesChannels/types";
-import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
-import { eitherToModel } from "logic/spacesChannels/models";
+import { ColorSpaceName, ColorTuple } from "logic/colorspaces/types";
+import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
+import { eitherToModel } from "logic/colorspaces/models";
+import { ColorAdapter } from "logic";
+import { TupleClass } from "logic/colorspaces/TupleClass";
 
-/**
- * props match those of TupleClass
- */
-export interface Props<CS extends ColorSpaceName> {
+export interface TupleTooltipProps<CS extends ColorSpaceName> {
   model: ModelAdapter<CS> | CS;
-  deNormalized: ColorTuple<CS>;
+  values: ColorTuple<CS> | TupleClass<CS>;
+  precision?: number;
 }
 
 /**
@@ -17,13 +17,27 @@ export interface Props<CS extends ColorSpaceName> {
  */
 export const TupleTooltip = <CS extends ColorSpaceName>({
   model,
-  deNormalized,
-}: Props<CS>) => (
+  values,
+  precision = 0,
+}: TupleTooltipProps<CS>) => (
   <div>
     {eitherToModel(model).channels.map((channel, i) => (
       <div key={channel.key}>
-        {channel.name}: {round(deNormalized[i])}
+        {channel.name}: {round(values[i], precision)}
       </div>
     ))}
   </div>
 );
+
+/**
+ * Factory function creates a version of TupleTooltip which takes a
+ * ColorAdapter as the props and can therefore be passed directly to colorToTooltip.
+ * Needs to know the model to use.
+ */
+export const tupleTooltipFactory =
+  <CS extends ColorSpaceName>(model: ModelAdapter<CS> | CS) =>
+  (color: ColorAdapter) =>
+    (
+      // eslint-disable-next-line react/destructuring-assignment
+      <TupleTooltip model={model} values={color.toCs(model).deNormalize()} />
+    );

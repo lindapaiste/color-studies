@@ -1,7 +1,7 @@
 import { DeltaECalculator, KeyedLCHWeights } from "./types";
 import { toKeyedLAB, toKeyedWeights } from "./distance";
 import DeltaE2000 from "./DeltaE2000";
-import { IColorAdapter } from "../color/types";
+import { ColorAdapter } from "../convert";
 
 export class DeltaE00Compat implements DeltaECalculator {
   private readonly weights: Partial<KeyedLCHWeights>;
@@ -10,10 +10,10 @@ export class DeltaE00Compat implements DeltaECalculator {
     this.weights = toKeyedWeights(weights) ?? {};
   }
 
-  getDeltaE(a: IColorAdapter, b: IColorAdapter): number {
+  getDeltaE(a: ColorAdapter, b: ColorAdapter): number {
     const converter = new DeltaE2000(
-      toKeyedLAB(a.to("lab")),
-      toKeyedLAB(b.to("lab")),
+      toKeyedLAB(a),
+      toKeyedLAB(b),
       this.weights
     );
     return converter.getDeltaE();

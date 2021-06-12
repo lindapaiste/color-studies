@@ -1,9 +1,9 @@
-import { ColorSpaceName } from "../spacesChannels/types";
+import { ColorSpaceName } from "../colorspaces/types";
 import { FormulaSettings, DeltaECalculator } from "./types";
 import { rawDistance } from "./euclideanDistance";
-import { IColorAdapter } from "../color/types";
-import { ModelAdapter } from "../spacesChannels/ModelAdapter";
-import { getModel } from "../spacesChannels/models";
+import { ModelAdapter } from "../colorspaces/ModelAdapter";
+import { getModel } from "../colorspaces/models";
+import { ColorAdapter } from "../convert";
 
 /**
  * CIE 1976 formula uses Euclidean Distance of LAB coordinates,
@@ -50,10 +50,10 @@ export class EuclideanCalculator implements DeltaECalculator {
    * returns the distance between two colors, applying this colorSpace and weights,
    * in the range 0 to 100
    */
-  public getDeltaE(a: IColorAdapter, b: IColorAdapter): number {
+  public getDeltaE(a: ColorAdapter, b: ColorAdapter): number {
     const raw = rawDistance(
-      a.to(this.modelName),
-      b.to(this.modelName),
+      a.toCs(this.modelName).values,
+      b.toCs(this.modelName).values,
       this.weights
     );
     return (100 * raw) / this.maximum;

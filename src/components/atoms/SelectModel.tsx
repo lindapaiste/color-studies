@@ -1,7 +1,7 @@
 import React from "react";
 import { MenuItem as Option } from "@material-ui/core";
-import { COLOR_SPACE_NAMES } from "logic/spacesChannels/colorSpaces";
-import { ColorSpaceName } from "logic/spacesChannels/types";
+import { COLOR_SPACE_NAMES } from "logic/colorspaces/colorSpaces";
+import { ColorSpaceName } from "logic/colorspaces/types";
 import { GenericProps } from "./types";
 import { Field } from "./Field";
 

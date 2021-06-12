@@ -4,8 +4,8 @@ import {
   colorWheelToNormal,
   normalToColorWheel,
 } from "../adjustment/colorWheel";
-import { IColorAdapter } from "../color/types";
-import { ChannelArg, toChannelObject } from "../spacesChannels/channels";
+import { ChannelArg, toChannelObject } from "../colorspaces/channels";
+import { ColorAdapter } from "../convert";
 
 export interface ChannelProps {
   min?: number; // default to 0 if not set
@@ -108,13 +108,13 @@ export const noisyChannelValue = ({ channel, ...props }: BasicProps): number =>
   });
 
 /**
- * applies channel noise to an IColorAdapter object
+ * applies channel noise to an ColorAdapter object
  */
 export const withChannelNoise = (
-  color: IColorAdapter,
+  color: ColorAdapter,
   channel: ChannelArg,
   noiseRatio: number
-): IColorAdapter => {
+): ColorAdapter => {
   const value = color.get(channel);
   const newValue = noisyChannelValue({ channel, noiseRatio, value });
   return color.set(channel, newValue);

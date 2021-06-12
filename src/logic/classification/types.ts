@@ -1,6 +1,6 @@
-import { IColorAdapter } from "../color/types";
-import { ChannelAdapter } from "../spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
 import { TestResults } from "./accuracy/metrics";
+import { ColorAdapter } from "../convert";
 
 /**
  * define a Binary Classifier as an object with a predict() method
@@ -19,9 +19,9 @@ export interface ITestable<T, R extends HasPredicted> {
 }
 
 export interface GroupColorClassifier<R extends HasPredicted>
-  extends ITestable<IColorAdapter, R> {
+  extends ITestable<ColorAdapter, R> {
   group: string;
-  predictResult(input: IColorAdapter, debug?: boolean): R;
+  predictResult(input: ColorAdapter, debug?: boolean): R;
 }
 
 /**
@@ -86,7 +86,7 @@ export interface Distribution {
  */
 export interface GroupedColor {
   group: string;
-  color: IColorAdapter;
+  color: ColorAdapter;
 }
 
 /**
@@ -124,7 +124,7 @@ export interface PerceptronProps {
 export interface PerceptronResult {
   predicted: boolean;
   features: number[];
-  color: IColorAdapter;
+  color: ColorAdapter;
   score: number;
 }
 

@@ -4,7 +4,7 @@ import { round } from "lib";
 import { ExpandableConfusionMatrix, Title } from "components";
 import { ChannelBoundaryModel } from "logic/classification/model/boundary/ChannelBoundaryModel";
 import { ConfusionMatrix } from "logic/classification/accuracy/ConfusionMatrix";
-import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
+import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
 
 /**
  * Render a single model.

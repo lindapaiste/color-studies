@@ -13,19 +13,19 @@ import {
 import { makeArray, shuffle } from "lib";
 import { getGradientColors } from "logic/gradient/ChannelGradient";
 import { usePartialState } from "lib/util-hooks";
-import { getChannel } from "logic/spacesChannels/channels";
-import { IColorAdapter } from "logic/color/types";
-import { randomColor } from "logic/color";
+import { getChannel } from "logic/colorspaces/channels";
+import { ColorAdapter } from "logic/convert";
 import { ShiftSettings } from "./types";
+import { randomColor } from "../../logic/convert/random";
 
 /**
  * want to be able to generate colors from a channel shift OR from select color
  */
 
 export interface Props {
-  colors: IColorAdapter[];
+  colors: ColorAdapter[];
 
-  setColors(c: IColorAdapter[]): void;
+  setColors(c: ColorAdapter[]): void;
 }
 
 export const BoxColorControls = ({ colors, setColors }: Props) => {

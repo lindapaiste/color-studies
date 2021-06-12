@@ -1,6 +1,6 @@
 import React from "react";
-import { ChannelAdapter } from "logic/spacesChannels/ChannelAdapter";
-import { allChannels, getChannel } from "logic/spacesChannels/channels";
+import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
+import { allChannels, getChannel } from "logic/colorspaces/channels";
 import { MultiSelect, UserProps } from "./MultiSelect";
 
 export const MultiSelectChannel = (props: UserProps<ChannelAdapter>) => (

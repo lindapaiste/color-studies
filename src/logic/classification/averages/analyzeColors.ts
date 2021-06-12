@@ -5,9 +5,9 @@ import {
   median,
   standardDeviation,
 } from "simple-statistics";
-import { allChannels } from "../../spacesChannels/channels";
-import { hexToColor } from "../../color";
+import { allChannels } from "../../colorspaces/channels";
 import { GroupColorAnalysis, PropertyAnalysis } from "./types";
+import { hexToColor } from "../../convert";
 
 export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
   const min = Math.min(...values);

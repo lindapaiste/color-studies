@@ -1,8 +1,7 @@
 import { makeArray } from "lib";
 import { getBalancedSample } from "../../training/shuffledData";
-import { ChannelAdapter } from "../../../spacesChannels/ChannelAdapter";
-import { hexToColor } from "../../../color";
-import { IColorAdapter } from "../../../color/types";
+import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
+import { ColorAdapter, hexToColor } from "../../../convert";
 import {
   IGroupPerceptron,
   ImpossibleCheck,
@@ -70,7 +69,7 @@ export class GroupPerceptron implements IGroupPerceptron {
   /**
    * convert a color to features based on the model channels
    */
-  getFeatures = (color: IColorAdapter): number[] =>
+  getFeatures = (color: ColorAdapter): number[] =>
     this.channels.map(
       // need to normalize value
       (channel) => channel.normalize(color.get(channel))
@@ -96,7 +95,7 @@ export class GroupPerceptron implements IGroupPerceptron {
   };
 
   public predictResult = (
-    color: IColorAdapter,
+    color: ColorAdapter,
     debug: boolean = false
   ): PerceptronResult => {
     const features = this.getFeatures(color);

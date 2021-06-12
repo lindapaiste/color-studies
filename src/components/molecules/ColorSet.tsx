@@ -1,8 +1,6 @@
 import React, { ReactNode } from "react";
 import { withHash } from "lib";
-import { CanGetHex } from "logic/color/types";
-import { isGetHex } from "logic/color";
-import { logProfile } from "../../logic/color/logProfile";
+import { CanGetHex, isGetHex, logProfile } from "logic";
 import { Tooltip } from "../atoms";
 
 /**

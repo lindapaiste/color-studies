@@ -1,7 +1,7 @@
 import { getGroupHexes, NameAndHexes } from "data";
 import { GroupConstraints, MatchResult } from "./GroupConstraints";
-import { IColorAdapter } from "../../color/types";
 import { StoredGroup } from "./constraint-data";
+import { ColorAdapter } from "../../convert";
 
 /**
  * Grouping object combines name, hex array, and constraints.
@@ -21,7 +21,7 @@ export class ColorGrouping implements NameAndHexes {
   }
 
   public colorFits(
-    color: IColorAdapter,
+    color: ColorAdapter,
     reportAll?: boolean,
     fuzz?: number
   ): MatchResult {
