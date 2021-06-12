@@ -3,6 +3,8 @@ import { ColorSpaceName, ColorTuple } from "./types";
 import { ModelAdapter } from "./ModelAdapter";
 import { eitherToModel, ModelOrName } from "./models";
 
+/* eslint-disable no-underscore-dangle */
+
 /**
  * Wrapper around a color values tuple can act as an array ( implements ArrayLike ),
  * but can also handle normalization and denormalization of its values.

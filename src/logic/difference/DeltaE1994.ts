@@ -69,8 +69,7 @@ export default class DeltaE1994 {
    * @returns {number}
    */
   public getDeltaE(): number {
-    const x1 = this.x1;
-    const x2 = this.x2;
+    const { x1, x2 } = this;
 
     return Math.sqrt(
       this.calculateL(x1, x2) ** 2 +

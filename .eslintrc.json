@@ -29,8 +29,12 @@
     "@typescript-eslint/no-unused-vars": "warn",
     "no-undef": "off",
     "no-plusplus": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.stories.tsx", "**/*.test.ts", "**/*.test.tsx", "**/__tests__/*"]}],
+    // downgrade errors too warnings
     "prettier/prettier": "warn",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.stories.tsx", "**/*.test.ts", "**/*.test.tsx", "**/__tests__/*"]}]
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-noninteractive-element-interactions": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn"
   },
   "settings": {
     "react": {

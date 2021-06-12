@@ -76,7 +76,7 @@ export const BoxColorControls = ({ colors, setColors }: Props) => {
         <ChannelSliderInput
           label="Output Range"
           channel={settings.channel}
-          color={startColor}
+          startColor={startColor}
           value={[settings.start, settings.end]}
           normalized
           onChange={([start, end]) => update({ start, end })}

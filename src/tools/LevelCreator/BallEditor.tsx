@@ -32,14 +32,14 @@ export type Props = DataProps & BallDisplaySettings;
  * the distance property of evaluation stores the distance to the matched box, not to the intended match
  * need to know the index of intended match to show that
  */
-export const RejectionTooltip = (props: Rejection) => (
+export const RejectionTooltip = ({ distances, error, ...props }: Rejection) => (
   <div>
-    <div>{props.error.message}</div>
+    <div>{error.message}</div>
     <div>
       matches box #
-      {props.distances.findIndex((v) => v === Math.min(...props.distances)) + 1}
+      {distances.findIndex((v) => v === Math.min(...distances)) + 1}
     </div>
-    <TooltipContent {...props} />
+    <TooltipContent {...props} distances={distances} />
   </div>
 );
 
@@ -127,7 +127,7 @@ export const BallsEditor = ({
     );
   };
 
-  const _data = useMemo(
+  const preparedData = useMemo(
     () => (shuffle ? shuffleData(data) : data),
     [data, shuffle]
   );
@@ -149,9 +149,11 @@ export const BallsEditor = ({
         className="boxes-area"
         style={{ backgroundColor: darkBackground ? "black" : "white" }}
       >
-        {_data.map((box, boxIndex) => (
-          <Box key={boxIndex} color={box.color}>
+        {preparedData.map((box, boxIndex) => (
+          <Box key={box.color.hex()} color={box.color}>
             {box.matches.map((match, ballIndex) => (
+              // Note: disabled because balls are not guaranteed to be unique
+              // eslint-disable-next-line react/no-array-index-key
               <div key={ballIndex}>
                 <Ball {...match} />
                 {showTools && !shuffle && (
@@ -189,6 +191,7 @@ export const BallsEditor = ({
             {showRejected &&
               (box.rejected || []).map((match, i) => (
                 <Ball
+                  // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   {...match}
                   RenderTooltip={() => RejectionTooltip(match)}

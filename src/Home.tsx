@@ -71,13 +71,13 @@ export const Home = () => {
       {SECTIONS.map(({ title: sectionTitle, pages }) => {
         const backgroundColors = sampleGroupHexes("Candy", pages.length);
         return (
-          <section>
+          <section key={sectionTitle}>
             <Title>{sectionTitle}</Title>
             <Grid container spacing={5} className={classes.root}>
               {pages.map(
                 ({ title: pageTitle, path, description, icon: Icon }, i) => (
-                  <Grid item xs={6} sm={4} md={3}>
-                    <Link to={`/${path}`} key={path} className={classes.link}>
+                  <Grid item xs={6} sm={4} md={3} key={path}>
+                    <Link to={`/${path}`} className={classes.link}>
                       <Paper
                         elevation={5}
                         className={classes.paper}

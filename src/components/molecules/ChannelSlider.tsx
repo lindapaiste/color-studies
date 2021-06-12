@@ -1,29 +1,31 @@
 import React from "react";
-import { Slider } from "@material-ui/core";
+import { Slider, TextField } from "@material-ui/core";
 import { Size } from "lib";
 import { ChannelArg, toChannelObject } from "logic/spacesChannels/channels";
 import { IColorAdapter } from "logic/color/types";
 import { GenericProps, WithoutE } from "../atoms/types";
 import { GradientBar } from "../atoms";
-import { FormLabelWrapper } from "../atoms/LabelWrapper";
 
 /**
  * expects a normalized value between 0 and 1
  */
-// number | [number, number];
 export interface ExtraProps {
-  color: IColorAdapter;
+  startColor: IColorAdapter;
   channel: ChannelArg;
   normalized: boolean;
 }
 
-type Props<T> = WithoutE<GenericProps<T>> & ExtraProps & Partial<Size>;
+type Props<T> = WithoutE<GenericProps<T>> &
+  ExtraProps &
+  Partial<Size> & { value: T };
 
 /**
- * just the slider itself, without labels or borders
+ * Just the slider itself, without labels or borders
+ * In order to be compatible with the Material UI input label system,
+ * needs to take props value and onChange(e).
  */
 export const ChannelSlider = <T extends number | number[]>({
-  color,
+  startColor,
   channel,
   normalized,
   onChange,
@@ -37,7 +39,7 @@ export const ChannelSlider = <T extends number | number[]>({
       <GradientBar
         width={width}
         height={height}
-        initial={color}
+        initial={startColor}
         channel={channelObj}
       />
       <div
@@ -65,13 +67,34 @@ export const ChannelSlider = <T extends number | number[]>({
 };
 
 /**
- * version with label and border for consistency with other input elements
+ * Trying to get the Material UI outline input style around an arbitrary
+ * component is an absolute NIGHTMARE. Settling for CSS trickery where there
+ * is a hidden input in the background and the Slider on top.
+ * Is a teensy bit below center, but close enough!
  */
 export const ChannelSliderInput = <T extends number | number[]>({
   label = "Channel Range",
+  padding = 10,
+  width = 200,
+  height = 50,
   ...props
-}: Props<T>) => (
-  <FormLabelWrapper label={label} padding={8}>
-    <ChannelSlider {...props} />
-  </FormLabelWrapper>
-);
+}: Props<T> & { padding?: number }) => {
+  const size = { width: width + 2 * padding, height: height + 2 * padding };
+  return (
+    <div style={{ position: "relative", ...size }}>
+      <TextField
+        variant="outlined"
+        label={label}
+        value={props.value.toString()}
+        InputLabelProps={{ shrink: true }}
+        InputProps={{ hidden: true, disabled: true }}
+        // eslint-disable-next-line react/jsx-no-duplicate-props
+        inputProps={{ "aria-hidden": true, tabIndex: -1 }}
+        style={{ position: "absolute", ...size }}
+      />
+      <div style={{ position: "absolute", padding }}>
+        <ChannelSlider width={width} height={height} {...props} />
+      </div>
+    </div>
+  );
+};

@@ -77,6 +77,7 @@ export const ColorSet = <T extends any>({
                 flex: 1,
                 minWidth: wrap ? height : undefined,
               }}
+              // eslint-disable-next-line
               onClick={() => {
                 onClickColor?.(color);
                 logProfile(hex);

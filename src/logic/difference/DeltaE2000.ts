@@ -237,9 +237,7 @@ export default class DeltaE2000 {
       -2 *
       Math.sqrt(this.CBarPrime ** 7 / (this.CBarPrime ** 7 + 25 ** 7)) *
       Math.sin(
-        degreesToRadians(
-          60 * Math.exp(-Math.pow((this.HBarPrime - 275) / 25, 2))
-        )
+        degreesToRadians(60 * Math.exp(-1 * ((this.HBarPrime - 275) / 25) ** 2))
       )
     );
   }

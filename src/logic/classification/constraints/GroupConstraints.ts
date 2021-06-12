@@ -34,7 +34,9 @@ export class GroupConstraints {
   ): MatchResult {
     const errors: MatchError[] = [];
 
-    for (let condition of this.conditions) {
+    // Note: not using a forEach loop in order to support the `break`
+    // eslint-disable-next-line no-restricted-syntax
+    for (const condition of this.conditions) {
       const error = condition.getMatchError(color, fuzz);
       if (error) {
         errors.push({

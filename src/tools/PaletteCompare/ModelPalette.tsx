@@ -4,7 +4,6 @@ import { ColorSpaceName, ColorTuple } from "logic/spacesChannels/types";
 import { flatMap, intervals, replaceIndex } from "lib";
 import { ModelAdapter } from "logic/spacesChannels/ModelAdapter";
 import { ColorSet, TupleTooltip } from "components";
-import useDimensions from "lib/useDimensions";
 
 /**
  * a visual representation of the contents of a colorspace
@@ -13,11 +12,28 @@ import useDimensions from "lib/useDimensions";
  */
 
 export interface Props {
+  /**
+   * The model to use
+   */
   model: ModelAdapter<ColorSpaceName>;
-  totalCount?: number;
-  perRow?: number;
+  /**
+   * The total count of samples to include.
+   * Subject to rounding based on the cube root.
+   */
+  totalCount: number;
+  /**
+   * The number of colors to display per row.
+   */
+  perRow: number;
+  /**
+   * The total width of the grid.
+   */
+  width: number;
 }
 
+/**
+ * Generate all of the colors in a colorspace such that they fill the
+ */
 export const allSpaceTuples = <CS extends ColorSpaceName>(
   model: ModelAdapter<CS>,
   totalCount: number
@@ -40,11 +56,7 @@ export const allSpaceTuples = <CS extends ColorSpaceName>(
   return tuples;
 };
 
-export const ModelPalette = ({
-  model,
-  totalCount = 1000,
-  perRow = 50,
-}: Props) => {
+export const ModelPalette = ({ model, totalCount, perRow, width }: Props) => {
   const colors = useMemo(() => {
     const tuples = allSpaceTuples(model, totalCount);
     // map normalized tuples into hexes, also including a tooltip element
@@ -57,23 +69,16 @@ export const ModelPalette = ({
     });
   }, [model, totalCount]);
 
-  const [ref, container] = useDimensions();
-
-  const { width = 500 } = container;
-
-  const size = width / perRow;
-
   return (
-    <div ref={ref} style={{ width: "100%" }}>
+    <div style={{ width: "100%" }}>
       <ColorSet
         colors={colors}
         colorToTooltip={(c) => c.tooltip}
         colorToHex={(c) => c.hex}
         wrap
-        height={size}
+        // is used as both the height and width of each cell
+        height={width / perRow}
       />
     </div>
   );
 };
-
-export default ModelPalette;

@@ -55,10 +55,10 @@ export const Ball = ({
 
 export const RenderBoxData = ({ data }: { data: BoxData<CanGetHex>[] }) => (
   <div className="boxes-area">
-    {data.map((box, i) => (
-      <Box key={i} color={box.color}>
-        {box.matches.map((match, j) => (
-          <Ball key={j} {...match} />
+    {data.map((box) => (
+      <Box key={box.color.hex()} color={box.color}>
+        {box.matches.map((match) => (
+          <Ball key={match.color.hex()} {...match} />
         ))}
       </Box>
     ))}

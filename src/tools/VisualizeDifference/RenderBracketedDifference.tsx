@@ -34,6 +34,7 @@ export const RenderBracketedDifference = ({ data, chunkWidth = 10 }: Props) => {
   return (
     <div>
       {chunks.map((chunk, i) => (
+        // eslint-disable-next-line react/no-array-index-key
         <div key={i}>
           <Title importance="h3">
             from {i * chunkWidth} to {(i + 1) * chunkWidth}

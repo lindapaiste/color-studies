@@ -83,8 +83,10 @@ export const DistanceGrid = ({ colors, calculator }: Props) => {
   return (
     <Table>
       <TableHead>
-        <TableCell />
-        {colors.map((color) => label(color.hex()))}
+        <TableRow>
+          <TableCell />
+          {colors.map((color) => label(color.hex()))}
+        </TableRow>
       </TableHead>
       <TableBody>
         {colors.map((color) => (

@@ -3,6 +3,7 @@ import { ColorSpaceName, ColorTuple } from "../spacesChannels/types";
 import { IModelNoise, INoiseCreator, ModelNoiseSettings } from "./types";
 import { IColorAdapter } from "../color/types";
 import { getModel } from "../spacesChannels/models";
+import { ColorAdapter } from "../color/ColorAdapter";
 
 export interface CalcProps<CS extends ColorSpaceName> {
   colorSpace: CS;
@@ -46,7 +47,7 @@ export const withModelNoise = <CS extends ColorSpaceName>({
     values: values as ColorTuple<CS>,
     colorSpace,
   });
-  return color.from(noisy, colorSpace);
+  return ColorAdapter.staticFrom(noisy, colorSpace);
 };
 
 /**

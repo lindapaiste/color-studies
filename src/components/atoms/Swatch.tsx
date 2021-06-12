@@ -23,6 +23,7 @@ export const Swatch = ({ color, size, height }: Props) => {
         width: size,
         height: height || size,
       }}
+      // eslint-disable-next-line
       onClick={() => logProfile(hex)}
     />
   );

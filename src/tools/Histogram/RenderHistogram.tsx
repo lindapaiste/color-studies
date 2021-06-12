@@ -47,6 +47,7 @@ export const RenderHistogram = ({
                   width: colorWidth,
                   height: colorHeight,
                 }}
+                // eslint-disable-next-line
                 onClick={() => logProfile(entry.color)}
               />
             </Tooltip>

@@ -1,5 +1,5 @@
 import React from "react";
-import { withHash, Size } from "lib";
+import { withHash, Size, uniq } from "lib";
 import {
   ChannelGradient,
   Props as GradientProps,
@@ -17,10 +17,28 @@ export type Props = GradientProps &
     count?: number;
   };
 
-export const GradientBar = ({ width, height, count, ...props }: Props) => {
+export const GradientBar = ({
+  width,
+  height,
+  count,
+  initial,
+  channel,
+  transform,
+  start,
+  end,
+}: Props) => {
   // will use passed-in count, or 1 per pixel if width is set, or 100
   const colorCount = count ?? width ?? 100;
-  const gradient = new ChannelGradient(props);
+  const gradient = new ChannelGradient({
+    initial,
+    channel,
+    transform,
+    start,
+    end,
+  });
+  // drop non-unique hexes (repetition at the ends of unreachable ranges);
+  const hexes = uniq(gradient.colors(colorCount).map((c) => c.hex()));
+  const iHex = initial.hex();
   return (
     <div
       style={{
@@ -29,13 +47,14 @@ export const GradientBar = ({ width, height, count, ...props }: Props) => {
         height: height || 50,
       }}
     >
-      {gradient.colors(colorCount).map((color) => (
+      {hexes.map((hex) => (
         <div
-          key={color.hex()}
+          // hex alone does not work as key when changing the channel
+          key={`${hex}${channel.key}${iHex}`}
           style={{
             flex: 1,
             height,
-            backgroundColor: withHash(color.hex()),
+            backgroundColor: withHash(hex),
           }}
         />
       ))}

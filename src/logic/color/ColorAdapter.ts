@@ -135,17 +135,6 @@ export class ColorAdapter implements IColorAdapter, CanGetHex {
   }
 
   /**
-   * cannot make this static because TS doesn't support static methods in interfaces
-   * stupid hack is to have 2 separate functions in order to both fulfill the interface and have a static factory method
-   */
-  public from<CS extends ColorSpaceName>(
-    values: ColorTuple<CS> | TupleClass<CS>,
-    colorSpace: CS | ModelAdapter<CS>
-  ): ColorAdapter {
-    return ColorAdapter.staticFrom(values, colorSpace);
-  }
-
-  /**
    * don't need a second parameter for colorSpace if using a classed tuple object, which knows its own colorSpace
    * store this tuple as a known conversion on the new object
    */

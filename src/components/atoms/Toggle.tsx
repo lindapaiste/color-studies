@@ -1,6 +1,5 @@
 import React, { ComponentType, ReactNode } from "react";
-import MSwitch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { FormControlLabel, Switch } from "@material-ui/core";
 import { GenericProps } from "./types";
 
 interface LabelProps {
@@ -15,10 +14,13 @@ interface LabelProps {
 export const withMaybeLabel =
   <P extends {}>(Component: ComponentType<P>): ComponentType<P & LabelProps> =>
   (props) =>
+    // eslint-disable-next-line react/destructuring-assignment
     props.label ? (
       <FormControlLabel
         control={<Component {...props} />}
+        // eslint-disable-next-line react/destructuring-assignment
         label={props.label}
+        // eslint-disable-next-line react/destructuring-assignment
         labelPlacement={props.labelPlacement}
       />
     ) : (
@@ -27,14 +29,12 @@ export const withMaybeLabel =
 
 export type Props = GenericProps<boolean> & LabelProps;
 
-const _Unlabeled = ({ value, onChange, ...props }: Props) => (
-  <MSwitch
+const Unlabeled = ({ value, onChange, ...props }: Props) => (
+  <Switch
     {...props}
     value={value}
     onChange={(e) => onChange(e.target.checked, e)}
   />
 );
 
-export const Toggle = withMaybeLabel(_Unlabeled);
-
-export default Toggle;
+export const Toggle = withMaybeLabel(Unlabeled);

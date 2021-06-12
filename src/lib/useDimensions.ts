@@ -1,7 +1,7 @@
 import { useState, useCallback, useLayoutEffect } from "react";
 
 /**
- * modified from https:// github.com/Swizec/useDimensions
+ * modified from https://github.com/Swizec/useDimensions
  *
  * is available on npm as react-use-dimensions, but had typescript issues
  */
@@ -16,7 +16,7 @@ export interface UseDimensionsArgs {
   liveMeasure?: boolean;
 }
 
-function useDimensions({
+export default function useDimensions({
   liveMeasure = true,
 }: UseDimensionsArgs = {}): UseDimensionsHook {
   const [dimensions, setDimensions] = useState<DOMRect | {}>({});
@@ -44,9 +44,9 @@ function useDimensions({
         };
       }
     }
+    // return empty cleanup function to hush eslint consistent-return errors
+    return () => undefined;
   }, [node, liveMeasure]);
 
   return [ref, dimensions, node];
 }
-
-export default useDimensions;

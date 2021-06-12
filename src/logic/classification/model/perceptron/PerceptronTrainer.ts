@@ -97,6 +97,8 @@ export class Trainer {
     return this.isSuccess(stage);
   }
 
+  // Note: not making static because in the future it might need `this`
+  // eslint-disable-next-line class-methods-use-this
   private isSuccess(stage: Stage): boolean {
     // in the future want to also consider stopping when adjustments become minimal
     return stage.errors === 0;
