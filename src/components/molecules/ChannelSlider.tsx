@@ -1,8 +1,7 @@
 import React from "react";
 import { Slider, TextField } from "@material-ui/core";
 import { Size } from "lib";
-import { ColorAdapter } from "logic";
-import { ChannelArg, toChannelObject } from "logic/colorspaces/channels";
+import { ChannelArg, ColorAdapter, toChannelObject } from "logic";
 import { GenericProps, WithoutE } from "../atoms/types";
 import { GradientBar } from "../atoms";
 

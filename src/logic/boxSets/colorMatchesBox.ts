@@ -1,10 +1,10 @@
 import { isEqual } from "lib";
 import {
+  ErrorCode,
   Evaluation,
   GetDistance,
   Levers,
   MatchError,
-  ErrorCode,
 } from "./types";
 
 /**

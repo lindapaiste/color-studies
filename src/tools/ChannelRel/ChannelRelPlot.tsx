@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
 import {
   CartesianGrid,
-  ScatterChart,
   Scatter,
+  ScatterChart,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import { intervals, Size } from "lib";
+import { randomColors } from "logic";
 import { colorToPoint } from "../PlotFeatures/PlotFeatures";
 import { Settings } from "./settings";
-import { randomColors } from "../../logic/convert/random";
 
 export const ChannelRelPlot = ({
   xChannel,

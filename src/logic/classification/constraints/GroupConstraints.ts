@@ -1,12 +1,6 @@
-import { PropertyConstraint, PropertyDef } from "./PropertyConstraint";
-import { ChannelSlug } from "../../colorspaces/colorSpaces";
+import { MatchError, PropertyConstraint } from "./PropertyConstraint";
 import { ColorAdapter } from "../../convert";
-
-export interface MatchError {
-  property: ChannelSlug;
-  condition: PropertyConstraint;
-  message: string;
-}
+import { PropertyDef } from "./constraint-data";
 
 export interface MatchResult {
   matches: boolean;
@@ -14,6 +8,8 @@ export interface MatchResult {
 }
 
 /**
+ * Combines multiple conditions into one test.
+ *
  * in the future could have targets where the difference matters,
  * and use that to calculate a match score
  * ie. a neon with saturation of 100 is a better match than one with saturation 90
@@ -39,11 +35,7 @@ export class GroupConstraints {
     for (const condition of this.conditions) {
       const error = condition.getMatchError(color, fuzz);
       if (error) {
-        errors.push({
-          condition,
-          property: condition.channel.slug,
-          message: error,
-        });
+        errors.push(error);
         if (!reportAll) {
           break;
         }

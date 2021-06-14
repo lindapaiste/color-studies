@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Accordion, SelectMultipleColors } from "components";
 import { makeArray } from "lib";
+import { randomColor } from "logic";
 import { useFormula } from "logic/difference/useFormula";
 import { DifferenceControls } from "./DifferenceControls";
 import { DistanceGrid } from "./DistanceGrid";
-import { randomColor } from "../../logic/convert/random";
 
 /**
  * tool allows for customization of the colors and the deltaE formula

@@ -1,11 +1,11 @@
 import { splitInGroup } from "../../training/shuffledData";
 import { BoundaryModel } from "./BoundaryModel";
-import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces";
 import {
-  GroupedColor,
   BinaryClassifier,
   Boundary,
-  ITestable,
+  GroupedColor,
+  Testable,
 } from "../../types";
 import { ColorAdapter } from "../../../convert";
 
@@ -25,7 +25,7 @@ interface Result {
 export class ChannelBoundaryModel
   implements
     BinaryClassifier<ColorAdapter>,
-    ITestable<ColorAdapter, Result>,
+    Testable<ColorAdapter, Result>,
     Boundary
 {
   public model: BinaryClassifier<number> & Boundary;
@@ -65,7 +65,7 @@ export class ChannelBoundaryModel
   }
 
   /**
-   * fulfills ITestable interface
+   * fulfills Testable interface
    */
   public predictResult(color: ColorAdapter): Result {
     const channel = color.get(this.channel);

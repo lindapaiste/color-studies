@@ -1,8 +1,6 @@
-import { ColorSpaceName } from "../colorspaces/types";
-import { FormulaSettings, DeltaECalculator } from "./types";
+import { DeltaECalculator, FormulaSettings } from "./types";
 import { rawDistance } from "./euclideanDistance";
-import { ModelAdapter } from "../colorspaces/ModelAdapter";
-import { getModel } from "../colorspaces/models";
+import { ColorSpaceName, getModel, ModelAdapter } from "../colorspaces";
 import { ColorAdapter } from "../convert";
 
 /**
@@ -23,7 +21,7 @@ export class EuclideanCalculator implements DeltaECalculator {
 
   private readonly maximum: number;
 
-  private readonly modelAdapter: ModelAdapter<ColorSpaceName>;
+  private readonly modelAdapter: ModelAdapter;
 
   /**
    * pass weights and model in the constructor to make them readonly

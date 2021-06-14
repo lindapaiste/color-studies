@@ -1,5 +1,4 @@
-import { getChannel } from "../../logic/colorspaces/channels";
-import { ChannelAdapter } from "../../logic/colorspaces/ChannelAdapter";
+import { ChannelAdapter, getChannel } from "logic";
 
 export interface Settings {
   colorCount: number;

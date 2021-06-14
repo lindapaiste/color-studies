@@ -1,9 +1,9 @@
-import { Algo, FormulaSettings, DeltaECalculator } from "./types";
-import { ColorSpaceName } from "../colorspaces/types";
+import { Algo, DeltaECalculator, FormulaSettings } from "./types";
 import { EuclideanCalculator } from "./EuclideanCalculator";
 import { DeltaE00Compat } from "./DeltaE00Compat";
 import { DeltaE94Compat } from "./DeltaE94Compat";
 import { ColorAdapter } from "../convert";
+import { ColorSpaceName } from "../colorspaces";
 
 // TODO: Hue weight not doing anything on CIE1994
 // L & C < 1 causes distance over 100

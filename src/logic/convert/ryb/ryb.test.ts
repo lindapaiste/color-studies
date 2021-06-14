@@ -1,4 +1,4 @@
-import { rybToRgb, rgbToRyb } from "./ryb";
+import { rgbToRyb, rybToRgb } from "./ryb";
 
 test("magenta from [1,0,1] RGB to [1,0,0.5] RYB", () => {
   expect(rgbToRyb([1, 0, 1], 1)).toEqual([1, 0, 0.5]);

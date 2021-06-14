@@ -1,5 +1,5 @@
-import { makeArray } from "lib";
-import { IPerceptron, DataPoint, Stage } from "./types";
+import { last, makeArray } from "lib";
+import { DataPoint, IPerceptron, Stage } from "./types";
 
 /**
  * the set of data must be passed through multiple times in order to properly fit the model
@@ -11,20 +11,33 @@ import { IPerceptron, DataPoint, Stage } from "./types";
  */
 
 export class Trainer {
+  /**
+   * The model which is being trained.
+   * Can be any type of Perceptron as long as it fits the interface.
+   */
   public readonly model: IPerceptron;
 
+  /**
+   * Store the weights after each iteration.
+   */
   public readonly stages: Stage[];
 
-  private readonly isTrained: boolean; // will usually be true by the time that the constructor is done, but not if the max epochs was reached first
-
-  private readonly log: boolean;
-
-  // public readonly epochs: number;
+  /**
+   * Whether the model has successfully converged.
+   * Will usually be true by the time that the constructor is done,
+   * but not if the max epochs was reached before convergence.
+   */
+  private readonly isConverged: boolean;
 
   /**
-   * the computation is all done in the constructor
-   * this is a class mainly for storing and accessing the values encountered along the way
-   * and separation of concerns in general
+   * Whether or not to console.log data on each iteration.
+   */
+  private readonly log: boolean;
+
+  /**
+   * The computation is all done in the constructor.
+   * This is a class mainly for storing and accessing the values encountered along the way
+   * and separation of concerns in general.
    */
   constructor(
     model: IPerceptron,
@@ -33,29 +46,31 @@ export class Trainer {
     log: boolean = false
   ) {
     this.model = model;
-    // this.epochs = 0;
     this.stages = [];
-    this.isTrained = false;
+    this.isConverged = false;
     this.log = log;
 
     /**
-     * loops through training data multiple times
-     * but will create an infinite loop if it never converges to a good model,
-     * ie. if the data is not linearly separable
-     * so it needs a maximum number of epochs
+     * Loops through training data multiple times.
+     *
+     * Will create an infinite loop if it never converges to a good model,
+     * ie. if the data is not linearly separable.
+     * So it needs a maximum number of epochs.
+     *
+     * Note: in the future want to also consider stopping when adjustments become minimal
      */
     let i = 0;
-    while (!this.isTrained && this.stages.length < maxEpochs) {
+    while (!this.isConverged && this.stages.length < maxEpochs) {
       if (this.log) console.log(`Starting epoch ${i}`);
-      this.isTrained = this.epoch(trainingSet);
-      if (this.log) console.log(`Is trained? ${this.isTrained}`);
+      this.isConverged = this.epoch(trainingSet);
+      if (this.log) console.log(`Is trained? ${this.isConverged}`);
       i++;
     }
   }
 
   /**
-   * loops through every element in the training set once
-   * returns true if there were no changes made during this epoch
+   * Loops through every element in the training set once.
+   * Returns true if there were no changes made during this epoch.
    */
   private epoch(trainingSet: DataPoint[]): boolean {
     /**
@@ -71,7 +86,7 @@ export class Trainer {
     const errors = results.filter((b) => !b).length;
 
     // compare to the previously stored stage to get the change amount
-    const previous = this.stages[this.stages.length - 1];
+    const previous = last(this.stages);
     // needs to include the bias
     // special case for the first iteration shows change from 0
     const prevWeights = previous
@@ -94,17 +109,14 @@ export class Trainer {
 
     this.stages.push(stage);
 
-    return this.isSuccess(stage);
-  }
-
-  // Note: not making static because in the future it might need `this`
-  // eslint-disable-next-line class-methods-use-this
-  private isSuccess(stage: Stage): boolean {
-    // in the future want to also consider stopping when adjustments become minimal
     return stage.errors === 0;
   }
 
-  // don't need to store the epoch count if storing stages, it's an either or
+  /**
+   * Access the number of epochs.
+   * Don't need to store the epoch count as a property when storing detailed stage data
+   * since the epochs is just the length of the stages array.
+   */
   get epochs() {
     return this.stages.length;
   }

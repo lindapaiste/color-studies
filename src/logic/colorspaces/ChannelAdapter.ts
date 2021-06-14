@@ -1,8 +1,8 @@
-import { proper } from "lib";
-import { ChannelAccessor, ChannelName, ColorSpaceName } from "./types";
-import { getChannelMaxes, ChannelMaxObject } from "./channelMaxes";
+import { clamp, proper } from "lib";
+import { ChannelAccessor } from "./types";
+import { ChannelMaxObject, getChannelMaxes } from "./channelMaxes";
 import { ModelAdapter } from "./ModelAdapter";
-import { ChannelSlug } from "./colorSpaces";
+import { ChannelSlug, ChannelName, ColorSpaceName } from "./colorSpaces";
 
 /**
  * one Channel object per channel name / color space pairing
@@ -15,7 +15,7 @@ import { ChannelSlug } from "./colorSpaces";
 export class ChannelAdapter implements Required<ChannelMaxObject> {
   public readonly modelName: ColorSpaceName;
 
-  public readonly modelObject: ModelAdapter<ColorSpaceName>;
+  public readonly modelObject: ModelAdapter;
 
   public readonly offset: number;
 
@@ -33,11 +33,7 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
    * assume that models are created first and the model triggers the creation of the channel
    * so want to pass in the model rather than looking up something that might not exist yet
    */
-  constructor(
-    name: ChannelName,
-    model: ModelAdapter<ColorSpaceName>,
-    offset: number
-  ) {
+  constructor(name: ChannelName, model: ModelAdapter, offset: number) {
     this.modelObject = model;
     this.modelName = model.name;
     this.offset = offset;
@@ -109,9 +105,25 @@ export class ChannelAdapter implements Required<ChannelMaxObject> {
   }
 
   /**
-   * validate a value to the channel
+   * Validate a value to the channel
    */
   public isValid(value: number): boolean {
     return value >= this.min && value <= this.max;
+  }
+
+  /**
+   * Constrain a value such that it fits in the channel.
+   * If the channel is cyclical, loop around instead of clamping.
+   */
+  public clamp(value: number): number {
+    if (this.isValid(value)) {
+      return value;
+    }
+    if (this.isLooped) {
+      // Note: assumes that min is 0 for all looped channels
+      const remainder = value % this.max;
+      return remainder < 0 ? remainder + this.max : remainder;
+    }
+    return clamp(value, this.min, this.max);
   }
 }

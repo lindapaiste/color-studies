@@ -1,13 +1,16 @@
 import React from "react";
-import { round } from "lodash";
-import { ColorSpaceName, ColorTuple } from "logic/colorspaces/types";
-import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
-import { eitherToModel } from "logic/colorspaces/models";
-import { ColorAdapter } from "logic";
-import { TupleClass } from "logic/colorspaces/TupleClass";
+import { round } from "lib";
+import {
+  ColorAdapter,
+  ColorSpaceName,
+  ColorTuple,
+  ModelArg,
+  toModelAdapter,
+  TupleClass,
+} from "logic";
 
 export interface TupleTooltipProps<CS extends ColorSpaceName> {
-  model: ModelAdapter<CS> | CS;
+  model: ModelArg<CS>;
   values: ColorTuple<CS> | TupleClass<CS>;
   precision?: number;
 }
@@ -21,7 +24,7 @@ export const TupleTooltip = <CS extends ColorSpaceName>({
   precision = 0,
 }: TupleTooltipProps<CS>) => (
   <div>
-    {eitherToModel(model).channels.map((channel, i) => (
+    {toModelAdapter(model).channels.map((channel, i) => (
       <div key={channel.key}>
         {channel.name}: {round(values[i], precision)}
       </div>
@@ -35,7 +38,7 @@ export const TupleTooltip = <CS extends ColorSpaceName>({
  * Needs to know the model to use.
  */
 export const tupleTooltipFactory =
-  <CS extends ColorSpaceName>(model: ModelAdapter<CS> | CS) =>
+  <CS extends ColorSpaceName>(model: ModelArg<CS>) =>
   (color: ColorAdapter) =>
     (
       // eslint-disable-next-line react/destructuring-assignment

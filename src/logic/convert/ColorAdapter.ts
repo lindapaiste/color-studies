@@ -1,17 +1,19 @@
 import chroma, { Color as ChromaColor } from "chroma-js";
 import convert from "color-convert";
-import { tupleMap, round } from "lib";
+import { round, tupleMap } from "lib";
 import { hpluvToRgb, hsluvToRgb, rgbToHpluv, rgbToHsluv } from "hsluv";
-import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
 import {
   ChannelArg,
+  ColorSpaceName,
+  ColorTuple,
+  ModelAdapter,
   toChannelAccessor,
   toChannelObject,
-} from "../colorspaces/channels";
-import { ModelAdapter } from "../colorspaces/ModelAdapter";
-import { eitherToModel, eitherToName } from "../colorspaces/models";
+  toModelAdapter,
+  toModelName,
+  TupleClass,
+} from "../colorspaces";
 import { rgbToRyb, rybToRgb } from "./ryb/ryb";
-import { TupleClass } from "../colorspaces/TupleClass";
 
 /**
  * Wraps the chroma.js object and adds a few additional color spaces.
@@ -56,7 +58,7 @@ export class ColorAdapter {
   public toCs<CS extends ColorSpaceName>(
     colorSpace: ModelAdapter<CS> | CS
   ): TupleClass<CS> {
-    const key = eitherToName(colorSpace);
+    const key = toModelName(colorSpace);
     const existing = this.conversions[key]?.deNormalize();
     if (existing) {
       return existing as TupleClass<CS>;
@@ -125,7 +127,7 @@ export class ColorAdapter {
     colorSpace: CS | ModelAdapter<CS>
   ): ColorAdapter {
     const tuple = Array.isArray(values)
-      ? new TupleClass(values, eitherToModel(colorSpace), false)
+      ? new TupleClass(values, toModelAdapter(colorSpace), false)
       : values;
     return this.fromTuple(tuple);
   }
@@ -211,7 +213,8 @@ export class ColorAdapter {
   ): number {
     const channelObj = toChannelObject(channel);
     const tuple = this.toCs(channelObj.modelObject);
-    return round(tuple.to(normalized)[channelObj.offset], precision);
+    const value = tuple.to(normalized)[channelObj.offset];
+    return precision === undefined ? value : round(value, precision);
   }
 
   /**

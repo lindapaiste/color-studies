@@ -1,8 +1,9 @@
 import { replaceIndex } from "lib";
-import { ColorSpaceName, ColorTuple } from "./types";
+import { ColorTuple } from "./types";
 import { ModelAdapter } from "./ModelAdapter";
-import { eitherToModel, ModelOrName } from "./models";
+import { ModelArg, toModelAdapter } from "./models";
 import { ChannelArg, toChannelIndex } from "./channels";
+import { ColorSpaceName } from "./colorSpaces";
 
 /**
  * Type for a callback function, as it is used in multiple methods.
@@ -22,7 +23,7 @@ export type TupleCallback<ThisType, ReturnType = number> = (
  * Methods normalize() and deNormalize() allow for chaining
  * and make it clear which values are being used where.
  */
-export class TupleClass<CS extends ColorSpaceName>
+export class TupleClass<CS extends ColorSpaceName = ColorSpaceName>
   implements ArrayLike<number>
 {
   /**
@@ -50,12 +51,12 @@ export class TupleClass<CS extends ColorSpaceName>
    */
   constructor(
     values: ColorTuple<CS>,
-    model: ModelOrName<CS>,
+    model: ModelArg<CS>,
     isNormalized: boolean
   ) {
     this.values = values;
     // doesn't matter which format I store in, but one of the two should always be defined
-    this.model = eitherToModel(model);
+    this.model = toModelAdapter(model);
     this.isNormalized = isNormalized;
   }
 

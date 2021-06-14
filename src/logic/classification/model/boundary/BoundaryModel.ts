@@ -1,5 +1,5 @@
 import { mean, standardDeviation } from "simple-statistics";
-import { Distribution, BinaryClassifier, Boundary } from "../../types";
+import { BinaryClassifier, Boundary, Distribution } from "../../types";
 
 /**
  * use functions from simple-statistics package to get the distribution for an array or numbers
@@ -41,11 +41,7 @@ export class BoundaryModel implements Boundary, BinaryClassifier<number> {
     const lesser = isGreater ? distOut : distIn;
     const deviations =
       (greater.mean - lesser.mean) / (greater.stdDev + lesser.stdDev);
-
     const cutoff = greater.mean - deviations * greater.stdDev;
-    const check = lesser.mean + deviations * lesser.stdDev;
-
-    console.log({ cutoff, check });
 
     /**
      * can get an idea of accuracy based on the number of standard deviations

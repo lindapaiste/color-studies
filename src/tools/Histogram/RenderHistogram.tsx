@@ -1,9 +1,10 @@
 import React from "react";
 import { percentString, round } from "lib";
 import { Tooltip } from "components";
-import { logProfile } from "logic/convert/profile";
+import { logProfile } from "logic";
 import { RenderProps } from "./types";
 import "./histogram.css";
+
 /**
  * base render function depends on the sizing being passing into it
  * will not make any changes to avoid overflows

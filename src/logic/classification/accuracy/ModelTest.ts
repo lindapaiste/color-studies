@@ -1,15 +1,15 @@
 import { ConfusionMatrix } from "./ConfusionMatrix";
 import {
-  IGetGroupedResults,
   HasPredicted,
-  IResultGroups,
-  ITestable,
-  TestInput,
+  CanGetGroupedResults,
+  ResultGroups,
+  Testable,
   ResultType,
+  TestInput,
 } from "../types";
 
 /**
- * can test any model which fits the ITestable interface
+ * can test any model which fits the Testable interface
  *
  * in order for confusion matrix to make any sense, expected has to be known
  *
@@ -31,7 +31,7 @@ import {
 export type Res<T, S> = TestInput<T> & S;
 
 export class ModelTest<T, S extends HasPredicted>
-  implements IResultGroups<Res<T, S>[]>, IGetGroupedResults<Res<T, S>>
+  implements ResultGroups<Res<T, S>[]>, CanGetGroupedResults<Res<T, S>>
 {
   public readonly matrix: ConfusionMatrix;
 
@@ -45,10 +45,9 @@ export class ModelTest<T, S extends HasPredicted>
 
   private readonly debug: boolean; // how is this used??
 
-  private readonly model: ITestable<T, S>;
+  private readonly model: Testable<T, S>;
 
-  constructor(model: ITestable<T, S>, debug: boolean = false) {
-    console.log({ model, debug });
+  constructor(model: Testable<T, S>, debug: boolean = false) {
     this.model = model;
     this.debug = debug;
     this.matrix = new ConfusionMatrix();

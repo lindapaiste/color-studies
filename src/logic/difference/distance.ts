@@ -1,7 +1,7 @@
-import { WeightedDeltaEFormula, KeyedLCHWeights, LAB } from "./types";
-import { ColorSpaceName } from "../colorspaces/types";
+import { KeyedLCHWeights, LAB, WeightedDeltaEFormula } from "./types";
 import { EuclideanCalculator } from "./EuclideanCalculator";
 import { ColorAdapter } from "../convert";
+import { ColorSpaceName } from "../colorspaces";
 
 export const toKeyedLAB = (color: ColorAdapter): LAB => {
   const labTuple = color.toCs("lab").deNormalize();

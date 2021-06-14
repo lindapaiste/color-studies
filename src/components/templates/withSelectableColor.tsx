@@ -1,8 +1,7 @@
 import React, { ComponentType, FunctionComponent, useState } from "react";
 import { debounce } from "lodash";
-import { ColorAdapter } from "logic/convert";
-import { SelectColor, Props as SelectProps } from "../atoms/SelectColor";
-import { randomColor } from "../../logic/convert/random";
+import { ColorAdapter, randomColor } from "logic";
+import { Props as SelectProps, SelectColor } from "../atoms/SelectColor";
 /**
  * for tools which are initialized with a random color,
  * but now can allow that color to be changed

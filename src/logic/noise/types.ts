@@ -1,5 +1,5 @@
-import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
 import { ColorAdapter } from "../convert";
+import { ColorSpaceName, ColorTuple } from "../colorspaces";
 
 /**
  * could include color here rather than in HOC

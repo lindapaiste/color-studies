@@ -5,9 +5,9 @@ import {
   median,
   standardDeviation,
 } from "simple-statistics";
-import { allChannels } from "../../colorspaces/channels";
+import { allChannels } from "../../colorspaces";
+import { ColorArg, toColorAdapter } from "../../convert";
 import { GroupColorAnalysis, PropertyAnalysis } from "./types";
-import { hexToColor } from "../../convert";
 
 export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
   const min = Math.min(...values);
@@ -37,10 +37,10 @@ export const analyzeValueArray = (values: number[]): PropertyAnalysis => {
 
 // input should be anything that Color can use as an input to the Constructor
 export const analyzeGroupProperties = (
-  hexes: string[],
+  colors: ColorArg[],
   normalized = false
 ): GroupColorAnalysis => {
-  const objects = hexes.map(hexToColor);
+  const objects = colors.map(toColorAdapter);
 
   const pairs = allChannels().map((channel) => [
     channel.key,

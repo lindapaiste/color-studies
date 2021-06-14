@@ -1,7 +1,6 @@
 import { ModelGradient, Props as GradientProps } from "./ModelGradient";
-import { ColorSpaceName } from "../colorspaces/types";
 import { IGradient } from "./types";
-import { ModelAdapter } from "../colorspaces/ModelAdapter";
+import { ColorSpaceName, ModelAdapter } from "../colorspaces";
 import { ColorAdapter } from "../convert";
 
 /**

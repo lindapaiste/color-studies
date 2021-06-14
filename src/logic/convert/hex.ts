@@ -20,7 +20,19 @@ export const isGetHex = (obj: any): obj is CanGetHex => hasMethod(obj, "hex");
 export const hexToColor = (hex: string): ColorAdapter => new ColorAdapter(hex);
 
 /**
+ * functions can accept either a ColorAdapter or a hex
+ * and convert to the format that they need
+ */
+export type ColorArg = string | ColorAdapter;
+
+/**
  * convert a hex to color object while also accepting existing color objects
  */
-export const eitherToColor = (color: string | ColorAdapter): ColorAdapter =>
+export const toColorAdapter = (color: ColorArg): ColorAdapter =>
   typeof color === "string" ? new ColorAdapter(color) : color;
+
+/**
+ * convert a color object to hex while also accepting existing hexes
+ */
+export const toHex = (color: ColorArg | CanGetHex): string =>
+  typeof color === "string" ? color : color.hex();

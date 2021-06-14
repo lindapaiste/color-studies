@@ -25,13 +25,6 @@ export interface DataPoint {
   expected: Binary;
 }
 
-export type TrainingSet<T> = Array<DataPoint & { raw?: T }>;
-
-/**
- * can take either a whole perceptron or just the numbers for bias and weights
- */
-export type PlotableModel = Pick<IPerceptron, "weights" | "bias">;
-
 /**
  * an activation function is one which maps a number to another number
  */

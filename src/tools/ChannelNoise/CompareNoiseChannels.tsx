@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { withChannelNoise } from "logic/noise/channelNoise";
 import { makeArray } from "lib";
-import { Title, NumberInput, ColorSet, tupleTooltipFactory } from "components";
-import { allChannels } from "logic/colorspaces/channels";
-import { ColorAdapter } from "logic";
+import { ColorSet, NumberInput, Title, tupleTooltipFactory } from "components";
+import { allChannels, ColorAdapter } from "logic";
 
 /**
  * notes: hsv.v is just completely wrong

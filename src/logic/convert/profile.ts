@@ -1,7 +1,6 @@
 import { ColorAdapter } from "./ColorAdapter";
-import { allChannels } from "../colorspaces/channels";
-import { eitherToColor } from "./hex";
-import { ChannelSlug } from "../colorspaces/colorSpaces";
+import { allChannels, ChannelSlug } from "../colorspaces";
+import { toColorAdapter } from "./hex";
 
 /**
  * A keyed object where the keys are the keys for each channel and
@@ -19,7 +18,7 @@ export const getProfile = (color: ColorAdapter): ColorProfile =>
 export const logProfile = (color: ColorAdapter | string): void => {
   // use try catch because not all strings are valid colors
   try {
-    const object = eitherToColor(color);
+    const object = toColorAdapter(color);
     // could also use alert here - alert allows \t and \n but not html
     console.log(getProfile(object));
   } catch (e) {

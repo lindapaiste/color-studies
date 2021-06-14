@@ -1,6 +1,12 @@
-import { PropertyDef } from "./PropertyConstraint";
+import { ChannelSlug } from "../../colorspaces";
 
 // todo: remove brown/beige that came from Pantone pastel collection
+
+export interface PropertyDef {
+  channel: ChannelSlug;
+  min: number;
+  max: number;
+}
 
 /**
  * this is the format of the raw data

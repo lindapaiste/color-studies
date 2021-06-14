@@ -19,10 +19,9 @@ import {
   TableSortLabel,
   Title,
 } from "components";
-import { allChannels } from "logic/colorspaces/channels";
-import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
+import { PropertyAnalysis } from "logic/classification/averages/types";
+import { allChannels, ChannelAdapter } from "logic";
 import { CompareState, Comparison } from "./Comparison";
-import { PropertyAnalysis } from "../../logic/classification/averages/types";
 
 /**
  * Note: rows vs columns might be a bit backwards here.

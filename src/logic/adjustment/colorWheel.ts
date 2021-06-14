@@ -35,8 +35,7 @@ export const normalToColorWheel = (hue: number): number => {
     }
   }
   // should never get here
-  console.error();
-  return 0;
+  throw new Error("Error adjusting hue");
 };
 
 // follows the same formula, but reverses input and output
@@ -52,6 +51,5 @@ export const colorWheelToNormal = (hue: number): number => {
     }
   }
   // should never get here
-  console.error();
-  return 0;
+  throw new Error("Error adjusting hue");
 };

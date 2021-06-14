@@ -1,16 +1,14 @@
 import React from "react";
 import { Button, Tooltip, Typography } from "@material-ui/core";
-import { removeIndex, replaceIndex } from "@lindapaiste/array-edit";
-import { ColorAdapter } from "logic/convert";
-import { Size, debounce } from "lib";
+import { debounce, removeIndex, replaceIndex, Size } from "lib";
+import { ColorAdapter, randomColor } from "logic";
 import { GenericProps, WithoutE } from "../atoms/types";
 import {
-  SelectColor,
   IconTooltipButton,
   PlusCircleIcon,
+  SelectColor,
   XCircleIcon,
 } from "../atoms";
-import { randomColor } from "../../logic/convert/random";
 
 /**
  * value is an array of I_ColorAdapters

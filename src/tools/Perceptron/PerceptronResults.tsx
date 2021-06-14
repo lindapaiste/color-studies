@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  Button,
   Accordion,
-  Text,
+  Button,
   DataTable,
   ExpandableConfusionMatrix,
   RenderResultGroups,
+  Text,
 } from "components";
 import { round } from "lib";
 import {
@@ -13,7 +13,7 @@ import {
   ImpossibleCheck,
   PerceptronResult,
 } from "logic/classification/types";
-import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "logic";
 import { GroupPerceptron } from "logic/classification/model/perceptron/GroupPerceptron";
 import { RenderProps } from "./types";
 

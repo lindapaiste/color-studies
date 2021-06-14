@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { typedEntries, round, proper } from "lib";
+import { proper, round, typedEntries } from "lib";
 
 /**
  * renders a table of properties and values

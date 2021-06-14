@@ -1,5 +1,5 @@
 import React from "react";
-import { withHash, Size, uniq } from "lib";
+import { Size, uniq, withHash } from "lib";
 import {
   ChannelGradient,
   Props as GradientProps,

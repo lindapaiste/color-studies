@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import {
-  IGetGroupedResults,
+  CanGetGroupedResults,
   ResultType,
   TestOutput,
 } from "logic/classification/types";
@@ -14,7 +14,7 @@ import { ColorAdapter } from "logic";
  */
 
 export interface Props<R extends TestOutput<ColorAdapter>> {
-  results: IGetGroupedResults<R>;
+  results: CanGetGroupedResults<R>;
 
   // ColorSet: ComponentType<{ results: R[] }>;
   resultToTooltip?(result: R): NonNullable<ReactNode>;

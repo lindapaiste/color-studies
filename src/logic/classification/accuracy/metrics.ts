@@ -27,18 +27,7 @@ export interface Sums {
   total: number;
 }
 
-export interface Conditionals {
-  truePositiveRate: number;
-  falsePositiveRate: number;
-  trueNegativeRate: number;
-  falseNegativeRate: number;
-  positivePredictiveValue: number;
-  negativePredictiveValue: number;
-  falseDiscoveryRate: number;
-  falseOmissionRate: number;
-}
-
-export const conditionalsKeys: Array<keyof Conditionals> = [
+export const conditionalsKeys = [
   "truePositiveRate",
   "falsePositiveRate",
   "trueNegativeRate",
@@ -47,21 +36,11 @@ export const conditionalsKeys: Array<keyof Conditionals> = [
   "negativePredictiveValue",
   "falseDiscoveryRate",
   "falseOmissionRate",
-];
+] as const;
 
-export interface Scores {
-  accuracy: number;
-  balancedAccuracy: number;
-  prevalenceThreshold: number;
-  threatScore: number;
-  f1Score: number;
-  matthewsCorrelationCoefficient: number;
-  fowlkesMallowsIndex: number;
-  informedness: number;
-  markedness: number;
-}
+export type Conditionals = Record<typeof conditionalsKeys[number], number>;
 
-export const scoresKeys: Array<keyof Scores> = [
+export const scoresKeys = [
   "accuracy",
   "balancedAccuracy",
   "prevalenceThreshold",
@@ -71,4 +50,6 @@ export const scoresKeys: Array<keyof Scores> = [
   "fowlkesMallowsIndex",
   "informedness",
   "markedness",
-];
+] as const;
+
+export type Scores = Record<typeof scoresKeys[number], number>;

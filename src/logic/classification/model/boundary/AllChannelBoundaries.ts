@@ -2,14 +2,13 @@ import { sortBy } from "lodash";
 import { GroupedColor } from "../../types";
 import { ChannelBoundaryModel } from "./ChannelBoundaryModel";
 import { GroupModelTest } from "../../accuracy/GroupModelTest";
-import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
+import { allChannels, ChannelAdapter } from "../../../colorspaces";
 import { ConfusionMatrix } from "../../accuracy/ConfusionMatrix";
-import { allChannels } from "../../../colorspaces/channels";
 
-export interface IChannelModel {
-  channel: ChannelAdapter;
+export interface TestedBoundaryModel {
   model: ChannelBoundaryModel;
   accuracy: ConfusionMatrix;
+  channel: ChannelAdapter;
 }
 
 /**
@@ -23,7 +22,7 @@ export class AllChannelBoundaries {
 
   private readonly trainingData: GroupedColor[];
 
-  private models: IChannelModel[];
+  private models: TestedBoundaryModel[];
 
   public constructor(group: string, data: GroupedColor[]) {
     this.group = group;
@@ -33,7 +32,7 @@ export class AllChannelBoundaries {
     this.models = [];
   }
 
-  private createModel = (channel: ChannelAdapter): IChannelModel => {
+  private createModel = (channel: ChannelAdapter): TestedBoundaryModel => {
     const model = new ChannelBoundaryModel(
       this.group,
       this.trainingData,
@@ -49,13 +48,15 @@ export class AllChannelBoundaries {
     };
   };
 
-  private findModel = (channel: ChannelAdapter): IChannelModel | undefined =>
+  private findModel = (
+    channel: ChannelAdapter
+  ): TestedBoundaryModel | undefined =>
     this.models.find((m) => m.channel.key === channel.key);
 
   /**
    * gets the model either through lookup or creation
    */
-  public getModel = (channel: ChannelAdapter): IChannelModel => {
+  public getModel = (channel: ChannelAdapter): TestedBoundaryModel => {
     const found = this.findModel(channel);
     if (found) {
       return found;

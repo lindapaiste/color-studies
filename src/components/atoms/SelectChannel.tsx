@@ -1,8 +1,6 @@
 import React from "react";
 import { MenuItem as Option } from "@material-ui/core";
-import { ChannelSlug } from "logic/colorspaces/colorSpaces";
-import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
-import { allChannels, getChannel } from "logic/colorspaces/channels";
+import { allChannels, ChannelAdapter, ChannelSlug, getChannel } from "logic";
 import { Field } from "./Field";
 import { GenericProps } from "./types";
 

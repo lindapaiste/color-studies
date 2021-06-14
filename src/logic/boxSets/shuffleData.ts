@@ -1,4 +1,4 @@
-import { shuffle, flatten } from "lib";
+import { flatten, shuffle } from "lib";
 import { BoxData } from "./types";
 
 /**

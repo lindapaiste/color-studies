@@ -1,4 +1,4 @@
-import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces";
 import { AllChannelBoundaries } from "../boundary/AllChannelBoundaries";
 import { getBalancedSample } from "../../training/shuffledData";
 import { GroupedColor, HasExpected, PerceptronProps } from "../../types";

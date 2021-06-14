@@ -1,4 +1,4 @@
-import { ChannelSlug } from "../../colorspaces/colorSpaces";
+import { ChannelSlug } from "../../colorspaces";
 
 export interface PropertyAnalysis {
   values: number[];

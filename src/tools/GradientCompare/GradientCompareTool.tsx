@@ -1,8 +1,8 @@
 import React from "react";
 import { Tool } from "components";
+import { randomColors } from "logic";
 import { GradientCompareControls } from "./GradientCompareControls";
 import { GradientModelCompare } from "./GradientModelCompare";
-import { randomColors } from "../../logic/convert/random";
 
 export const GradientCompareTool = () => (
   <Tool

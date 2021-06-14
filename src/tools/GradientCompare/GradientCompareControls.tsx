@@ -7,9 +7,7 @@ import {
   SelectMultipleColors,
 } from "components";
 import { StateUpdateProps } from "lib/util-hooks";
-import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
-import { ColorSpaceName } from "logic/colorspaces/types";
-import { ColorAdapter } from "logic";
+import { ColorAdapter, ModelAdapter } from "logic";
 
 /**
  * observations:
@@ -28,7 +26,7 @@ import { ColorAdapter } from "logic";
 export interface Settings {
   colors: ColorAdapter[];
   count?: number;
-  models?: ModelAdapter<ColorSpaceName>[];
+  models?: ModelAdapter[];
   transform?: boolean;
 }
 

@@ -1,4 +1,4 @@
-import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
+import { ColorSpaceName, ColorTuple } from "../colorspaces";
 import { ColorAdapter } from "../convert";
 
 export interface LAB {

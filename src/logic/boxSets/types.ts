@@ -1,4 +1,4 @@
-import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../colorspaces";
 import { ColorAdapter } from "../convert";
 
 export interface Levers {

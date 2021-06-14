@@ -1,6 +1,6 @@
 import { makeArray } from "lib";
 import { getBalancedSample } from "../../training/shuffledData";
-import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces";
 import { ColorAdapter, hexToColor } from "../../../convert";
 import {
   IGroupPerceptron,
@@ -51,9 +51,6 @@ export class GroupPerceptron implements IGroupPerceptron {
         features: this.getFeatures(hexToColor(hex)),
       })
     );
-    /*
-        const trainingData = shuffledGroupData(hex => this.getFeatures(hexToColor(hex)))
-            .map(datum => ({...datum, expected: (datum.group === group ? 1 : 0) as Binary})); */
 
     const trainer = new Trainer(
       new Perceptron({ activate: (n) => n }),
@@ -67,13 +64,11 @@ export class GroupPerceptron implements IGroupPerceptron {
   }
 
   /**
-   * convert a color to features based on the model channels
+   * Convert a color to features based on the model channels.
+   * Use values that are normalized from 0 to 1.
    */
   getFeatures = (color: ColorAdapter): number[] =>
-    this.channels.map(
-      // need to normalize value
-      (channel) => channel.normalize(color.get(channel))
-    );
+    this.channels.map((channel) => color.get(channel, true));
 
   /**
    * internal model returns 1 or 0

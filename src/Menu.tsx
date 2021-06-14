@@ -4,11 +4,11 @@ import { AiOutlineHome, FiChevronRight } from "react-icons/all";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import {
   AppBar,
-  Toolbar,
   IconButton,
-  Typography,
   Menu,
   MenuItem,
+  Toolbar,
+  Typography,
 } from "@material-ui/core";
 import { AppPage, SECTIONS } from "./AppPages";
 import { MenuIcon } from "./components";

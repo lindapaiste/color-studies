@@ -1,8 +1,11 @@
 // an array of transforms for each channel
 import { tupleMap } from "lib";
-import { ChannelCountTuple, ColorSpaceName } from "../colorspaces/types";
-import { ModelAdapter } from "../colorspaces/ModelAdapter";
-import { TupleClass } from "../colorspaces/TupleClass";
+import {
+  ChannelCountTuple,
+  ColorSpaceName,
+  ModelAdapter,
+  TupleClass,
+} from "../colorspaces";
 import { getStandardTransform, TransformPair } from "../adjustment/transforms";
 
 export type ModelTransformArray<CS extends ColorSpaceName> = ChannelCountTuple<

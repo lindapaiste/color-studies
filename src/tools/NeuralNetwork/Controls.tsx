@@ -1,4 +1,4 @@
-import { NumberInput, MultiSelectChannel } from "components";
+import { MultiSelectChannel, NumberInput } from "components";
 import { StateUpdateProps } from "lib/util-hooks";
 import { Settings } from "./settings";
 

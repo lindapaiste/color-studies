@@ -8,7 +8,7 @@
  * unlike RGB it is additive, meaning red + blue = purple, not magenta; yellow + blue = green, not white
  * therefore white and black are the opposite of RGB, with white as (0,0,0) and black as (1,1,1)
  */
-import { ColorTuple } from "../../colorspaces/types";
+import { ColorTuple } from "../../colorspaces";
 
 /**
  * not sure whether to handle values which are or are not normalized to 1,

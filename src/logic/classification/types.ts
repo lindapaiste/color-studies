@@ -1,4 +1,4 @@
-import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../colorspaces";
 import { TestResults } from "./accuracy/metrics";
 import { ColorAdapter } from "../convert";
 
@@ -14,12 +14,12 @@ export interface BinaryClassifier<T> {
  * a testable classifier has a prediction method that returns the prediction
  * but also returns any other data, such as features, channelValue, score, etc.
  */
-export interface ITestable<T, R extends HasPredicted> {
+export interface Testable<T, R extends HasPredicted> {
   predictResult(input: T, debug?: boolean): R;
 }
 
 export interface GroupColorClassifier<R extends HasPredicted>
-  extends ITestable<ColorAdapter, R> {
+  extends Testable<ColorAdapter, R> {
   group: string;
   predictResult(input: ColorAdapter, debug?: boolean): R;
 }
@@ -55,17 +55,17 @@ export type ResultType = keyof TestResults;
  * a shared interface can be used both for the counts
  * and for result objects which are separated into groups
  */
-export type IResultGroups<T> = Record<ResultType, T>;
+export type ResultGroups<T> = Record<ResultType, T>;
 
 /**
  * interface for retrieving test results which are broken up into the four output categories
  */
-export interface IGetGroupedResults<R extends TestOutput<any>> {
+export interface CanGetGroupedResults<R extends TestOutput<any>> {
   getResults(type: ResultType | undefined): R[];
 }
 
 /**
- * a boundary model is defined by it's cutoff value (the boundary)
+ * a boundary model is defined by its cutoff value (the boundary)
  * and whether true refers to values greater than or less than that cutoff
  */
 export interface Boundary {

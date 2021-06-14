@@ -16,10 +16,14 @@ export const ResultMetrics = ({
   results: ConfusionMatrix;
   metrics: Array<keyof ConfusionMatrix>;
 }) => {
-  const data: [keyof ConfusionMatrix, number][] = metrics.map((property) => [
-    property,
-    results[property],
-  ]);
+  const data: [keyof ConfusionMatrix, number | string][] = metrics.map(
+    (property) => [
+      property,
+      // for for divide by 0 errors when some of the groups have no entries
+      // fixes Warning: Received NaN for the `children` attribute. If this is expected, cast the value to a string.
+      Number.isNaN(results[property]) ? "--" : results[property],
+    ]
+  );
 
   return <ValuesTable data={data} labels={["Metric", "Value"]} />;
 };

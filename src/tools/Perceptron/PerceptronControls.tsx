@@ -1,8 +1,8 @@
 import React from "react";
 import {
-  NumberInput,
   FlexRow,
   MultiSelectChannel,
+  NumberInput,
   SelectGroup,
 } from "components";
 import { StateUpdateProps } from "lib/util-hooks";

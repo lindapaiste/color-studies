@@ -9,13 +9,10 @@ import {
   YAxis,
 } from "recharts";
 import { getSplitSample } from "logic/classification/training/shuffledData";
-import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
-import { ColorAdapter } from "logic/convert";
+import { ChannelAdapter, ChannelArg, ColorAdapter, hexToColor } from "logic";
 import { GroupedHex } from "logic/classification/types";
 import { Size } from "lib";
 import { Swatch } from "components";
-import { ChannelArg } from "../../logic/colorspaces/channels";
-import { hexToColor } from "../../logic";
 
 /**
  * creates a scatter plot based on two color properties (x and y)

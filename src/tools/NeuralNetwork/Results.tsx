@@ -34,7 +34,7 @@ export const Contents = ({ sampleSize, ...modelSettings }: Settings) => {
     setIsTraining(true);
     const model = new NeuralNetwork(modelSettings);
     await model.train(training);
-    console.log(nn);
+    // console.log(nn);
     setIsTraining(false);
     setNn(model);
   };

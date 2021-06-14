@@ -1,18 +1,18 @@
 import {
+  History,
+  layers,
+  ModelCompileArgs,
   ModelFitArgs,
   Sequential,
   sequential,
-  tensor2d,
-  layers,
-  train,
-  ModelCompileArgs,
-  History,
-  tidy,
   Tensor,
+  tensor2d,
+  tidy,
+  train,
 } from "@tensorflow/tfjs";
 import { orderBy } from "lib";
 import { allGroupNames } from "data";
-import { ChannelAdapter } from "../../../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../../../colorspaces";
 import { GroupedHex } from "../../types";
 import { ColorAdapter } from "../../../convert";
 import { OneHotEncoder } from "./OneHotEncoder";

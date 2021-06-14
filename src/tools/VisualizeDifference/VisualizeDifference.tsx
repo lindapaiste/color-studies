@@ -2,6 +2,7 @@ import React, { FunctionComponent, useMemo, useState } from "react";
 import { makeArray } from "lib";
 import { SelectColor, Title } from "components";
 import { usePartialState } from "lib/util-hooks";
+import { randomColor } from "logic";
 import { FormulaSettings } from "logic/difference/types";
 import { Calculation } from "logic/difference/Calculation";
 import { Formula } from "logic/difference/Formula";
@@ -11,7 +12,6 @@ import {
 } from "./RenderBracketedDifference";
 import { CalculationTooltip } from "./CalculationTooltip";
 import { DifferenceControls } from "../DistanceGrid/DifferenceControls";
-import { randomColor } from "../../logic/convert/random";
 
 export interface Props {
   count?: number;

@@ -1,4 +1,4 @@
-import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "logic";
 
 export interface CalcProps {
   hexes: string[];

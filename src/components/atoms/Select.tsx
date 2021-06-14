@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldProps, Field } from "./Field";
+import { Field, FieldProps } from "./Field";
 
 /**
  * this version of Select is just a wrapper that takes options as children

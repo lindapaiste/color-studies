@@ -1,12 +1,12 @@
 import { intervals, makeArray } from "lib";
 import { TransformPair } from "../adjustment/transforms";
-import { ModelAdapter } from "../colorspaces/ModelAdapter";
 import {
   ChannelCountTuple,
   ColorSpaceName,
   ColorTuple,
-} from "../colorspaces/types";
-import { TupleClass } from "../colorspaces/TupleClass";
+  ModelAdapter,
+  TupleClass,
+} from "../colorspaces";
 import { ModelTransform } from "./ModelTransform";
 import { IGradient } from "./types";
 import { ColorAdapter } from "../convert";

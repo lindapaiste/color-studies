@@ -1,9 +1,12 @@
 import React, { CSSProperties } from "react";
 import { replaceIndex, tupleMap } from "lib";
-import { ColorSpaceName, ColorTuple } from "logic/colorspaces/types";
-import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
-import { eitherToModel } from "logic/colorspaces/models";
-import { IconTooltipButton, RefreshIcon, NumberInput } from "../atoms";
+import {
+  ColorSpaceName,
+  ColorTuple,
+  ModelAdapter,
+  toModelAdapter,
+} from "logic";
+import { IconTooltipButton, NumberInput, RefreshIcon } from "../atoms";
 
 /**
  * A grouping of multiple number inputs with an optional reset button.
@@ -28,7 +31,7 @@ export const WeightsInput = <CS extends ColorSpaceName>({
   containerStyle = {},
   showReset = true,
 }: Props<CS>) => {
-  const modelObj = eitherToModel(model);
+  const modelObj = toModelAdapter(model);
   return (
     <div
       style={{

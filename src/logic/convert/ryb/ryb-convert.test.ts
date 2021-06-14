@@ -1,4 +1,4 @@
-import { rybToRgb, rgbToRyb } from "./ryb-convert";
+import { rgbToRyb, rybToRgb } from "./ryb-convert";
 
 /**
  * the conversion model here has different results which I do not like as much

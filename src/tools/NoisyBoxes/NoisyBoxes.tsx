@@ -7,12 +7,12 @@ import { flatMap, makeArray } from "lib";
 import { withModelNoise } from "logic/noise/modelNoise";
 import { Toggle } from "components";
 import { usePartialState } from "lib/util-hooks";
+import { ColorAdapter } from "logic";
 import { deltaE76 } from "logic/difference/distance";
 import { RenderBoxData } from "./RenderBoxData";
 import { LeverControls } from "./LeverControls";
 import { ChannelShiftControls, useControls } from "./ChannelShiftControls";
 import "./box-style.css";
-import { ColorAdapter } from "../../logic";
 
 /**
  * right now just looks at a bunch of random colors and filters

@@ -1,7 +1,7 @@
 import React from "react";
 import { sampleSize } from "lib";
 import { MultiSelectModel, Title, Tool } from "components";
-import { allModels } from "logic/colorspaces/models";
+import { allModels } from "logic";
 import { ModelPalette } from "./ModelPalette";
 
 /**

@@ -1,4 +1,4 @@
-import { flatMap, shuffle, omit } from "lib";
+import { flatMap, omit, shuffle } from "lib";
 import { BoxData, JsonLevel } from "./types";
 import { AdvancedSettings } from "../../tools/LevelCreator/types";
 

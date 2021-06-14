@@ -63,6 +63,7 @@ export const PredictionsByGroup = ({ results }: { results: Results }) => {
     <div>
       {allGroupNames().map((group) => (
         <PredictionsGroupSection
+          key={group}
           results={groupedPredictions[group]}
           group={group}
         />

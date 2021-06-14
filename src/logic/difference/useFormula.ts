@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormulaSettings, FormulaCalculator } from "./types";
+import { FormulaCalculator, FormulaSettings } from "./types";
 import { Formula } from "./Formula";
 
 /**

@@ -13,10 +13,8 @@ import {
 import { makeArray, shuffle } from "lib";
 import { getGradientColors } from "logic/gradient/ChannelGradient";
 import { usePartialState } from "lib/util-hooks";
-import { getChannel } from "logic/colorspaces/channels";
-import { ColorAdapter } from "logic/convert";
+import { ColorAdapter, getChannel, randomColor } from "logic";
 import { ShiftSettings } from "./types";
-import { randomColor } from "../../logic/convert/random";
 
 /**
  * want to be able to generate colors from a channel shift OR from select color

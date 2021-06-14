@@ -1,10 +1,8 @@
 import { ifDefined, makeArray } from "lib";
-import { IPerceptron, Binary, Features, ActivationFunc } from "./types";
+import { ActivationFunc, Binary, Features, IPerceptron } from "./types";
 /**
- * https:// github.com/Elyx0/rosenblattperceptronjs/blob/master/src/Perceptron.js
- */
-
-/**
+ * based on: https:// github.com/Elyx0/rosenblattperceptronjs/blob/master/src/Perceptron.js
+ *
  * this version has been more heavily modified by me
  * for example, separated training and trainingSet into a separate class
  * separated the bias from the other weights
@@ -30,15 +28,26 @@ import { IPerceptron, Binary, Features, ActivationFunc } from "./types";
  */
 
 export interface PerceptronProps {
+  /**
+   * Set the learning rate for the model.
+   */
   learningRate?: number;
-  // can create with initial weights
+  /**
+   * Can create with initial weights.
+   */
   weights?: number[];
-  // can pass an initial bias weight
+  /**
+   * Can pass an initial bias weight.
+   */
   bias?: number;
-  // can pass in a custom activation function, or default to using heaviside
+  /**
+   * Can pass in a custom activation function, or default to using heaviside.
+   */
   activate?: ActivationFunc;
-  // whether to log everything to the console
-  log?: boolean;
+  /**
+   * Whether to log everything to the console
+   */
+  debug?: boolean;
 }
 
 /**
@@ -59,7 +68,7 @@ export class Perceptron implements IPerceptron {
 
   private didInit: boolean;
 
-  private readonly log: boolean;
+  private readonly debug: boolean;
 
   /**
    * if no weights are passed in the constructor,
@@ -70,21 +79,21 @@ export class Perceptron implements IPerceptron {
     this.weights = props.weights || [];
     this.bias = props.bias || 0;
     this.activate = props.activate || heaviside;
-    this.log = props.log || false;
+    this.debug = props.debug || false;
     this.didInit = false;
   }
 
   /**
    * some implementations return -1/1 while others return 0/1
    * initializing to 0 makes more sense with -1/1 while random makes more sense with 0/1
-   * but the initial value is of little importance wither way
+   * but the initial value is of little importance either way
    */
   private init(inputs: Features) {
     // if there are some weights passed in but it's too short, preserve those while adding extra
     this.weights = makeArray(inputs.length, (i) =>
       ifDefined(this.weights[i], Math.random())
     );
-    if (this.log) console.log("initialized with weights:", this.weights);
+    if (this.debug) console.log("initialized with weights:", this.weights);
     this.didInit = true;
   }
 
@@ -99,20 +108,22 @@ export class Perceptron implements IPerceptron {
     if (actual === expected) return true; // Correct weights return and don't touch anything.
 
     // Otherwise update each weight by adding the error * learningRate relative to the input
-    if (this.log) console.log("changed weights from", this.weights);
+    if (this.debug) console.log("changed weights from", this.weights);
     this.weights = this.weights.map(
       (w, i) => w + this.delta(actual, expected, inputs[i])
     );
-    if (this.log) console.log("to", this.weights);
+    if (this.debug) console.log("to", this.weights);
     // do the same for the bias, using 1 in place of an input
-    if (this.log) console.log("changed bias from", this.bias);
+    if (this.debug) console.log("changed bias from", this.bias);
     this.bias += this.delta(actual, expected, 1);
-    if (this.log) console.log("to", this.bias);
+    if (this.debug) console.log("to", this.bias);
     return false;
   }
 
-  // Calculates the difference between actual and expected for a given input
-  private delta(actual: number, expected: number, input: number) {
+  /**
+   * Calculates the difference between actual and expected for a given input
+   */
+  private delta(actual: number, expected: number, input: number): number {
     const error = expected - actual; // the direction of the error
     /**
      * note: error here is either +1 or -1
@@ -140,7 +151,7 @@ export class Perceptron implements IPerceptron {
    * applies the activation function to the raw score
    */
   public predict(inputs: Features): number {
-    if (this.log) console.log("inputs", inputs, "score", this.score(inputs));
+    if (this.debug) console.log("inputs", inputs, "score", this.score(inputs));
     return this.activate(this.score(inputs));
   }
 }

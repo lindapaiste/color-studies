@@ -1,6 +1,6 @@
 import React from "react";
 import { Tool } from "components";
-import { getChannel } from "logic/colorspaces/channels";
+import { getChannel } from "logic";
 import { randomGroupName } from "data";
 import { HistogramControls } from "./HistogramControls";
 import { GroupChannelHistogram } from "./GroupChannelHistogram";

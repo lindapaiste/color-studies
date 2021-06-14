@@ -1,7 +1,7 @@
 import { Levers } from "logic/boxSets/types";
 import { FormulaCalculator } from "logic/difference/types";
 import { IModelNoise } from "logic/noise/types";
-import { ChannelAdapter } from "logic/colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "logic";
 
 export interface Identifier {
   boxIndex: number;

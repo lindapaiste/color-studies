@@ -1,6 +1,6 @@
 import { last, round } from "lib";
 import { PropertyConstraint } from "./PropertyConstraint";
-import { ChannelAdapter } from "../../colorspaces/ChannelAdapter";
+import { ChannelAdapter } from "../../colorspaces";
 import { GroupConstraints } from "./GroupConstraints";
 import { ColorAdapter } from "../../convert";
 
@@ -28,7 +28,7 @@ export interface Props {
 }
 
 /**
- * Store and return the data for each modification.
+ * Return detailed data for each modification.
  */
 export interface Modification {
   /**
@@ -124,7 +124,7 @@ export const forceColor = ({
      * Note: previously edited all values here, but now only modifying one per cycle.
      * `errors` is still an array, but should have only one entry due to the `reportAll` flag.
      */
-    errors.map((e) => applyRule(currentColor, e.condition));
+    errors.forEach((e) => applyRule(currentColor, e.condition));
 
     i++;
   }

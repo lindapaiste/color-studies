@@ -1,4 +1,4 @@
-import { useState, useCallback, useLayoutEffect } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 /**
  * modified from https://github.com/Swizec/useDimensions

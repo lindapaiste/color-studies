@@ -1,16 +1,20 @@
 import { typedValues } from "lib";
-import { ColorSpaceName } from "./types";
-import { COLOR_SPACE_NAMES } from "./colorSpaces";
+import { COLOR_SPACE_NAMES, ColorSpaceName } from "./colorSpaces";
 import { ModelAdapter } from "./ModelAdapter";
 
-export type ModelOrName<CS extends ColorSpaceName> = CS | ModelAdapter<CS>;
+/**
+ * Union type for either a model name or model object
+ */
+export type ModelArg<CS extends ColorSpaceName = ColorSpaceName> =
+  | CS
+  | ModelAdapter<CS>;
 
 /**
  * keyed by color space name
  */
 const KEYED_MODEL_OBJECTS = Object.fromEntries(
   COLOR_SPACE_NAMES.map((name) => [name, new ModelAdapter(name)])
-) as Record<ColorSpaceName, ModelAdapter<ColorSpaceName>>;
+) as Record<ColorSpaceName, ModelAdapter>;
 
 /**
  * use a getter outside the class so that I can possibly store locally to minimize repeat creation
@@ -19,14 +23,6 @@ const KEYED_MODEL_OBJECTS = Object.fromEntries(
 export const getModel = <CS extends ColorSpaceName>(
   name: CS
 ): ModelAdapter<CS> => KEYED_MODEL_OBJECTS[name] as ModelAdapter<CS>;
-// return new ModelAdapter(name);
-
-/**
- * is the same thing, but the assumption of type is done internally
- * Allows key to be any string so that this can be used in Select components.
- */
-export const getModelFromKey = (key: string): ModelAdapter<ColorSpaceName> =>
-  KEYED_MODEL_OBJECTS[key as ColorSpaceName];
 
 /**
  * get an array of all model objects
@@ -34,12 +30,17 @@ export const getModelFromKey = (key: string): ModelAdapter<ColorSpaceName> =>
 export const allModels = () => typedValues(KEYED_MODEL_OBJECTS);
 
 /**
+ * get an array of all model names - prefer function over exporting constant
+ */
+export const allModelNames = () => COLOR_SPACE_NAMES;
+
+/**
  * helper to accept prop of either a name or an object
  */
-export const eitherToModel = <CS extends ColorSpaceName>(
-  value: ModelOrName<CS>
+export const toModelAdapter = <CS extends ColorSpaceName>(
+  value: ModelArg<CS>
 ): ModelAdapter<CS> => (typeof value === "string" ? getModel(value) : value);
 
-export const eitherToName = <CS extends ColorSpaceName>(
-  value: ModelOrName<CS>
+export const toModelName = <CS extends ColorSpaceName>(
+  value: ModelArg<CS>
 ): CS => (typeof value === "string" ? value : value.name);

@@ -1,6 +1,5 @@
 import { FormulaCalculator } from "./types";
-import { eitherToModel } from "../colorspaces/models";
-import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
+import { ChannelAdapter, toModelAdapter } from "../colorspaces";
 import { ColorAdapter } from "../convert";
 
 /**
@@ -36,7 +35,7 @@ export class Calculation implements DebugDeltaE {
   }
 
   get channelDiffs(): ChannelDiff[] {
-    const model = eitherToModel(this.formula.model);
+    const model = toModelAdapter(this.formula.model);
     const first = this.target.toCs(model).deNormalize();
     const second = this.color.toCs(model).deNormalize();
     const { channels } = model;

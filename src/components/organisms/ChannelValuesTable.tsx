@@ -1,6 +1,5 @@
 import React from "react";
-import { ColorAdapter } from "logic";
-import { allChannels } from "logic/colorspaces/channels";
+import { allChannels, ColorAdapter } from "logic";
 import { DataTable } from "../molecules";
 
 /**

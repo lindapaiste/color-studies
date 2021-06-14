@@ -4,7 +4,7 @@ import {
   colorWheelToNormal,
   normalToColorWheel,
 } from "../adjustment/colorWheel";
-import { ChannelArg, toChannelObject } from "../colorspaces/channels";
+import { ChannelArg, toChannelObject } from "../colorspaces";
 import { ColorAdapter } from "../convert";
 
 export interface ChannelProps {

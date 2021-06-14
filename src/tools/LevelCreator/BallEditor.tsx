@@ -1,8 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  BallCreateSettings,
-  generateBall,
-} from "logic/boxSets/generateBoxBalls";
 import { replaceIndex } from "lib";
 import {
   Button,
@@ -11,12 +7,16 @@ import {
   SelectColor,
   XCircleIcon,
 } from "components";
+import { ColorAdapter } from "logic";
+import {
+  BallCreateSettings,
+  generateBall,
+} from "logic/boxSets/generateBoxBalls";
 import { getError, matchToChoices } from "logic/boxSets/colorMatchesBox";
 import { BoxData, Rejection } from "logic/boxSets/types";
 import { shuffleData } from "logic/boxSets/shuffleData";
 import { Ball, Box, TooltipContent } from "../NoisyBoxes/RenderBoxData";
 import { BallDisplaySettings, Identifier } from "./types";
-import { ColorAdapter } from "../../logic";
 
 export interface DataProps {
   data: BoxData[];

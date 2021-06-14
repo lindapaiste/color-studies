@@ -8,7 +8,7 @@ import { ChannelSlug, ColorSpaceName } from "./colorSpaces";
 /**
  * array of all channel objects, sorted by name
  */
-export const ALL_CHANNELS: ChannelAdapter[] = sortBy(
+const ALL_CHANNELS: ChannelAdapter[] = sortBy(
   flatMap(allModels(), (m) => m.channels),
   (c) => c.name
 );

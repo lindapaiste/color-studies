@@ -2,12 +2,11 @@ import React, { useMemo } from "react";
 import { sortBy } from "lib";
 import { Title } from "components";
 import { shuffledHexes } from "logic/classification/training/shuffledData";
-import { allChannels } from "logic/colorspaces/channels";
+import { allChannels, hexToColor } from "logic";
 import { ChannelBoundaryModel } from "logic/classification/model/boundary/ChannelBoundaryModel";
 import { GroupModelTest } from "logic/classification/accuracy/GroupModelTest";
 import { RenderModel } from "./RenderModel";
 import { Settings } from "./Controls";
-import { hexToColor } from "../../logic";
 
 /**
  * Tool contents must build the models and execute the tests.

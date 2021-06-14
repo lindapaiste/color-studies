@@ -1,8 +1,6 @@
 import React, { useMemo } from "react";
-import { ColorAdapter } from "logic/convert/ColorAdapter";
-import { ColorSpaceName, ColorTuple } from "logic/colorspaces/types";
 import { flatMap, intervals, replaceIndex } from "lib";
-import { ModelAdapter } from "logic/colorspaces/ModelAdapter";
+import { ColorAdapter, ColorSpaceName, ColorTuple, ModelAdapter } from "logic";
 import { ColorSet, TupleTooltip } from "components";
 
 /**
@@ -15,7 +13,7 @@ export interface Props {
   /**
    * The model to use
    */
-  model: ModelAdapter<ColorSpaceName>;
+  model: ModelAdapter;
   /**
    * The total count of samples to include.
    * Subject to rounding based on the cube root.

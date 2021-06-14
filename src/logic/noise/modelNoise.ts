@@ -1,7 +1,6 @@
 import { noisyChannelValue } from "./channelNoise";
-import { ColorSpaceName, ColorTuple } from "../colorspaces/types";
+import { ColorSpaceName, ColorTuple, TupleClass } from "../colorspaces";
 import { IModelNoise, INoiseCreator, ModelNoiseSettings } from "./types";
-import { TupleClass } from "../colorspaces/TupleClass";
 import { ColorAdapter } from "../convert";
 
 export interface CalcProps<CS extends ColorSpaceName> {

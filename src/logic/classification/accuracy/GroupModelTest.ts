@@ -1,7 +1,7 @@
 import {
   GroupColorClassifier,
-  IGetGroupedResults,
   HasPredicted,
+  CanGetGroupedResults,
   ResultType,
 } from "../types";
 import { ModelTest, Res } from "./ModelTest";
@@ -16,7 +16,7 @@ import { ColorAdapter } from "../../convert";
  */
 
 export class GroupModelTest<R extends HasPredicted>
-  implements IGetGroupedResults<Res<ColorAdapter, R>>
+  implements CanGetGroupedResults<Res<ColorAdapter, R>>
 {
   public readonly group: string;
 

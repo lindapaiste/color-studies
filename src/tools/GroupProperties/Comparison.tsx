@@ -1,8 +1,8 @@
 import React from "react";
-import { isNumberKey, round, typedKeys, proper } from "lib";
+import { isNumberKey, proper, round, typedKeys } from "lib";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "components";
-import { ChannelSlug } from "logic/colorspaces/colorSpaces";
-import { PropertyAnalysis } from "../../logic/classification/averages/types";
+import { ChannelSlug } from "logic";
+import { PropertyAnalysis } from "logic/classification/averages/types";
 
 /**
  * Show the detailed analysis of one or two properties.  If two, show a greater than

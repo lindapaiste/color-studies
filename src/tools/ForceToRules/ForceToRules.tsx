@@ -16,23 +16,28 @@ export const ForceToAll = ({ color }: { color: ColorAdapter }) => (
       const group = getColorGrouping(name);
       const result = forceColor({ color, rules: group.definitions });
       return (
-        <div>
+        <div key={name}>
           <Title importance="h3">
             As: {name} {result.passed ? <CheckCircle /> : <ErrorOutline />}
           </Title>
           <Swatch color={result.color} size={100} />
           <Accordion title="Details">
-            {result.phases.map(({ color: modifiedColor, channel, message }) => (
-              <div key={modifiedColor.hex()}>
-                <Title importance="h4">Edited {channel.title}</Title>
-                <Title importance="h5">{message}</Title>
-                <Swatch color={modifiedColor} size={300} height={30} />
-                <ExpandableColorInfo
-                  color={modifiedColor}
-                  initialOpen={false}
-                />
-              </div>
-            ))}
+            {result.phases.map(
+              ({ color: modifiedColor, channel, message }, i) => (
+                // Note: cannot use hex as key because hexes are ofter not unique
+                // in the case of an impossible forcing where it goes back and forth between the same steps
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={i}>
+                  <Title importance="h4">Edited {channel.title}</Title>
+                  <Title importance="h5">{message}</Title>
+                  <Swatch color={modifiedColor} size={300} height={30} />
+                  <ExpandableColorInfo
+                    color={modifiedColor}
+                    initialOpen={false}
+                  />
+                </div>
+              )
+            )}
             <Title importance="h4">
               {result.passed ? "Passed" : "Still Failed"}
             </Title>

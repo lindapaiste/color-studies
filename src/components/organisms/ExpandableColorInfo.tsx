@@ -1,6 +1,6 @@
 import React from "react";
 import { Accordion } from "components";
-import { eitherToColor, ColorAdapter } from "logic";
+import { ColorAdapter, toColorAdapter } from "logic";
 import { ChannelValuesTable } from "./ChannelValuesTable";
 
 export interface Props {
@@ -14,6 +14,6 @@ export interface Props {
  */
 export const ExpandableColorInfo = ({ color, initialOpen = true }: Props) => (
   <Accordion title="Channel Values" initialOpen={initialOpen}>
-    <ChannelValuesTable color={eitherToColor(color)} />
+    <ChannelValuesTable color={toColorAdapter(color)} />
   </Accordion>
 );

@@ -1,9 +1,9 @@
-import React, { useState, ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
-import { ChevronUpIcon, ChevronDownIcon } from "../atoms/Icons";
+import { ChevronDownIcon, ChevronUpIcon } from "../atoms/Icons";
 
 export interface Props {
   initialOpen?: boolean;

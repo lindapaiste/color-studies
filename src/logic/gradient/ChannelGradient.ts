@@ -1,9 +1,8 @@
-import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
-import { ColorSpaceName } from "../colorspaces/types";
 import { TransformPair } from "../adjustment/transforms";
 import { ModelGradient } from "./ModelGradient";
 import { IGradient } from "./types";
 import { ColorAdapter } from "../convert";
+import { ChannelAdapter, ColorSpaceName } from "../colorspaces";
 
 /**
  * start from one initial color and change its value along one channel

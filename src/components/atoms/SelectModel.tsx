@@ -1,7 +1,6 @@
 import React from "react";
 import { MenuItem as Option } from "@material-ui/core";
-import { COLOR_SPACE_NAMES } from "logic/colorspaces/colorSpaces";
-import { ColorSpaceName } from "logic/colorspaces/types";
+import { allModelNames, ColorSpaceName } from "logic";
 import { GenericProps } from "./types";
 import { Field } from "./Field";
 
@@ -23,11 +22,10 @@ export const SelectModel = ({
     label={label}
     value={value}
     onChange={(v, e) => {
-      console.log(v, e);
       onChange(v as ColorSpaceName, e);
     }}
   >
-    {COLOR_SPACE_NAMES.map((name) => (
+    {allModelNames().map((name) => (
       <Option key={name} value={name}>
         {name.toUpperCase()}
       </Option>

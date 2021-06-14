@@ -1,10 +1,4 @@
-import { ColorSpaceName as CSN, ChannelName as CN } from "./colorSpaces";
-
-// ------------------------------INFERRED---------------------------------//
-
-export type ColorSpaceName = CSN;
-
-export type ChannelName = CN;
+import { ColorSpaceName } from "./colorSpaces";
 
 // ------------------------------HARD-CODED---------------------------------//
 
@@ -21,7 +15,7 @@ export type ChannelAccessor = [ColorSpaceName, number];
  * define it this way so that a tuple with four entries is always ok, even if only three are actually needed
  * previously TS would give a length mismatch error if passing [number x4] when expecting [number x3]
  */
-type BasicTuple<T> = {
+export type BasicTuple<T> = {
   0: T;
   1: T;
   2: T;

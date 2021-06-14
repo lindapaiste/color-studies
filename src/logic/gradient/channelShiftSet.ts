@@ -1,8 +1,7 @@
 import { ChannelShiftSettings } from "../boxSets/types";
 import { ChannelGradient } from "./ChannelGradient";
-import { ColorAdapter } from "../convert";
-import { ChannelAdapter } from "../colorspaces/ChannelAdapter";
-import { randomColor } from "../convert/random";
+import { ColorAdapter, randomColor } from "../convert";
+import { ChannelAdapter } from "../colorspaces";
 
 const getEnds = (
   initial: ColorAdapter,
