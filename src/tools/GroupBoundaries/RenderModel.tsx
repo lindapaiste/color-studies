@@ -1,7 +1,12 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import { round } from "lib";
-import { ExpandableConfusionMatrix, Title } from "components";
+import {
+  Accordion,
+  ExpandableConfusionMatrix,
+  RenderResultGroups,
+  Title,
+} from "components";
 import { TestedBoundaryModel } from "logic/classification/model/boundary/AllChannelBoundaries";
 
 /**
@@ -13,6 +18,7 @@ export const RenderModel = ({
   model,
   accuracy,
   channel,
+  getResults,
 }: TestedBoundaryModel) => (
   <div key={channel.key}>
     <Title importance="h3">{channel.title}</Title>
@@ -26,5 +32,19 @@ export const RenderModel = ({
       Negative Predictive Value: {round(accuracy.negativePredictiveValue, 2)}
     </Typography>
     <ExpandableConfusionMatrix results={accuracy} />
+    <Accordion title="Color Results">
+      {() => (
+        <RenderResultGroups
+          results={{ getResults }}
+          resultToTooltip={(r) => (
+            <div>
+              <div>{r.value.hex()}</div>
+              <div>Value: {r.value.get(channel, false, 0)}</div>
+            </div>
+          )}
+          height={50}
+        />
+      )}
+    </Accordion>
   </div>
 );

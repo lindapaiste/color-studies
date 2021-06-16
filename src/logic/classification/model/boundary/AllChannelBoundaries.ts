@@ -1,11 +1,13 @@
 import { sortBy } from "lodash";
-import { GroupedColor } from "../../types";
+import { CanGetGroupedResults, GroupedColor, TestOutput } from "../../types";
 import { ChannelBoundaryModel } from "./ChannelBoundaryModel";
 import { GroupModelTest } from "../../accuracy/GroupModelTest";
 import { allChannels, ChannelAdapter } from "../../../colorspaces";
 import { ConfusionMatrix } from "../../accuracy/ConfusionMatrix";
+import { ColorAdapter } from "../../../convert";
 
-export interface TestedBoundaryModel {
+export interface TestedBoundaryModel
+  extends CanGetGroupedResults<TestOutput<ColorAdapter>> {
   model: ChannelBoundaryModel;
   accuracy: ConfusionMatrix;
   channel: ChannelAdapter;
@@ -18,19 +20,14 @@ export interface TestedBoundaryModel {
  */
 
 export class AllChannelBoundaries {
-  public readonly group: string;
+  private models: TestedBoundaryModel[] = [];
 
-  private readonly trainingData: GroupedColor[];
-
-  private models: TestedBoundaryModel[];
-
-  public constructor(group: string, data: GroupedColor[]) {
-    this.group = group;
+  public constructor(
+    public readonly group: string,
     // split data into training and testing??
-    this.trainingData = data;
-
-    this.models = [];
-  }
+    private readonly trainingData: GroupedColor[],
+    private testCount: number = 100
+  ) {}
 
   private createModel = (channel: ChannelAdapter): TestedBoundaryModel => {
     const model = new ChannelBoundaryModel(
@@ -39,12 +36,13 @@ export class AllChannelBoundaries {
       channel
     );
     const tester = new GroupModelTest(model);
-    tester.test(100);
-    const { accuracy } = tester;
+    tester.test(this.testCount);
+    const { accuracy, getResults } = tester;
     return {
       channel,
       model,
       accuracy,
+      getResults,
     };
   };
 

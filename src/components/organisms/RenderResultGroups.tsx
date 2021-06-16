@@ -16,7 +16,6 @@ import { ColorAdapter } from "logic";
 export interface Props<R extends TestOutput<ColorAdapter>> {
   results: CanGetGroupedResults<R>;
 
-  // ColorSet: ComponentType<{ results: R[] }>;
   resultToTooltip?(result: R): NonNullable<ReactNode>;
 }
 

@@ -1,7 +1,6 @@
 import React from "react";
-import { sampleSize } from "lib";
 import { MultiSelectModel, Title, Tool } from "components";
-import { allModels } from "logic";
+import { randomModels } from "logic";
 import { ModelPalette } from "./ModelPalette";
 
 /**
@@ -10,7 +9,7 @@ import { ModelPalette } from "./ModelPalette";
  */
 export const PaletteCompareTool = () => (
   <Tool
-    initialSettings={{ models: sampleSize(allModels(), 2) }}
+    initialSettings={{ models: randomModels(2) }}
     RenderControls={({ state, update }) => (
       <MultiSelectModel
         value={state.models}

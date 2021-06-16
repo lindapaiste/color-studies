@@ -10,9 +10,7 @@ import { ConfusionMatrix } from "./ConfusionMatrix";
 import { ColorAdapter } from "../../convert";
 
 /**
- * handles converting DataPoints to expected true/false, etc.
- *
- * do training here??
+ * Wrapper around ModelTest can create training data just based on the group.
  */
 
 export class GroupModelTest<R extends HasPredicted>

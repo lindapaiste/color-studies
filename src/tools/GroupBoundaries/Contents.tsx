@@ -10,6 +10,9 @@ import { Settings } from "./Controls";
 
 /**
  * Tool contents must build the models and execute the tests.
+ *
+ * TODO: combine with logic in unused AllChannelBoundaries class
+ * but want to maintain use of useMemo and take data as an argument.
  */
 export const Contents = ({ sampleSize, group: testGroup }: Settings) => {
   const data = useMemo(
@@ -27,11 +30,12 @@ export const Contents = ({ sampleSize, group: testGroup }: Settings) => {
       const model = new ChannelBoundaryModel(testGroup, data, channel);
       const tester = new GroupModelTest(model);
       tester.test(sampleSize);
-      const { accuracy } = tester;
+      const { accuracy, getResults } = tester;
       return {
         channel,
         model,
         accuracy,
+        getResults,
       };
     });
     return sortBy(
