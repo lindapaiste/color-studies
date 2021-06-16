@@ -29,7 +29,9 @@ export const Accordion = ({ initialOpen = false, children, title }: Props) => {
           title
         )}
       </Box>
-      <Collapse in={open}>{typeof children === "function" ? children({}) : children}</Collapse>
+      <Collapse in={open}>
+        {typeof children === "function" ? children({}) : children}
+      </Collapse>
     </Box>
   );
 };

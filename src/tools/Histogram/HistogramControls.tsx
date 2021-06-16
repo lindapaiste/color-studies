@@ -1,6 +1,11 @@
 import React from "react";
-import { StateUpdateProps } from "lib/util-hooks";
-import { FlexRow, NumberInput, SelectChannel, SelectGroup } from "components";
+import {
+  FlexRow,
+  NumberInput,
+  SelectChannel,
+  SelectGroup,
+  StateUpdateProps,
+} from "components";
 import { ToolSettings } from "./types";
 
 export const HistogramControls = ({

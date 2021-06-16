@@ -5,8 +5,8 @@ import {
   MultiSelectModel,
   NumberInput,
   SelectMultipleColors,
+  StateUpdateProps,
 } from "components";
-import { StateUpdateProps } from "lib/util-hooks";
 import { ColorAdapter, ModelAdapter } from "logic";
 
 /**

@@ -4,8 +4,8 @@ import {
   MultiSelectChannel,
   NumberInput,
   SelectGroup,
+  StateUpdateProps,
 } from "components";
-import { StateUpdateProps } from "lib/util-hooks";
 import { Settings } from "./types";
 
 export const PerceptronControls = ({

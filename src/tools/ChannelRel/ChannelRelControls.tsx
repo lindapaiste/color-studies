@@ -1,6 +1,10 @@
 import React from "react";
-import { FlexRow, NumberInput, SelectChannel } from "components";
-import { StateUpdateProps } from "lib/util-hooks";
+import {
+  FlexRow,
+  NumberInput,
+  SelectChannel,
+  StateUpdateProps,
+} from "components";
 import { Settings } from "./settings";
 
 export const ChannelRelControls = ({

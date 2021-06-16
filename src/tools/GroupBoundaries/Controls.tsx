@@ -1,6 +1,10 @@
 import { randomGroupName } from "data";
-import { StateUpdateProps } from "lib/util-hooks";
-import { FlexRow, NumberInput, SelectGroup } from "components";
+import {
+  FlexRow,
+  NumberInput,
+  SelectGroup,
+  StateUpdateProps,
+} from "components";
 
 export interface Settings {
   sampleSize: number;
