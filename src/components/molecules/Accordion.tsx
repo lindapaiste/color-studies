@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { FunctionComponent, ReactNode, useState } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,7 +8,10 @@ import { ChevronDownIcon, ChevronUpIcon } from "../atoms/Icons";
 export interface Props {
   initialOpen?: boolean;
   title: string | ReactNode;
-  children: ReactNode;
+  /**
+   * Can lazily instantiate the children contents by passing a function.
+   */
+  children: ReactNode | FunctionComponent;
 }
 
 export const Accordion = ({ initialOpen = false, children, title }: Props) => {
@@ -26,7 +29,7 @@ export const Accordion = ({ initialOpen = false, children, title }: Props) => {
           title
         )}
       </Box>
-      <Collapse in={open}>{children}</Collapse>
+      <Collapse in={open}>{typeof children === "function" ? children({}) : children}</Collapse>
     </Box>
   );
 };
