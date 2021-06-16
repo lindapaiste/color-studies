@@ -13,11 +13,13 @@ export type UseDimensionsHook = [
 ];
 
 export interface UseDimensionsArgs {
-  liveMeasure?: boolean;
+  measureOnScroll?: boolean;
+  measureOnResize?: boolean;
 }
 
 export default function useDimensions({
-  liveMeasure = true,
+  measureOnScroll = false,
+  measureOnResize = true,
 }: UseDimensionsArgs = {}): UseDimensionsHook {
   const [dimensions, setDimensions] = useState<DOMRect | {}>({});
   const [node, setNode] = useState<HTMLElement | null>(null);
@@ -34,19 +36,20 @@ export default function useDimensions({
         );
       measure();
 
-      if (liveMeasure) {
-        window.addEventListener("resize", measure);
+      if (measureOnScroll) {
         window.addEventListener("scroll", measure);
-
-        return () => {
-          window.removeEventListener("resize", measure);
-          window.removeEventListener("scroll", measure);
-        };
       }
+      if (measureOnResize) {
+        window.addEventListener("resize", measure);
+      }
+      return () => {
+        window.removeEventListener("resize", measure);
+        window.removeEventListener("scroll", measure);
+      };
     }
     // return empty cleanup function to hush eslint consistent-return errors
     return () => undefined;
-  }, [node, liveMeasure]);
+  }, [node, measureOnResize, measureOnScroll]);
 
   return [ref, dimensions, node];
 }
