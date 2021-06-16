@@ -1,6 +1,6 @@
 import React from "react";
-import { StateUpdateProps } from "lib/util-hooks";
 import { NumberInput, Title } from "components";
+import { StateUpdateProps } from "lib";
 import { Formula } from "logic/difference/Formula";
 import { ModelNoise } from "logic/noise/modelNoise";
 import { BallCreateSettings } from "logic/boxSets/generateBoxBalls";

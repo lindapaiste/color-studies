@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { withChannelNoise } from "logic/noise/channelNoise";
 import { makeArray } from "lib";
-import { ColorSet, NumberInput, Title, tupleTooltipFactory } from "components";
-import { allChannels, ColorAdapter } from "logic";
+import {
+  ColorSet,
+  ControlRow,
+  NumberInput,
+  SelectColor,
+  Title,
+  tupleTooltipFactory,
+} from "components";
+import { allChannels, randomColor } from "logic";
+import { createTool } from "components/templates/Tool";
 
 /**
  * notes: hsv.v is just completely wrong
@@ -12,40 +20,50 @@ import { allChannels, ColorAdapter } from "logic";
  * for neon colors, LAB luminance changes more
  */
 
-export interface Props {
-  color: ColorAdapter;
-  countPer?: number;
-}
-
 // TODO: HCG noise is totally wrong -- why?
 
-export const CompareNoiseChannels = ({ color, countPer = 10 }: Props) => {
-  const [noiseRatio, setNoiseRatio] = useState(0.1);
-
-  return (
-    <div>
+export default createTool(
+  {
+    noiseRatio: 0.1,
+    countPer: 10,
+    color: randomColor(),
+  },
+  ({ state, handle }) => (
+    <ControlRow>
+      <SelectColor
+        height={50}
+        label="Color"
+        value={state.color}
+        onChange={handle("color")}
+        randomize
+      />
       <NumberInput
+        value={state.noiseRatio}
+        onChange={handle("noiseRatio")}
         label="Noise Ratio"
-        value={noiseRatio}
-        onChange={setNoiseRatio}
-        isInt={false}
         step={0.05}
       />
-      <div>
-        {allChannels().map((channel) => (
-          <div key={channel.key}>
-            <Title importance="h3">{channel.title}</Title>
-            <ColorSet
-              colors={makeArray(countPer, () =>
-                withChannelNoise(color, channel, noiseRatio)
-              )}
-              colorToTooltip={tupleTooltipFactory(channel.modelObject)}
-            />
-          </div>
-        ))}
-      </div>
+      <NumberInput
+        value={state.countPer}
+        onChange={handle("countPer")}
+        label="Example Count"
+        isInt
+      />
+    </ControlRow>
+  ),
+  ({ color, noiseRatio, countPer }) => (
+    <div>
+      {allChannels().map((channel) => (
+        <div key={channel.key}>
+          <Title importance="h3">{channel.title}</Title>
+          <ColorSet
+            colors={makeArray(countPer, () =>
+              withChannelNoise(color, channel, noiseRatio)
+            )}
+            colorToTooltip={tupleTooltipFactory(channel.modelObject)}
+          />
+        </div>
+      ))}
     </div>
-  );
-};
-
-export default CompareNoiseChannels;
+  )
+);

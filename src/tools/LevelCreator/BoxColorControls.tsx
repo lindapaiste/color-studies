@@ -12,7 +12,7 @@ import {
 } from "components";
 import { makeArray, shuffle } from "lib";
 import { getGradientColors } from "logic/gradient/ChannelGradient";
-import { usePartialState } from "lib/util-hooks";
+import { usePartialState } from "lib/usePartialState";
 import { ColorAdapter, getChannel, randomColor } from "logic";
 import { ShiftSettings } from "./types";
 

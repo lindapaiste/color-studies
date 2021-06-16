@@ -91,14 +91,7 @@ export const specificNoisyValue = ({
   const upper = clamp
     ? Math.min(vMax, initial + noiseAmount)
     : initial + noiseAmount;
-  const noisy = postTransform(random(lower, upper, true));
-  console.log({
-    noisy,
-    noiseAmount,
-    min: postTransform(lower),
-    max: postTransform(upper),
-  });
-  return noisy;
+  return postTransform(random(lower, upper, true));
 };
 
 export const noisyChannelValue = ({ channel, ...props }: BasicProps): number =>
@@ -116,6 +109,12 @@ export const withChannelNoise = (
   noiseRatio: number
 ): ColorAdapter => {
   const value = color.get(channel);
-  const newValue = noisyChannelValue({ channel, noiseRatio, value });
-  return color.set(channel, newValue);
+  try {
+    const newValue = noisyChannelValue({ channel, noiseRatio, value });
+    return color.set(channel, newValue);
+  } catch (e) {
+    console.error(e);
+    console.log({ color, value, channel });
+    return color;
+  }
 };

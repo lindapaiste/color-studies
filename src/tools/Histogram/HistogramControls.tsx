@@ -4,14 +4,14 @@ import {
   NumberInput,
   SelectChannel,
   SelectGroup,
-  StateUpdateProps,
+  ToolControlProps,
 } from "components";
 import { ToolSettings } from "./types";
 
 export const HistogramControls = ({
   state,
   update,
-}: StateUpdateProps<ToolSettings>) => (
+}: ToolControlProps<ToolSettings>) => (
   <FlexRow>
     <SelectGroup
       value={state.group}

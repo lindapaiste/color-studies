@@ -1,8 +1,8 @@
 import React from "react";
 import { ChannelShiftSettings } from "logic/boxSets/types";
 import { FlexRow, NumberInput, SelectChannel } from "components";
-import { StateUpdateProps, usePartialState } from "lib/util-hooks";
 import { getChannel } from "logic";
+import { StateUpdateProps, usePartialState } from "lib";
 
 export const CHANNEL_SHIFT_DEFAULT: ChannelShiftSettings = {
   channel: getChannel("lab.l"),

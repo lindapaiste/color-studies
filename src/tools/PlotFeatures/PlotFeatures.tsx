@@ -23,7 +23,7 @@ import { Swatch } from "components";
  * based on group and count props
  */
 
-export interface Props {
+export interface Settings {
   colorCount: number;
   xChannel: ChannelAdapter;
   yChannel: ChannelAdapter;
@@ -47,7 +47,7 @@ export const PlotFeatures = ({
   group,
   width,
   height,
-}: Props & Size) => {
+}: Settings & Size) => {
   // keep the same colors when changing x or y channels
   const [inGroup, notInGroup] = useMemo(
     () => getSplitSample(group, colorCount),

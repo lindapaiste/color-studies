@@ -6,7 +6,7 @@ import { shuffleData } from "logic/boxSets/shuffleData";
 import { flatMap, makeArray } from "lib";
 import { withModelNoise } from "logic/noise/modelNoise";
 import { Toggle } from "components";
-import { usePartialState } from "lib/util-hooks";
+import { usePartialState } from "lib/usePartialState";
 import { ColorAdapter } from "logic";
 import { deltaE76 } from "logic/difference/distance";
 import { RenderBoxData } from "./RenderBoxData";

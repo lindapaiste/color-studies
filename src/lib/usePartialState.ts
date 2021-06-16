@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 /**
  * hook which allows setState to set only a partial state
@@ -8,11 +8,16 @@ export const usePartialState = <T>(
 ): [T, (v: Partial<T>) => void] => {
   const [state, setState] = useState(initialState);
 
-  return [
-    state,
+  /**
+   * Takes a partial state and merges it with the current state.
+   */
+  const update = useCallback(
     (changes: Partial<T>) =>
       setState((prevState) => ({ ...prevState, ...changes })),
-  ];
+    [setState]
+  );
+
+  return [state, update];
 };
 
 /**
@@ -20,5 +25,5 @@ export const usePartialState = <T>(
  */
 export interface StateUpdateProps<T> {
   state: T;
-  update(s: Partial<T>): void;
+  update: (partial: Partial<T>) => void;
 }

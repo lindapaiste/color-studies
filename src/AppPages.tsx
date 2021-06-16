@@ -30,7 +30,7 @@ import { HistogramTool } from "./tools/Histogram/HistogramTool";
 import { VisualizeDifference } from "./tools/VisualizeDifference/VisualizeDifference";
 import { DistanceGridTool } from "./tools/DistanceGrid/DistanceGridTool";
 import { ChannelGradientTool } from "./tools/ChannelGradient/ChannelGradientTool";
-import { CompareNoiseChannels } from "./tools/ChannelNoise/CompareNoiseChannels";
+import CompareNoiseChannels from "./tools/ChannelNoise/CompareNoiseChannels";
 import { CompareModelNoise } from "./tools/ModelNoise/CompareModelNoise";
 import { GradientCompareTool } from "./tools/GradientCompare/GradientCompareTool";
 import { ColorWheelComparison } from "./tools/ColorWheel/ColorWheelComparison";
@@ -156,7 +156,7 @@ export const SECTIONS: Section[] = [
       {
         title: "Noise to Channels",
         path: "channel-noise",
-        Component: withSelectableColor(CompareNoiseChannels),
+        Component: CompareNoiseChannels,
         icon: GiZigzagHieroglyph,
       },
       {

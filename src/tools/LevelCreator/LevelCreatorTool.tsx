@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Accordion, Button } from "components";
 import { makeArray } from "lib";
 import { Formula } from "logic/difference/Formula";
-import { usePartialState } from "lib/util-hooks";
+import { usePartialState } from "lib/usePartialState";
 import { FormulaSettings } from "logic/difference/types";
 import { generateBoxes } from "logic/boxSets/generateBoxBalls";
 import { DEFAULT_NOISE_SETTINGS } from "logic/noise/types";

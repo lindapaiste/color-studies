@@ -1,6 +1,6 @@
 import React from "react";
-import { StateUpdateProps } from "lib/util-hooks";
-import { Toggle } from "components";
+import { StateUpdateProps } from "lib";
+import { FlexRow, Toggle } from "components";
 import { BallDisplaySettings } from "./types";
 
 /**
@@ -10,11 +10,7 @@ export const BallEditorControls = ({
   state,
   update,
 }: StateUpdateProps<BallDisplaySettings>) => (
-  <div
-    style={{
-      display: "flex",
-    }}
-  >
+  <FlexRow>
     <Toggle
       label="Shuffle"
       value={state.shuffle}
@@ -35,5 +31,5 @@ export const BallEditorControls = ({
       value={state.showRejected}
       onChange={(v) => update({ showRejected: v })}
     />
-  </div>
+  </FlexRow>
 );

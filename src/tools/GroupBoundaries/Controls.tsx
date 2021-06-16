@@ -3,7 +3,7 @@ import {
   FlexRow,
   NumberInput,
   SelectGroup,
-  StateUpdateProps,
+  ToolControlProps,
 } from "components";
 
 export interface Settings {
@@ -16,7 +16,7 @@ export const initialSettings: Settings = {
   sampleSize: 100,
 };
 
-export const Controls = ({ state, update }: StateUpdateProps<Settings>) => (
+export const Controls = ({ state, update }: ToolControlProps<Settings>) => (
   <FlexRow>
     <SelectGroup
       value={state.group}

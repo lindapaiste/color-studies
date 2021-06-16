@@ -2,6 +2,7 @@ export { Accordion } from "./Accordion";
 export { ChannelSliderInput } from "./ChannelSlider";
 export * from "./ColorSet";
 export { DataTable } from "./DataTable";
+export { DeltaETooltip } from "./DeltaETooltip";
 export { DataTable as RawDataTable } from "./RawDataTable";
 export { MultiSelect } from "./MultiSelect";
 export { MultiSelectChannel } from "./MultiSelectChannel";

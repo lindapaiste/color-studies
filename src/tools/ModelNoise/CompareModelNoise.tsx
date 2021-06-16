@@ -4,17 +4,18 @@ import { ColorAdapter } from "logic";
 import { makeArray } from "lib";
 import { withModelNoise } from "logic/noise/modelNoise";
 import { DEFAULT_NOISE_SETTINGS, ModelNoiseSettings } from "logic/noise/types";
-import { Props } from "../ChannelNoise/CompareNoiseChannels";
 import { ModelNoiseControls } from "./ModelNoiseControls";
+
+interface Props {
+  settings: ModelNoiseSettings;
+  color: ColorAdapter;
+  countPer?: number;
+}
 
 /**
  * makes a band of the original color on top of the normal ColorSet
  */
-export const NoisyColors = ({
-  color,
-  countPer = 25,
-  settings,
-}: Props & { settings: ModelNoiseSettings }) => (
+export const NoisyColors = ({ color, countPer = 25, settings }: Props) => (
   <div>
     <Swatch color={color.hex()} size="100%" height={30} />
     <ColorSet

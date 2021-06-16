@@ -1,7 +1,7 @@
 import React from "react";
+import { StateUpdateProps } from "lib";
 import { Option, Select, SelectModel, WeightsInput } from "components";
 import { ColorTuple } from "logic";
-import { StateUpdateProps } from "lib/util-hooks";
 import { Algo, FormulaSettings } from "logic/difference/types";
 
 /**

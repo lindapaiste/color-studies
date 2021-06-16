@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AiOutlineHome, FiChevronRight } from "react-icons/all";
-import { makeStyles, Theme } from "@material-ui/core/styles";
 import {
   AppBar,
   IconButton,
@@ -9,11 +8,12 @@ import {
   MenuItem,
   Toolbar,
   Typography,
+  makeStyles,
 } from "@material-ui/core";
 import { AppPage, SECTIONS } from "./AppPages";
 import { MenuIcon } from "./components";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.text.primary,
     textDecoration: "none",

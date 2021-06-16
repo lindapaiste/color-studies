@@ -10,6 +10,7 @@ export {
   TableSortLabel,
 } from "@material-ui/core";
 export { CheckboxInput } from "./CheckboxInput";
+export { ControlRow } from "./ControlRow";
 export { Field } from "./Field";
 export { FlexRow } from "./FlexRow";
 export { GradientBar } from "./GradientBar";

@@ -5,7 +5,7 @@ import {
   MultiSelectModel,
   NumberInput,
   SelectMultipleColors,
-  StateUpdateProps,
+  ToolControlProps,
 } from "components";
 import { ColorAdapter, ModelAdapter } from "logic";
 
@@ -33,7 +33,7 @@ export interface Settings {
 export const GradientCompareControls = ({
   state,
   update,
-}: StateUpdateProps<Settings>) => (
+}: ToolControlProps<Settings>) => (
   <div>
     <FlexRow>
       <SelectMultipleColors

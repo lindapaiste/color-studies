@@ -1,6 +1,6 @@
 import React from "react";
 
-export type Props = JSX.IntrinsicElements["div"] & {
+export type FlexRowProps = JSX.IntrinsicElements["div"] & {
   /**
    * Can pass a boolean value for wrap in addition to the standard strings.
    */
@@ -16,7 +16,11 @@ const wrapString = (wrap: boolean) => (wrap ? "wrap" : "nowrap");
 /**
  * I use flex rows so much that it makes sense to put it in an element.
  */
-export const FlexRow = ({ style = {}, wrap = false, ...props }: Props) => (
+export const FlexRow = ({
+  style = {},
+  wrap = false,
+  ...props
+}: FlexRowProps) => (
   <div
     {...props}
     style={{
@@ -28,5 +32,3 @@ export const FlexRow = ({ style = {}, wrap = false, ...props }: Props) => (
     }}
   />
 );
-
-export default FlexRow;

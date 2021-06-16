@@ -9,7 +9,7 @@ import { round } from "lib";
  *
  * originally had this in the Calculation class, but I prefer the classes to not use React
  */
-export const CalculationTooltip = ({ channelDiffs }: DebugDeltaE) => (
+export const DeltaETooltip = ({ channelDiffs }: DebugDeltaE) => (
   <>
     {channelDiffs.map(({ value, diff, channel }) => (
       <div key={channel.key}>

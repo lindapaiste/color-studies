@@ -3,14 +3,14 @@ import {
   FlexRow,
   NumberInput,
   SelectChannel,
-  StateUpdateProps,
+  ToolControlProps,
 } from "components";
 import { Settings } from "./settings";
 
 export const ChannelRelControls = ({
   state,
   update,
-}: StateUpdateProps<Settings>) => (
+}: ToolControlProps<Settings>) => (
   <FlexRow>
     <SelectChannel
       label="X Axis Channel"

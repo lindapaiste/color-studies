@@ -1,8 +1,7 @@
-import { MultiSelectChannel, NumberInput } from "components";
-import { StateUpdateProps } from "lib/util-hooks";
+import { MultiSelectChannel, NumberInput, ToolControlProps } from "components";
 import { Settings } from "./settings";
 
-export const Controls = ({ state, update }: StateUpdateProps<Settings>) => (
+export const Controls = ({ state, update }: ToolControlProps<Settings>) => (
   <>
     <NumberInput
       label="Epochs"

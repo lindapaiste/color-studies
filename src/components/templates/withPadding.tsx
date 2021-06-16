@@ -9,7 +9,7 @@ import React, { ComponentType, PropsWithChildren } from "react";
  * right now it does work, but type is not being properly inferred and it getting cast down to something more basic,
  * ie. [number, number] to number[]
  * so have to specify the generic
- * ie. RenderControls={withPadding<StateUpdateProps<ToolSettings>>(HistogramControls, {bottom: 20})}
+ * ie. RenderControls={withPadding<ToolControlProps<ToolSettings>>(HistogramControls, {bottom: 20})}
  */
 export type Sides = "top" | "left" | "right" | "bottom";
 export type Padding = Partial<Record<Sides, string | number>>;

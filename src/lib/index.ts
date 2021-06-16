@@ -30,7 +30,8 @@ export {
   keyBy,
 } from "lodash";
 export { mean, standardDeviation } from "simple-statistics";
-
+export * from "./usePartialState";
+export * from "./useDimensions";
 // for back compat
 export type HSL = ColorTuple<"hsl">;
 export type RGB = ColorTuple<"rgb">;

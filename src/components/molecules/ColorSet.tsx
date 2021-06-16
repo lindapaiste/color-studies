@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
-import { withHash } from "lib";
-import { CanGetHex, isGetHex, logProfile } from "logic";
-import { Tooltip } from "../atoms";
+import { CanGetHex, isGetHex } from "logic";
+import { FlexRow, Swatch, Tooltip } from "../atoms";
 
 /**
  * takes an array of colors, which can be any format (string, tuple, object)
@@ -50,10 +49,10 @@ export const ColorSet = <T extends any>({
   };
 
   return (
-    <div
+    <FlexRow
+      wrap={wrap}
       style={{
         width: "100%",
-        display: "flex",
         marginBottom: 10,
         flexWrap: wrap ? "wrap" : "nowrap",
       }}
@@ -68,22 +67,18 @@ export const ColorSet = <T extends any>({
             key={i}
             title={colorToTooltip?.(color) ?? tooltips?.[i] ?? hex}
           >
-            <div
+            <Swatch
+              color={hex}
+              size={height}
               style={{
-                backgroundColor: withHash(hex),
-                height,
                 flex: 1,
                 minWidth: wrap ? height : undefined,
               }}
-              // eslint-disable-next-line
-              onClick={() => {
-                onClickColor?.(color);
-                logProfile(hex);
-              }}
+              onMouseDown={() => onClickColor?.(color)}
             />
           </Tooltip>
         );
       })}
-    </div>
+    </FlexRow>
   );
 };

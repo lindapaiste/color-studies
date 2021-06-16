@@ -4,14 +4,14 @@ import {
   MultiSelectChannel,
   NumberInput,
   SelectGroup,
-  StateUpdateProps,
+  ToolControlProps,
 } from "components";
 import { Settings } from "./types";
 
 export const PerceptronControls = ({
   state,
   update,
-}: StateUpdateProps<Settings>) => (
+}: ToolControlProps<Settings>) => (
   <FlexRow>
     <SelectGroup value={state.group} onChange={(v) => update({ group: v })} />
     <MultiSelectChannel

@@ -1,7 +1,7 @@
 import React from "react";
-import { StateUpdateProps } from "lib/util-hooks";
 import { ModelNoiseSettings } from "logic/noise/types";
 import { FlexRow, NumberInput, SelectModel, WeightsInput } from "components";
+import { StateUpdateProps } from "lib";
 
 /**
  * Not controlling any state here.

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo, useState } from "react";
 import { makeArray } from "lib";
-import { SelectColor, Title } from "components";
-import { usePartialState } from "lib/util-hooks";
+import { SelectColor, Title, DeltaETooltip } from "components";
+import { usePartialState } from "lib/usePartialState";
 import { randomColor } from "logic";
 import { FormulaSettings } from "logic/difference/types";
 import { Calculation } from "logic/difference/Calculation";
@@ -10,7 +10,6 @@ import {
   DataPoint,
   RenderBracketedDifference,
 } from "./RenderBracketedDifference";
-import { CalculationTooltip } from "./CalculationTooltip";
 import { DifferenceControls } from "../DistanceGrid/DifferenceControls";
 
 export interface Props {
@@ -39,7 +38,7 @@ export const VisualizeDifference: FunctionComponent<Props> = ({
         return {
           color: c,
           deltaE: calc.deltaE,
-          tooltip: CalculationTooltip(calc),
+          tooltip: DeltaETooltip(calc),
         };
       }),
     [samples, formula, color]
