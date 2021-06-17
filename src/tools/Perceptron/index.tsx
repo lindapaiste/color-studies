@@ -1,5 +1,5 @@
 import React from "react";
-import { Tool } from "components";
+import { createTool } from "components";
 import { randomGroupName } from "data";
 import { PerceptronControls } from "./PerceptronControls";
 import { Settings } from "./types";
@@ -15,17 +15,13 @@ export const PerceptronTest = (settings: Settings) => {
   return <RenderPerceptronTest {...props} />;
 };
 
-export const PerceptronTool = () => (
-  <Tool
-    initialSettings={{
-      testCount: 400,
-      channels: [],
-      group: randomGroupName(),
-    }}
-    RenderControls={PerceptronControls}
-    // handle the conditional here
-    RenderContents={(settings) =>
-      settings.channels.length > 0 ? PerceptronTest(settings) : null
-    }
-  />
+export default createTool(
+  {
+    testCount: 400,
+    channels: [],
+    group: randomGroupName(),
+  },
+  PerceptronControls,
+  // handle the conditional here
+  (settings) => (settings.channels.length > 0 ? PerceptronTest(settings) : null)
 );

@@ -4,7 +4,7 @@ import { initialSettings } from "./settings";
 import { Contents } from "./Results";
 import { Controls } from "./Controls";
 
-export const NeuralNetworkTool = () => (
+export default () => (
   <Tool
     initialSettings={initialSettings}
     RenderControls={Controls}

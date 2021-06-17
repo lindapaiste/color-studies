@@ -5,7 +5,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { AiOutlineInfoCircle } from "react-icons/all";
 import { Title, Tooltip } from "components";
 import { SECTIONS } from "./AppPages";
-import { sampleGroupHexes } from "./logic/classification/training/shuffledData";
+import { sampleGroupHexes } from "../logic/classification/training/shuffledData";
 
 const iconShared = createStyles({
   icon: {

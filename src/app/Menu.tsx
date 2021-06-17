@@ -11,7 +11,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { AppPage, SECTIONS } from "./AppPages";
-import { MenuIcon } from "./components";
+import { MenuIcon } from "../components";
 
 const useStyles = makeStyles((theme) => ({
   link: {

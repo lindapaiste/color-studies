@@ -9,7 +9,7 @@ import { DistanceGrid } from "./DistanceGrid";
 /**
  * tool allows for customization of the colors and the deltaE formula
  */
-export const DistanceGridTool = () => {
+export default () => {
   const [colors, setColors] = useState(makeArray(4, randomColor));
   const [formula, update] = useFormula();
 

@@ -11,7 +11,7 @@ import { Contents } from "./Contents";
  *
  * Note: seems like the sample size is just the test size -- model uses all hexes.
  */
-export const TestBoundaries = () => (
+export default () => (
   <Tool
     initialSettings={initialSettings}
     RenderControls={Controls}

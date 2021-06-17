@@ -65,3 +65,5 @@ export const VisualizeDifference: FunctionComponent<Props> = ({
     </div>
   );
 };
+
+export default VisualizeDifference;

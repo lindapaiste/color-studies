@@ -57,3 +57,5 @@ export const ColorWheelComparison = () => {
     </div>
   );
 };
+
+export default ColorWheelComparison;

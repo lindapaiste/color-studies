@@ -191,3 +191,5 @@ export const GroupsAnalysis = () => {
     </div>
   );
 };
+
+export default GroupsAnalysis;

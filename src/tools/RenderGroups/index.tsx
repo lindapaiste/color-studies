@@ -5,7 +5,7 @@ import { allGroups } from "data";
 /**
  * Displays the training data set
  */
-export const RenderGroups = () => (
+export default () => (
   <div>
     {allGroups().map(({ name, hexes }) => (
       <div key={name}>

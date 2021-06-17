@@ -1,10 +1,9 @@
 import React from "react";
-import { ColorSet, Swatch, Title, Tool } from "components";
+import { ColorSet, Swatch, Title } from "components";
 import { ColorAdapter } from "logic";
 import { makeArray } from "lib";
 import { withModelNoise } from "logic/noise/modelNoise";
-import { DEFAULT_NOISE_SETTINGS, ModelNoiseSettings } from "logic/noise/types";
-import { ModelNoiseControls } from "./ModelNoiseControls";
+import { ModelNoiseSettings } from "logic/noise/types";
 
 interface Props {
   settings: ModelNoiseSettings;
@@ -45,15 +44,4 @@ export const Results = ({
       <NoisyColors color={color} settings={settings} countPer={countPer} />
     ))}
   </div>
-);
-
-/**
- * select colors comes from HOC
- */
-export const CompareModelNoise = (props: CompareProps) => (
-  <Tool
-    initialSettings={DEFAULT_NOISE_SETTINGS}
-    RenderControls={ModelNoiseControls}
-    RenderContents={(settings) => Results({ settings, ...props })}
-  />
 );

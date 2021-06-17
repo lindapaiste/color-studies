@@ -1,5 +1,4 @@
-import React from "react";
-import { Tool } from "components";
+import { createTool } from "components";
 import { ChannelRelControls } from "./ChannelRelControls";
 import { ChannelRelPlot } from "./ChannelRelPlot";
 import { initialSettings } from "./settings";
@@ -10,10 +9,4 @@ import { initialSettings } from "./settings";
  * initially plotted lightness/luminosity relationship, but can apply that to any pairing
  */
 
-export const ChannelRelTool = () => (
-  <Tool
-    initialSettings={initialSettings}
-    RenderControls={ChannelRelControls}
-    RenderContents={ChannelRelPlot}
-  />
-);
+export default createTool(initialSettings, ChannelRelControls, ChannelRelPlot);

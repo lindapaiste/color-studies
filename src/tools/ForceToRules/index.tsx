@@ -1,6 +1,12 @@
 import React from "react";
 import { CheckCircle, ErrorOutline } from "@material-ui/icons";
-import { Accordion, ExpandableColorInfo, Swatch, Title } from "components";
+import {
+  Accordion,
+  ExpandableColorInfo,
+  Swatch,
+  Title,
+  withSelectableColor,
+} from "components";
 import { allGroupNames } from "data";
 import { getColorGrouping } from "logic/classification/constraints/getGroup";
 import { forceColor } from "logic/classification/constraints/forceColor";
@@ -47,3 +53,5 @@ export const ForceToAll = ({ color }: { color: ColorAdapter }) => (
     })}
   </div>
 );
+
+export default withSelectableColor(ForceToAll);
