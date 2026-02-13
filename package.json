@@ -14,7 +14,7 @@
     "color-convert": "^2.0.1",
     "delta-e": "0.0.8",
     "hsluv": "0.1.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.23",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-icons": "^4.2.0",
